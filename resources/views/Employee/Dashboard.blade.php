@@ -13,5 +13,7 @@
         @csrf
         <button type="submit">Logout</button>
     </form>
+    {{-- زر 2fa --}}
+   <a href="{{ route('employee.2fa') }}">Two Factor Authentication</a>
 </body>
 </html>

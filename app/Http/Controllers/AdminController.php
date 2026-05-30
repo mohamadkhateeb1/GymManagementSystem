@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class AdminController extends Controller
 {

@@ -76,6 +76,9 @@ class FortifyServiceProvider extends ServiceProvider
                 ($credentialId ?: $request->session()->getId()) . '|' . $request->ip()
             );
         });
+        Fortify::confirmPasswordView(function () {
+        return view('auth.confirm-password');
+    });
         Fortify::loginView(function () {
             $guard = config('fortify.guard');
 
