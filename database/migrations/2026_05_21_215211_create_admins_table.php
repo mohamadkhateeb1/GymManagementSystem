@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('super_admin')->default(false);
             
             // أعمدة المصادقة الثنائية (2FA)
             $table->text('two_factor_secret')->nullable();

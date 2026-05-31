@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class Admin extends Authenticatable
 {
-    use HasFactory, Notifiable,TwoFactorAuthenticatable;
+    use HasFactory, Notifiable,TwoFactorAuthenticatable,HasRoles;
+    protected $guard_name = 'admin';
 
     protected $fillable = [
         'name',

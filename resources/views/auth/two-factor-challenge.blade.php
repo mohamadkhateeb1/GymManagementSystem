@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,15 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{config('app.name')}} </title>
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('assets/dashboard/plugins/fontawesome-free/css/all.min.css')}}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{asset('assets/dashboard/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('assets/dashboard/dist/css/adminlte.min.css')}}">
+ 
 </head>
 
 <body class="hold-transition login-page">
@@ -77,4 +69,4 @@
     <script src="{{asset('assets/dashboard/dist/js/adminlte.min.js')}}"></script>
 </body>
 
-</html>
+</html> --}}
