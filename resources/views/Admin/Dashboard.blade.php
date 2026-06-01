@@ -17,5 +17,6 @@
     <a href="{{ route('admin.2fa') }}" class="btn btn-primary">Two-Factor Authentication</a>
     <a href="{{route('admin.roles')}}">View Roles</a>
     <a href="{{route('admins.index')}}">View Admins</a>
+    {{-- <a href="{{route('permissions.index')}}">View Permissions</a> --}}
 </body>
 </html>
