@@ -1,7 +1,24 @@
-<x-app-layout>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة مشرف جديد</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+        /* ---- الإعدادات الأساسية (Reset) ---- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --bg: #0d0f14;
@@ -18,6 +35,7 @@
             background: var(--bg);
             font-family: 'DM Sans', sans-serif;
             color: var(--text);
+            min-height: 100vh;
         }
 
         .create-wrapper {
@@ -201,6 +219,9 @@
             }
         }
     </style>
+</head>
+
+<body>
 
     <div class="create-wrapper">
 
@@ -208,7 +229,7 @@
         <div class="breadcrumb-row">
             <a href="{{ route('admins.index') }}">Admins</a>
             <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
             <span>Create Admin</span>
         </div>
@@ -256,4 +277,6 @@
         </div>
     </div>
 
-</x-app-layout>
+</body>
+
+</html>

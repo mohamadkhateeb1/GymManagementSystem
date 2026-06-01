@@ -307,7 +307,7 @@
             @method('PUT')
 
             <div class="edit-card-body">
-                @include('Dashboard.Admins._form')
+                @include('Admin.admins._form')
             </div>
 
             <div class="edit-card-footer">

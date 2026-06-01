@@ -51,7 +51,7 @@ class AdminController extends Controller
         return view('Admin.admins.edit', [
             'admin' => $admin,
             'roles' => Role::all(),
-            'admin_roles' => $admin->roles()->pluck('id')->toArray(),
+            'admin_roles' => $admin->roles()->pluck('roles.id')->toArray(),
         ]);
     }
     public function update(Request $request, Admin $admin)
