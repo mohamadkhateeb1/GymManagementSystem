@@ -23,3 +23,10 @@
 # Route::get('admin/2fa', [TowFactorAuthenticatorController::class, 'index'])->name('admin.2fa');
 # Route::get('employee/2fa', [TowFactorAuthenticatorController::class, 'index'])->name('employee.2fa');
 # ---4---
+# بناء لوحة تحكم الادمن والموظف
+# اول شي عملنا لوحة ادمن وصممناها
+# بعدين عملت سايد بار عن  طريق المكونات 
+# وهي انو اعمل ملف سايد باعدادات المشروع ومررله البيانات اللي بدي اياها
+# بعدين عملت مكون صصنف وعرض 
+# البيانات اللي بدي اياها
+# واستدعيته ضمن صفحة لوحة تحكم الادمن
