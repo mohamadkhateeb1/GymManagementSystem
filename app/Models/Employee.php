@@ -35,4 +35,5 @@ class Employee extends Authenticatable
 {
     return $this->morphToMany(Role::class, 'authorizable', 'role_user');
 }
+
 }

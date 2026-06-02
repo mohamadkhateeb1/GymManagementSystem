@@ -285,7 +285,9 @@
                 </svg>
                 Dashboard
             </a>
+            @can('admin.create')
             <a href="{{ route('admins.create') }}" class="btn btn-primary">Create Admin</a>
+            @endcan
         </div>
     </div>
 
@@ -318,17 +320,21 @@
                                     <td>{{ $admin->id }}</td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->roles->pluck('name')->join(', ') }}</td>
+                                    @can('admin.edit')
                                     <td>
                                         <a href="{{ route('admins.edit', $admin->id) }}"
                                             class="btn btn-primary">Edit</a>
                                     </td>
+                                    @endcan
                                     <td>
+                                        @can('admin.delete')
                                         <form action="{{ route('admins.destroy', $admin->id) }}" method="POST"
                                             onsubmit="return confirm('Delete this admin?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>
                             @empty

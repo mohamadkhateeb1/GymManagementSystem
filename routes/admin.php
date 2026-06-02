@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PlayerController;
 use App\Http\Controllers\ProfileController;
@@ -11,10 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     
     // dashboard
-    Route::get('/dashboard', function () {
-        return view('Admin.dashboard');
-    })->name('admin.dashboard');
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    
     // roles
     Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles');
     Route::get('/roles/create', [RoleController::class, 'create'])->name('admin.roles.create');
@@ -32,6 +31,7 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'update' => 'admins.update',
         'destroy' => 'admins.destroy',
     ]);
+    
     // employees
     Route::resource('employees', EmployeeController::class)->names([
         'index' => 'employees.index',
@@ -41,6 +41,7 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'update' => 'employees.update',
         'destroy' => 'employees.destroy',
     ]);
+    
     // players
     Route::resource('players', PlayerController::class)->names([
         'index' => 'players.index',

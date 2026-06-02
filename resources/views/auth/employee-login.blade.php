@@ -85,6 +85,44 @@
             box-shadow: 0 0 0 4px rgba(46, 125, 50, .08);
         }
 
+        .field input.is-invalid {
+            border-color: #f87171;
+            background: #fffafa;
+        }
+
+        .field input.is-invalid:focus {
+            border-color: #f87171;
+            box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.15);
+        }
+
+        .field-error {
+            color: #f87171;
+            font-size: 12.5px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .field-error svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         button {
             width: 100%;
             padding: 13px;
@@ -112,9 +150,6 @@
 
 <body>
 
-    <div style="width: 400px;">
-        <x-flash-message />
-    </div>
 
     <div class="card">
         <div class="card-top">
@@ -128,12 +163,34 @@
 
                 <div class="field">
                     <label>Email</label>
-                    <input type="email" name="email" placeholder="employee@example.com">
+                    <input type="email" name="email" placeholder="employee@example.com" value="{{ old('email') }}"
+                        class="{{ $errors->has('email') ? 'is-invalid' : '' }}">
+                    @error('email')
+                        <div class="field-error">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
+                            </svg>
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="field">
                     <label>Password</label>
-                    <input type="password" name="password" placeholder="••••••••">
+                    <input type="password" name="password" placeholder="••••••••"
+                        class="{{ $errors->has('password') ? 'is-invalid' : '' }}">
+                    @error('password')
+                        <div class="field-error">
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
+                            </svg>
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <button type="submit">Login</button>

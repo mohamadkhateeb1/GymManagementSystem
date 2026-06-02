@@ -33,9 +33,7 @@
             <a href="{{ url()->previous() }}" class="px-6 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition duration-300 font-bold">
                 رجوع للخلف
             </a>
-            <a href="{{ route('login') }}" class="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg transition duration-300 font-bold shadow-lg shadow-red-900/50">
-                العودة لتسجيل الدخول
-            </a>
+          
         </div>
 
         <p class="mt-12 text-sm text-gray-500 italic">

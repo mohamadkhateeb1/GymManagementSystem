@@ -359,10 +359,7 @@
             <div class="panel">
                 <div class="panel-head">
                     <h3>أحدث اللاعبين والاشتراكات</h3>
-                    <a href="#"
-                        style="color: var(--gold); text-decoration: none; font-size: 13px; font-weight: 500;">
-                        <i class="fas fa-plus" style="margin-left: 5px;"></i> تسجيل لاعب جديد
-                    </a>
+                   
                 </div>
                 <div class="panel-body">
                     <table class="members-table">
@@ -410,10 +407,7 @@
             <div class="panel">
                 <div class="panel-head">
                     <h3>طاقم المدربين</h3>
-                    <a href="#"
-                        style="color: var(--gold); text-decoration: none; font-size: 13px; font-weight: 500;">
-                        <i class="fas fa-plus" style="margin-left: 5px;"></i> إضافة مدرب جديد
-                    </a>
+                  
                 </div>
                 <div class="panel-body">
                     <table class="members-table">
@@ -428,7 +422,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($trainers ?? [] as $trainer)
+                            @forelse($employees  as $trainer)
                                 <tr>
                                     <td>
                                         <div style="display: flex; align-items: center; gap: 12px;">
