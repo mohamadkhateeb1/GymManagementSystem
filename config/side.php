@@ -22,7 +22,7 @@ return [
             [
                 'label' => 'إدارة اللاعبين',
                 'icon' => 'fas fa-users',
-                'route' => 'admin.players.index',
+                'route' => 'players.index',
             ],
             [
                 'label' => 'التقارير المالية',

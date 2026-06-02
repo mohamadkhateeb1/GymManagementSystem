@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\PlayerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -39,5 +40,14 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'edit' => 'employees.edit',
         'update' => 'employees.update',
         'destroy' => 'employees.destroy',
+    ]);
+    // players
+    Route::resource('players', PlayerController::class)->names([
+        'index' => 'players.index',
+        'create' => 'players.create',
+        'store' => 'players.store',
+        'edit' => 'players.edit',
+        'update' => 'players.update',
+        'destroy' => 'players.destroy',
     ]);
 });
