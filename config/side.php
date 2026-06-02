@@ -17,7 +17,7 @@ return [
             [
                 'label' => 'إدارة الموظفين',
                 'icon' => 'fas fa-user-tie',
-                'route' => 'admin.employees.index',
+                'route' => 'employees.index',
             ],
             [
                 'label' => 'إدارة اللاعبين',

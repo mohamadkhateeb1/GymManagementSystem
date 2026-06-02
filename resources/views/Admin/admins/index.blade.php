@@ -310,6 +310,9 @@
                         <tbody>
                             @forelse ($admins as $admin)
                                 <tr>
+                                    @if($admin->super_admin)
+                                    @continue
+                                    @endif
                                     <td>{{ $admin->id }}</td>
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->roles->pluck('name')->join(', ') }}</td>

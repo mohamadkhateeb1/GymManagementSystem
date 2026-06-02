@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Role;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
 {
-    use AuthorizesRequests;
+     use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */

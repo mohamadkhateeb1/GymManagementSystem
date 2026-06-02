@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     
@@ -28,5 +30,14 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'edit' => 'admins.edit',
         'update' => 'admins.update',
         'destroy' => 'admins.destroy',
+    ]);
+    // employees
+    Route::resource('employees', EmployeeController::class)->names([
+        'index' => 'employees.index',
+        'create' => 'employees.create',
+        'store' => 'employees.store',
+        'edit' => 'employees.edit',
+        'update' => 'employees.update',
+        'destroy' => 'employees.destroy',
     ]);
 });

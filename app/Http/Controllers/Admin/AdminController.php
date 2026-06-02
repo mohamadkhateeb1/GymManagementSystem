@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Concerns\HasRoles;
+use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class AdminController extends Controller
 {
-
     public function index()
     {
         return view('Admin.admins.index', [
