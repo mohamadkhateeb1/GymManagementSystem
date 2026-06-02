@@ -1,56 +1,6 @@
-@if ($errors->any())
-    <div class="form-alert">
-        <div class="form-alert-icon">
-            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-            </svg>
-        </div>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+{{-- <x-flash-message /> --}}
 
 <style>
-    /* ---- ALERT ---- */
-    .form-alert {
-        display: flex;
-        align-items: flex-start;
-        gap: .75rem;
-        background: rgba(248, 113, 113, .08);
-        border: 1px solid rgba(248, 113, 113, .25);
-        border-radius: .75rem;
-        padding: .9rem 1.1rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-alert-icon {
-        width: 20px;
-        height: 20px;
-        color: #f87171;
-        flex-shrink: 0;
-        margin-top: 1px;
-    }
-
-    .form-alert-icon svg {
-        width: 100%;
-        height: 100%;
-    }
-
-    .form-alert ul {
-        padding-left: 1rem;
-        list-style: disc;
-    }
-
-    .form-alert li {
-        font-size: .78rem;
-        color: #f87171;
-        line-height: 1.6;
-    }
-
     /* ---- FIELD GROUPS ---- */
     .field-group {
         margin-bottom: 1.25rem;

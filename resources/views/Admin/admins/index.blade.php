@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>قسم المسؤولين</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
@@ -275,6 +275,8 @@
 
 <body>
 
+    <x-flash-message />
+
     <div class="row mb-2">
         <div class="col text-right" style="display:flex; align-items:center; justify-content:flex-end; gap:10px;">
             <a href="{{ route('admin.dashboard') }}" class="btn-back">
@@ -310,8 +312,8 @@
                         <tbody>
                             @forelse ($admins as $admin)
                                 <tr>
-                                    @if($admin->super_admin)
-                                    @continue
+                                    @if ($admin->super_admin)
+                                        @continue
                                     @endif
                                     <td>{{ $admin->id }}</td>
                                     <td>{{ $admin->name }}</td>

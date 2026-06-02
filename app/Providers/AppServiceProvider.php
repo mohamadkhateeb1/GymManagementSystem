@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
 use App\Models\Role;
+use App\Policies\AdminPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;

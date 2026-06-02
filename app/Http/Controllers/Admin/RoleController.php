@@ -31,9 +31,7 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(Request $request)
     {
         $request->validate([
@@ -45,17 +43,13 @@ class RoleController extends Controller
 
         return redirect()->route('admin.roles')->with('success','Role Created Successfully');
     }
-    /**
-     * Display the specified resource.
-     */
+   
     public function show(Role $role)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+  
      public function edit(Role $role)
     {
         $role_abilities=$role->abilities()->pluck('type','ability')->toArray();
@@ -65,9 +59,7 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
    public function update(Request $request, Role $role)
     {
         $request->validate([
@@ -78,13 +70,11 @@ class RoleController extends Controller
         return redirect()->route('admin.roles')->with('success','Role Updated Successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+  
    public function destroy($id)    
     {
        Role::destroy($id);
         return redirect()->route('admin.roles')
-        ->with('danger','Role deleted successfully');
+        ->with('success','Role deleted successfully');
     }
 }

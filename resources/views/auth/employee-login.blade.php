@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Employee Login</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Segoe UI', sans-serif;
             background: #1a2e1d;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
@@ -22,7 +28,7 @@
             width: 400px;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 24px 60px rgba(0,0,0,.4);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .4);
         }
 
         .card-top {
@@ -43,9 +49,13 @@
             color: #8bc98f;
         }
 
-        .card-body { padding: 36px; }
+        .card-body {
+            padding: 36px;
+        }
 
-        .field { margin-bottom: 20px; }
+        .field {
+            margin-bottom: 20px;
+        }
 
         .field label {
             display: block;
@@ -72,7 +82,7 @@
         .field input:focus {
             border-color: #2e7d32;
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(46,125,50,.08);
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, .08);
         }
 
         button {
@@ -86,15 +96,25 @@
             font-weight: 700;
             cursor: pointer;
             letter-spacing: .5px;
-            box-shadow: 0 6px 20px rgba(46,125,50,.35);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, .35);
             transition: opacity .2s, transform .1s;
         }
 
-        button:hover   { opacity: .92; }
-        button:active  { transform: scale(.99); }
+        button:hover {
+            opacity: .92;
+        }
+
+        button:active {
+            transform: scale(.99);
+        }
     </style>
 </head>
+
 <body>
+
+    <div style="width: 400px;">
+        <x-flash-message />
+    </div>
 
     <div class="card">
         <div class="card-top">
@@ -122,4 +142,5 @@
     </div>
 
 </body>
+
 </html>

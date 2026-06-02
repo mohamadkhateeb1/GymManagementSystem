@@ -356,6 +356,8 @@
 
     <div class="wrapper">
 
+        <x-flash-message />
+
         <div class="header">
             <div>
                 <div class="header-title">إدارة الأدوار</div>
@@ -371,7 +373,7 @@
                 </a>
                 @can('role.create')
                     <a href="{{ route('admin.roles.create') }}" class="btn-create">
-                     إنشاء دور جديد
+                        إنشاء دور جديد
                     </a>
                 @endcan
             </div>
@@ -427,7 +429,7 @@
                                     <div class="empty">
                                         <div class="empty-icon">🛡️</div>
                                         <div class="empty-title">لا توجد أدوار مسجلة حالياً</div>
-                                        <div class="empty-sub">قم بالنقر على "إنشاء دور جديد" للبدء في توزيع الصلاحيات.
+                                        <div class="empty-sub">قم بالنقر على "إنشاء دور جديد" للبدء في توزيع الصلاحيات
                                         </div>
                                     </div>
                                 </td>

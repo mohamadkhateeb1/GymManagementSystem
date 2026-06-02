@@ -18,6 +18,7 @@
             background: #1a1d2e;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
@@ -110,6 +111,10 @@
 </head>
 
 <body>
+
+    <div style="width: 400px;">
+        <x-flash-message />
+    </div>
 
     <div class="card">
         <div class="card-top">
