@@ -114,6 +114,38 @@
         color: var(--inherit);
     }
 
+    /* ── Select All Buttons ──────────────── */
+    .btn-select-all {
+        display: inline-block;
+        margin-top: 6px;
+        background: transparent;
+        border: 1px solid currentColor;
+        color: inherit;
+        font-size: 9px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        transition: background 0.2s, color 0.2s;
+    }
+
+    .table thead th:nth-child(2) .btn-select-all:hover {
+        background: var(--allow);
+        color: #fff;
+    }
+
+    .table thead th:nth-child(3) .btn-select-all:hover {
+        background: var(--deny);
+        color: #fff;
+    }
+
+    .table thead th:nth-child(4) .btn-select-all:hover {
+        background: var(--inherit);
+        color: #fff;
+    }
+
     .table tbody tr {
         border-bottom: 1px solid var(--border);
         transition: background 0.15s;
@@ -241,10 +273,19 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Ability</th>
-                    <th class="text-center">Allow</th>
-                    <th class="text-center">Deny</th>
-                    <th class="text-center">Inherit</th>
+                    <th style="vertical-align: top;">Ability</th>
+                    <th class="text-center" style="vertical-align: top;">
+                        <div>Allow</div>
+                        <button type="button" class="btn-select-all" data-value="allow">Select All</button>
+                    </th>
+                    <th class="text-center" style="vertical-align: top;">
+                        <div>Deny</div>
+                        <button type="button" class="btn-select-all" data-value="deny">Select All</button>
+                    </th>
+                    <th class="text-center" style="vertical-align: top;">
+                        <div>Inherit</div>
+                        <button type="button" class="btn-select-all" data-value="inherit">Select All</button>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -274,8 +315,27 @@
             </div>
         @endif
 
-        {{-- الزر هون برا tbody ✅ --}}
         <button type="submit" class="btn btn-primary">💾 حفظ</button>
     </fieldset>
 
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAllButtons = document.querySelectorAll('.btn-select-all');
+
+        selectAllButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // جلب القيمة المستهدفة (allow, deny, inherit) من الزر
+                const targetValue = this.getAttribute('data-value');
+
+                // تحديد جميع أزرار الراديو التي تحمل هذه القيمة وتغيير حالتها إلى checked
+                const radios = document.querySelectorAll(
+                    `input[type="radio"][value="${targetValue}"]`);
+                radios.forEach(radio => {
+                    radio.checked = true;
+                });
+            });
+        });
+    });
+</script>

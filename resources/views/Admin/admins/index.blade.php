@@ -91,27 +91,44 @@
             height: 15px;
         }
 
-        /* Top button */
-        a.btn-primary {
+        /* Top buttons */
+        .btn-top {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: linear-gradient(135deg, #00d4aa, #34d399);
-            color: #fff;
             padding: 10px 22px;
             border-radius: 10px;
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
             font-weight: 600;
             text-decoration: none;
+            border: none;
+            cursor: pointer;
             transition: opacity .15s, transform .15s, box-shadow .15s;
+        }
+
+        .btn-primary-top {
+            background: linear-gradient(135deg, #00d4aa, #34d399);
+            color: #fff;
             box-shadow: 0 4px 18px rgba(0, 212, 170, 0.28);
         }
 
-        a.btn-primary:hover {
+        .btn-primary-top:hover {
             opacity: .9;
             transform: translateY(-1px);
             box-shadow: 0 6px 24px rgba(0, 212, 170, 0.38);
+        }
+
+        .btn-danger-top {
+            background: rgba(248, 113, 113, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.25);
+        }
+
+        .btn-danger-top:hover {
+            background: rgba(248, 113, 113, 0.18);
+            border-color: rgba(248, 113, 113, 0.4);
+            transform: translateY(-1px);
         }
 
         /* Card */
@@ -228,7 +245,7 @@
             font-size: 13px;
         }
 
-        /* Inline buttons */
+        /* Inline buttons (Table) */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -285,8 +302,18 @@
                 </svg>
                 Dashboard
             </a>
+
+            @can('admin.delete')
+                <form action="{{ route('admins.destroy_all') }}" method="POST"
+                    onsubmit="return confirm('هل أنت متأكد من حذف جميع المسؤولين؟ (لن يتم حذف السوبر أدمن)')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-top btn-danger-top">Delete All</button>
+                </form>
+            @endcan
+
             @can('admin.create')
-            <a href="{{ route('admins.create') }}" class="btn btn-primary">Create Admin</a>
+                <a href="{{ route('admins.create') }}" class="btn-top btn-primary-top">Create Admin</a>
             @endcan
         </div>
     </div>
@@ -321,19 +348,19 @@
                                     <td>{{ $admin->name }}</td>
                                     <td>{{ $admin->roles->pluck('name')->join(', ') }}</td>
                                     @can('admin.edit')
-                                    <td>
-                                        <a href="{{ route('admins.edit', $admin->id) }}"
-                                            class="btn btn-primary">Edit</a>
-                                    </td>
+                                        <td>
+                                            <a href="{{ route('admins.edit', $admin->id) }}"
+                                                class="btn btn-primary">Edit</a>
+                                        </td>
                                     @endcan
                                     <td>
                                         @can('admin.delete')
-                                        <form action="{{ route('admins.destroy', $admin->id) }}" method="POST"
-                                            onsubmit="return confirm('Delete this admin?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                        </form>
+                                            <form action="{{ route('admins.destroy', $admin->id) }}" method="POST"
+                                                onsubmit="return confirm('Delete this admin?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
                                         @endcan
                                     </td>
                                 </tr>

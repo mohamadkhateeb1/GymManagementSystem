@@ -56,13 +56,12 @@
             flex-wrap: wrap;
         }
 
-        .btn-create {
+        /* Top buttons */
+        .btn-top {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 11px 22px;
-            background: linear-gradient(135deg, #6c63ff, #818cf8);
-            color: #fff;
+            gap: 6px;
+            padding: 10px 22px;
             border-radius: 10px;
             font-family: 'Cairo', sans-serif;
             font-size: 14px;
@@ -70,15 +69,31 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 18px rgba(108, 99, 255, 0.35);
-            white-space: nowrap;
+            transition: opacity .15s, transform .15s, box-shadow .15s;
         }
 
-        .btn-create:hover {
+        .btn-primary-top {
+            background: linear-gradient(135deg, #6c63ff, #818cf8);
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(108, 99, 255, 0.35);
+        }
+
+        .btn-primary-top:hover {
             opacity: .9;
             transform: translateY(-1px);
             box-shadow: 0 6px 24px rgba(108, 99, 255, 0.45);
+        }
+
+        .btn-danger-top {
+            background: rgba(248, 113, 113, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.25);
+        }
+
+        .btn-danger-top:hover {
+            background: rgba(248, 113, 113, 0.18);
+            border-color: rgba(248, 113, 113, 0.4);
+            transform: translateY(-1px);
         }
 
         .btn-back {
@@ -90,7 +105,6 @@
             color: #9ca3af;
             border: 1px solid #252a38;
             border-radius: 10px;
-            font-family: 'Cairo', sans-serif;
             font-size: 13px;
             font-weight: 600;
             text-decoration: none;
@@ -333,7 +347,6 @@
             }
         }
 
-        /* تحسين العرض على الجوال */
         @media (max-width: 600px) {
             body {
                 padding: 24px 16px;
@@ -371,8 +384,18 @@
                     </svg>
                     العودة للوحة التحكم
                 </a>
+
+                @can('role.delete')
+                    <form action="{{ route('admin.roles.destroy_all') }}" method="POST"
+                        onsubmit="return confirm('هل أنت متأكد من حذف جميع الأدوار؟ (لن يتم حذف دور المشرف الأساسي)')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-top btn-danger-top">حذف الكل</button>
+                    </form>
+                @endcan
+
                 @can('role.create')
-                    <a href="{{ route('admin.roles.create') }}" class="btn-create">
+                    <a href="{{ route('admin.roles.create') }}" class="btn-top btn-primary-top">
                         إنشاء دور جديد
                     </a>
                 @endcan
@@ -407,19 +430,23 @@
                                 </td>
                                 <td>
                                     <div class="actions">
-                                        <a href="{{ route('admin.roles.edit', $role->id) }}"
-                                            class="btn-action btn-edit">
-                                            ✏️ تعديل
-                                        </a>
-                                        <form action="{{ route('admin.roles.delete', $role->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn-action btn-delete"
-                                                onclick="return confirm('هل أنت متأكد من حذف هذا الدور؟')">
-                                                🗑 حذف
-                                            </button>
-                                        </form>
+                                        @can('role.edit')
+                                            <a href="{{ route('admin.roles.edit', $role->id) }}"
+                                                class="btn-action btn-edit">
+                                                ✏️ تعديل
+                                            </a>
+                                        @endcan
+                                        @can('role.delete')
+                                            <form action="{{ route('admin.roles.delete', $role->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-action btn-delete"
+                                                    onclick="return confirm('هل أنت متأكد من حذف هذا الدور؟')">
+                                                    🗑 حذف
+                                                </button>
+                                            </form>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>

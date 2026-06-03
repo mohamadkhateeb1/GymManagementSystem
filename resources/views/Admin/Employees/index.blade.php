@@ -56,26 +56,44 @@
             flex-wrap: wrap;
         }
 
-        .btn-create {
+        /* Top buttons */
+        .btn-top {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 11px 22px;
-            background: linear-gradient(135deg, #00d4aa, #34d399);
-            color: #fff;
+            gap: 6px;
+            padding: 10px 22px;
             border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
             font-size: 14px;
             font-weight: 700;
             text-decoration: none;
             border: none;
-            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            transition: opacity .15s, transform .15s, box-shadow .15s;
+        }
+
+        .btn-primary-top {
+            background: linear-gradient(135deg, #00d4aa, #34d399);
+            color: #fff;
             box-shadow: 0 4px 18px rgba(0, 212, 170, 0.28);
         }
 
-        .btn-create:hover {
+        .btn-primary-top:hover {
             opacity: .9;
             transform: translateY(-1px);
             box-shadow: 0 6px 24px rgba(0, 212, 170, 0.38);
+        }
+
+        .btn-danger-top {
+            background: rgba(248, 113, 113, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.25);
+        }
+
+        .btn-danger-top:hover {
+            background: rgba(248, 113, 113, 0.18);
+            border-color: rgba(248, 113, 113, 0.4);
+            transform: translateY(-1px);
         }
 
         .btn-back {
@@ -332,10 +350,20 @@
                     </svg>
                     العودة للوحة التحكم
                 </a>
+
+                @can('employee.delete')
+                    <form action="{{ route('employees.destroy_all') }}" method="POST"
+                        onsubmit="return confirm('هل أنت متأكد من حذف جميع الموظفين؟')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-top btn-danger-top">حذف الكل</button>
+                    </form>
+                @endcan
+
                 @can('employee.create')
-                <a href="{{ route('employees.create') }}" class="btn-create">
-                    إضافة موظف جديد
-                </a>
+                    <a href="{{ route('employees.create') }}" class="btn-top btn-primary-top">
+                        إضافة موظف جديد
+                    </a>
                 @endcan
             </div>
         </div>
@@ -374,27 +402,27 @@
                                 </td>
                                 <td>
                                     <span style="color:#e8eaf6; font-weight:600; font-size:13px;">
-                                        {{ $employee->role ? $employee->role->name : 'بلا دور' }}
+                                        {{ $employee->roles->first() ? $employee->roles->first()->name : 'بلا دور' }}
                                     </span>
                                 </td>
                                 <td>
                                     <div class="actions">
                                         @can('employee.edit')
-                                        <a href="{{ route('employees.edit', $employee->id) }}"
-                                            class="btn-action btn-edit">
-                                            ✏️ تعديل
-                                        </a>
+                                            <a href="{{ route('employees.edit', $employee->id) }}"
+                                                class="btn-action btn-edit">
+                                                ✏️ تعديل
+                                            </a>
                                         @endcan
                                         @can('employee.delete')
-                                        <form action="{{ route('employees.destroy', $employee->id) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn-action btn-delete"
-                                                onclick="return confirm('هل أنت متأكد من حذف هذا الموظف؟')">
-                                                🗑 حذف
-                                            </button>
-                                        </form>
+                                            <form action="{{ route('employees.destroy', $employee->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-action btn-delete"
+                                                    onclick="return confirm('هل أنت متأكد من حذف هذا الموظف؟')">
+                                                    🗑 حذف
+                                                </button>
+                                            </form>
                                         @endcan
                                     </div>
                                 </td>

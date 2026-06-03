@@ -10,17 +10,21 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
-    
+
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-    
+
     // roles
-    Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles');
-    Route::get('/roles/create', [RoleController::class, 'create'])->name('admin.roles.create');
-    Route::post('/roles', [RoleController::class, 'store'])->name('admin.roles.store');
-    Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('admin.roles.edit');
-    Route::put('/roles/{role}', [RoleController::class, 'update'])->name('admin.roles.update');
-    Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('admin.roles.delete');
+    Route::delete('/roles/destroy-all', [RoleController::class, 'destroy_all'])->name('admin.roles.destroy_all');
+    Route::resource('roles', RoleController::class)->names([
+        'index' => 'admin.roles',
+        'create' => 'admin.roles.create',
+        'store' => 'admin.roles.store',
+        'edit' => 'admin.roles.edit',
+        'update' => 'admin.roles.update',
+        'destroy' => 'admin.roles.delete',
+    ]);
+
 
     // admins
     Route::resource('admins', AdminController::class)->names([
@@ -30,8 +34,11 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'edit' => 'admins.edit',
         'update' => 'admins.update',
         'destroy' => 'admins.destroy',
+        'show' => 'admins.show',
+
     ]);
-    
+    Route::delete('/admin/destroy-all', [AdminController::class, 'destroy_all'])->name('admins.destroy_all');
+
     // employees
     Route::resource('employees', EmployeeController::class)->names([
         'index' => 'employees.index',
@@ -40,8 +47,10 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'edit' => 'employees.edit',
         'update' => 'employees.update',
         'destroy' => 'employees.destroy',
+        'show' => 'employees.show',
     ]);
-    
+    Route::delete('/employee/destroy-all', [EmployeeController::class, 'destroy_all'])->name('employees.destroy_all');
+
     // players
     Route::resource('players', PlayerController::class)->names([
         'index' => 'players.index',

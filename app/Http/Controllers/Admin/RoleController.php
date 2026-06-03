@@ -9,72 +9,85 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-     use AuthorizesRequests;
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $this->authorize('viewAny', Role::class);
-    $roles=Role::paginate(10);
-        return view('Admin.Roles.index',[
-            'roles'=>$roles
+        $roles = Role::paginate(10);
+        return view('Admin.Roles.index', [
+            'roles' => $roles
         ]);
     }
 
-   
+
     public function create()
     {
         // $this->authorize('create', Role::class);
-         return view('Admin.Roles.create',[
-            'role'=>new Role(),
+        return view('Admin.Roles.create', [
+            'role' => new Role(),
         ]);
     }
 
-   
+
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|unique:roles,name',
-            'ability'=>'required|array',
+            'name' => 'required|unique:roles,name',
+            'ability' => 'required|array',
         ]);
 
-        $role=Role::createWithAbilities($request);
+        $role = Role::createWithAbilities($request);
 
-        return redirect()->route('admin.roles')->with('success','Role Created Successfully');
+        return redirect()->route('admin.roles')->with('success', 'Role Created Successfully');
     }
-   
+
     public function show(Role $role)
     {
         //
     }
 
-  
-     public function edit(Role $role)
+
+    public function edit(Role $role)
     {
-        $role_abilities=$role->abilities()->pluck('type','ability')->toArray();
-        return view('Admin.Roles.edit',[
-            'role'=>$role,
-            'role_abilities'=>$role_abilities,
+        $role_abilities = $role->abilities()->pluck('type', 'ability')->toArray();
+        return view('Admin.Roles.edit', [
+            'role' => $role,
+            'role_abilities' => $role_abilities,
         ]);
     }
 
 
-   public function update(Request $request, Role $role)
+    public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name'=>'required',
-            'ability'=>'required|array',
+            'name' => 'required',
+            'ability' => 'required|array',
         ]);
         $role->updateWithAbilities($request);
-        return redirect()->route('admin.roles')->with('success','Role Updated Successfully');
+        return redirect()->route('admin.roles')->with('success', 'Role Updated Successfully');
     }
 
-  
-   public function destroy($id)    
+
+    public function destroy($id)
     {
-       Role::destroy($id);
+        Role::destroy($id);
         return redirect()->route('admin.roles')
-        ->with('success','Role deleted successfully');
+            ->with('success', 'Role deleted successfully');
+    }
+    public function destroy_all()
+    {
+        $roles = Role::all();
+        if ($roles->isEmpty()) {
+            return redirect()->route('admin.roles')
+                ->with('error', 'No roles to delete');
+        }
+        foreach ($roles as $role) {
+            $role->delete();
+        }
+        return redirect()->route('admin.roles')
+            ->with('success', 'All roles deleted successfully');
     }
 }

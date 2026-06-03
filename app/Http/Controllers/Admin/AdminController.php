@@ -91,4 +91,17 @@ class AdminController extends Controller
 
         return redirect()->route('admins.index')->with('success', 'Admin deleted successfully.');
     }
+    public function destroy_all()
+    {
+        $admins = Admin::where('super_admin', '!=', 1)->get(); 
+        if($admins->isEmpty()) {
+            return redirect()->route('admins.index')->with('success', 'No admins to delete.');
+        }
+        foreach ($admins as $admin) {
+            $admin->roles()->detach();
+            $admin->delete();
+        }
+
+        return redirect()->route('admins.index')->with('success', 'Admin Deleted All Successfully.');
+    }
 }
