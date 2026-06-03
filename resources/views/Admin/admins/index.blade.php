@@ -1,31 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('Admin.layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>قسم المسؤولين</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
+@section('title', 'قسم المسؤولين | Elite Club')
+
+@section('styles')
     <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: #0d0f14;
-            min-height: 100vh;
-            padding: 40px 32px;
-            color: #e8eaf6;
-        }
-
         .row {
             display: flex;
             flex-wrap: wrap;
@@ -157,6 +135,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            margin: 0;
         }
 
         h3.card-title::before {
@@ -288,20 +267,12 @@
             margin: 0;
         }
     </style>
-</head>
+@endsection
 
-<body>
-
-    <x-flash-message />
-
+@section('content')
     <div class="row mb-2">
         <div class="col text-right" style="display:flex; align-items:center; justify-content:flex-end; gap:10px;">
-            <a href="{{ route('admin.dashboard') }}" class="btn-back">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                </svg>
-                Dashboard
-            </a>
+         
 
             @can('admin.delete')
                 <form action="{{ route('admins.destroy_all') }}" method="POST"
@@ -349,8 +320,7 @@
                                     <td>{{ $admin->roles->pluck('name')->join(', ') }}</td>
                                     @can('admin.edit')
                                         <td>
-                                            <a href="{{ route('admins.edit', $admin->id) }}"
-                                                class="btn btn-primary">Edit</a>
+                                            <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-primary">Edit</a>
                                         </td>
                                     @endcan
                                     <td>
@@ -376,7 +346,4 @@
             </div>
         </div>
     </div>
-
-</body>
-
-</html>
+@endsection

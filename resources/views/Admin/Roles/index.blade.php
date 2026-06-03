@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+@extends('Admin.layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الأدوار</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+@section('title', 'إدارة الأدوار | Elite Club')
+
+@section('styles')
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: #0d0f14;
-            color: #e8eaf6;
-            min-height: 100vh;
-            padding: 48px 24px;
-        }
-
         .wrapper {
             max-width: 860px;
             margin: 0 auto;
@@ -348,10 +331,6 @@
         }
 
         @media (max-width: 600px) {
-            body {
-                padding: 24px 16px;
-            }
-
             .header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -363,13 +342,10 @@
             }
         }
     </style>
-</head>
+@endsection
 
-<body>
-
+@section('content')
     <div class="wrapper">
-
-        <x-flash-message />
 
         <div class="header">
             <div>
@@ -377,13 +353,7 @@
                 <div class="header-sub">Roles Management</div>
             </div>
             <div class="header-actions">
-                <a href="{{ route('admin.dashboard') }}" class="btn-back">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                    </svg>
-                    العودة للوحة التحكم
-                </a>
+            
 
                 @can('role.delete')
                     <form action="{{ route('admin.roles.destroy_all') }}" method="POST"
@@ -423,16 +393,14 @@
                                 <td><span class="id-pill">{{ $index + 1 }}</span></td>
                                 <td>
                                     <div class="role-cell">
-                                        <div class="role-dot" style="background: {{ $role->color ?? '#6c63ff' }};">
-                                        </div>
+                                        <div class="role-dot" style="background: {{ $role->color ?? '#6c63ff' }};"></div>
                                         <span class="role-name">{{ $role->name }}</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="actions">
                                         @can('role.edit')
-                                            <a href="{{ route('admin.roles.edit', $role->id) }}"
-                                                class="btn-action btn-edit">
+                                            <a href="{{ route('admin.roles.edit', $role->id) }}" class="btn-action btn-edit">
                                                 ✏️ تعديل
                                             </a>
                                         @endcan
@@ -456,8 +424,7 @@
                                     <div class="empty">
                                         <div class="empty-icon">🛡️</div>
                                         <div class="empty-title">لا توجد أدوار مسجلة حالياً</div>
-                                        <div class="empty-sub">قم بالنقر على "إنشاء دور جديد" للبدء في توزيع الصلاحيات
-                                        </div>
+                                        <div class="empty-sub">قم بالنقر على "إنشاء دور جديد" للبدء في توزيع الصلاحيات</div>
                                     </div>
                                 </td>
                             </tr>
@@ -468,6 +435,4 @@
         </div>
 
     </div>
-</body>
-
-</html>
+@endsection

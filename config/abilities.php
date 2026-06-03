@@ -14,5 +14,11 @@ return [
     'employee.create' => 'Create Employee',
     'employee.edit' => 'Edit Employee',
     'employee.delete' => 'Delete Employee',
+    // Player
+    'player.view' => 'View Players',
+    'player.create' => 'Create Player',
+    'player.edit' => 'Edit Player',
+    'player.delete' => 'Delete Player',
+
     
 ];

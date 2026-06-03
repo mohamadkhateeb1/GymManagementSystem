@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+@extends('Admin.layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الموظفين</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+@section('title', 'إدارة الموظفين | Elite Club')
+
+@section('styles')
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Cairo', sans-serif;
-            background: #0d0f14;
-            color: #e8eaf6;
-            min-height: 100vh;
-            padding: 48px 24px;
-        }
-
         .wrapper {
             max-width: 1000px;
             margin: 0 auto;
@@ -329,14 +312,10 @@
             }
         }
     </style>
-</head>
+@endsection
 
-<body>
-
+@section('content')
     <div class="wrapper">
-
-        <x-flash-message />
-
         <div class="header">
             <div>
                 <div class="header-title">إدارة الموظفين والمدربين</div>
@@ -345,8 +324,7 @@
             <div class="header-actions">
                 <a href="{{ route('admin.dashboard') }}" class="btn-back">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                     </svg>
                     العودة للوحة التحكم
                 </a>
@@ -408,8 +386,7 @@
                                 <td>
                                     <div class="actions">
                                         @can('employee.edit')
-                                            <a href="{{ route('employees.edit', $employee->id) }}"
-                                                class="btn-action btn-edit">
+                                            <a href="{{ route('employees.edit', $employee->id) }}" class="btn-action btn-edit">
                                                 ✏️ تعديل
                                             </a>
                                         @endcan
@@ -441,8 +418,5 @@
                 </table>
             </div>
         </div>
-
     </div>
-</body>
-
-</html>
+@endsection

@@ -1,3 +1,20 @@
+<style>
+    /* إخفاء شريط التمرير بالكامل مع الحفاظ على ميزة السحب */
+    .sidebar-menu {
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 10px;
+        /* إخفاء السكرول في فايرفوكس */
+        scrollbar-width: none;
+    }
+
+    /* إخفاء السكرول في كروم وسفاري وإيدج */
+    .sidebar-menu::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+
 <aside class="sidebar">
     <div class="brand">
         <div class="brand-logo">
@@ -9,9 +26,12 @@
         </div>
     </div>
 
-    <x-side />
+    <div class="sidebar-menu">
+        <x-side />
+    </div>
 
-    <div class="nav-section" style="margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border);">
+    <div class="sidebar-footer"
+        style="padding: 15px; border-top: 1px solid var(--border); margin-top: auto; background: var(--surface);">
         <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
             @csrf
             <button type="submit" class="sidebar-logout">

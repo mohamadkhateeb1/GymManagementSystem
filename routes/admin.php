@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PlayerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -60,4 +61,6 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'update' => 'players.update',
         'destroy' => 'players.destroy',
     ]);
+    // subscriptions
+    Route::get('/subscriptions', [SubscriptionsController::class, 'index'])->name('admin.subscriptions.index');
 });
