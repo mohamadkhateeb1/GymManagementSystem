@@ -3,13 +3,11 @@
 @section('title', 'لوحة تحكم المدير | Elite Club')
 
 @section('styles')
-    <!-- استدعاء الخطوط الخاصة بالداشبورد -->
     <link
         href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <style>
-        /* ── التنسيقات الخاصة بالداشبورد (Theme Gold) ── */
         .dashboard-wrapper {
             font-family: 'Tajawal', sans-serif;
         }

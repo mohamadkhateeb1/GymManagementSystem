@@ -32,10 +32,13 @@
         }
 
         body {
-            background: var(--bg);
             font-family: 'DM Sans', sans-serif;
             color: var(--text);
             min-height: 100vh;
+            background:
+                radial-gradient(100% 70% at 100% 0%, rgba(0, 212, 170, 0.10), transparent 55%),
+                radial-gradient(90% 70% at 0% 100%, rgba(108, 99, 255, 0.10), transparent 55%),
+                var(--bg);
         }
 
         .create-wrapper {
@@ -77,11 +80,24 @@
 
         /* ---- CARD ---- */
         .create-card {
+            position: relative;
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 1.25rem;
             overflow: hidden;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, .3);
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .03);
+        }
+
+        /* لمعة علوية رفيعة */
+        .create-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 170, .6), transparent);
+            z-index: 2;
         }
 
         /* ---- HEADER ---- */
@@ -93,29 +109,32 @@
             gap: 1rem;
             position: relative;
             overflow: hidden;
+            background: rgba(0, 212, 170, .03);
         }
 
         .create-card-header::after {
             content: '';
             position: absolute;
-            left: 0;
+            right: 0;
             top: 0;
             bottom: 0;
             width: 3px;
             background: linear-gradient(180deg, var(--accent2), #34d399);
-            border-radius: 0 2px 2px 0;
+            border-radius: 2px 0 0 2px;
         }
 
         .header-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: .75rem;
+            width: 42px;
+            height: 42px;
+            border-radius: .8rem;
             background: rgba(0, 212, 170, .12);
+            border: 1px solid rgba(0, 212, 170, .25);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent2);
             flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0, 212, 170, .2);
         }
 
         .header-icon svg {
@@ -150,29 +169,29 @@
             align-items: center;
             gap: .75rem;
             flex-wrap: wrap;
+            background: rgba(255, 255, 255, .015);
         }
 
         .btn-submit {
             display: inline-flex;
             align-items: center;
             gap: .45rem;
-            padding: .6rem 1.5rem;
+            padding: .65rem 1.6rem;
             border-radius: .7rem;
             font-family: 'DM Sans', sans-serif;
             font-size: .875rem;
-            font-weight: 600;
-            color: #fff;
+            font-weight: 700;
+            color: #062b22;
             background: linear-gradient(135deg, var(--accent2), #34d399);
             border: none;
             cursor: pointer;
-            transition: opacity .2s, transform .2s, box-shadow .2s;
-            box-shadow: 0 4px 18px rgba(0, 212, 170, .3);
+            transition: transform .2s, box-shadow .2s;
+            box-shadow: 0 6px 18px rgba(0, 212, 170, .3);
         }
 
         .btn-submit:hover {
-            opacity: .9;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 24px rgba(0, 212, 170, .4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0, 212, 170, .45);
         }
 
         .btn-submit svg {
@@ -184,7 +203,7 @@
             display: inline-flex;
             align-items: center;
             gap: .45rem;
-            padding: .6rem 1.25rem;
+            padding: .65rem 1.3rem;
             border-radius: .7rem;
             font-family: 'DM Sans', sans-serif;
             font-size: .875rem;

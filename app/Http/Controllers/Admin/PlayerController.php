@@ -19,26 +19,68 @@ class PlayerController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:players,email',
-            'phone' => 'required|string|max:20',
+        $validated = $request->validate([
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|email|unique:players,email',
+            'password'      => 'required|min:6',
+            'date_of_birth' => 'nullable|date',
+            'height'        => 'nullable|numeric',
+            'weight'        => 'nullable|numeric',
+            'phone'         => 'nullable|string|max:20',
         ]);
 
-        Player::create($request->all());
+        // تشفير كلمة المرور قبل الحفظ
+        $validated['password'] = bcrypt($validated['password']);
 
-        return redirect()->route('players.index')->with('success', 'Player created successfully.');
+        Player::create($validated);
+
+        return redirect()->route('players.index')->with('success', 'Player created successfully.'); 
     }
-    public function edit(Player $player)
-    {        return view('Admin.Players.edit', compact('player'));
+    //edi fun
+    public function edit($id)
+    {
+        $player = Player::findOrFail($id);
+        return view('Admin.Players.edit', compact('player'));
     }
-    public function update(Request $request, Player $player)
-    {        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:players,email,' . $player->id,
-            'phone' => 'required|string|max:20',
+    //update fun
+    public function update(Request $request, $id)
+    {
+        $player = Player::findOrFail($id);
+        $validated = $request->validate([
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|email|unique:players,email,' . $player->id,
+            'password'      => 'nullable|min:6',
+            'date_of_birth' => 'nullable|date',
+            'height'        => 'nullable|numeric',
+            'weight'        => 'nullable|numeric',
+            'phone'         => 'nullable|string|max:20',
         ]);
-        $player->update($request->all());
+        $player->update($validated);
         return redirect()->route('players.index')->with('success', 'Player updated successfully.');
     }
+    //show fun
+    public function show($id)
+    {
+        $player=Player::findOrFail($id);
+        return view('Admin.Players.show', compact('player'));
+    }
+
+    //delete fun
+    public function destroy(Player $player)
+    {
+        $player->delete();
+        return redirect()->route('players.index')->with('success', 'Player deleted successfully.');
+    }
+    //deleteall fun
+  public function destroy_all()
+    {
+        $player = Player::all();
+        if ($player->isEmpty()) {
+            return redirect()->route('players.index')->with('success', 'No players to delete.');
+        }
+        foreach ($player as $player) {
+            $player->delete();
+        }
+        return redirect()->route('players.index')->with('success', 'All players deleted successfully.');
+    }    
 }

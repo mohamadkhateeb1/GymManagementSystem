@@ -19,17 +19,33 @@
             gap: 16px;
         }
 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-accent {
+            width: 5px;
+            height: 48px;
+            border-radius: 6px;
+            background: linear-gradient(180deg, #34d399, #00a37f);
+            box-shadow: 0 0 18px rgba(0, 212, 170, 0.5);
+        }
+
         .header-title {
             font-size: 28px;
             font-weight: 900;
             color: #e8eaf6;
             letter-spacing: -0.5px;
+            line-height: 1.15;
         }
 
         .header-sub {
             font-size: 13px;
             color: #6b7280;
-            margin-top: 3px;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
         }
 
         .header-actions {
@@ -43,7 +59,7 @@
         .btn-top {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             padding: 10px 22px;
             border-radius: 10px;
             font-family: 'Cairo', sans-serif;
@@ -52,19 +68,18 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: opacity .15s, transform .15s, box-shadow .15s;
+            transition: all .2s ease;
         }
 
         .btn-primary-top {
             background: linear-gradient(135deg, #00d4aa, #34d399);
-            color: #fff;
+            color: #062b22;
             box-shadow: 0 4px 18px rgba(0, 212, 170, 0.28);
         }
 
         .btn-primary-top:hover {
-            opacity: .9;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 24px rgba(0, 212, 170, 0.38);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 26px rgba(0, 212, 170, 0.42);
         }
 
         .btn-danger-top {
@@ -74,15 +89,16 @@
         }
 
         .btn-danger-top:hover {
-            background: rgba(248, 113, 113, 0.18);
-            border-color: rgba(248, 113, 113, 0.4);
-            transform: translateY(-1px);
+            background: #f87171;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(248, 113, 113, 0.35);
         }
 
         .btn-back {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
             padding: 10px 16px;
             background: transparent;
             color: #9ca3af;
@@ -95,9 +111,9 @@
         }
 
         .btn-back:hover {
-            color: #e8eaf6;
-            border-color: #3d4460;
-            background: rgba(255, 255, 255, 0.04);
+            color: #34d399;
+            border-color: rgba(0, 212, 170, 0.4);
+            background: rgba(0, 212, 170, 0.06);
         }
 
         .btn-back svg {
@@ -143,12 +159,15 @@
         }
 
         .count-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             background: rgba(0, 212, 170, 0.12);
             color: #34d399;
             border: 1px solid rgba(0, 212, 170, 0.2);
             font-size: 12px;
             font-weight: 700;
-            padding: 4px 12px;
+            padding: 5px 13px;
             border-radius: 20px;
         }
 
@@ -178,19 +197,7 @@
         tbody tr {
             border-bottom: 1px solid #1e2233;
             transition: background 0.2s ease;
-            animation: fadeUp 0.4s ease both;
-        }
-
-        tbody tr:nth-child(1) {
-            animation-delay: 0.15s;
-        }
-
-        tbody tr:nth-child(2) {
-            animation-delay: 0.20s;
-        }
-
-        tbody tr:nth-child(3) {
-            animation-delay: 0.25s;
+            animation: fadeUp 0.45s ease both;
         }
 
         tbody tr:last-child {
@@ -198,7 +205,7 @@
         }
 
         tbody tr:hover {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(0, 212, 170, 0.04);
         }
 
         tbody td {
@@ -209,10 +216,33 @@
             vertical-align: middle;
         }
 
+        /* خلية الموظف: أفاتار + معلومات */
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: #062b22;
+            background: linear-gradient(135deg, #34d399, #00a37f);
+            box-shadow: 0 4px 14px rgba(0, 212, 170, 0.3);
+        }
+
         .user-info {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
+            min-width: 0;
         }
 
         .user-name {
@@ -224,17 +254,39 @@
         .user-email {
             font-size: 12px;
             color: #6b7280;
+            direction: ltr;
+            text-align: right;
         }
 
         .spec-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             background: rgba(108, 99, 255, 0.1);
             color: #a78bfa;
             border: 1px solid rgba(108, 99, 255, 0.2);
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 5px 11px;
+            border-radius: 7px;
             font-size: 12px;
             font-weight: 600;
+        }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 212, 170, 0.08);
+            color: #34d399;
+            border: 1px solid rgba(0, 212, 170, 0.18);
+            padding: 5px 11px;
+            border-radius: 7px;
+            font-size: 12.5px;
+            font-weight: 700;
+        }
+
+        .muted {
+            color: #6b7280;
+            font-size: 13px;
         }
 
         .actions {
@@ -247,39 +299,55 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 14px;
+            padding: 8px 13px;
             border-radius: 8px;
             font-size: 12.5px;
             font-weight: 700;
             font-family: 'Cairo', sans-serif;
             cursor: pointer;
-            border: none;
+            border: 1px solid transparent;
             text-decoration: none;
             transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-show {
+            background: rgba(108, 99, 255, 0.1);
+            color: #a78bfa;
+            border-color: rgba(108, 99, 255, 0.22);
+        }
+
+        .btn-show:hover {
+            background: #6c63ff;
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(108, 99, 255, 0.35);
         }
 
         .btn-edit {
             background: rgba(234, 179, 8, 0.1);
             color: #fbbf24;
-            border: 1px solid rgba(234, 179, 8, 0.2);
+            border-color: rgba(234, 179, 8, 0.2);
         }
 
         .btn-edit:hover {
-            background: rgba(234, 179, 8, 0.18);
-            border-color: rgba(234, 179, 8, 0.4);
-            transform: translateY(-2px);
+            background: #fbbf24;
+            color: #2a2000;
+            box-shadow: 0 6px 16px rgba(234, 179, 8, 0.3);
         }
 
         .btn-delete {
             background: rgba(248, 113, 113, 0.08);
             color: #f87171;
-            border: 1px solid rgba(248, 113, 113, 0.18);
+            border-color: rgba(248, 113, 113, 0.18);
         }
 
         .btn-delete:hover {
-            background: rgba(248, 113, 113, 0.15);
-            border-color: rgba(248, 113, 113, 0.35);
-            transform: translateY(-2px);
+            background: #f87171;
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(248, 113, 113, 0.35);
         }
 
         .empty {
@@ -289,15 +357,16 @@
         }
 
         .empty-icon {
-            font-size: 48px;
+            font-size: 46px;
             margin-bottom: 16px;
-            opacity: 0.5;
+            color: rgba(0, 212, 170, 0.4);
         }
 
         .empty-title {
             font-size: 18px;
             font-weight: 700;
             color: #9ca3af;
+            margin-bottom: 6px;
         }
 
         @keyframes fadeUp {
@@ -317,9 +386,12 @@
 @section('content')
     <div class="wrapper">
         <div class="header">
-            <div>
-                <div class="header-title">إدارة الموظفين والمدربين</div>
-                <div class="header-sub">Employees & Coaches Management</div>
+            <div class="header-left">
+                <div class="header-accent"></div>
+                <div>
+                    <div class="header-title">إدارة الموظفين والمدربين</div>
+                    <div class="header-sub">Employees &amp; Coaches Management</div>
+                </div>
             </div>
             <div class="header-actions">
                 <a href="{{ route('admin.dashboard') }}" class="btn-back">
@@ -334,13 +406,15 @@
                         onsubmit="return confirm('هل أنت متأكد من حذف جميع الموظفين؟')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn-top btn-danger-top">حذف الكل</button>
+                        <button type="submit" class="btn-top btn-danger-top">
+                            <i class="fas fa-trash-alt"></i> حذف الكل
+                        </button>
                     </form>
                 @endcan
 
                 @can('employee.create')
                     <a href="{{ route('employees.create') }}" class="btn-top btn-primary-top">
-                        إضافة موظف جديد
+                        <i class="fas fa-plus"></i> إضافة موظف جديد
                     </a>
                 @endcan
             </div>
@@ -349,7 +423,9 @@
         <div class="card">
             <div class="card-top">
                 <span class="card-top-title">قائمة الموظفين</span>
-                <span class="count-badge">{{ $employees->count() }} موظف</span>
+                <span class="count-badge">
+                    <i class="fas fa-user-tie"></i> {{ $employees->count() }} موظف
+                </span>
             </div>
 
             <div class="table-responsive">
@@ -359,45 +435,57 @@
                             <th>الموظف</th>
                             <th>التخصص</th>
                             <th>الدور</th>
-                            <th style="width:200px; text-align:left;">الإجراءات</th>
+                            <th style="width:230px; text-align:left;">الإجراءات</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($employees as $employee)
-                            <tr>
+                            <tr style="animation-delay: {{ 0.1 + $loop->index * 0.05 }}s;">
                                 <td>
-                                    <div class="user-info">
-                                        <span class="user-name">{{ $employee->username }}</span>
-                                        <span class="user-email">{{ $employee->email }}</span>
+                                    <div class="user-cell">
+                                        <div class="avatar">{{ mb_strtoupper(mb_substr($employee->name, 0, 1)) }}</div>
+                                        <div class="user-info">
+                                            <span class="user-name">{{ $employee->name }}</span>
+                                            <span class="user-email">{{ $employee->email }}</span>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
                                     @if ($employee->specialization)
-                                        <span class="spec-badge">{{ $employee->specialization }}</span>
+                                        <span class="spec-badge">
+                                            <i class="fas fa-star"></i> {{ $employee->specialization }}
+                                        </span>
                                     @else
-                                        <span style="color:#6b7280; font-size:13px;">غير محدد</span>
+                                        <span class="muted">غير محدد</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <span style="color:#e8eaf6; font-weight:600; font-size:13px;">
-                                        {{ $employee->roles->first() ? $employee->roles->first()->name : 'بلا دور' }}
-                                    </span>
+                                    @if ($employee->roles->first())
+                                        <span class="role-badge">
+                                            <i class="fas fa-shield-halved"></i> {{ $employee->roles->first()->name }}
+                                        </span>
+                                    @else
+                                        <span class="muted">بلا دور</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <div class="actions">
+                                        <a href="{{ route('employees.show', $employee->id) }}" class="btn-action btn-show">
+                                            <i class="fas fa-eye"></i> عرض
+                                        </a>
                                         @can('employee.edit')
                                             <a href="{{ route('employees.edit', $employee->id) }}" class="btn-action btn-edit">
-                                                ✏️ تعديل
+                                                <i class="fas fa-edit"></i> تعديل
                                             </a>
                                         @endcan
                                         @can('employee.delete')
                                             <form action="{{ route('employees.destroy', $employee->id) }}" method="POST"
-                                                style="display:inline;">
+                                                style="display:inline; margin:0;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn-action btn-delete"
                                                     onclick="return confirm('هل أنت متأكد من حذف هذا الموظف؟')">
-                                                    🗑 حذف
+                                                    <i class="fas fa-trash-alt"></i> حذف
                                                 </button>
                                             </form>
                                         @endcan
@@ -408,8 +496,9 @@
                             <tr>
                                 <td colspan="4">
                                     <div class="empty">
-                                        <div class="empty-icon">👥</div>
-                                        <div class="empty-title">لا يوجد موظفين حالياً</div>
+                                        <div class="empty-icon"><i class="fas fa-users-slash"></i></div>
+                                        <div class="empty-title">لا يوجد موظفون حالياً</div>
+                                        <div>ابدأ بإضافة أول موظف من زر «إضافة موظف جديد»</div>
                                     </div>
                                 </td>
                             </tr>

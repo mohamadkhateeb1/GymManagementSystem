@@ -53,6 +53,12 @@ class EmployeeController extends Controller
 
         ]);
     }
+    public function show(Employee $employee)
+    {
+        return view('Admin.Employees.show', [
+            'employee' => $employee,
+        ]);
+    }
     public function update(Request $request, Employee $employee)
     {
         $data = $request->validate([
