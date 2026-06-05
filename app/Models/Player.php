@@ -19,6 +19,7 @@ class Player extends Authenticatable
         'height',
         'weight',
         'phone',
+        'coach_id',
 
     ];
 
@@ -45,5 +46,14 @@ class Player extends Authenticatable
     public function roles()
 {
     return $this->morphToMany(Role::class, 'authorizable', 'role_user');
+}
+    public function coach()
+    {
+        return $this->belongsTo(Employee::class, 'coach_id');
+    }
+    public function subscription()
+{
+    // بنستخدم hasOne بما أن الاشتراك الواحد غالباً مرتبط بحالة اللاعب الحالية
+    return $this->hasOne(Membership::class);
 }
 }

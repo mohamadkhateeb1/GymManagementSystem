@@ -20,7 +20,6 @@
             gap: 16px;
         }
 
-        /* شريط ذهبي مزخرف قبل العنوان */
         .header-accent {
             width: 5px;
             height: 46px;
@@ -29,21 +28,11 @@
             box-shadow: 0 0 18px rgba(201, 169, 97, 0.5);
         }
 
-        .header-titles .header-title {
+        .header-title {
             font-size: 26px;
             font-weight: 800;
             color: #fff;
-            line-height: 1.2;
-            letter-spacing: 0.3px;
-        }
-
-        .header-titles .header-sub {
-            margin-top: 6px;
-            font-size: 13px;
-            color: var(--text-muted, #8b8b8b);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 6px;
         }
 
         .count-badge {
@@ -59,83 +48,59 @@
             border: 1px solid rgba(201, 169, 97, 0.25);
         }
 
-        /* ===== الكارد ===== */
+        /* ===== الكارد والجدول ===== */
         .card {
-            position: relative;
             background: rgba(16, 19, 28, 0.65);
             backdrop-filter: blur(14px);
             border: 1px solid rgba(201, 169, 97, 0.18);
             border-radius: 20px;
-            padding: 10px 22px 18px;
-            box-shadow:
-                0 20px 50px rgba(0, 0, 0, 0.45),
-                inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            overflow: hidden;
+            padding: 22px;
+            overflow-x: auto;
         }
 
-        /* لمعة ذهبية خفيفة أعلى الكارد */
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(201, 169, 97, 0.6),
-                    transparent);
-        }
-
-        /* ===== الجدول ===== */
         .table {
             width: 100%;
+            min-width: 640px;
             border-collapse: separate;
             border-spacing: 0 12px;
         }
 
         .table th {
-            padding: 18px 22px;
+            padding: 16px;
             font-size: 11px;
+            letter-spacing: 0.5px;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
             text-align: right;
         }
 
         .table td {
-            padding: 16px 22px;
+            padding: 16px;
             background: rgba(0, 0, 0, 0.22);
             color: #e8e6e1;
             font-size: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             vertical-align: middle;
-            transition: background 0.3s ease, transform 0.3s ease;
         }
 
-        /* في RTL: أول خلية على اليمين وآخر خلية على اليسار */
-        .table tbody tr td:first-child {
+        /* تدوير حواف أول وآخر خلية بالصف */
+        .table td:first-child {
             border-top-right-radius: 12px;
             border-bottom-right-radius: 12px;
-            border-right: 3px solid transparent;
         }
 
-        .table tbody tr td:last-child {
+        .table td:last-child {
             border-top-left-radius: 12px;
             border-bottom-left-radius: 12px;
         }
 
+        .table tbody tr {
+            transition: 0.25s ease;
+        }
+
         .table tbody tr:hover td {
-            background: rgba(201, 169, 97, 0.07);
+            background: rgba(201, 169, 97, 0.06);
         }
 
-        .table tbody tr:hover td:first-child {
-            border-right-color: var(--accent);
-        }
-
-        /* خلية الاسم: أفاتار + الاسم */
         .player-cell {
             display: flex;
             align-items: center;
@@ -145,50 +110,49 @@
         .avatar {
             width: 42px;
             height: 42px;
-            border-radius: 12px;
             flex-shrink: 0;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 16px;
-            color: #1a1305;
             background: linear-gradient(135deg, var(--accent), #d9bd7c);
-            box-shadow: 0 4px 14px rgba(201, 169, 97, 0.3);
+            color: #1a1305;
         }
 
-        .player-name {
-            font-weight: 700;
-            color: #fff;
-        }
-
-        /* رقم الهاتف */
-        .phone-cell {
+        .status-chip {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            direction: ltr;
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.5px;
-        }
-
-        .phone-cell i {
-            color: var(--accent);
-            opacity: 0.8;
+            padding: 6px 12px;
+            border-radius: 6px;
             font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
-        .phone-empty {
-            color: var(--text-muted, #8b8b8b);
-            font-style: italic;
-            font-size: 13px;
+        .status-chip.active {
+            background: rgba(90, 156, 122, 0.15);
+            color: #5a9c7a;
         }
 
-        /* ===== الأزرار العلوية ===== */
+        .status-chip.expired {
+            background: rgba(197, 90, 90, 0.15);
+            color: #c55a5a;
+        }
+
+        .status-chip.none {
+            background: rgba(128, 128, 128, 0.1);
+            color: #9ca3af;
+        }
+
+        /* ===== أزرار الهيدر ===== */
         .actions-wrapper {
             display: flex;
             gap: 12px;
-            align-items: center;
+        }
+
+        .actions-wrapper form {
+            margin: 0;
         }
 
         .btn-header {
@@ -197,58 +161,62 @@
             gap: 8px;
             padding: 11px 20px;
             border-radius: 10px;
-            font-weight: 700;
             font-size: 14px;
+            font-weight: 700;
             text-decoration: none;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+            transition: 0.3s ease;
         }
 
-        .btn-danger {
-            background: rgba(239, 68, 68, 0.08);
-            color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-danger:hover {
-            background: #ef4444;
-            color: #fff;
-            box-shadow: 0 8px 22px rgba(239, 68, 68, 0.35);
+        .btn-header:hover {
             transform: translateY(-2px);
+            filter: brightness(1.08);
         }
 
         .btn-add {
             background: linear-gradient(135deg, var(--accent), #d9bd7c);
             color: #1a1305;
-            box-shadow: 0 6px 18px rgba(201, 169, 97, 0.3);
+            box-shadow: 0 6px 18px rgba(201, 169, 97, 0.25);
         }
 
-        .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 26px rgba(201, 169, 97, 0.45);
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.08);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        /* ===== أزرار الجدول ===== */
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.16);
+        }
+
+        /* ===== أزرار الإجراءات داخل الجدول ===== */
         .action-group {
             display: flex;
-            gap: 8px;
             align-items: center;
-            justify-content: flex-start;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .action-group form {
+            margin: 0;
+            display: inline-flex;
         }
 
         .btn-action {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 7px 13px;
+            justify-content: center;
+            height: 32px;
+            padding: 0 14px;
             border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
+            line-height: 1;
             text-decoration: none;
-            transition: all 0.2s ease;
             border: 1px solid transparent;
             cursor: pointer;
+            transition: 0.2s ease;
         }
 
         .btn-action:hover {
@@ -258,91 +226,58 @@
         .btn-edit {
             background: rgba(201, 169, 97, 0.1);
             color: var(--accent);
-            border-color: rgba(201, 169, 97, 0.3);
         }
 
         .btn-edit:hover {
-            background: var(--accent);
-            color: #1a1305;
-            box-shadow: 0 6px 16px rgba(201, 169, 97, 0.3);
+            background: rgba(201, 169, 97, 0.2);
         }
 
         .btn-show {
             background: rgba(108, 99, 255, 0.1);
             color: #818cf8;
-            border-color: rgba(108, 99, 255, 0.3);
         }
 
         .btn-show:hover {
-            background: #6c63ff;
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(108, 99, 255, 0.35);
+            background: rgba(108, 99, 255, 0.2);
         }
 
         .btn-delete {
             background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.3);
         }
 
         .btn-delete:hover {
-            background: #ef4444;
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
+            background: rgba(239, 68, 68, 0.2);
         }
 
-        /* ===== حالة فارغة ===== */
-        .empty-state {
+        .btn-renew {
+            background: rgba(90, 156, 122, 0.1);
+            color: #5a9c7a;
+        }
+
+        .btn-renew:hover {
+            background: rgba(90, 156, 122, 0.2);
+        }
+
+        .empty-row td {
             text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted, #8b8b8b);
+            padding: 40px;
+            color: #9ca3af;
         }
 
-        .empty-state i {
-            font-size: 46px;
-            color: rgba(201, 169, 97, 0.4);
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .empty-state .empty-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #cfcbc2;
-            margin-bottom: 6px;
-        }
-
-        /* ===== أنيميشن دخول الصفوف ===== */
-        @keyframes rowIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .table tbody tr {
-            animation: rowIn 0.45s ease both;
-        }
-
-        /* تجاوب */
-        @media (max-width: 640px) {
+        /* ===== موبايل ===== */
+        @media (max-width: 600px) {
             .header {
-                flex-direction: column;
-                align-items: stretch;
+                align-items: flex-start;
             }
 
             .actions-wrapper {
-                justify-content: space-between;
+                width: 100%;
             }
 
-            .table th:nth-child(2),
-            .table td:nth-child(2) {
-                display: none;
+            .btn-header {
+                flex: 1;
+                justify-content: center;
             }
         }
     </style>
@@ -352,29 +287,18 @@
     <div class="header">
         <div class="header-left">
             <div class="header-accent"></div>
-            <div class="header-titles">
+            <div>
                 <div class="header-title">سجل اللاعبين</div>
-                <div class="header-sub">
-                    إدارة وعرض جميع لاعبي النادي
-                    <span class="count-badge">
-                        <i class="fas fa-users"></i> {{ count($players) }} لاعب
-                    </span>
-                </div>
+                <span class="count-badge"><i class="fas fa-users"></i> {{ $players->count() }} لاعب</span>
             </div>
         </div>
-
         <div class="actions-wrapper">
             <form action="{{ route('players.destroyAll') }}" method="POST"
-                onsubmit="return confirm('تحذير: هل أنت متأكد من حذف جميع اللاعبين؟');">
+                onsubmit="return confirm('هل أنت متأكد من حذف الجميع؟');">
                 @csrf @method('DELETE')
-                <button type="submit" class="btn-header btn-danger">
-                    <i class="fas fa-trash-alt"></i> حذف الكل
-                </button>
+                <button type="submit" class="btn-header btn-danger"><i class="fas fa-trash-alt"></i> حذف الكل</button>
             </form>
-
-            <a href="{{ route('players.create') }}" class="btn-header btn-add">
-                <i class="fas fa-plus"></i> إضافة لاعب جديد
-            </a>
+            <a href="{{ route('players.create') }}" class="btn-header btn-add"><i class="fas fa-plus"></i> إضافة لاعب</a>
         </div>
     </div>
 
@@ -383,56 +307,45 @@
             <thead>
                 <tr>
                     <th>الاسم</th>
-                    <th>رقم الهاتف</th>
+                    <th>الخطة</th>
+                    <th>الحالة</th>
                     <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($players as $player)
-                    <tr style="animation-delay: {{ $loop->index * 0.05 }}s;">
+                    <tr>
                         <td>
                             <div class="player-cell">
                                 <div class="avatar">{{ mb_strtoupper(mb_substr($player->name, 0, 1)) }}</div>
-                                <span class="player-name">{{ $player->name }}</span>
+                                <span>{{ $player->name }}</span>
                             </div>
                         </td>
+                        <td>{{ $player->subscription->plan_name ?? 'غير مشترك' }}</td>
                         <td>
-                            @if ($player->phone)
-                                <span class="phone-cell">
-                                    <i class="fas fa-phone"></i> {{ $player->phone }}
+                            @if ($player->subscription)
+                                <span class="status-chip {{ $player->subscription->isExpired() ? 'expired' : 'active' }}">
+                                    {{ $player->subscription->isExpired() ? 'منتهي' : 'فعال' }}
                                 </span>
                             @else
-                                <span class="phone-empty">غير متوفر</span>
+                                <span class="status-chip none">لا يوجد</span>
                             @endif
                         </td>
                         <td>
                             <div class="action-group">
-                                <a href="{{ route('players.show', $player->id) }}" class="btn-action btn-show">
-                                    <i class="fas fa-eye"></i> عرض
-                                </a>
-                                <a href="{{ route('players.edit', $player->id) }}" class="btn-action btn-edit">
-                                    <i class="fas fa-edit"></i> تعديل
-                                </a>
+                                <a href="{{ route('players.show', $player->id) }}" class="btn-action btn-show">عرض</a>
+                                <a href="{{ route('players.edit', $player->id) }}" class="btn-action btn-edit">تعديل</a>
                                 <form action="{{ route('players.destroy', $player->id) }}" method="POST"
-                                    style="display: inline-block;">
+                                    onsubmit="return confirm('تأكيد الحذف؟');">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="btn-action btn-delete"
-                                        onclick="return confirm('هل أنت متأكد؟')">
-                                        <i class="fas fa-trash-alt"></i> حذف
-                                    </button>
+                                    <button type="submit" class="btn-action btn-delete">حذف</button>
                                 </form>
                             </div>
                         </td>
                     </tr>
                 @empty
-                    <tr>
-                        <td colspan="3" style="background: transparent; border: none;">
-                            <div class="empty-state">
-                                <i class="fas fa-user-slash"></i>
-                                <div class="empty-title">لا يوجد لاعبون مسجّلون</div>
-                                <div>ابدأ بإضافة أول لاعب من زر «إضافة لاعب جديد»</div>
-                            </div>
-                        </td>
+                    <tr class="empty-row">
+                        <td colspan="4">لا يوجد لاعبون مسجّلون</td>
                     </tr>
                 @endforelse
             </tbody>

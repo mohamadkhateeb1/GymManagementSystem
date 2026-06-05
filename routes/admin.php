@@ -63,5 +63,7 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
     ]);
     Route::delete('/player/destroy-all', [PlayerController::class, 'destroy_all'])->name('players.destroyAll');
     // subscriptions
-    Route::get('/subscriptions', [SubscriptionsController::class, 'index'])->name('admin.subscriptions.index');
-});
+    Route::get('/subscriptions', [SubscriptionsController::class, 'index'])->name('subscriptions.index');
+    Route::get('/subscriptions/renew/{id}', [SubscriptionsController::class, 'renew'])->name('subscriptions.renew');
+Route::post('/subscriptions/renew/{id}', [SubscriptionsController::class, 'renew'])->name('subscriptions.renew');
+Route::post('/subscriptions/store', [SubscriptionsController::class, 'store'])->name('subscriptions.store');});

@@ -11,7 +11,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class Employee extends Authenticatable
 {
-    use HasFactory, Notifiable,TwoFactorAuthenticatable,HasRoles;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
     protected $fillable = [
         'name',
         'email',
@@ -32,8 +32,11 @@ class Employee extends Authenticatable
         return $this->hasMany(DietPlan::class, 'coach_id');
     }
     public function roles()
-{
-    return $this->morphToMany(Role::class, 'authorizable', 'role_user');
-}
-
+    {
+        return $this->morphToMany(Role::class, 'authorizable', 'role_user');
+    }
+    public function players()
+    {
+        return $this->hasMany(Player::class, 'coach_id');
+    }
 }
