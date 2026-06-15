@@ -12,6 +12,14 @@
         <label for="date">Date:</label>
         <input type="date" name="date" id="date" required>
         <br>
+       <input type="hidden" name="employee_id">
+        <br>
+        <label for="plan">Plan:</label>
+        <textarea name="plan" id="plan" required></textarea>
+        <br>
+        <br>
+       <input type="hidden" name="employee_id">
+        <br>
         <label for="plan">Plan:</label>
         <textarea name="plan" id="plan" required></textarea>
         <br>
