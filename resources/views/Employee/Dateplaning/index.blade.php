@@ -9,5 +9,6 @@
 <body>
     <h1>Date Planning</h1>  
     <p>This is a simple date planning page.</p>
+    hqere you can add your date planning content and functionality as needed.
 </body>
 </html>
