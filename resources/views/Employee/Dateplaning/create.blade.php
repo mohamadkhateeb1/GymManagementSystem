@@ -24,6 +24,7 @@
         <textarea name="plan" id="plan" required></textarea>
         <br>
         <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
     </form>
 </body>
 </html>
