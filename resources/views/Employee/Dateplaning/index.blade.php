@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>Date Planning</h1>  
+    <p>This is a simple date planning page.</p>
 </body>
 </html>
