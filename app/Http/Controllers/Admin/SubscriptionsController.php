@@ -23,15 +23,13 @@ public function renew(Request $request, $id)
 {
     $membership = Membership::findOrFail($id);
     
-    // تحديد المدة بناءً على نوع الاشتراك الحالي
-    $duration = 1; // الافتراضي شهر
+    $duration = 1; 
     if (str_contains($membership->plan_name, 'ربع سنوي')) {
         $duration = 3;
     } elseif (str_contains($membership->plan_name, 'سنوي')) {
         $duration = 12;
     }
 
-    // تحديث الاشتراك
     $membership->update([
         'start_date' => \Carbon\Carbon::now(),
         'end_date'   => \Carbon\Carbon::now()->addMonths($duration),
@@ -41,7 +39,6 @@ public function renew(Request $request, $id)
     return back()->with('success', 'تم تجديد الاشتراك بنجاح لنوع: ' . $membership->plan_name);
 }
 
-    // إضافة اشتراك جديد للاعب (عند تسجيل لاعب جديد مثلاً)
     public function store(Request $request)
     {
         $request->validate([

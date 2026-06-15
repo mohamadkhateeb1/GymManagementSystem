@@ -13,5 +13,8 @@ class TrainingPlan extends Model
         'start_date',
         'end_date',
     ];
-    
+    public function player()
+    {
+        return $this->belongsTo(Player::class);
+    }
 }

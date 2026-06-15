@@ -101,7 +101,6 @@ class PlayerController extends Controller
             $duration = 12;
         }
 
-        // تم إضافة 'start_date' هنا لحل خطأ قاعدة البيانات 1364
         $player->subscription()->updateOrCreate(
             ['player_id' => $player->id],
             [

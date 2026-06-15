@@ -44,16 +44,16 @@ class Player extends Authenticatable
         return $this->hasMany(DietPlan::class, 'player_id');
     }
     public function roles()
-{
-    return $this->morphToMany(Role::class, 'authorizable', 'role_user');
-}
+    {
+        return $this->morphToMany(Role::class, 'authorizable', 'role_user');
+    }
     public function coach()
     {
         return $this->belongsTo(Employee::class, 'coach_id');
     }
     public function subscription()
-{
-    // بنستخدم hasOne بما أن الاشتراك الواحد غالباً مرتبط بحالة اللاعب الحالية
-    return $this->hasOne(Membership::class);
-}
+    {
+        // بنستخدم hasOne بما أن الاشتراك الواحد غالباً مرتبط بحالة اللاعب الحالية
+        return $this->hasOne(Membership::class);
+    }
 }

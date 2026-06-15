@@ -15,14 +15,11 @@ class DashboardController extends Controller
     {
         $now = Carbon::now();
 
-        /* ============================================================
-         |  الإحصائيات العامة (تخص النادي كله ومستقلة عن فلترة الجدول)
-         |  هذه هي القيم التي تغذّي كاردات الـ KPI والمخطط الدائري.
-         * ============================================================ */
+        
         $employeesCount = Employee::count();
         $playersCount   = Player::count();
 
-        // اشتراكات فعّالة: حالتها active وتاريخ انتهائها لم يمرّ بعد
+        // وتاريخ الانتهاء بعد الآن (active) هيئة الاشتراكات النشطة: حالتها 
         $activeCount = Player::whereHas('subscription', function ($q) use ($now) {
             $q->where('status', 'active')->where('end_date', '>', $now);
         })->count();
@@ -44,15 +41,11 @@ class DashboardController extends Controller
         // نقطة توقّف المخطط الدائري (تراكميًا) — جاهزة للعرض مباشرةً
         $donutExpiredStop = $activePct + $expiredPct;
 
-        /* ============================================================
-         |  قوائم الجداول
-         * ============================================================ */
+      
         $coaches   = Employee::all();
         $employees = Employee::with('roles')->latest()->get();
 
-        /* ============================================================
-         |  جدول اللاعبين (متأثر بالفلترة)
-         * ============================================================ */
+        
         $query = Player::query()->with(['coach', 'subscription']);
 
         if ($request->filled('name')) {
@@ -77,16 +70,12 @@ class DashboardController extends Controller
 
         $players = $query->latest()->get();
 
-        /* ============================================================
-         |  تمرير البيانات الجاهزة للعرض
-         * ============================================================ */
         return view('Admin.Dashboard', compact(
             'employees',
             'employeesCount',
             'playersCount',
             'players',
             'coaches',
-            // إحصائيات جاهزة للعرض
             'activeCount',
             'expiredCount',
             'noneCount',
