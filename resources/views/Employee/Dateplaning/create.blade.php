@@ -7,6 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <form action="#" method="POST">
+        @csrf
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date" required>
+        <br>
+        <label for="plan">Plan:</label>
+        <textarea name="plan" id="plan" required></textarea>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
