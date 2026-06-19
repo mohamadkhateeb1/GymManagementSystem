@@ -122,6 +122,7 @@
 
     <form action="{{ route('players.store') }}" method="POST" class="form-card">
         @csrf
+        
         @include('Admin.Players._form')
     </form>
 @endsection

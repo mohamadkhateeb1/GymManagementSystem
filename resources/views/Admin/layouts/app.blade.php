@@ -136,13 +136,11 @@
         .main-wrapper {
             flex: 1;
             margin-right: var(--sidebar-width);
-            /* حجز مساحة للسايدبار على اليمين */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* ── الناف بار العلوي ── */
         .top-navbar {
             height: 70px;
             background: rgba(13, 15, 20, 0.8);

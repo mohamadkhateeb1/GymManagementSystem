@@ -39,7 +39,6 @@
             flex-wrap: wrap;
         }
 
-        /* Top buttons */
         .btn-top {
             display: inline-flex;
             align-items: center;

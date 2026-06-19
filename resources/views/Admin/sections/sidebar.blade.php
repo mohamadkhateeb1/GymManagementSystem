@@ -27,7 +27,7 @@
     </div>
 
     <div class="sidebar-menu">
-        <x-side />
+        <x-side/>
     </div>
 
     <div class="sidebar-footer"
