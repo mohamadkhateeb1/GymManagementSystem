@@ -3,6 +3,8 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        height: 100vh;
+        /* التأكد من امتداد القائمة بكامل الشاشة */
     }
 
     .sidebar .brand-logo {
@@ -50,7 +52,8 @@
         font-weight: 700;
         letter-spacing: .5px;
         color: var(--muted);
-        padding: 6px 12px 10px;
+        padding: 12px 12px 10px;
+        /* تظبيط البادينغ لتباعد أفضل */
         text-transform: uppercase;
     }
 
@@ -95,6 +98,8 @@
     .nav-link.active::before {
         content: "";
         position: absolute;
+        inset-block-end: 0;
+        /* تم التعديل ليتناسب مع الاتجاه العربي والانزلاق */
         inset-inline-end: 0;
         top: 50%;
         transform: translateY(-50%);
@@ -157,7 +162,7 @@
         </div>
 
         <nav class="sidebar-nav">
-            <div class="nav-section">القائمة</div>
+            <div class="nav-section">القائمة الرئيسية</div>
 
             <a href="{{ route('employee.dashboard') }}"
                 class="nav-link {{ request()->routeIs('employee.dashboard') ? 'active' : '' }}">
@@ -169,10 +174,20 @@
                 <i class="fas fa-users"></i> لاعبيّ
             </a>
 
-            {{-- {{ route('employee.training') }} --}}
-            <a href="#" class="nav-link">
-                <i class="fas fa-dumbbell"></i> الخطط التدريبية
+            <div class="nav-section" style="margin-top: 15px;">إدارة الخطط والبنك</div>
+
+            <a href="{{ route('employee.training.bank') }}"
+                class="nav-link {{ request()->routeIs('employee.training.bank') ? 'active' : '' }}">
+                <i class="fas fa-dumbbell"></i> بنك الخطط التدريبية
             </a>
+
+            <a href="{{ route('employee.diet.bank') }}"
+                class="nav-link {{ request()->routeIs('employee.diet.bank') ? 'active' : '' }}">
+                <i class="fas fa-apple-alt"></i> بنك الوجبات الغذائية
+            </a>
+
+       
+            <div class="nav-section" style="margin-top: 15px;">الأمان</div>
 
             <a href="{{ route('employee.2fa') }}"
                 class="nav-link nav-2fa {{ request()->routeIs('employee.2fa') ? 'active' : '' }}">

@@ -14,8 +14,16 @@ return new class extends Migration
         Schema::create('training_plans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('coach_id')->constrained('employees')->cascadeOnDelete();
-            $table->foreignId('player_id')->constrained('players')->cascadeOnDelete();
-            $table->string('plan_details');
+
+            // حقل اللاعب nullable لأن الخطة تُخزن بالبنك أولاً كخطة عامة للمستوى
+            $table->foreignId('player_id')->nullable()->constrained('players')->cascadeOnDelete();
+
+            // حقل المستوى المستهدف (beginner, intermediate, advanced)
+            $table->string('level')->nullable();
+
+            // تم تحويله إلى text ليستوعب تفاصيل الجداول والتمارين الطويلة بدون أخطاء مساحة
+            $table->text('plan_details');
+
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();

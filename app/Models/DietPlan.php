@@ -12,5 +12,9 @@ class DietPlan extends Model
         'plan_details',
         'start_date',
         'end_date',
+        'level',
+        'meal_name',
+        'calories',
+        'image_path',   
     ];
 }

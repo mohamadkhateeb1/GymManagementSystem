@@ -4,22 +4,35 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Player;
-use Illuminate\Http\Request;
+use App\Models\DietPlan;
+use App\Models\TrainingPlan;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // المدرب الحالي (الموظف)
-        $employee = Auth::guard('employee')->user();
+        $coachId = Auth::guard('employee')->id();
 
-        $myPlayers = Player::where('coach_id', $employee->id)
-            ->with('subscription')
-            ->get();
+        // 1. إحصائيات اللاعبين
+        $totalPlayers = Player::where('coach_id', $coachId)->count();
 
-        $myPlayersCount = $myPlayers->count();
+        // 2. توزيع المستويات للاعبين الحاليين
+        $beginnerCount = Player::where('coach_id', $coachId)->where('level', 'beginner')->count();
+        $intermediateCount = Player::where('coach_id', $coachId)->where('level', 'intermediate')->count();
+        $advancedCount = Player::where('coach_id', $coachId)->where('level', 'advanced')->count();
 
-        return view('Employee.dashboard', compact('myPlayers', 'myPlayersCount'));
+        // 3. إحصائيات البنوك العامة للمدرب الحالي
+        $totalDietPlans = DietPlan::where('coach_id', $coachId)->whereNull('player_id')->count();
+        $totalTrainingPlans = TrainingPlan::where('coach_id', $coachId)->whereNull('player_id')->count();
+
+        return view('Employee.dashboard', compact(
+            'totalPlayers',
+            'beginnerCount',
+            'intermediateCount',
+            'advancedCount',
+            'totalDietPlans',
+            'totalTrainingPlans'
+        ));
     }
 }

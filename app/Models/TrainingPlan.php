@@ -12,6 +12,8 @@ class TrainingPlan extends Model
         'plan_details',
         'start_date',
         'end_date',
+        'level',
+        
     ];
     public function player()
     {

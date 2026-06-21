@@ -20,6 +20,7 @@ class Player extends Authenticatable
         'weight',
         'phone',
         'coach_id',
+        'level', // إضافة حقل المستوى
 
     ];
 

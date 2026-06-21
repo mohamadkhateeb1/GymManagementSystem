@@ -7,13 +7,13 @@
         $status = $player->subscription?->status;
         $statusClass = $status === 'active' ? 'active' : ($status ? 'expired' : 'none');
         $statusLabel =
-            $status === 'active' ? 'اشتراك فعّال' : ($status === 'expired' ? 'منتهي' : $status ?? 'لا يوجد اشتراك');
-        $plansCount = $player->trainingPlans->count();
+            $status === 'active' ? 'اشتрак فعال' : ($status === 'expired' ? 'منتهي' : $status ?? 'لا يوجد اشتراك');
+        $trainingCount = $player->trainingPlans->count();
+        $dietCount = $player->dietPlans->count();
     @endphp
 
     <div class="dashboard-wrapper player-profile">
 
-        {{-- ===== بطاقة اللاعب ===== --}}
         <div class="panel hero-card">
             <div class="hero-glow"></div>
             <div class="hero-main">
@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="hero-info">
-                    <span class="hero-eyebrow">ملف اللاعب</span>
+                    <span class="hero-eyebrow">ملف اللاعب الإحترافي</span>
                     <h2 class="hero-name">{{ $player->name }}</h2>
 
                     <div class="hero-meta">
@@ -30,38 +30,38 @@
                             <span class="chip-dot"></span>{{ $statusLabel }}
                         </span>
                         <span class="meta-pill">
+                            <i class="fas fa-layer-group"></i>
+                            المستوى: <span
+                                style="text-transform: capitalize; color: var(--gold); margin-right: 3px;">{{ $player->level ?? 'لم يحدد' }}</span>
+                        </span>
+                        <span class="meta-pill">
                             <i class="fas fa-calendar-day"></i>
-                            انضمّ في {{ $player->created_at->format('Y-m-d') }}
+                            انضم في {{ $player->created_at->format('Y-m-d') }}
                         </span>
                         <span class="meta-pill">
                             <i class="fas fa-dumbbell"></i>
-                            {{ $plansCount }} خطة تدريبية
+                            {{ $trainingCount }} تمارين
+                        </span>
+                        <span class="meta-pill">
+                            <i class="fas fa-apple-alt"></i>
+                            {{ $dietCount }} تغذية
                         </span>
                     </div>
-                </div>
-
-                <div class="hero-action">
-                    <a href="{{ route('employee.training.create', $player->id) }}"
-                        class="action-btn btn-solid add-plan-btn">
-                        <i class="fas fa-plus"></i>
-                        <span>إضافة خطة تدريبية</span>
-                    </a>
                 </div>
             </div>
         </div>
 
-        {{-- ===== سجل الخطط ===== --}}
-        <div class="panel plans-panel">
+        <div class="panel plans-panel" style="margin-bottom: 25px;">
             <div class="panel-head plans-head">
-                <h3><i class="fas fa-clipboard-list"></i> سجل الخطط التدريبية</h3>
-                <span class="count-badge">{{ $plansCount }}</span>
+                <h3><i class="fas fa-dumbbell"></i> سجل الخطط التدريبية والأتمتة</h3>
+                <span class="count-badge">{{ $trainingCount }}</span>
             </div>
 
             <div class="table-wrap">
                 <table class="members-table plans-table">
                     <thead>
                         <tr>
-                            <th>تفاصيل الخطة</th>
+                            <th>تفاصيل الخطة التدريبية</th>
                             <th class="col-date">تبدأ من</th>
                             <th class="col-date">تنتهي في</th>
                         </tr>
@@ -91,12 +91,66 @@
                                 <td colspan="3">
                                     <div class="empty-state">
                                         <div class="empty-icon"><i class="fas fa-dumbbell"></i></div>
-                                        <p class="empty-title">لا توجد خطط تدريبية بعد</p>
-                                        <p class="empty-sub">ابدأ بإضافة أول خطة تدريبية لهذا اللاعب</p>
-                                        <a href="{{ route('employee.training.create', $player->id) }}"
-                                            class="action-btn btn-solid add-plan-btn">
-                                            <i class="fas fa-plus"></i><span>إضافة خطة الآن</span>
-                                        </a>
+                                        <p class="empty-title">لا توجد خطط تدريبية منسوخة</p>
+                                        <p class="empty-sub">قم بتطبيق أتمتة المستوى من لوحة التحكم لتوليد التمارين تلقائياً
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel plans-panel">
+            <div class="panel-head plans-head" style="border-bottom: 1px solid rgba(74, 222, 128, 0.12);">
+                <h3><i class="fas fa-apple-alt" style="color: #4ade80;"></i> سجل الأنظمة والخطط الغذائية</h3>
+                <span class="count-badge"
+                    style="color: #4ade80; background: rgba(56, 161, 105, 0.16);">{{ $dietCount }}</span>
+            </div>
+
+            <div class="table-wrap">
+                <table class="members-table plans-table">
+                    <thead>
+                        <tr>
+                            <th>تفاصيل البرنامج الغذائي والسعرات</th>
+                            <th class="col-date">تبدأ من</th>
+                            <th class="col-date">تنتهي في</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($player->dietPlans as $diet)
+                            <tr>
+                                <td>
+                                    <div class="plan-cell">
+                                        <span class="plan-icon"
+                                            style="color: #4ade80; background: rgba(56, 161, 105, 0.16);"><i
+                                                class="fas fa-apple-alt"></i></span>
+                                        <span class="plan-text">{{ $diet->plan_details }}</span>
+                                    </div>
+                                </td>
+                                <td class="col-date">
+                                    <span class="date-pill start">
+                                        <i class="fas fa-play"></i>{{ $diet->start_date }}
+                                    </span>
+                                </td>
+                                <td class="col-date">
+                                    <span class="date-pill end">
+                                        <i class="fas fa-flag-checkered"></i>{{ $diet->end_date }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3">
+                                    <div class="empty-state">
+                                        <div class="empty-icon"
+                                            style="color: #4ade80; background: rgba(56, 161, 105, 0.16);"><i
+                                                class="fas fa-utensils"></i></div>
+                                        <p class="empty-title">لا توجد برامج غذائية منسوخة</p>
+                                        <p class="empty-sub">قم بتطبيق أتمتة المستوى من لوحة التحكم لتوليد السعرات والوجبات
+                                            تلقائياً</p>
                                     </div>
                                 </td>
                             </tr>
@@ -123,7 +177,6 @@
             font-family: 'Tajawal', sans-serif;
         }
 
-        /* تحريك دخول لطيف */
         .player-profile .panel {
             opacity: 0;
             transform: translateY(14px);
@@ -145,16 +198,13 @@
             }
         }
 
-        /* ===== بطاقة اللاعب ===== */
         .hero-card {
             position: relative;
             overflow: hidden;
             margin-bottom: 22px;
             border: 1px solid var(--gold-line);
             border-radius: 18px;
-            background:
-                radial-gradient(120% 140% at 100% 0%, rgba(201, 169, 97, 0.10), transparent 45%),
-                var(--surface);
+            background: radial-gradient(120% 140% at 100% 0%, rgba(201, 169, 97, 0.10), transparent 45%), var(--surface);
         }
 
         .hero-glow {
@@ -238,11 +288,6 @@
             font-size: 12px;
         }
 
-        .hero-action {
-            margin-inline-start: auto;
-        }
-
-        /* ===== شريحة الحالة ===== */
         .status-chip {
             display: inline-flex;
             align-items: center;
@@ -259,17 +304,12 @@
             height: 8px;
             border-radius: 50%;
             background: currentColor;
-            box-shadow: 0 0 0 0 currentColor;
         }
 
         .status-chip.active {
             color: #4ade80;
             background: rgba(56, 161, 105, 0.16);
             border: 1px solid rgba(56, 161, 105, 0.35);
-        }
-
-        .status-chip.active .chip-dot {
-            animation: pulse 1.8s infinite;
         }
 
         .status-chip.expired {
@@ -284,43 +324,6 @@
             border: 1px solid rgba(113, 128, 150, 0.3);
         }
 
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
-            }
-
-            70% {
-                box-shadow: 0 0 0 7px rgba(74, 222, 128, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
-            }
-        }
-
-        /* ===== زر الإضافة ===== */
-        .add-plan-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            padding: 12px 22px;
-            font-size: 14px;
-            font-weight: 700;
-            border-radius: 12px;
-            color: #1c1f27 !important;
-            background: linear-gradient(135deg, #e7cd8e, #c9a961);
-            border: none;
-            text-decoration: none;
-            transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-        }
-
-        .add-plan-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(201, 169, 97, 0.3);
-            filter: brightness(1.04);
-        }
-
-        /* ===== لوحة الخطط ===== */
         .plans-panel {
             border-radius: 18px;
             overflow: hidden;
@@ -344,10 +347,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .plans-head h3 i {
-            color: var(--gold);
         }
 
         .count-badge {
@@ -377,9 +376,7 @@
             text-align: right;
             font-size: 12px;
             font-weight: 700;
-            letter-spacing: .3px;
             color: var(--muted);
-            text-transform: uppercase;
             background: rgba(255, 255, 255, 0.02);
             border-bottom: 1px solid var(--gold-soft);
         }
@@ -390,10 +387,6 @@
             color: var(--text);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             vertical-align: middle;
-        }
-
-        .plans-table tbody tr {
-            transition: background .18s ease;
         }
 
         .plans-table tbody tr:hover {
@@ -440,12 +433,8 @@
             font-size: 12.5px;
             font-weight: 600;
             border-radius: 8px;
-            color: var(--muted);
             background: var(--surface-2);
-        }
-
-        .date-pill i {
-            font-size: 10px;
+            color: var(--muted);
         }
 
         .date-pill.start i {
@@ -456,7 +445,6 @@
             color: #f87171;
         }
 
-        /* ===== حالة فارغة ===== */
         .empty-state {
             text-align: center;
             padding: 46px 20px;
@@ -482,24 +470,14 @@
         }
 
         .empty-sub {
-            margin: 0 0 18px;
+            margin: 0 0 4px;
             font-size: 13px;
             color: var(--muted);
         }
 
-        /* ===== استجابة الشاشات الصغيرة ===== */
         @media (max-width: 640px) {
             .hero-main {
                 padding: 22px;
-            }
-
-            .hero-action {
-                width: 100%;
-            }
-
-            .add-plan-btn {
-                width: 100%;
-                justify-content: center;
             }
 
             .hero-name {
