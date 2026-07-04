@@ -9,35 +9,34 @@ use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
-    
- public function index()
+    public function index()
     {
         $memberships = Membership::with('player')->latest()->paginate(15);
-        return view('Admin.Subscriptions.index',[
+        return view('Admin.Subscriptions.index', [
             'memberships' => $memberships
         ]);
     }
 
     // تجديد اشتراك موجود
-public function renew(Request $request, $id)
-{
-    $membership = Membership::findOrFail($id);
-    
-    $duration = 1; 
-    if (str_contains($membership->plan_name, 'ربع سنوي')) {
-        $duration = 3;
-    } elseif (str_contains($membership->plan_name, 'سنوي')) {
-        $duration = 12;
+    public function renew(Request $request, $id)
+    {
+        $membership = Membership::findOrFail($id);
+
+        $duration = 1;
+        if (str_contains($membership->plan_name, 'ربع سنوي')) {
+            $duration = 3;
+        } elseif (str_contains($membership->plan_name, 'سنوي')) {
+            $duration = 12;
+        }
+
+        $membership->update([
+            'start_date' => \Carbon\Carbon::now(),
+            'end_date'   => \Carbon\Carbon::now()->addMonths($duration),
+            'status'     => 'active'
+        ]);
+
+        return back()->with('success', 'تم تجديد الاشتراك بنجاح لنوع: ' . $membership->plan_name);
     }
-
-    $membership->update([
-        'start_date' => \Carbon\Carbon::now(),
-        'end_date'   => \Carbon\Carbon::now()->addMonths($duration),
-        'status'     => 'active'
-    ]);
-
-    return back()->with('success', 'تم تجديد الاشتراك بنجاح لنوع: ' . $membership->plan_name);
-}
 
     public function store(Request $request)
     {
@@ -56,5 +55,26 @@ public function renew(Request $request, $id)
         ]);
 
         return back()->with('success', 'تم إضافة الاشتراك بنجاح');
+    }
+
+    // ==========================================
+    // التابع الجديد: إلغاء وتفعيل اشتراك اللاعب من الأدمن
+    // ==========================================
+    public function toggleStatus($id)
+    {
+        $membership = Membership::findOrFail($id);
+
+        // تبديل الحالة تلقائياً
+        $newStatus = $membership->status === 'active' ? 'expired' : 'active';
+
+        $membership->update([
+            'status' => $newStatus
+        ]);
+
+        $message = $newStatus === 'expired'
+            ? 'تم إلغاء تفعيل اشتراك اللاعب بنجاح وتجميد صلاحياته.'
+            : 'تم إعادة تفعيل اشتراك اللاعب بنجاح.';
+
+        return back()->with('success', $message);
     }
 }

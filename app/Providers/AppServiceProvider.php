@@ -55,4 +55,5 @@ class AppServiceProvider extends ServiceProvider
         // add policy for role
         Gate::policy(Role::class, RolePolicy::class);
     }
+ 
 }

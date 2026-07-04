@@ -7,20 +7,44 @@ use App\Http\Controllers\Employee\DietPlanController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:employee')->group(function () {
-    // لوحة التحكم الرئيسية
+
+    // ==========================================
+    // 1. لوحة التحكم الرئيسية للمدرب (Dashboard) والـ Toggle
+    // ==========================================
     Route::get('employee/dashboard', [DashboardController::class, 'index'])->name('employee.dashboard');
 
-    // مراقبة اللاعبين والتحكم الفردي وتطبيق الأتمتة الفورية
+    // 🎯 المسار التفاعلي الجديد للبصمة (حضور / انصراف) عند المدرب
+    Route::post('employee/attendance/toggle', [DashboardController::class, 'toggleAttendance'])->name('employee.dashboard.attendance.toggle');
+
+
+    // ==========================================
+    // 2. مراقبة اللاعبين والأتمتة الحية للمستويات
+    // ==========================================
     Route::get('employee/monitoring', [PlayerMonitorController::class, 'index'])->name('employee.monitoring');
     Route::get('employee/monitoring/{id}', [PlayerMonitorController::class, 'show'])->name('employee.monitoring.show');
     Route::post('employee/monitoring/{playerId}/assign-level', [PlayerMonitorController::class, 'assignLevel'])->name('employee.monitoring.assign-level');
 
-    // بنك الخطط التدريبية (مستوى مخصص لكل خطة داخل القسم)
+
+    // ==========================================
+    // 3. الإضافات الحصرية (المخصصة للاعب معين مباشرة من ملفه)
+    // ==========================================
+    Route::post('employee/monitoring/{playerId}/custom-training', [PlayerMonitorController::class, 'storeCustomTraining'])->name('employee.monitoring.custom-training');
+    Route::post('employee/monitoring/{playerId}/custom-diet', [PlayerMonitorController::class, 'storeCustomDiet'])->name('employee.monitoring.custom-diet');
+    Route::post('employee/monitoring/{playerId}/rate', [PlayerMonitorController::class, 'storeRating'])->name('employee.monitoring.store-rating');
+    Route::post('employee/monitoring/{playerId}/custom-progress', [PlayerMonitorController::class, 'storeCustomProgress'])->name('employee.monitoring.custom-progress');
+
+
+    // ==========================================
+    // 4. بنك الخطط التدريبية العامة (مستوى مخصص لكل خطة)
+    // ==========================================
     Route::get('employee/training-bank', [TrainingPlanController::class, 'index'])->name('employee.training.bank');
     Route::post('employee/training-bank/store', [TrainingPlanController::class, 'store'])->name('employee.training.bank.store');
     Route::delete('employee/training-bank/{id}', [TrainingPlanController::class, 'destroy'])->name('employee.training.bank.destroy');
 
-    // بنك الوجبات والخطط الغذائية (مستوى مخصص لكل وجبة داخل القسم)
+
+    // ==========================================
+    // 5. بنك الوجبات والخطط الغذائية العامة (مستوى مخصص لكل وجبة)
+    // ==========================================
     Route::get('employee/diet-bank', [DietPlanController::class, 'index'])->name('employee.diet.bank');
     Route::post('employee/diet-bank/store', [DietPlanController::class, 'store'])->name('employee.diet.bank.store');
     Route::delete('employee/diet-bank/{id}', [DietPlanController::class, 'destroy'])->name('employee.diet.bank.destroy');

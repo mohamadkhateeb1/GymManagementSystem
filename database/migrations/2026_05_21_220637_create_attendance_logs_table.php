@@ -11,13 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
+    
         Schema::create('attendance_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('player_id')->constrained('players')->cascadeOnDelete();
+            
+            // ربط السجل باللاعب (يكون null إذا كان المدرب هو من سجل حضور)
+            $table->foreignId('player_id')->nullable()->constrained('players')->cascadeOnDelete();
+            
+            // ربط السجل بالمدرب/الموظف (يكون null إذا كان اللاعب هو من سجل حضور)
+            $table->foreignId('employee_id')->nullable()->constrained('employees')->cascadeOnDelete();
+            
+            // تحديد نوع الحضور برمجياً لسهولة الفلترة
+            $table->enum('attendance_type', ['player', 'coach'])->default('player');
+            
             $table->timestamp('check_in_time')->nullable();
             $table->timestamp('check_out_time')->nullable();
+            
             $table->timestamps();
         });
+    
     }
 
     /**

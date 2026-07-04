@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Employee;
+use App\Models\Player;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,5 +20,6 @@ class EmployeeSeeder extends Seeder
             'password' => bcrypt('password'),
             'specialization' => 'Software Engineer',
         ]);
+    
     }
 }

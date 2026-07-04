@@ -1,14 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminEmployeeAttendanceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PlayerController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
-
 
 Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
 
@@ -26,7 +25,6 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'destroy' => 'admin.roles.delete',
     ]);
 
-
     // admins
     Route::resource('admins', AdminController::class)->names([
         'index' => 'admins.index',
@@ -36,7 +34,6 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'update' => 'admins.update',
         'destroy' => 'admins.destroy',
         'show' => 'admins.show',
-
     ]);
     Route::delete('/admin/destroy-all', [AdminController::class, 'destroy_all'])->name('admins.destroy_all');
 
@@ -62,8 +59,24 @@ Route::prefix('admin')->middleware(['auth:admin'])->group(function () {
         'destroy' => 'players.destroy',
     ]);
     Route::delete('/player/destroy-all', [PlayerController::class, 'destroy_all'])->name('players.destroyAll');
+
+
+
     // subscriptions
     Route::get('/subscriptions', [SubscriptionsController::class, 'index'])->name('subscriptions.index');
     Route::get('/subscriptions/renew/{id}', [SubscriptionsController::class, 'renew'])->name('subscriptions.renew');
-Route::post('/subscriptions/renew/{id}', [SubscriptionsController::class, 'renew'])->name('subscriptions.renew');
-Route::post('/subscriptions/store', [SubscriptionsController::class, 'store'])->name('subscriptions.store');});
+    Route::post('/subscriptions/renew/{id}', [SubscriptionsController::class, 'renew'])->name('subscriptions.renew');
+    Route::post('/subscriptions/store', [SubscriptionsController::class, 'store'])->name('subscriptions.store');
+    Route::post('/subscriptions/{id}/toggle', [SubscriptionsController::class, 'toggleStatus'])->name('admin.subscriptions.toggle');
+
+
+
+
+    // 📊 تقارير حضور وانصراف الموظفين (خاصة بالمدير)
+    Route::prefix('attendance/employees')->name('admin.attendance.employees.')->group(function () {
+        Route::get('/', [AdminEmployeeAttendanceController::class, 'index'])->name('index');
+        Route::post('/store', [AdminEmployeeAttendanceController::class, 'storeManualAttendance'])->name('store');
+        Route::put('/update/{id}', [AdminEmployeeAttendanceController::class, 'updateAttendance'])->name('update');
+        Route::delete('/destroy/{id}', [AdminEmployeeAttendanceController::class, 'destroyAttendance'])->name('destroy');
+    });
+});

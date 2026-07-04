@@ -31,11 +31,11 @@ return [
                 'active_pattern' => 'players.*',
             ],
             [
-                'label' => 'التقارير المالية',
-                'icon' => 'fas fa-chart-line',
-                'route' => 'admin.subscriptions.index',
-                'ability' => 'financials.view',
-                'active_pattern' => 'admin.subscriptions.*',
+                'label' => 'تقارير الحضور',
+                'icon' => 'fas fa-calendar-check',
+                'route' => 'admin.attendance.employees.index',
+                // 'ability' => 'financials.view',
+                'active_pattern' => 'admin.attendance.*',
             ]
         ]
     ],

@@ -39,4 +39,11 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(Player::class, 'coach_id');
     }
+    public function playersProgress() {
+    return $this->hasManyThrough(BodyProgress::class, Player::class, 'coach_id', 'player_id');
+}
+public function attendanceLogs()
+{
+    return $this->hasMany(EmployeeAttendanceLog::class, 'employee_id')->latest();
+}
 }

@@ -21,7 +21,7 @@ class Player extends Authenticatable
         'phone',
         'coach_id',
         'level', // إضافة حقل المستوى
-
+        
     ];
 
     protected $hidden = [
@@ -57,4 +57,21 @@ class Player extends Authenticatable
         // بنستخدم hasOne بما أن الاشتراك الواحد غالباً مرتبط بحالة اللاعب الحالية
         return $this->hasOne(Membership::class);
     }
+  /**
+ * علاقة اللاعب بجدول التقييمات والمراجعات
+ */
+public function ratings()
+{
+    // هنا نخبر لارافيل أن جدول العلاقة هو player_ratings صراحة لمنع أي تخمين خاطئ
+    return $this->hasMany(Rating::class, 'player_id');
+}
+    public function bodyProgress() {
+    return $this->hasMany(BodyProgress::class, 'player_id');
+}
+// دالة للحصول على أحدث سجل تقدم جسدي للاعب
+ 
+public function latestBodyProgress()
+{
+    return $this->hasOne(BodyProgress::class, 'player_id')->latestOfMany();
+}
 }

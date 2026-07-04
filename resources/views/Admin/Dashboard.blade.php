@@ -360,6 +360,16 @@
             color: #0a0d14;
         }
 
+        .btn-red {
+            border-color: #c55a5a;
+            color: #c55a5a;
+        }
+
+        .btn-red:hover {
+            background: #c55a5a;
+            color: #fff;
+        }
+
         /* ===== الشارات ===== */
         .status-chip {
             display: inline-flex;
@@ -438,6 +448,10 @@
 
 @section('content')
     <div class="dashboard-wrapper">
+        <div style="margin-bottom: 16px;">
+            <x-flash-message />
+        </div>
+
         {{-- ===== كاردات مؤشرات الأداء ===== --}}
         <div class="kpi-grid">
             <div class="kpi-card" style="--kpi-color:#c9a961;">
@@ -534,21 +548,19 @@
             </div>
         </div>
 
-        {{-- ===== لوحة إدارة اللاعبين ===== --}}
+        {{-- ===== لوحة إدارة اللاعبين واختصارات التجميد الفوري ===== --}}
         <div class="panel">
             <div class="panel-head">
                 <h3>إدارة اللاعبين والاشتراكات</h3>
             </div>
             <div class="filter-bar">
                 <form action="{{ route('admin.dashboard') }}" method="GET" class="filter-form">
-                    {{-- بحث بالاسم --}}
                     <div>
                         <label class="field-label">بحث بالاسم</label>
                         <input type="text" name="name" class="field-input" value="{{ request('name') }}"
                             placeholder="اسم اللاعب...">
                     </div>
 
-                    {{-- فلترة المدرب --}}
                     <div>
                         <label class="field-label">فلترة حسب المدرب</label>
                         <select name="coach_id" class="field-input">
@@ -560,7 +572,6 @@
                         </select>
                     </div>
 
-                    {{-- فلترة حالة الاشتراك --}}
                     <div>
                         <label class="field-label">حالة الاشتراك</label>
                         <select name="subscription_status" class="field-input">
@@ -578,6 +589,7 @@
                     </div>
                 </form>
             </div>
+
             <table class="members-table">
                 <thead>
                     <tr>
@@ -585,7 +597,7 @@
                         <th>نوع الاشتراك</th>
                         <th>تاريخ الانتهاء</th>
                         <th>الحالة</th>
-                        <th>إجراءات</th>
+                        <th style="width: 25%; text-align: center;">إجراءات الاشتراك والتحكم</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -598,20 +610,40 @@
                             <td>
                                 @if ($player->subscription)
                                     <span
-                                        class="status-chip {{ $player->subscription->isExpired() ? 'expired' : 'active' }}">
-                                        {{ $player->subscription->isExpired() ? 'منتهي' : 'فعال' }}
+                                        class="status-chip {{ $player->subscription->status == 'active' ? 'active' : 'expired' }}">
+                                        {{ $player->subscription->status == 'active' ? 'فعال' : 'منتهي/مجمد' }}
                                     </span>
                                 @else
                                     <span class="status-chip none">لا يوجد</span>
                                 @endif
                             </td>
-                            <td>
-                                @if ($player->subscription)
-                                    <a href="{{ route('subscriptions.renew', $player->subscription->id) }}"
-                                        class="action-btn btn-green">تجديد</a>
-                                @else
-                                    <a href="#" class="action-btn btn-green">اشتراك جديد</a>
-                                @endif
+                            <td style="text-align: center;">
+                                <div style="display: flex; gap: 6px; justify-content: center;">
+                                    @if ($player->subscription)
+                                        <a href="{{ route('subscriptions.renew', $player->subscription->id) }}"
+                                            class="action-btn btn-green">تجديد</a>
+
+                                        <form
+                                            action="{{ route('admin.subscriptions.toggle', $player->subscription->id) }}"
+                                            method="POST" style="display: inline;">
+                                            @csrf
+                                            @if ($player->subscription->status === 'active')
+                                                <button type="submit" class="action-btn btn-red"
+                                                    onclick="return confirm('هل أنت متأكد من إلغاء تفعيل اشتراك هذا اللاعب وتجميد صلاحياته الفورية؟')">
+                                                    <i class="fas fa-user-slash" style="margin-left: 4px;"></i> إلغاء
+                                                    التفعيل
+                                                </button>
+                                            @else
+                                                <button type="submit" class="action-btn btn-green">
+                                                    <i class="fas fa-user-check" style="margin-left: 4px;"></i> تفعيل
+                                                    الاشتراك
+                                                </button>
+                                            @endif
+                                        </form>
+                                    @else
+                                        <a href="#" class="action-btn btn-green">اشتراك جديد</a>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty

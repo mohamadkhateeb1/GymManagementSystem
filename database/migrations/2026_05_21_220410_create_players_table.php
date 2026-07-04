@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('weight', 5, 2)->nullable();
             $table->text('phone')->nullable();
             $table->string('level')->nullable(); // إضافة حقل المستوى
+            $table->enum('status', ['active', 'inactive'])->default('active');
             
             $table->timestamps();
         });
