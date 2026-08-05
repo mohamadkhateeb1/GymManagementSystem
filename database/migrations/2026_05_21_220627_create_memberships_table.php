@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         //هذا جدول الاشتراكات بين اللاعبين والنوادي
-       Schema::create('memberships', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('player_id')->constrained('players')->cascadeOnDelete();
-    $table->string('plan_name'); // إضافة اسم الخطة (مثلاً: شهري، سنوي)
-    $table->date('start_date');
-    $table->date('end_date');
-    $table->enum('status', ['active', 'expired', 'pending'])->default('pending'); // التعديل للحالات المذكورة في التوثيق
-    $table->timestamps();
-});
+        Schema::create('memberships', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('player_id')->constrained('players')->cascadeOnDelete();
+            $table->string('plan_name'); // إضافة اسم الخطة (مثلاً: شهري، سنوي)
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->enum('status', ['active', 'expired', 'pending'])->default('pending'); // التعديل للحالات المذكورة في التوثيق
+            $table->timestamps();
+        });
     }
 
     /**

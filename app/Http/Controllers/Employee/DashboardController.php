@@ -63,7 +63,7 @@ class DashboardController extends Controller
             ->where('attendance_date', $today)
             ->first();
 
-        // 🟢 الضغطة الأولى: لا يوجد سجل اليوم -> تسجيل دخول فوراً
+        //  الضغطة الأولى: لا يوجد سجل اليوم -> تسجيل دخول فوراً
         if (!$attendance) {
             $status = ($now->hour >= 9) ? 'late' : 'present';
 

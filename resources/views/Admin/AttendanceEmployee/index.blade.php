@@ -432,7 +432,8 @@
                                         @endphp
                                         @if ($log->status == 'forget_check_out')
                                             <span style="color: var(--muted); font-size: 13px; font-weight: 500;">غير دقيقة
-                                                (نسي الخروج)</span>
+                                                (نسي الخروج)
+                                            </span>
                                         @else
                                             <span style="color: var(--blue-vip);">{{ $hours }} ساعة و
                                                 {{ $minutes }} دقيقة</span>
