@@ -22,22 +22,54 @@
             background: rgba(90, 156, 122, 0.1);
             color: #5a9c7a;
             border: 1px solid rgba(90, 156, 122, 0.3);
-            padding: 10px 16px;
+            padding: 8px 14px;
             border-radius: 8px;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-green:hover {
+            background: #5a9c7a;
+            color: #fff;
+        }
+
+        /* 🎯 زر إدارة تمارين الخطة المخصص باللون الذهبي */
+        .btn-gold-action {
+            background: rgba(201, 169, 97, 0.12);
+            color: var(--gold);
+            border: 1px solid rgba(201, 169, 97, 0.3);
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-gold-action:hover {
+            background: linear-gradient(135deg, #e7cd8e, #c9a961);
+            color: #1c1f27;
         }
 
         .btn-delete {
             background: rgba(197, 90, 90, 0.1);
             color: #c55a5a;
             border: 1px solid rgba(197, 90, 90, 0.2);
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
+            font-weight: 600;
             transition: all 0.2s;
         }
 
@@ -58,29 +90,28 @@
             color: var(--muted);
             border-bottom: 1px solid var(--gold-soft);
             background: rgba(255, 255, 255, 0.01);
+            font-size: 14px;
         }
 
         .members-table td {
-            padding: 15px;
+            padding: 14px 15px;
             border-bottom: 1px solid rgba(201, 169, 97, 0.06);
             color: var(--text);
             vertical-align: middle;
+            font-size: 14px;
         }
 
-        /* شارات تصفية المستويات داخل الجدول */
         .level-chip {
             display: inline-block;
             padding: 4px 10px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 700;
-            text-transform: capitalize;
             background: rgba(201, 169, 97, 0.15);
             color: var(--gold);
             border: 1px solid rgba(201, 169, 97, 0.25);
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -100,7 +131,7 @@
             background: var(--surface);
             border: 1px solid var(--gold-line);
             width: 100%;
-            max-width: 550px;
+            max-width: 500px;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -112,6 +143,7 @@
                 transform: translateY(-15px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -142,7 +174,7 @@
             font-weight: bold;
             line-height: 1;
         }
-        
+
         .close-modal:hover {
             color: #fff;
         }
@@ -174,7 +206,7 @@
             outline: none;
             box-sizing: border-box;
         }
-        
+
         .field-input:focus {
             border-color: var(--gold);
         }
@@ -194,54 +226,80 @@
 @endsection
 
 @section('content')
+
     <div class="dashboard-wrapper bank-container">
         <!-- هيدر القسم -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2 style="color: #fff; margin: 0;"><i class="fas fa-dumbbell" style="color: var(--gold); margin-left: 8px;"></i>
                 بنك الخطط التدريبية العامة</h2>
-            <button class="btn-green" onclick="openAddModal()"><i class="fas fa-plus"></i> إضافة خطة جديدة للبنك</button>
+            <button class="btn-green" style="padding: 10px 16px; font-size: 14px;" onclick="openAddModal()">
+                <i class="fas fa-plus"></i> إضافة خطة جديدة للبنك
+            </button>
         </div>
 
-        <!-- جدول الخطط المتاحة بالبنك -->
+        <!-- 🎯 جدول بيانات الخطط المخصص (بدون صور وتفاصيل) -->
         <div class="panel"
             style="background: var(--surface); border: 1px solid var(--gold-line); border-radius: 14px; overflow: hidden;">
             <table class="members-table">
                 <thead>
                     <tr>
-                        <th>تفاصيل الخطة التدريبية</th>
-                        <th style="width: 15%; text-align: center;">المستوى المستهدف</th>
+                        <th style="width: 40%;">اسم الخطة التدريبية</th>
+                        <th style="width: 20%; text-align: center;">المستوى المستهدف</th>
                         <th style="width: 15%; text-align: center;">تاريخ الإنشاء</th>
-                        <th style="width: 10%; text-align: center;">إجراءات</th>
+                        <th style="width: 25%; text-align: center;">إجراءات الخطة والتمارين</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($trainingPlans as $plan)
+                    @forelse($plans as $plan)
                         <tr>
-                            <td style="font-weight: 500; line-height: 1.6;">{{ $plan->plan_details }}</td>
-                            <td style="text-align: center;">
-                                <span class="level-chip">{{ $plan->level ?? 'لم يحدد' }}</span>
+                            <td style="font-weight: 700; color: var(--gold);">
+                                {{ $plan->title ?? 'خطة تدريبية عامة' }}
                             </td>
-                            <td style="text-align: center; color: var(--muted);">{{ $plan->created_at->format('Y-m-d') }}</td>
                             <td style="text-align: center;">
-                                <form action="{{ route('employee.training.bank.destroy', $plan->id) }}" method="POST"
-                                    onsubmit="return confirm('هل أنت متأكد من حذف هذه الخطة من البنك؟')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-delete"><i class="fas fa-trash"></i> حذف</button>
-                                </form>
+                                <span class="level-chip"><i class="fas fa-layer-group"></i>
+                                    {{ $plan->level ?? 'عام' }}</span>
+                            </td>
+                            <td style="text-align: center; color: var(--muted);">
+                                {{ $plan->created_at->format('Y-m-d') }}
+                            </td>
+                            <td style="text-align: center;">
+                                <div
+                                    style="display: flex; gap: 8px; justify-content: center; align-items: center; flex-wrap: nowrap;">
+                                    <!-- 🎯 زر إضافة وإدارة تمارين الخطة -->
+                                    <a href="{{ route('employee.training.exercises.index', $plan->id) }}"
+                                        class="btn-gold-action"
+                                        style="white-space: nowrap; padding: 6px 12px; font-size: 12px;">
+                                        <i class="fas fa-list-ol"></i> تمارين الخطة
+                                    </a>
+
+                                    <!-- زر حذف الخطة -->
+                                    <form action="{{ route('employee.training.bank.destroy', $plan->id) }}" method="POST"
+                                        onsubmit="return confirm('هل أنت متأكد من حذف هذه الخطة بالكامل من البنك؟')"
+                                        style="margin: 0; display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete"
+                                            style="white-space: nowrap; padding: 6px 12px; font-size: 12px;">
+                                            <i class="fas fa-trash"></i> حذف
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" style="text-align: center; padding: 30px; color: var(--muted);">البنك فارغ
-                                حالياً، ابدأ بإضافة خطتك التدريبية الأولى وتخصيص مستواها.</td>
+                            <td colspan="4" style="text-align: center; padding: 40px; color: var(--muted);">
+                                <i class="fas fa-dumbbell"
+                                    style="font-size: 32px; color: var(--gold); margin-bottom: 10px; display: block;"></i>
+                                البنك فارغ حالياً، ابدأ بإضافة خطتك التدريبية الأولى وتخصيص اسمها ومستواها.
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
 
-        {{-- ===== Modal إضافة خطة تمارين للبنك وتحديد المستوى تلقائياً ===== --}}
+        <!-- Modal إضافة خطة تمارين جديدة (اسم الخطة والمستوى فقط) -->
         <div id="addPlanModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -251,9 +309,14 @@
                 <form action="{{ route('employee.training.bank.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <!-- حقل تحديد المستوى المستهدف الجديد -->
-                        <div class="field-group" style="padding: 0 0 16px 0;">
-                            <label class="field-label">المستوى المستهدف لهذه الخطة</label>
+                        <div class="field-group">
+                            <label class="field-label">اسم الخطة التدريبية</label>
+                            <input type="text" name="title" class="field-input"
+                                placeholder="مثال: خطة تضخيم العضلات - شهر أول" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">المستوى المستهدف (الصنف)</label>
                             <select name="level" class="field-input" required>
                                 <option value="">-- اختر المستوى لتخصيص الخطة له تلقائياً --</option>
                                 <option value="beginner">Beginner (مبتدئ)</option>
@@ -262,11 +325,6 @@
                             </select>
                         </div>
 
-                        <div class="field-group" style="padding: 0 0 16px 0;">
-                            <label class="field-label">اكتب تفاصيل جدول التمارين والملاحظات</label>
-                            <textarea name="plan_details" class="field-input" rows="7"
-                                placeholder="مثال: يوم 1: صدر وتراي، يوم 2: ظهر وباي... اكتب تفاصيل المجموعات هنا..." required></textarea>
-                        </div>
                         <button type="submit" class="btn-submit">حفظ وتعميم الخطة بالبنك</button>
                     </div>
                 </form>

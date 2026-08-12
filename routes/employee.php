@@ -4,6 +4,7 @@ use App\Http\Controllers\Employee\DashboardController;
 use App\Http\Controllers\Employee\PlayerMonitorController;
 use App\Http\Controllers\Employee\TrainingPlanController;
 use App\Http\Controllers\Employee\DietPlanController;
+use App\Http\Controllers\Employee\PlanController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:employee')->group(function () {
@@ -40,6 +41,7 @@ Route::middleware('auth:employee')->group(function () {
     Route::get('employee/training-bank', [TrainingPlanController::class, 'index'])->name('employee.training.bank');
     Route::post('employee/training-bank/store', [TrainingPlanController::class, 'store'])->name('employee.training.bank.store');
     Route::delete('employee/training-bank/{id}', [TrainingPlanController::class, 'destroy'])->name('employee.training.bank.destroy');
+    Route::get('employee/training-bank/{id}', [TrainingPlanController::class, 'show'])->name('employee.training.bank.show');
 
 
     // ==========================================
@@ -48,4 +50,21 @@ Route::middleware('auth:employee')->group(function () {
     Route::get('employee/diet-bank', [DietPlanController::class, 'index'])->name('employee.diet.bank');
     Route::post('employee/diet-bank/store', [DietPlanController::class, 'store'])->name('employee.diet.bank.store');
     Route::delete('employee/diet-bank/{id}', [DietPlanController::class, 'destroy'])->name('employee.diet.bank.destroy');
+
+
+    // ==========================================
+    // 6. إدارة التمارين داخل كل خطة تدريبية
+    // ==========================================
+    Route::prefix('training-bank')->group(function () {
+        Route::get('/{planId}/exercises', [PlanController::class, 'index'])->name('employee.training.exercises.index');
+        Route::post('/{planId}/exercises', [PlanController::class, 'store'])->name('employee.training.exercises.store');
+        Route::delete('/exercises/{id}', [PlanController::class, 'destroy'])->name('employee.training.exercises.destroy');
+        // ==========================================
+        // 7. مكتبة التمارين العامة (للاطلاع على التمارين فقط، بدون تعديل)
+        // ==========================================
+        Route::prefix('exercise-library')->group(function () {
+            Route::get('/', [PlanController::class, 'library'])->name('employee.exercise.library');
+            Route::get('/{id}', [PlanController::class, 'showExercise'])->name('employee.exercise.show');
+        });
+    });
 });

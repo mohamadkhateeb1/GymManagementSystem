@@ -53,7 +53,6 @@
         letter-spacing: .5px;
         color: var(--muted);
         padding: 12px 12px 10px;
-        /* تظبيط البادينغ لتباعد أفضل */
         text-transform: uppercase;
     }
 
@@ -99,7 +98,6 @@
         content: "";
         position: absolute;
         inset-block-end: 0;
-        /* تم التعديل ليتناسب مع الاتجاه العربي والانزلاق */
         inset-inline-end: 0;
         top: 50%;
         transform: translateY(-50%);
@@ -186,7 +184,11 @@
                 <i class="fas fa-apple-alt"></i> بنك الوجبات الغذائية
             </a>
 
-       
+            <a href="{{ route('employee.exercise.library') }}"
+                class="nav-link {{ request()->routeIs('employee.exercise.library') ? 'active' : '' }}">
+                <i class="fas fa-clipboard-list"></i> مكتبة التمارين
+            </a>
+
             <div class="nav-section" style="margin-top: 15px;">الأمان</div>
 
             <a href="{{ route('employee.2fa') }}"

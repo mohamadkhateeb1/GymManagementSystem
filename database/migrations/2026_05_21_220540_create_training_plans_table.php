@@ -18,14 +18,15 @@ return new class extends Migration
             // حقل اللاعب nullable لأن الخطة تُخزن بالبنك أولاً كخطة عامة للمستوى
             $table->foreignId('player_id')->nullable()->constrained('players')->cascadeOnDelete();
 
-            // حقل المستوى المستهدف (beginner, intermediate, advanced)
+            // 🎯 اسم الخطة التدريبية
+            $table->string('title');
+
+            // 🎯 المستوى المستهدف (beginner, intermediate, advanced)
             $table->string('level')->nullable();
 
-            // تم تحويله إلى text ليستوعب تفاصيل الجداول والتمارين الطويلة بدون أخطاء مساحة
-            $table->text('plan_details');
-
-            $table->date('start_date');
-            $table->date('end_date');
+            // التواريخ
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }
