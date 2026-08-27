@@ -19,19 +19,16 @@
 
         <div class="attendance-luxury-zone">
             <div class="attendance-meta-info">
-                <div
-                    class="attendance-status-badge {{ $attendance ? (is_null($attendance->check_out_time) ? 'status-active' : 'status-done') : 'status-off' }}">
+                <div class="attendance-status-badge {{ $attendance ? 'status-done' : 'status-off' }}">
                     <span class="pulse-dot"></span>
                     @if (!$attendance)
                         لم يتم تسجيل الحضور اليوم
-                    @elseif($attendance && is_null($attendance->check_out_time))
-                        الوردية الزمنية جارية الآن ⏳
                     @else
-                        تم إنهاء الوردية بنجاح ✅
+                        تم تسجيل حضورك اليوم ✅
                     @endif
                 </div>
-                <h3><i class="fas fa-id-card-alt"></i> توثيق حضور وانصراف الكادر التدريبي</h3>
-                <p>يرجى تسجيل قيد الدخول عند بدء مهامك بالصالة، وقيد الانصراف عند المغادرة لحفظ ساعات العمل بدقة.</p>
+                <h3><i class="fas fa-id-card-alt"></i> توثيق حضور الكادر التدريبي</h3>
+                <p>يرجى تسجيل حضورك مرة واحدة عند بدء مهامك بالصالة.</p>
             </div>
 
             <div class="attendance-action-side">
@@ -41,27 +38,87 @@
                         <button type="submit" class="btn-luxury-attendance state-check-in">
                             <div class="inner-glow"></div>
                             <span class="icon-box"><i class="fas fa-fingerprint"></i></span>
-                            <span class="text-box">تسجيل الدخول للعمل <small>قيد الحضور</small></span>
-                        </button>
-                    @elseif($attendance && is_null($attendance->check_out_time))
-                        <button type="submit" class="btn-luxury-attendance state-check-out" id="btnCheckOut">
-                            <div class="inner-glow"></div>
-                            <span class="icon-box"><i class="fas fa-power-off"></i></span>
-                            <span class="text-box">تسجيل الانصراف <small>إنهاء الوردية</small></span>
+                            <span class="text-box">تسجيل الحضور <small>مرة واحدة يومياً</small></span>
                         </button>
                     @else
                         <div class="attendance-completed-card">
                             <div class="success-icon-wrap"><i class="fas fa-circle-check"></i></div>
                             <div class="completed-text">
-                                <h5>تم توثيق يوميتك بنجاح!</h5>
-                                <span>حضورك: {{ $attendance->check_in_time->format('H:i A') }} | انصرافك:
-                                    {{ $attendance->check_out_time->format('H:i A') }}</span>
+                                <h5>تم توثيق حضورك بنجاح!</h5>
+                                <span>وقت التسجيل: {{ $attendance->recorded_at->format('H:i A') }}</span>
                             </div>
                         </div>
                     @endif
                 </form>
             </div>
         </div>
+
+        {{-- 📞 متابعة اشتراكات لاعبيّ — منتهية/مجمّدة وقريبة الانتهاء، مع زر اتصال مباشر --}}
+        @if ($expiredPlayers->isNotEmpty() || $expiringSoonPlayers->isNotEmpty())
+            <div class="subs-watch-grid">
+                @if ($expiredPlayers->isNotEmpty())
+                    <div class="subs-watch-card danger">
+                        <div class="subs-watch-head">
+                            <i class="fas fa-circle-exclamation"></i>
+                            <span>اشتراكات منتهية / مجمّدة</span>
+                            <span class="subs-watch-count">{{ $expiredPlayers->count() }}</span>
+                        </div>
+                        <div class="subs-watch-list">
+                            @foreach ($expiredPlayers as $player)
+                                <div class="subs-watch-row">
+                                    <div class="subs-watch-info">
+                                        <span class="subs-watch-name">{{ $player->name }}</span>
+                                        <span class="subs-watch-date">
+                                            @if ($player->subscription)
+                                                انتهى:
+                                                {{ \Carbon\Carbon::parse($player->subscription->end_date)->format('Y-m-d') }}
+                                            @endif
+                                        </span>
+                                    </div>
+                                    @if ($player->phone)
+                                        <a href="whatsapp://send?phone={{ $player->phone }}" class="subs-watch-call">
+                                            <i class="fas fa-phone"></i> اتصال
+                                        </a>
+                                    @else
+                                        <span class="subs-watch-no-phone">لا يوجد رقم</span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                @if ($expiringSoonPlayers->isNotEmpty())
+                    <div class="subs-watch-card warning">
+                        <div class="subs-watch-head">
+                            <i class="fas fa-triangle-exclamation"></i>
+                            <span>تنتهي خلال 7 أيام</span>
+                            <span class="subs-watch-count">{{ $expiringSoonPlayers->count() }}</span>
+                        </div>
+                        <div class="subs-watch-list">
+                            @foreach ($expiringSoonPlayers as $player)
+                                <div class="subs-watch-row">
+                                    <div class="subs-watch-info">
+                                        <span class="subs-watch-name">{{ $player->name }}</span>
+                                        <span class="subs-watch-date">
+                                            ينتهي:
+                                            {{ \Carbon\Carbon::parse($player->subscription->end_date)->format('Y-m-d') }}
+                                        </span>
+                                    </div>
+                                    @if ($player->phone)
+                                        <a href="tel:{{ $player->phone }}" class="subs-watch-call">
+                                            <i class="fas fa-phone"></i> اتصال
+                                        </a>
+                                    @else
+                                        <span class="subs-watch-no-phone">لا يوجد رقم</span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endif
 
         <div class="stats-grid">
             <div class="stat-card">
@@ -450,6 +507,121 @@
             display: block;
         }
 
+        /* ===== 📞 كروت متابعة اشتراكات اللاعبين ===== */
+        .subs-watch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .subs-watch-card {
+            background: var(--surface);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .subs-watch-card.danger {
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+
+        .subs-watch-card.warning {
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+
+        .subs-watch-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .subs-watch-card.danger .subs-watch-head {
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .subs-watch-card.danger .subs-watch-head i {
+            color: #ef4444;
+        }
+
+        .subs-watch-card.warning .subs-watch-head {
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .subs-watch-card.warning .subs-watch-head i {
+            color: #f59e0b;
+        }
+
+        .subs-watch-count {
+            margin-inline-start: auto;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .subs-watch-list {
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .subs-watch-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .subs-watch-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .subs-watch-name {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .subs-watch-date {
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+
+        .subs-watch-call {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: 0.2s ease;
+        }
+
+        .subs-watch-call:hover {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .subs-watch-no-phone {
+            font-size: 11px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
         /* باقي التنسيقات والشبكة سليم 100% */
         .stats-grid {
             display: grid;
@@ -676,16 +848,6 @@
 
 @section('scripts')
     <script>
-        // 🛡️ نظام الحماية الصارم لحظر مغادرة المتصفح وإظهار تنبيه قسري عند بقاء الوردية جارية
-        @if ($attendance && is_null($attendance->check_out_time))
-            window.addEventListener('beforeunload', function(e) {
-                // كود إجباري لمعظم المتصفحات لإظهار نافذة الحظر وتنبيه المدرب
-                const confirmationMessage =
-                    'انتبه كابتن! لقد قمت بتسجيل حضورك والوردية التدريبية جارية الآن. يرجى الضغط أولاً على زر (تسجيل الانصراف) قبل مغادرة المتصفح لحفظ قيد ساعات العمل بحسابك.';
-
-                (e || window.event).returnValue = confirmationMessage;
-                return confirmationMessage;
-            });
-        @endif
+        // ℹ️ لا حاجة لتنبيه عند المغادرة بعد الآن — الحضور تسجيل يومي واحد بلا انصراف مرتبط بالمتصفح.
     </script>
 @endsection

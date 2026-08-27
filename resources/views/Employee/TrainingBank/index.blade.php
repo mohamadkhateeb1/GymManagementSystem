@@ -243,10 +243,10 @@
             <table class="members-table">
                 <thead>
                     <tr>
-                        <th style="width: 40%;">اسم الخطة التدريبية</th>
-                        <th style="width: 20%; text-align: center;">المستوى المستهدف</th>
-                        <th style="width: 15%; text-align: center;">تاريخ الإنشاء</th>
-                        <th style="width: 25%; text-align: center;">إجراءات الخطة والتمارين</th>
+                        <th style="width: 32%;">اسم الخطة التدريبية</th>
+                        <th style="width: 16%; text-align: center;">المستوى المستهدف</th>
+                        <th style="width: 14%; text-align: center;">تاريخ الإنشاء</th>
+                        <th style="width: 38%; text-align: center;">إجراءات الخطة والتمارين</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -254,6 +254,11 @@
                         <tr>
                             <td style="font-weight: 700; color: var(--gold);">
                                 {{ $plan->title ?? 'خطة تدريبية عامة' }}
+                                <span
+                                    style="display: block; margin-top: 4px; font-size: 11.5px; font-weight: 600; color: {{ $plan->exercises_count ? 'var(--muted)' : '#c55a5a' }};">
+                                    <i class="fas fa-list-ol"></i>
+                                    {{ $plan->exercises_count }} تمرين{{ $plan->exercises_count ? '' : ' — الخطة فارغة' }}
+                                </span>
                             </td>
                             <td style="text-align: center;">
                                 <span class="level-chip"><i class="fas fa-layer-group"></i>
@@ -271,6 +276,19 @@
                                         style="white-space: nowrap; padding: 6px 12px; font-size: 12px;">
                                         <i class="fas fa-list-ol"></i> تمارين الخطة
                                     </a>
+
+                                    <!-- 🚀 زر توزيع الخطة على لاعبي نفس المستوى -->
+                                    <form action="{{ route('employee.training.bank.distribute', $plan->id) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('سيتم توزيع الخطة وتمارينها على جميع لاعبي هذا المستوى، واستبدال أي نسخة قديمة لديهم. متابعة؟')"
+                                        style="margin: 0; display: inline-block;">
+                                        @csrf
+                                        <button type="submit" class="btn-green"
+                                            style="white-space: nowrap; padding: 6px 12px; font-size: 12px;"
+                                            @disabled(!$plan->exercises_count)>
+                                            <i class="fas fa-share-nodes"></i> توزيع
+                                        </button>
+                                    </form>
 
                                     <!-- زر حذف الخطة -->
                                     <form action="{{ route('employee.training.bank.destroy', $plan->id) }}" method="POST"

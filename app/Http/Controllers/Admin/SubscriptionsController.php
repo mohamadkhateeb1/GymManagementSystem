@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Membership;
+use App\Models\Player;
+use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,6 @@ class SubscriptionsController extends Controller
         ]);
     }
 
-    // تجديد اشتراك موجود
     public function renew(Request $request, $id)
     {
         $membership = Membership::findOrFail($id);
@@ -29,10 +30,22 @@ class SubscriptionsController extends Controller
             $duration = 12;
         }
 
+        $amount = optional($membership->planType)->price ?? $membership->price_paid ?? 0;
+
         $membership->update([
-            'start_date' => \Carbon\Carbon::now(),
-            'end_date'   => \Carbon\Carbon::now()->addMonths($duration),
-            'status'     => 'active'
+            'start_date'  => \Carbon\Carbon::now(),
+            'end_date'    => \Carbon\Carbon::now()->addMonths($duration),
+            'status'      => 'active',
+            'price_paid'  => $amount,
+        ]);
+
+        Payment::create([
+            'player_id'     => $membership->player_id,
+            'membership_id' => $membership->id,
+            'plan_type_id'  => $membership->plan_type_id,
+            'amount'        => $amount,
+            'type'          => 'renewal',
+            'paid_at'       => Carbon::now(),
         ]);
 
         return back()->with('success', 'تم تجديد الاشتراك بنجاح لنوع: ' . $membership->plan_name);
@@ -57,14 +70,10 @@ class SubscriptionsController extends Controller
         return back()->with('success', 'تم إضافة الاشتراك بنجاح');
     }
 
-    // ==========================================
-    // التابع الجديد: إلغاء وتفعيل اشتراك اللاعب من الأدمن
-    // ==========================================
     public function toggleStatus($id)
     {
         $membership = Membership::findOrFail($id);
 
-        // تبديل الحالة تلقائياً
         $newStatus = $membership->status === 'active' ? 'expired' : 'active';
 
         $membership->update([
@@ -74,6 +83,28 @@ class SubscriptionsController extends Controller
         $message = $newStatus === 'expired'
             ? 'تم إلغاء تفعيل اشتراك اللاعب بنجاح وتجميد صلاحياته.'
             : 'تم إعادة تفعيل اشتراك اللاعب بنجاح.';
+
+        return back()->with('success', $message);
+    }
+
+   
+    public function toggleByPlayer(Player $player)
+    {
+        $membership = $player->subscription;
+
+        if (! $membership) {
+            return back()->with('error', 'هذا اللاعب لا يملك اشتراكاً لتجميده أو تفعيله.');
+        }
+
+        $newStatus = $membership->status === 'active' ? 'expired' : 'active';
+
+        $membership->update([
+            'status' => $newStatus,
+        ]);
+
+        $message = $newStatus === 'expired'
+            ? 'تم إلغاء تفعيل اشتراك ' . $player->name . ' بنجاح وتجميد صلاحياته.'
+            : 'تم إعادة تفعيل اشتراك ' . $player->name . ' بنجاح.';
 
         return back()->with('success', $message);
     }

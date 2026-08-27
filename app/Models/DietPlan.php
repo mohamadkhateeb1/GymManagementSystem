@@ -15,6 +15,9 @@ class DietPlan extends Model
         'level',
         'meal_name',
         'calories',
+        'protein',
+        'carbs',
+        'fats',
         'image_path',   
     ];
 }

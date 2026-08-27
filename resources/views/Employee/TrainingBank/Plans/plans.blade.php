@@ -108,6 +108,23 @@
             border: 1px solid rgba(201, 169, 97, 0.2);
         }
 
+        .day-chip {
+            background: rgba(96, 165, 250, 0.12);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.25);
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .day-chip-empty {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--muted);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
         .btn-delete {
             background: rgba(197, 90, 90, 0.1);
             color: #c55a5a;
@@ -197,21 +214,23 @@
 @endsection
 
 @section('content')
-@if ($errors->any())
-    <div style="background: rgb(58, 28, 28); border: 1px solid #c55a5a; color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <ul style="margin: 0; padding-right: 20px;">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+    @if ($errors->any())
+        <div
+            style="background: rgb(58, 28, 28); border: 1px solid #c55a5a; color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <ul style="margin: 0; padding-right: 20px;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-@if (session('success'))
-    <div style="background: rgba(90, 156, 122, 0.2); border: 1px solid #5a9c7a; color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        {{ session('success') }}
-    </div>
-@endif
+    @if (session('success'))
+        <div
+            style="background: rgba(90, 156, 122, 0.2); border: 1px solid #5a9c7a; color: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="dashboard-wrapper ex-container">
         <!-- زر العودة -->
         <a href="{{ route('employee.training.bank') }}" class="back-btn">
@@ -243,11 +262,21 @@
                     @endif
 
                     <div class="ex-body">
-                        <h3 style="color: var(--gold); margin: 0 0 10px 0; font-size: 16px;">{{ $ex->name }}</h3>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px;">
+                            <h3 style="color: var(--gold); margin: 0; font-size: 16px;">{{ $ex->name }}</h3>
+                            <span class="day-chip {{ $ex->day_of_week ? '' : 'day-chip-empty' }}">
+                                <i class="fas fa-calendar-day"></i> {{ $ex->day_name }}
+                            </span>
+                        </div>
 
-                        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
                             <span class="badge-info"><i class="fas fa-redo"></i> {{ $ex->sets }} جولات</span>
                             <span class="badge-info"><i class="fas fa-sync-alt"></i> {{ $ex->reps }} تكرارات</span>
+                            @if ($ex->rest_time)
+                                <span class="badge-info"><i class="fas fa-hourglass-half"></i> راحة
+                                    {{ $ex->rest_time }}</span>
+                            @endif
                         </div>
 
                         @if ($ex->instructions)
@@ -299,25 +328,45 @@
                         <div class="field-group">
                             <label class="field-label">اسم التمرين</label>
                             <input type="text" name="name" class="field-input"
-                                placeholder="مثال: بنش برس مستوي بالبار" >
+                                placeholder="مثال: بنش برس مستوي بالبار">
                         </div>
 
                         <div style="display: flex; gap: 10px;">
                             <div class="field-group" style="flex: 1;">
                                 <label class="field-label">عدد الجولات (Sets)</label>
-                                <input type="number" name="sets" value="4" min="1" class="field-input"
-                                    >
+                                <input type="number" name="sets" value="4" min="1" class="field-input">
                             </div>
                             <div class="field-group" style="flex: 1;">
                                 <label class="field-label">عدد التكرارات (Reps)</label>
-                                <input type="number" name="reps" value="12" min="1" class="field-input"
-                                    >
+                                <input type="number" name="reps" value="12" min="1" class="field-input">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <div class="field-group" style="flex: 1;">
+                                <label class="field-label">مدة الراحة بين الجولات</label>
+                                <input type="text" name="rest_time" class="field-input" placeholder="مثال: 90 ثانية">
+                            </div>
+                            <div class="field-group" style="flex: 1;">
+                                <label class="field-label">ترتيب التمرين داخل اليوم</label>
+                                <input type="number" name="order" value="0" min="0" class="field-input">
                             </div>
                         </div>
 
                         <div class="field-group">
+                            <label class="field-label">يوم التمرين في الأسبوع</label>
+                            <select name="day_of_week" class="field-input">
+                                <option value="">-- غير محدد (تمرين حر) --</option>
+                                @foreach (\App\Models\Plan::DAYS as $num => $dayName)
+                                    <option value="{{ $num }}">{{ $dayName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="field-group">
                             <label class="field-label">شرح طريقة أداء التمرين والملاحظات</label>
-                            <textarea name="instructions" class="field-input" rows="4" placeholder="اكتب تعليمات التمرين والتركيز العضلي..."></textarea>
+                            <textarea name="instructions" class="field-input" rows="4"
+                                placeholder="اكتب تعليمات التمرين والتركيز العضلي..."></textarea>
                         </div>
 
                         <div class="field-group">

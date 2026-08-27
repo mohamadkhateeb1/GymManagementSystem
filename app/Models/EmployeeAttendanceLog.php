@@ -14,19 +14,15 @@ class EmployeeAttendanceLog extends Model
     protected $fillable = [
         'employee_id',
         'attendance_date',
-        'check_in_time',
-        'check_out_time',
+        'recorded_at',
         'status',
     ];
 
-    // حماية التواريخ لكي يتعامل معها لارافيل كـ Carbon Objects فوراً
     protected $casts = [
         'attendance_date' => 'date',
-        'check_in_time'   => 'datetime',
-        'check_out_time'  => 'datetime',
+        'recorded_at'      => 'datetime',
     ];
 
-    // 🔗 العلاقة: السجل ينتمي لموظف واحد محدد
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');

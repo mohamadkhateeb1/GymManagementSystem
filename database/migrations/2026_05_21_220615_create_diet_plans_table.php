@@ -23,6 +23,12 @@ return new class extends Migration
 
             $table->string('meal_name')->nullable(); // اسم الوجبة
             $table->integer('calories')->nullable();  // السعرات الحرارية
+
+            // 🍗 الماكروز الغذائية: اختيارية، يدخلها المدرب، وتصل جاهزة للتطبيق لاحقاً عبر الـ API
+            $table->decimal('protein', 6, 2)->nullable(); // بروتين بالغرام
+            $table->decimal('carbs', 6, 2)->nullable();   // كربوهيدرات بالغرام
+            $table->decimal('fats', 6, 2)->nullable();    // دهون بالغرام
+
             $table->string('image_path')->nullable(); // حقل الصورة الجديد
             $table->text('plan_details');            // المكونات والتفاصيل (Text)
 

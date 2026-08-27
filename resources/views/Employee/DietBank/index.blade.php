@@ -104,6 +104,8 @@
             align-items: center;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding-top: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .calories-badge {
@@ -114,6 +116,40 @@
             font-weight: 700;
             font-size: 13px;
             margin: 0 auto;
+        }
+
+        /* 🍗 شارات الماكروز الغذائية */
+        .macros-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .macro-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .macro-badge.protein {
+            background: rgba(96, 165, 250, 0.12);
+            color: #60a5fa;
+        }
+
+        .macro-badge.carbs {
+            background: rgba(234, 179, 8, 0.12);
+            color: #eab308;
+        }
+
+        .macro-badge.fats {
+            background: rgba(248, 113, 113, 0.12);
+            color: #f87171;
         }
 
         .level-badge {
@@ -203,6 +239,8 @@
 
         .modal-body {
             padding: 20px;
+            max-height: 75vh;
+            overflow-y: auto;
         }
 
         .field-group {
@@ -227,6 +265,22 @@
             font-family: 'Tajawal', sans-serif;
             outline: none;
             box-sizing: border-box;
+        }
+
+        .field-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .field-row .field-group {
+            flex: 1;
+        }
+
+        .field-hint {
+            display: block;
+            margin-top: 5px;
+            font-size: 11px;
+            color: var(--muted);
         }
 
         .btn-submit {
@@ -264,7 +318,7 @@
                     </form>
 
                     @if (!empty($diet->image_path))
-                        <img src="{{ asset($diet->image_path) }}" class="diet-card-image" alt="Meal Image">
+                        <img src="{{ asset('storage/' . $diet->image_path) }}" class="diet-card-image" alt="Meal Image">
                     @else
                         <div class="diet-card-image-placeholder">
                             <i class="fas fa-utensils"></i>
@@ -276,6 +330,22 @@
                         <p class="diet-card-desc">{{ $diet->plan_details }}</p>
 
                         <div class="diet-card-footer">
+                            @if ($diet->protein !== null || $diet->carbs !== null || $diet->fats !== null)
+                                <div class="macros-row">
+                                    @if ($diet->protein !== null)
+                                        <span class="macro-badge protein"><i class="fas fa-drumstick-bite"></i>
+                                            {{ $diet->protein }}غ بروتين</span>
+                                    @endif
+                                    @if ($diet->carbs !== null)
+                                        <span class="macro-badge carbs"><i class="fas fa-bread-slice"></i>
+                                            {{ $diet->carbs }}غ كارب</span>
+                                    @endif
+                                    @if ($diet->fats !== null)
+                                        <span class="macro-badge fats"><i class="fas fa-oil-can"></i>
+                                            {{ $diet->fats }}غ دهون</span>
+                                    @endif
+                                </div>
+                            @endif
                             <span class="calories-badge">سعرة {{ $diet->calories }}</span>
                         </div>
                     </div>
@@ -314,13 +384,35 @@
                             <label class="field-label">عدد السعرات الحرارية (Calories)</label>
                             <input type="number" name="calories" class="field-input" placeholder="مثال: 520" required>
                         </div>
+
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label class="field-label">بروتين (غ)</label>
+                                <input type="number" step="0.1" min="0" name="protein" class="field-input"
+                                    placeholder="مثال: 35">
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">كربوهيدرات (غ)</label>
+                                <input type="number" step="0.1" min="0" name="carbs" class="field-input"
+                                    placeholder="مثال: 40">
+                            </div>
+                            <div class="field-group">
+                                <label class="field-label">دهون (غ)</label>
+                                <input type="number" step="0.1" min="0" name="fats" class="field-input"
+                                    placeholder="مثال: 12">
+                            </div>
+                        </div>
+                        <span class="field-hint" style="display: block; margin-top: -10px; margin-bottom: 16px;">الماكروز
+                            اختيارية، وتُعرض بالتطبيق إن تم إدخالها.</span>
+
                         <div class="field-group">
                             <label class="field-label">صورة الوجبة</label>
                             <input type="file" name="image" class="field-input" accept="image/*">
                         </div>
                         <div class="field-group">
                             <label class="field-label">المكونات والتفاصيل</label>
-                            <textarea name="plan_details" class="field-input" rows="4" placeholder="اكتب المكونات بالتفصيل هنا..." required></textarea>
+                            <textarea name="plan_details" class="field-input" rows="4" placeholder="اكتب المكونات بالتفصيل هنا..."
+                                required></textarea>
                         </div>
                         <button type="submit" class="btn-submit">حفظ وتعميم الوجبة</button>
                     </div>

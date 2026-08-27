@@ -189,6 +189,13 @@
                 <i class="fas fa-clipboard-list"></i> مكتبة التمارين
             </a>
 
+            <div class="nav-section" style="margin-top: 15px;">الحساب</div>
+
+            <a href="{{ route('employee.profile.edit') }}"
+                class="nav-link {{ request()->routeIs('employee.profile.*') ? 'active' : '' }}">
+                <i class="fas fa-id-badge"></i> الملف الشخصي
+            </a>
+
             <div class="nav-section" style="margin-top: 15px;">الأمان</div>
 
             <a href="{{ route('employee.2fa') }}"

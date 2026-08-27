@@ -287,8 +287,8 @@
                                 <td>
                                     @if ($player->subscription)
                                         <span
-                                            class="status-badge {{ $player->subscription->status == 'active' ? 'badge-active' : 'badge-expired' }}">
-                                            {{ $player->subscription->status == 'active' ? 'نشط' : 'منتهي/مجمد' }}
+                                            class="status-badge {{ $player->hasActiveSubscription() ? 'badge-active' : 'badge-expired' }}">
+                                            {{ $player->hasActiveSubscription() ? 'نشط' : 'منتهي/مجمد' }}
                                         </span>
                                     @else
                                         <span class="status-badge badge-none">غير مشترك</span>
@@ -322,7 +322,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($player->subscription && $player->subscription->status == 'active')
+                                    @if ($player->hasActiveSubscription())
                                         <form action="{{ route('employee.monitoring.assign-level', $player->id) }}"
                                             method="POST" style="display: flex; gap: 10px; align-items: center;">
                                             @csrf

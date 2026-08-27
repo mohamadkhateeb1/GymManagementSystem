@@ -321,15 +321,6 @@
                     <i class="fas fa-user-clock"></i>
                 </div>
             </div>
-            <div class="stat-card-luxury">
-                <div class="info">
-                    <h4>مكتملي الانصراف اليوم</h4>
-                    <p>{{ $stats['total_completed'] }}</p>
-                </div>
-                <div class="icon-box" style="background: rgba(129, 140, 248, 0.1); color: var(--blue-vip);">
-                    <i class="fas fa-business-time"></i>
-                </div>
-            </div>
         </div>
 
         <div class="filter-panel">
@@ -353,8 +344,6 @@
                             <option value="present" {{ request('status') == 'present' ? 'selected' : '' }}>حاضر (Present)
                             </option>
                             <option value="late" {{ request('status') == 'late' ? 'selected' : '' }}>متأخر (Late)</option>
-                            <option value="forget_check_out"
-                                {{ request('status') == 'forget_check_out' ? 'selected' : '' }}>نسي الانصراف</option>
                         </select>
                     </div>
 
@@ -387,8 +376,6 @@
                             <th>تاريخ اليوم</th>
                             <th>حالة الحضور</th>
                             <th style="text-align: center;">وقت الحضور</th>
-                            <th style="text-align: center;">وقت الانصراف</th>
-                            <th style="text-align: center;">ساعات العمل</th>
                             <th style="text-align: center;">إجراءات</th>
                         </tr>
                     </thead>
@@ -404,43 +391,13 @@
                                         <span class="status-badge badge-present">حاضر</span>
                                     @elseif($log->status == 'late')
                                         <span class="status-badge badge-late">متأخر</span>
-                                    @elseif($log->status == 'forget_check_out')
-                                        <span class="status-badge badge-forgot">نسي الانصراف</span>
                                     @else
                                         <span class="status-badge badge-present">{{ $log->status }}</span>
                                     @endif
                                 </td>
                                 <td style="text-align: center;">
                                     <span class="time-box"><i class="far fa-clock"
-                                            style="color: var(--success);"></i>{{ $log->check_in_time ? $log->check_in_time->format('H:i A') : '---' }}</span>
-                                </td>
-                                <td style="text-align: center;">
-                                    @if ($log->status == 'forget_check_out')
-                                        <span class="time-box"
-                                            style="color: var(--danger); border-color: rgba(248,113,113,0.2);"><i
-                                                class="far fa-clock"></i>إغلاق تلقائي</span>
-                                    @else
-                                        <span class="time-box"><i class="far fa-clock"
-                                                style="color: var(--danger);"></i>{{ $log->check_out_time ? $log->check_out_time->format('H:i A') : 'لم ينصرف بعد' }}</span>
-                                    @endif
-                                </td>
-                                <td style="text-align: center; font-weight: 700;">
-                                    @if ($log->check_in_time && $log->check_out_time)
-                                        @php
-                                            $hours = $log->check_out_time->diffInHours($log->check_in_time);
-                                            $minutes = $log->check_out_time->diffInMinutes($log->check_in_time) % 60;
-                                        @endphp
-                                        @if ($log->status == 'forget_check_out')
-                                            <span style="color: var(--muted); font-size: 13px; font-weight: 500;">غير دقيقة
-                                                (نسي الخروج)
-                                            </span>
-                                        @else
-                                            <span style="color: var(--blue-vip);">{{ $hours }} ساعة و
-                                                {{ $minutes }} دقيقة</span>
-                                        @endif
-                                    @else
-                                        <span style="color: var(--muted); font-size: 12px;">قيد العمل...</span>
-                                    @endif
+                                            style="color: var(--success);"></i>{{ $log->recorded_at ? $log->recorded_at->format('H:i A') : '---' }}</span>
                                 </td>
                                 <td style="text-align: center;">
                                     <form action="{{ route('admin.attendance.employees.destroy', $log->id) }}"
@@ -500,15 +457,9 @@
                         <input type="date" name="attendance_date" value="{{ date('Y-m-d') }}"
                             max="{{ date('Y-m-d') }}" class="input-luxury" required>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group-luxury">
-                            <label>وقت الحضور (Check In)</label>
-                            <input type="time" name="check_in_time" class="input-luxury" required>
-                        </div>
-                        <div class="form-group-luxury">
-                            <label>وقت الانصراف (اختياري)</label>
-                            <input type="time" name="check_out_time" class="input-luxury">
-                        </div>
+                    <div class="form-group-luxury">
+                        <label>وقت الحضور</label>
+                        <input type="time" name="recorded_at" class="input-luxury" required>
                     </div>
                     <div class="form-group-luxury">
                         <label>حالة التواجد</label>

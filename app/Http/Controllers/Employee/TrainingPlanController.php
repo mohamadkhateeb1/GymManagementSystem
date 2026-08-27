@@ -10,13 +10,31 @@ use Illuminate\Support\Facades\Auth;
 
 class TrainingPlanController extends Controller
 {
+    
+    private function copyExercises(TrainingPlan $source, TrainingPlan $target): void
+    {
+        foreach ($source->exercises as $exercise) {
+            $target->exercises()->create($exercise->only([
+                'name',
+                'sets',
+                'reps',
+                'rest_time',
+                'day_of_week',
+                'order',
+                'instructions',
+                'image_path',
+                'video_url',
+            ]));
+        }
+    }
+
     public function index()
     {
         $coachId = Auth::guard('employee')->id();
 
-        // جلب الخطط العامة المخصصة للبنك (player_id = null)
         $plans = TrainingPlan::whereNull('player_id')
             ->where('coach_id', $coachId)
+            ->withCount('exercises')
             ->latest()
             ->get();
 
@@ -27,7 +45,6 @@ class TrainingPlanController extends Controller
     {
         $coachId = Auth::guard('employee')->id();
 
-        // جلب الخطة المحددة لتفاصيلها
         $plan = TrainingPlan::where('coach_id', $coachId)->findOrFail($id);
 
         return view('Employee.TrainingBank.show', compact('plan'));
@@ -35,7 +52,6 @@ class TrainingPlanController extends Controller
 
     public function store(Request $request)
     {
-        // 🎯 التحقق فقط من عنوان الخطة والمستوى المستهدف
         $request->validate([
             'title' => 'required|string|max:255',
             'level' => 'required|string',
@@ -43,7 +59,6 @@ class TrainingPlanController extends Controller
 
         $coachId = Auth::guard('employee')->id();
 
-        // 1. حفظ الخطة في البنك العام
         TrainingPlan::create([
             'coach_id'   => $coachId,
             'player_id'  => null,
@@ -53,23 +68,51 @@ class TrainingPlanController extends Controller
             'end_date'   => now()->addMonth(),
         ]);
 
-        // 2. إسقاط الخطة أوتوماتيكياً في حسابات لاعبي نفس المستوى
-        $activePlayers = Player::where('coach_id', $coachId)
-            ->where('level', $request->level)
+        return redirect()->route('employee.training.bank')->with('success', 'تم حفظ الخطة في البنك. أضف تمارينها ثم وزّعها على لاعبي مستوى ' . $request->level . '.');
+    }
+
+    public function distribute($id)
+    {
+        $coachId = Auth::guard('employee')->id();
+
+        $plan = TrainingPlan::whereNull('player_id')
+            ->where('coach_id', $coachId)
+            ->with('exercises')
+            ->findOrFail($id);
+
+        if ($plan->exercises->isEmpty()) {
+            return redirect()->back()->with('error', 'لا يمكن توزيع خطة فارغة، أضف تمارين الخطة أولاً ثم أعد المحاولة.');
+        }
+
+        $players = Player::where('coach_id', $coachId)
+            ->where('level', $plan->level)
             ->get();
 
-        foreach ($activePlayers as $player) {
-            TrainingPlan::create([
+        if ($players->isEmpty()) {
+            return redirect()->back()->with('error', 'لا يوجد لاعبون مرتبطون بمستوى ' . $plan->level . ' لتوزيع الخطة عليهم.');
+        }
+
+        foreach ($players as $player) {
+            TrainingPlan::whereNotNull('player_id')
+                ->where('player_id', $player->id)
+                ->where('coach_id', $coachId)
+                ->where('level', $plan->level)
+                ->where('title', $plan->title)
+                ->delete();
+
+            $playerPlan = TrainingPlan::create([
                 'coach_id'   => $coachId,
                 'player_id'  => $player->id,
-                'title'      => $request->title,
-                'level'      => $request->level,
+                'title'      => $plan->title,
+                'level'      => $plan->level,
                 'start_date' => now(),
                 'end_date'   => now()->addMonth(),
             ]);
+
+            $this->copyExercises($plan, $playerPlan);
         }
 
-        return redirect()->route('employee.training.bank')->with('success', 'تم حفظ الخطة وتحديث جداول لاعبي مستوى ' . $request->level . ' فوراً.');
+        return redirect()->route('employee.training.bank')->with('success', 'تم توزيع الخطة مع ' . $plan->exercises->count() . ' تمرين على ' . $players->count() . ' لاعب من مستوى ' . $plan->level . '.');
     }
 
     public function destroy($id)
@@ -78,14 +121,12 @@ class TrainingPlanController extends Controller
             ->where('coach_id', Auth::guard('employee')->id())
             ->findOrFail($id);
 
-        // حذف النسخ المنسوخة للاعبين بناءً على اسم الخطة والمستوى والمشرف
         TrainingPlan::whereNotNull('player_id')
             ->where('coach_id', $plan->coach_id)
             ->where('level', $plan->level)
             ->where('title', $plan->title)
             ->delete();
 
-        // حذف الخطة الأساسية من البنك
         $plan->delete();
 
         return redirect()->route('employee.training.bank')->with('success', 'تم حذف الخطة من البنك ومن جداول اللاعبين.');

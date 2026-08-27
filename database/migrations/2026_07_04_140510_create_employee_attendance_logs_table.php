@@ -17,15 +17,17 @@ return new class extends Migration
             // 🔗 ربط السجل بالموظف/المدرب (من جدول employees)
             $table->foreignId('employee_id')->constrained('employees')->cascadeOnDelete();
 
-            // 📅 تسجيل وقت الدخول والخروج واليوم الحالي
+            // 📅 تسجيل يوم الحضور ولحظة تسجيله (تسجيل واحد يومي فقط، بلا دخول/خروج)
             $table->date('attendance_date'); // تاريخ اليوم (لتسهيل الفلترة والتقارير اليومية)
-            $table->timestamp('check_in_time')->nullable();
-            $table->timestamp('check_out_time')->nullable();
+            $table->timestamp('recorded_at'); // لحظة تسجيل الحضور الفعلية
 
-            // 📝 حالة الحضور (حاضر، متأخر، مغادرة مبكرة) لضمان دقة التقارير
-            $table->string('status')->default('present'); // active, late, etc.
+            // 📝 حالة الحضور (حاضر، متأخر) لضمان دقة التقارير
+            $table->string('status')->default('present'); // present, late
 
             $table->timestamps();
+
+            // 🔒 يمنع أكثر من تسجيل حضور لنفس الموظف في نفس اليوم
+            $table->unique(['employee_id', 'attendance_date']);
         });
     }
 

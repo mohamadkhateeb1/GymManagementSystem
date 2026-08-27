@@ -259,6 +259,24 @@
             background: rgba(90, 156, 122, 0.2);
         }
 
+        .btn-freeze {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+        }
+
+        .btn-freeze:hover {
+            background: rgba(96, 165, 250, 0.2);
+        }
+
+        .btn-unfreeze {
+            background: rgba(90, 156, 122, 0.1);
+            color: #5a9c7a;
+        }
+
+        .btn-unfreeze:hover {
+            background: rgba(90, 156, 122, 0.2);
+        }
+
         .empty-row td {
             text-align: center;
             padding: 40px;
@@ -294,7 +312,7 @@
         </div>
         <div class="actions-wrapper">
             <form action="{{ route('players.destroyAll') }}" method="POST"
-                onsubmit="return confirm('هل أنت متأكد من حذف الجميع؟');">
+                onsubmit="return confirm('⚠️ سيتم حذف جميع اللاعبين نهائياً من النظام، بما في ذلك كل اشتراكاتهم وفواتيرهم وخططهم التدريبية والغذائية وسجلاتهم بالكامل. لا يمكن التراجع عن هذا الإجراء إطلاقاً. هل أنت متأكد فعلاً؟');">
                 @csrf @method('DELETE')
                 <button type="submit" class="btn-header btn-danger"><i class="fas fa-trash-alt"></i> حذف الكل</button>
             </form>
@@ -324,8 +342,8 @@
                         <td>{{ $player->subscription->plan_name ?? 'غير مشترك' }}</td>
                         <td>
                             @if ($player->subscription)
-                                <span class="status-chip {{ $player->subscription->isExpired() ? 'expired' : 'active' }}">
-                                    {{ $player->subscription->isExpired() ? 'منتهي' : 'فعال' }}
+                                <span class="status-chip {{ $player->hasActiveSubscription() ? 'active' : 'expired' }}">
+                                    {{ $player->hasActiveSubscription() ? 'فعال' : 'منتهي/مجمد' }}
                                 </span>
                             @else
                                 <span class="status-chip none">لا يوجد</span>
@@ -335,8 +353,18 @@
                             <div class="action-group">
                                 <a href="{{ route('players.show', $player->id) }}" class="btn-action btn-show">عرض</a>
                                 <a href="{{ route('players.edit', $player->id) }}" class="btn-action btn-edit">تعديل</a>
+                                @if ($player->subscription)
+                                    <form action="{{ route('players.toggle-subscription', $player->id) }}" method="POST"
+                                        onsubmit="return confirm('{{ $player->subscription->status === 'active' ? 'سيتم تجميد اشتراك هذا اللاعب: لن يستطيع مدربه إضافة أو توزيع أي خطط أو تقييمات له حتى تُعاد تفعيل اشتراكه. متابعة؟' : 'سيتم إعادة تفعيل اشتراك هذا اللاعب. متابعة؟' }}');">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn-action {{ $player->subscription->status === 'active' ? 'btn-freeze' : 'btn-unfreeze' }}">
+                                            {{ $player->subscription->status === 'active' ? 'إلغاء التفعيل' : 'تفعيل' }}
+                                        </button>
+                                    </form>
+                                @endif
                                 <form action="{{ route('players.destroy', $player->id) }}" method="POST"
-                                    onsubmit="return confirm('تأكيد الحذف؟');">
+                                    onsubmit="return confirm('⚠️ سيتم حذف هذا اللاعب نهائياً من النظام بالكامل، بما في ذلك جميع اشتراكاته وفواتيره وخططه التدريبية والغذائية وسجلاته. لا يمكن التراجع عن هذا الإجراء إطلاقاً.\n\nإذا كنت تريد فقط إيقاف اشتراكه مؤقتاً، استخدم زر «إلغاء التفعيل» بجانب اسمه بدلاً من الحذف.\n\nهل أنت متأكد من الحذف النهائي؟');">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn-action btn-delete">حذف</button>
                                 </form>

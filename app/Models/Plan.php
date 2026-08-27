@@ -18,10 +18,27 @@ class Plan extends Model
         'reps',
         'rest_time',
         'day_of_week',
+        'order',
         'instructions',
         'image_path',
         'video_url',
     ];
+
+    public const DAYS = [
+        1 => 'السبت',
+        2 => 'الأحد',
+        3 => 'الإثنين',
+        4 => 'الثلاثاء',
+        5 => 'الأربعاء',
+        6 => 'الخميس',
+        7 => 'الجمعة',
+    ];
+
+   
+    public function getDayNameAttribute(): string
+    {
+        return self::DAYS[$this->day_of_week] ?? 'غير محدد';
+    }
 
     public function trainingPlan()
     {

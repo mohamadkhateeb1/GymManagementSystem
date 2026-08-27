@@ -6,22 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 
 class Player extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
     protected $fillable = [
         'name',
         'email',
         'password',
-        'membership_id',
+        'status',
         'date_of_birth',
         'height',
         'weight',
         'phone',
         'coach_id',
-        'level', // إضافة حقل المستوى
-        
+        'level', 
+
     ];
 
     protected $hidden = [
@@ -54,24 +56,29 @@ class Player extends Authenticatable
     }
     public function subscription()
     {
-        // بنستخدم hasOne بما أن الاشتراك الواحد غالباً مرتبط بحالة اللاعب الحالية
-        return $this->hasOne(Membership::class);
+        return $this->hasOne(Membership::class)->latestOfMany();
     }
-  /**
- * علاقة اللاعب بجدول التقييمات والمراجعات
- */
-public function ratings()
-{
-    // هنا نخبر لارافيل أن جدول العلاقة هو player_ratings صراحة لمنع أي تخمين خاطئ
-    return $this->hasMany(Rating::class, 'player_id');
-}
-    public function bodyProgress() {
-    return $this->hasMany(BodyProgress::class, 'player_id');
-}
-// دالة للحصول على أحدث سجل تقدم جسدي للاعب
- 
-public function latestBodyProgress()
-{
-    return $this->hasOne(BodyProgress::class, 'player_id')->latestOfMany();
-}
+
+  
+    public function hasActiveSubscription(): bool
+    {
+        return $this->subscription
+            && $this->subscription->status === 'active'
+            && !$this->subscription->isExpired();
+    }
+  
+    
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'player_id');
+    }
+    public function bodyProgress()
+    {
+        return $this->hasMany(BodyProgress::class, 'player_id');
+    }
+
+    public function latestBodyProgress()
+    {
+        return $this->hasOne(BodyProgress::class, 'player_id')->latestOfMany();
+    }
 }

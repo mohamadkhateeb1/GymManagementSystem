@@ -10,6 +10,7 @@
         "laravel/breeze": "^2.4",
         "laravel/fortify": "^1.37",
         "laravel/framework": "^12.0",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
@@ -82,6 +83,10 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "audit": {
+            "abandoned": "report",
+                "block-insecure": false
         }
     },
     "minimum-stability": "stable",

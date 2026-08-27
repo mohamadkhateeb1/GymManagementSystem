@@ -9,85 +9,113 @@
             font-family: 'Tajawal', sans-serif;
         }
 
-        /* ===== شبكة مؤشرات الأداء (KPI) ===== */
+        /* ===== شبكة مؤشرات الأداء (KPI) — تصميم مُعاد بالكامل ===== */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-bottom: 26px;
         }
 
         .kpi-card {
             position: relative;
-            background: linear-gradient(160deg, #141a26, #10141d);
-            border: 1px solid rgba(201, 169, 97, 0.14);
-            border-radius: 16px;
-            padding: 22px;
+            background: linear-gradient(150deg, #171d2b 0%, #10131c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 20px;
             overflow: hidden;
-            transition: 0.3s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
-        .kpi-card::before {
+        .kpi-card::after {
             content: '';
             position: absolute;
-            inset: 0 0 auto 0;
-            height: 3px;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
             background: var(--kpi-color, #c9a961);
-            opacity: 0.85;
+            opacity: 0.08;
+            top: -50px;
+            left: -50px;
+            filter: blur(10px);
+            pointer-events: none;
         }
 
         .kpi-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(201, 169, 97, 0.3);
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+            transform: translateY(-5px);
+            border-color: color-mix(in srgb, var(--kpi-color, #c9a961) 45%, transparent);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
         }
 
         .kpi-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .kpi-icon {
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            font-size: 20px;
+            border-radius: 13px;
+            font-size: 18px;
             color: var(--kpi-color, #c9a961);
-            background: color-mix(in srgb, var(--kpi-color, #c9a961) 12%, transparent);
+            background: color-mix(in srgb, var(--kpi-color, #c9a961) 14%, transparent);
+            box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kpi-color, #c9a961) 25%, transparent);
         }
 
-        .kpi-tag {
+        .kpi-trend {
             font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
+            font-weight: 800;
+            padding: 4px 9px;
             border-radius: 20px;
-            color: var(--kpi-color, #c9a961);
-            background: color-mix(in srgb, var(--kpi-color, #c9a961) 12%, transparent);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .kpi-trend.up {
+            color: #5a9c7a;
+            background: rgba(90, 156, 122, 0.12);
+        }
+
+        .kpi-trend.down {
+            color: #c55a5a;
+            background: rgba(197, 90, 90, 0.12);
+        }
+
+        .kpi-trend.neutral {
+            color: #9ca3af;
+            background: rgba(156, 163, 175, 0.1);
         }
 
         .kpi-value {
-            font-size: 34px;
+            font-size: 28px;
             font-weight: 800;
             line-height: 1;
-            color: #f3f1ea;
-            margin-bottom: 6px;
+            color: #f5f3ec;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
         }
 
         .kpi-label {
-            font-size: 13px;
+            font-size: 12.5px;
             color: #8a8f9c;
+            position: relative;
+            z-index: 1;
         }
 
         /* ===== الألواح ===== */
         .panel {
             background: #121722;
             border: 1px solid rgba(201, 169, 97, 0.12);
-            border-radius: 16px;
+            border-radius: 18px;
             margin-bottom: 24px;
             overflow: hidden;
         }
@@ -106,7 +134,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 16px;
+            font-size: 15.5px;
             font-weight: 700;
             color: #f3f1ea;
             margin: 0;
@@ -120,70 +148,63 @@
             background: linear-gradient(180deg, #c9a961, #8a6d2f);
         }
 
-        /* ===== صف الإحصائيات ===== */
+        .panel-sub {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* ===== صف الرسوم البيانية ===== */
         .stats-row {
             display: grid;
-            grid-template-columns: 320px 1fr;
+            grid-template-columns: 340px 1fr;
             gap: 24px;
             margin-bottom: 24px;
+            align-items: stretch;
         }
 
         .stats-row .panel {
             margin-bottom: 0;
         }
 
-        .donut-wrap {
+        .chart-wrap {
+            padding: 20px 24px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 18px;
-            padding: 26px 24px;
+            gap: 16px;
+            height: 100%;
         }
 
-        .donut {
+        .doughnut-canvas-box {
             position: relative;
-            width: 170px;
-            height: 170px;
-            border-radius: 50%;
-            background: conic-gradient(#5a9c7a 0 var(--p-active),
-                    #c55a5a var(--p-active) var(--p-expired),
-                    #5a5f6e var(--p-expired) 100%);
+            max-width: 220px;
+            margin: 0 auto;
         }
 
-        .donut::after {
-            content: '';
-            position: absolute;
-            inset: 22px;
-            border-radius: 50%;
-            background: #121722;
-        }
-
-        .donut-center {
+        .doughnut-center-label {
             position: absolute;
             inset: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 1;
+            pointer-events: none;
         }
 
-        .donut-center .num {
-            font-size: 30px;
+        .doughnut-center-label .num {
+            font-size: 26px;
             font-weight: 800;
             color: #f3f1ea;
         }
 
-        .donut-center .cap {
-            font-size: 12px;
+        .doughnut-center-label .cap {
+            font-size: 11px;
             color: #8a8f9c;
         }
 
         .legend {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            width: 100%;
+            gap: 9px;
         }
 
         .legend-item {
@@ -195,9 +216,9 @@
         }
 
         .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
             flex-shrink: 0;
         }
 
@@ -207,35 +228,10 @@
             color: #f3f1ea;
         }
 
-        /* أشرطة النسب */
-        .bars {
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            height: 100%;
-            justify-content: center;
-        }
-
-        .bar-block .bar-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #cfcabb;
-            margin-bottom: 8px;
-        }
-
-        .bar-track {
-            height: 10px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 20px;
-            transition: width 0.6s ease;
+        .revenue-chart-box {
+            flex: 1;
+            min-height: 220px;
+            position: relative;
         }
 
         /* ===== شريط الفلترة ===== */
@@ -423,6 +419,89 @@
             color: #8a8f9c;
         }
 
+        /* ===== شريط الصفحات (Pagination) ===== */
+        .pagination-wrap {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border, rgba(201, 169, 97, 0.12));
+        }
+
+        .gym-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .gym-pagination-info {
+            font-size: 12.5px;
+            color: var(--text-muted, #9ca3af);
+        }
+
+        .gym-pagination-list {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gym-page-item a,
+        .gym-page-item span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-muted, #9ca3af);
+            border: 1px solid var(--border, #252a38);
+            background: var(--surface-2, rgba(255, 255, 255, 0.02));
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .gym-page-item a i,
+        .gym-page-item span i {
+            font-size: 12px;
+        }
+
+        .gym-page-item a:hover {
+            border-color: var(--accent, #6c63ff);
+            color: var(--accent, #6c63ff);
+            background: color-mix(in srgb, var(--accent, #6c63ff) 10%, var(--surface-2, transparent));
+        }
+
+        .gym-page-item.active span {
+            background: var(--accent, #6c63ff);
+            border-color: var(--accent, #6c63ff);
+            color: #fff;
+            box-shadow: 0 4px 12px color-mix(in srgb, var(--accent, #6c63ff) 35%, transparent);
+        }
+
+        .gym-page-item.disabled span {
+            opacity: 0.35;
+            cursor: default;
+            background: transparent;
+        }
+
+        @media (max-width: 640px) {
+            .gym-pagination {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .gym-pagination-info {
+                width: 100%;
+                order: 2;
+            }
+        }
+
         /* ===== موبايل ===== */
         @media (max-width: 900px) {
             .stats-row {
@@ -457,7 +536,7 @@
             <div class="kpi-card" style="--kpi-color:#c9a961;">
                 <div class="kpi-top">
                     <div class="kpi-icon"><i class="fas fa-user-tie"></i></div>
-                    <span class="kpi-tag">الطاقم</span>
+                    <span class="kpi-trend neutral">الطاقم</span>
                 </div>
                 <div class="kpi-value">{{ $employeesCount }}</div>
                 <div class="kpi-label">إجمالي الموظفين</div>
@@ -466,7 +545,7 @@
             <div class="kpi-card" style="--kpi-color:#818cf8;">
                 <div class="kpi-top">
                     <div class="kpi-icon"><i class="fas fa-users"></i></div>
-                    <span class="kpi-tag">الأعضاء</span>
+                    <span class="kpi-trend neutral">الأعضاء</span>
                 </div>
                 <div class="kpi-value">{{ $playersCount }}</div>
                 <div class="kpi-label">إجمالي اللاعبين</div>
@@ -475,7 +554,7 @@
             <div class="kpi-card" style="--kpi-color:#5a9c7a;">
                 <div class="kpi-top">
                     <div class="kpi-icon"><i class="fas fa-circle-check"></i></div>
-                    <span class="kpi-tag">{{ $activePct }}%</span>
+                    <span class="kpi-trend up">{{ $activePct }}%</span>
                 </div>
                 <div class="kpi-value">{{ $activeCount }}</div>
                 <div class="kpi-label">اشتراكات فعّالة</div>
@@ -484,22 +563,56 @@
             <div class="kpi-card" style="--kpi-color:#c55a5a;">
                 <div class="kpi-top">
                     <div class="kpi-icon"><i class="fas fa-circle-exclamation"></i></div>
-                    <span class="kpi-tag">{{ $expiredPct }}%</span>
+                    <span class="kpi-trend down">{{ $expiredPct }}%</span>
                 </div>
                 <div class="kpi-value">{{ $expiredCount }}</div>
                 <div class="kpi-label">اشتراكات منتهية</div>
             </div>
+
+            <div class="kpi-card" style="--kpi-color:#9ca3af;">
+                <div class="kpi-top">
+                    <div class="kpi-icon"><i class="fas fa-user-slash"></i></div>
+                    <span class="kpi-trend neutral">{{ $nonePct }}%</span>
+                </div>
+                <div class="kpi-value">{{ $noneCount }}</div>
+                <div class="kpi-label">بدون اشتراك</div>
+            </div>
+
+            <div class="kpi-card" style="--kpi-color:#5a9c7a;">
+                <div class="kpi-top">
+                    <div class="kpi-icon"><i class="fas fa-sack-dollar"></i></div>
+                    @if ($revenueChangePct > 0)
+                        <span class="kpi-trend up"><i class="fas fa-arrow-up"></i> {{ $revenueChangePct }}%</span>
+                    @elseif ($revenueChangePct < 0)
+                        <span class="kpi-trend down"><i class="fas fa-arrow-down"></i> {{ abs($revenueChangePct) }}%</span>
+                    @else
+                        <span class="kpi-trend neutral">0%</span>
+                    @endif
+                </div>
+                <div class="kpi-value">{{ number_format($monthRevenue, 2) }}</div>
+                <div class="kpi-label">إيرادات الشهر الحالي</div>
+            </div>
+
+            <div class="kpi-card" style="--kpi-color:#f59e0b;">
+                <div class="kpi-top">
+                    <div class="kpi-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                    <span class="kpi-trend down">تنبيه</span>
+                </div>
+                <div class="kpi-value">{{ $expiringSoonCount }}</div>
+                <div class="kpi-label">تنتهي خلال 7 أيام</div>
+            </div>
         </div>
 
-        {{-- ===== صف الإحصائيات: مخطط دائري + أشرطة النسب ===== --}}
+        {{-- ===== صف الرسوم البيانية ===== --}}
         <div class="stats-row">
             <div class="panel">
                 <div class="panel-head">
                     <h3>توزيع الاشتراكات</h3>
                 </div>
-                <div class="donut-wrap">
-                    <div class="donut" style="--p-active: {{ $activePct }}%; --p-expired: {{ $donutExpiredStop }}%;">
-                        <div class="donut-center">
+                <div class="chart-wrap">
+                    <div class="doughnut-canvas-box">
+                        <canvas id="subscriptionsDoughnut"></canvas>
+                        <div class="doughnut-center-label">
                             <span class="num">{{ $totalSubs }}</span>
                             <span class="cap">إجمالي</span>
                         </div>
@@ -523,26 +636,12 @@
 
             <div class="panel">
                 <div class="panel-head">
-                    <h3>نظرة سريعة</h3>
+                    <h3>الإيرادات — آخر 6 أشهر</h3>
+                    <span class="panel-sub">{{ number_format($monthlyRevenue->sum('total'), 2) }} إجمالي الفترة</span>
                 </div>
-                <div class="bars">
-                    <div class="bar-block">
-                        <div class="bar-label"><span>نسبة الاشتراكات الفعّالة</span><span>{{ $activePct }}%</span></div>
-                        <div class="bar-track">
-                            <div class="bar-fill" style="width: {{ $activePct }}%; background:#5a9c7a;"></div>
-                        </div>
-                    </div>
-                    <div class="bar-block">
-                        <div class="bar-label"><span>نسبة الاشتراكات المنتهية</span><span>{{ $expiredPct }}%</span></div>
-                        <div class="bar-track">
-                            <div class="bar-fill" style="width: {{ $expiredPct }}%; background:#c55a5a;"></div>
-                        </div>
-                    </div>
-                    <div class="bar-block">
-                        <div class="bar-label"><span>لاعبون بدون اشتراك</span><span>{{ $nonePct }}%</span></div>
-                        <div class="bar-track">
-                            <div class="bar-fill" style="width: {{ $nonePct }}%; background:#5a5f6e;"></div>
-                        </div>
+                <div class="chart-wrap">
+                    <div class="revenue-chart-box">
+                        <canvas id="revenueChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -602,6 +701,9 @@
                 </thead>
                 <tbody>
                     @forelse($players as $player)
+                        @php
+                            $isActiveNow = $player->hasActiveSubscription();
+                        @endphp
                         <tr>
                             <td style="font-weight: 500;">{{ $player->name }}</td>
                             <td>{{ $player->subscription->plan_name ?? 'غير مشترك' }}</td>
@@ -609,9 +711,8 @@
                             </td>
                             <td>
                                 @if ($player->subscription)
-                                    <span
-                                        class="status-chip {{ $player->subscription->status == 'active' ? 'active' : 'expired' }}">
-                                        {{ $player->subscription->status == 'active' ? 'فعال' : 'منتهي/مجمد' }}
+                                    <span class="status-chip {{ $isActiveNow ? 'active' : 'expired' }}">
+                                        {{ $isActiveNow ? 'فعال' : 'منتهي/مجمد' }}
                                     </span>
                                 @else
                                     <span class="status-chip none">لا يوجد</span>
@@ -653,23 +754,65 @@
                     @endforelse
                 </tbody>
             </table>
+
+            @if ($players->hasPages())
+                <div class="pagination-wrap">
+                    <nav class="gym-pagination">
+                        <div class="gym-pagination-info">
+                            عرض {{ $players->firstItem() }} إلى {{ $players->lastItem() }} من أصل {{ $players->total() }}
+                            نتيجة
+                        </div>
+
+                        <ul class="gym-pagination-list">
+                            @if ($players->onFirstPage())
+                                <li class="gym-page-item disabled"><span><i class="fas fa-chevron-right"></i></span></li>
+                            @else
+                                <li class="gym-page-item">
+                                    <a href="{{ $players->previousPageUrl() }}"><i class="fas fa-chevron-right"></i></a>
+                                </li>
+                            @endif
+
+                            @for ($page = 1; $page <= $players->lastPage(); $page++)
+                                @if ($page == $players->currentPage())
+                                    <li class="gym-page-item active"><span>{{ $page }}</span></li>
+                                @else
+                                    <li class="gym-page-item">
+                                        <a href="{{ $players->url($page) }}">{{ $page }}</a>
+                                    </li>
+                                @endif
+                            @endfor
+
+                            @if ($players->hasMorePages())
+                                <li class="gym-page-item">
+                                    <a href="{{ $players->nextPageUrl() }}"><i class="fas fa-chevron-left"></i></a>
+                                </li>
+                            @else
+                                <li class="gym-page-item disabled"><span><i class="fas fa-chevron-left"></i></span></li>
+                            @endif
+                        </ul>
+                    </nav>
+                </div>
+            @endif
         </div>
 
-        {{-- ===== لوحة الموظفين ===== --}}
+        {{-- ===== لوحة الموظفين مع حضورهم الفعلي اليوم ===== --}}
         <div class="panel">
             <div class="panel-head">
-                <h3>طاقم الموظفين</h3>
+                <h3>طاقم الموظفين — حضور اليوم</h3>
             </div>
             <table class="members-table">
                 <thead>
                     <tr>
                         <th>الموظف</th>
                         <th>التخصص</th>
-                        <th>الحالة</th>
+                        <th>حالة الحضور اليوم</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($employees as $trainer)
+                        @php
+                            $todayLog = $trainer->attendanceLogs->first();
+                        @endphp
                         <tr>
                             <td>
                                 <div class="employee-cell">
@@ -678,7 +821,17 @@
                                 </div>
                             </td>
                             <td style="color: #8a8f9c;">{{ $trainer->specialization ?? 'موظف' }}</td>
-                            <td><span class="status-chip active">متاح</span></td>
+                            <td>
+                                @if (!$todayLog)
+                                    <span class="status-chip none">لم يسجّل الحضور بعد</span>
+                                @elseif ($todayLog->status === 'late')
+                                    <span class="status-chip expired">متأخر
+                                        ({{ $todayLog->recorded_at->format('H:i') }})</span>
+                                @else
+                                    <span class="status-chip active">حاضر
+                                        ({{ $todayLog->recorded_at->format('H:i') }})</span>
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr class="empty-row">
@@ -689,4 +842,101 @@
             </table>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+    <script>
+        // ===== مخطط توزيع الاشتراكات (Doughnut) =====
+        new Chart(document.getElementById('subscriptionsDoughnut'), {
+            type: 'doughnut',
+            data: {
+                labels: ['فعّالة', 'منتهية', 'بدون اشتراك'],
+                datasets: [{
+                    data: [{{ $activeCount }}, {{ $expiredCount }}, {{ $noneCount }}],
+                    backgroundColor: ['#5a9c7a', '#c55a5a', '#5a5f6e'],
+                    borderColor: '#121722',
+                    borderWidth: 3,
+                    hoverOffset: 6,
+                }]
+            },
+            options: {
+                cutout: '72%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        rtl: true,
+                        titleFont: {
+                            family: 'Tajawal'
+                        },
+                        bodyFont: {
+                            family: 'Tajawal'
+                        },
+                    }
+                }
+            }
+        });
+
+        // ===== مخطط الإيرادات آخر 6 أشهر (Bar) =====
+        const monthlyRevenue = @json($monthlyRevenue);
+
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'bar',
+            data: {
+                labels: monthlyRevenue.map(m => m.label),
+                datasets: [{
+                    label: 'الإيرادات',
+                    data: monthlyRevenue.map(m => m.total),
+                    backgroundColor: '#c9a961',
+                    borderRadius: 8,
+                    maxBarThickness: 42,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        rtl: true,
+                        titleFont: {
+                            family: 'Tajawal'
+                        },
+                        bodyFont: {
+                            family: 'Tajawal'
+                        },
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#8a8f9c',
+                            font: {
+                                family: 'Tajawal'
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(255,255,255,0.05)'
+                        },
+                        ticks: {
+                            color: '#8a8f9c',
+                            font: {
+                                family: 'Tajawal'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

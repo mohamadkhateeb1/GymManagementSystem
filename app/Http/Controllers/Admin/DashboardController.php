@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Player;
-use App\Models\Membership; 
+use App\Models\Membership;
+use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -15,37 +17,62 @@ class DashboardController extends Controller
     {
         $now = Carbon::now();
 
-        
         $employeesCount = Employee::count();
-        $playersCount   = Player::count();
 
-        // وتاريخ الانتهاء بعد الآن (active) هيئة الاشتراكات النشطة: حالتها 
-        $activeCount = Player::whereHas('subscription', function ($q) use ($now) {
-            $q->where('status', 'active')->where('end_date', '>', $now);
-        })->count();
+        $stats = Player::query()
+            ->leftJoin('memberships', function ($join) {
+                $join->on('memberships.id', '=', DB::raw('(
+                    SELECT MAX(m.id) FROM memberships m
+                    WHERE m.player_id = players.id AND m.deleted_at IS NULL
+                )'));
+            })
+            ->selectRaw("
+                COUNT(DISTINCT players.id) as total,
+                SUM(CASE WHEN memberships.status = 'active' AND memberships.end_date > ? THEN 1 ELSE 0 END) as active_count,
+                SUM(CASE WHEN memberships.status = 'active' AND memberships.end_date <= ? THEN 1 ELSE 0 END) as expired_count,
+                SUM(CASE WHEN memberships.id IS NULL THEN 1 ELSE 0 END) as none_count
+            ", [$now, $now])
+            ->first();
 
-        // اشتراكات منتهية: حالتها active لكن تاريخ الانتهاء مرّ
-        $expiredCount = Player::whereHas('subscription', function ($q) use ($now) {
-            $q->where('status', 'active')->where('end_date', '<=', $now);
-        })->count();
+        $playersCount = (int) $stats->total;
+        $activeCount  = (int) $stats->active_count;
+        $expiredCount = (int) $stats->expired_count;
+        $noneCount    = (int) $stats->none_count;
 
-        // لاعبون بدون أي اشتراك
-        $noneCount = Player::whereDoesntHave('subscription')->count();
-
-        // النسب المئوية
         $totalSubs  = $activeCount + $expiredCount + $noneCount;
         $activePct  = $totalSubs ? (int) round(($activeCount / $totalSubs) * 100) : 0;
         $expiredPct = $totalSubs ? (int) round(($expiredCount / $totalSubs) * 100) : 0;
         $nonePct    = $totalSubs ? max(0, 100 - $activePct - $expiredPct) : 0;
 
-        // نقطة توقّف المخطط الدائري (تراكميًا) — جاهزة للعرض مباشرةً
         $donutExpiredStop = $activePct + $expiredPct;
 
-      
-        $coaches   = Employee::all();
-        $employees = Employee::with('roles')->latest()->get();
+        $monthRevenue = Payment::inMonth($now)->sum('amount');
 
-        
+        $lastMonthRevenue = Payment::inMonth($now->copy()->subMonth())->sum('amount');
+        $revenueChangePct = $lastMonthRevenue > 0
+            ? round((($monthRevenue - $lastMonthRevenue) / $lastMonthRevenue) * 100)
+            : ($monthRevenue > 0 ? 100 : 0);
+
+        $monthlyRevenue = collect(range(5, 0))->map(function ($monthsAgo) use ($now) {
+            $month = $now->copy()->subMonths($monthsAgo);
+
+            return [
+                'label' => $month->translatedFormat('M'),
+                'total' => (float) Payment::inMonth($month)->sum('amount'),
+            ];
+        })->values();
+
+        $expiringSoonCount = Membership::where('status', 'active')
+            ->whereBetween('end_date', [$now->toDateString(), $now->copy()->addDays(7)->toDateString()])
+            ->count();
+
+        $coaches = Employee::all();
+
+        $employees = Employee::with(['roles', 'attendanceLogs' => function ($q) use ($now) {
+            $q->whereDate('attendance_date', $now->toDateString());
+        }])->latest()->get();
+
+
         $query = Player::query()->with(['coach', 'subscription']);
 
         if ($request->filled('name')) {
@@ -68,7 +95,7 @@ class DashboardController extends Controller
             }
         }
 
-        $players = $query->latest()->get();
+        $players = $query->latest()->paginate(15)->withQueryString();
 
         return view('Admin.Dashboard', compact(
             'employees',
@@ -83,8 +110,11 @@ class DashboardController extends Controller
             'activePct',
             'expiredPct',
             'nonePct',
-            'donutExpiredStop'
+            'donutExpiredStop',
+            'monthRevenue',
+            'revenueChangePct',
+            'monthlyRevenue',
+            'expiringSoonCount'
         ));
     }
-    
 }

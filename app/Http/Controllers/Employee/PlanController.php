@@ -17,21 +17,24 @@ class PlanController extends Controller
 
         $trainingPlan = TrainingPlan::where('coach_id', $coachId)->findOrFail($planId);
 
-        // جلب جميع التمارين الخاصة بهذه الخطة
-        $exercises = Plan::where('training_plan_id', $trainingPlan->id)->latest()->get();
+        $exercises = Plan::where('training_plan_id', $trainingPlan->id)
+            ->orderByRaw('day_of_week IS NULL, day_of_week ASC')
+            ->orderBy('order')
+            ->orderBy('id')
+            ->get();
 
         return view('Employee.TrainingBank.Plans.plans', compact('trainingPlan', 'exercises'));
     }
 
     public function store(Request $request, $planId)
     {
-        // 🎯 التحقق المريح للبيانات
         $request->validate([
             'name' => 'required|string|max:255',
             'sets'          => 'required|numeric',
             'reps'   => 'required|numeric',
-            'rest_time'     => 'nullable|string',
-            'day_of_week'   => 'nullable|string',
+            'rest_time'     => 'nullable|string|max:50',
+            'day_of_week'   => 'nullable|integer|min:1|max:7',
+            'order'         => 'nullable|integer|min:0',
             'instructions'  => 'nullable|string',
             'image'         => 'nullable|image|max:5120',
             'video_url'     => 'nullable|string',
@@ -45,14 +48,14 @@ class PlanController extends Controller
             $imagePath = $request->file('image')->store('exercises', 'public');
         }
 
-        // 🎯 إنشاء السجل مباشرة
         Plan::create([
             'training_plan_id' => $trainingPlan->id,
             'name'    => $request->name,
             'sets'             => $request->sets,
             'reps'      => $request->reps,
-            // 'rest_time'        => $request->rest_time,
-            // 'day_of_week'      => $request->day_of_week,
+            'rest_time'        => $request->rest_time,
+            'day_of_week'      => $request->day_of_week,
+            'order'            => $request->order ?? 0,
             'instructions'     => $request->instructions,
             'image_path'       => $imagePath,
             'video_url'        => $request->video_url,
@@ -63,9 +66,15 @@ class PlanController extends Controller
 
     public function destroy($id)
     {
-        $exercise = Plan::findOrFail($id);
+        $exercise = Plan::whereHas('trainingPlan', function ($q) {
+            $q->where('coach_id', Auth::guard('employee')->id());
+        })->findOrFail($id);
 
-        if ($exercise->image_path && Storage::disk('public')->exists($exercise->image_path)) {
+        $imageStillUsed = $exercise->image_path
+            ? Plan::where('image_path', $exercise->image_path)->where('id', '!=', $exercise->id)->exists()
+            : false;
+
+        if ($exercise->image_path && !$imageStillUsed && Storage::disk('public')->exists($exercise->image_path)) {
             Storage::disk('public')->delete($exercise->image_path);
         }
 
@@ -73,36 +82,34 @@ class PlanController extends Controller
 
         return redirect()->back()->with('success', 'تم حذف التمرين بنجاح.');
     }
-    // عرض كافة التمارين الموجودة بالمكتبة العامة للمدرب
-// 🎯 عرض جدول التمارين بالمكتبة (الاسم والقسم فقط)
-public function library(Request $request)
-{
-    $coachId = Auth::guard('employee')->id();
 
-    $query = Plan::whereHas('trainingPlan', function ($q) use ($coachId) {
-        $q->where('coach_id', $coachId);
-    });
+    public function library(Request $request)
+    {
+        $coachId = Auth::guard('employee')->id();
 
-    if ($request->filled('level')) {
-        $query->whereHas('trainingPlan', function ($q) use ($request) {
-            $q->where('level', $request->level);
+        $query = Plan::whereHas('trainingPlan', function ($q) use ($coachId) {
+            $q->where('coach_id', $coachId);
         });
+
+        if ($request->filled('level')) {
+            $query->whereHas('trainingPlan', function ($q) use ($request) {
+                $q->where('level', $request->level);
+            });
+        }
+
+        $exercises = $query->with('trainingPlan')->latest()->get();
+
+        return view('Employee.TrainingBank.Library.index', compact('exercises'));
     }
 
-    $exercises = $query->with('trainingPlan')->latest()->get();
+    public function showExercise($id)
+    {
+        $coachId = Auth::guard('employee')->id();
 
-    return view('Employee.TrainingBank.Library.index', compact('exercises'));
-}
+        $exercise = Plan::whereHas('trainingPlan', function ($q) use ($coachId) {
+            $q->where('coach_id', $coachId);
+        })->findOrFail($id);
 
-// 🎯 صفحة عرض التفاصيل والشرح والفيديو للتمرين
-public function showExercise($id)
-{
-    $coachId = Auth::guard('employee')->id();
-
-    $exercise = Plan::whereHas('trainingPlan', function ($q) use ($coachId) {
-        $q->where('coach_id', $coachId);
-    })->findOrFail($id);
-
-    return view('Employee.TrainingBank.Library.show', compact('exercise'));
-}
+        return view('Employee.TrainingBank.Library.show', compact('exercise'));
+    }
 }

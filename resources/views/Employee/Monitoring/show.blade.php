@@ -284,6 +284,24 @@
             font-size: 13px;
         }
 
+        /* 📈 صندوق الرسم البياني لتطور اللاعب */
+        .progress-chart-box {
+            padding: 18px 20px 8px;
+            border-bottom: 1px solid var(--gold-soft);
+        }
+
+        .progress-chart-canvas-wrap {
+            position: relative;
+            height: 200px;
+        }
+
+        .progress-chart-empty {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--muted);
+            font-size: 12.5px;
+        }
+
         /* Modals */
         .modal {
             display: none;
@@ -409,14 +427,18 @@
                             {{ $player->weight ?? '---' }} كغ
                         </span>
 
-                        @if ($player->subscription)
+                        @if ($player->hasActiveSubscription())
                             <span class="badge-item"
-                                style="color: {{ $player->subscription->status == 'active' ? '#4ade80' : '#f87171' }}; background: rgba(255,255,255,0.02)">
+                                style="color: #4ade80; background: rgba(255,255,255,0.02)">
                                 <i class="fas fa-circle" style="font-size: 8px; margin-left: 5px; color: currentColor;"></i>
-                                اشتراك {{ $player->subscription->status == 'active' ? 'نشط' : 'منتهي/مجمد' }}
+                                اشتراك نشط
                             </span>
                         @else
-                            <span class="badge-item" style="color: var(--muted);">غير مشترك حالياً</span>
+                            <span class="badge-item"
+                                style="color: #f87171; background: rgba(255,255,255,0.02)">
+                                <i class="fas fa-circle" style="font-size: 8px; margin-left: 5px; color: currentColor;"></i>
+                                اشتراك منتهي/مجمد
+                            </span>
                         @endif
                     </div>
                 </div>
@@ -426,7 +448,7 @@
         </div>
 
         @php
-            $isActive = $player->subscription && $player->subscription->status == 'active';
+            $isActive = $player->hasActiveSubscription();
         @endphp
 
         <!-- 🚀 بداية التوزيع الهيكلي الجديد على السوا -->
@@ -449,7 +471,7 @@
                         @forelse($player->trainingPlans as $trainingPlan)
                             <div class="plan-card">
                                 <div class="plan-card-header">
-                                    <span class="plan-card-title">حزمة تمارين - مستوى {{ $trainingPlan->level }}</span>
+                                    <span class="plan-card-title">{{ $trainingPlan->title }}</span>
                                     @if (empty($trainingPlan->player_id))
                                         <span class="badge-item" style="font-size: 11px; color: var(--gold);">عامة</span>
                                     @else
@@ -458,7 +480,7 @@
                                             باللاعب</span>
                                     @endif
                                 </div>
-                                <div class="plan-details-text">{{ $trainingPlan->plan_details }}</div>
+                                <div class="plan-details-text">المستوى المستهدف: {{ $trainingPlan->level ?? 'غير محدد' }}</div>
                                 <div class="plan-dates">
                                     <span>البدء: {{ $trainingPlan->start_date }}</span>
                                     <span>الانتهاء: {{ $trainingPlan->end_date }}</span>
@@ -514,6 +536,23 @@
                             </button>
                         @endif
                     </div>
+
+                    {{-- 📈 رسم بياني لتطور الوزن ونسبة الدهون عبر الوقت — نفس شكل البيانات
+                         المتوقع لاحقاً من API التطبيق (تاريخ، وزن، دهون، عضل)، حتى يسهل
+                         تحويل هذه الشاشة لنقطة نهاية API تغذّي شاشة "السجل" بالتطبيق مباشرة. --}}
+                    @if ($player->bodyProgress->count() >= 2)
+                        <div class="progress-chart-box">
+                            <div class="progress-chart-canvas-wrap">
+                                <canvas id="bodyProgressChart"></canvas>
+                            </div>
+                        </div>
+                    @elseif ($player->bodyProgress->count() === 1)
+                        <div class="progress-chart-empty">
+                            <i class="fas fa-chart-line" style="margin-left: 6px;"></i>
+                            بحاجة لقياس ثانٍ على الأقل حتى يظهر رسم بياني لتطور اللاعب.
+                        </div>
+                    @endif
+
                     <div class="plan-list" style="max-height: 380px;">
                         @forelse($player->bodyProgress as $progress)
                             <div class="plan-card progress-card-item">
@@ -651,9 +690,9 @@
                 @csrf
                 <div class="modal-body">
                     <div class="field-group">
-                        <label class="field-label">تفاصيل التمارين والمجموعات الحصرية</label>
-                        <textarea name="plan_details" class="field-input" rows="6" placeholder="اكتب تفاصيل التمارين الخاصة به هنا..."
-                            required></textarea>
+                        <label class="field-label">عنوان الخطة التدريبية الحصرية</label>
+                        <input type="text" name="title" class="field-input"
+                            placeholder="مثال: جدول تضخيم خاص - 4 أيام" required>
                     </div>
                     <button type="submit" class="btn-submit">تنزيل الجدول الخاص باللاعب</button>
                 </div>
@@ -711,4 +750,76 @@
             }
         }
     </script>
+
+    @if ($player->bodyProgress->count() >= 2)
+        @php
+            // 📈 نرتب السجل تصاعدياً (الأقدم أولاً) لأن bodyProgress محمّلة تنازلياً
+            // لعرض القائمة، بينما الرسم البياني يحتاج ترتيباً زمنياً طبيعياً.
+            // هذا الشكل بالضبط (تاريخ/وزن/دهون) هو ما سيُرجعه لاحقاً API التطبيق.
+            $progressChartData = [];
+            foreach ($player->bodyProgress->sortBy('created_at')->values() as $p) {
+                $progressChartData[] = [
+                    'date' => \Carbon\Carbon::parse($p->created_at)->format('Y-m-d'),
+                    'weight' => (float) $p->weight,
+                    'body_fat_pct' => $p->body_fat_pct !== null ? (float) $p->body_fat_pct : null,
+                ];
+            }
+        @endphp
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+        <script>
+            const progressData = @json($progressChartData);
+
+            new Chart(document.getElementById('bodyProgressChart'), {
+                type: 'line',
+                data: {
+                    labels: progressData.map(p => p.date),
+                    datasets: [
+                        {
+                            label: 'الوزن (كغ)',
+                            data: progressData.map(p => p.weight),
+                            borderColor: '#c9a961',
+                            backgroundColor: 'rgba(201, 169, 97, 0.12)',
+                            fill: true,
+                            tension: 0.3,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'نسبة الدهون (%)',
+                            data: progressData.map(p => p.body_fat_pct),
+                            borderColor: '#3b82f6',
+                            borderDash: [5, 4],
+                            fill: false,
+                            tension: 0.3,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {color: '#8a8f9c', font: {family: 'Tajawal', size: 11}}
+                        },
+                        tooltip: {rtl: true, titleFont: {family: 'Tajawal'}, bodyFont: {family: 'Tajawal'}}
+                    },
+                    scales: {
+                        x: {grid: {display: false}, ticks: {color: '#8a8f9c', font: {family: 'Tajawal', size: 10}}},
+                        y: {
+                            position: 'left',
+                            grid: {color: 'rgba(255,255,255,0.05)'},
+                            ticks: {color: '#c9a961', font: {size: 10}},
+                            title: {display: true, text: 'كغ', color: '#c9a961', font: {size: 10}}
+                        },
+                        y1: {
+                            position: 'right',
+                            grid: {display: false},
+                            ticks: {color: '#3b82f6', font: {size: 10}},
+                            title: {display: true, text: '%', color: '#3b82f6', font: {size: 10}}
+                        }
+                    }
+                }
+            });
+        </script>
+    @endif
 @endsection

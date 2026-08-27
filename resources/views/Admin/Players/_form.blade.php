@@ -13,7 +13,7 @@
             <div class="input-wrap">
                 <i class="fas fa-id-card"></i>
                 <input type="text" name="name" class="form-input" value="{{ old('name', $player->name ?? '') }}"
-                    placeholder="مثال: أحمد العلي" >
+                    placeholder="مثال: أحمد العلي">
             </div>
         </div>
 
@@ -22,7 +22,7 @@
             <div class="input-wrap">
                 <i class="fas fa-envelope"></i>
                 <input type="email" name="email" class="form-input" dir="ltr"
-                    value="{{ old('email', $player->email ?? '') }}" placeholder="name@example.com" >
+                    value="{{ old('email', $player->email ?? '') }}" placeholder="name@example.com">
             </div>
         </div>
 
@@ -31,7 +31,7 @@
             <div class="input-wrap">
                 <i class="fas fa-phone"></i>
                 <input type="text" name="phone" class="form-input" dir="ltr"
-                    value="{{ old('phone', $player->phone ?? '') }}" placeholder="05xxxxxxxx"   >
+                    value="{{ old('phone', $player->phone ?? '') }}" placeholder="05xxxxxxxx">
             </div>
         </div>
 
@@ -40,8 +40,7 @@
                 <label class="form-label">كلمة المرور</label>
                 <div class="input-wrap">
                     <i class="fas fa-lock"></i>
-                    <input type="password" name="password" class="form-input" dir="ltr" placeholder="••••••••"
-                        >
+                    <input type="password" name="password" class="form-input" dir="ltr" placeholder="••••••••">
                 </div>
             </div>
         @endif
@@ -68,17 +67,18 @@
             <label class="form-label">نوع الخطة</label>
             <div class="input-wrap">
                 <i class="fas fa-clock"></i>
-                <select name="plan_name" class="form-input" >
-                    <option value="">-- اختر نوع الاشتراك --</option>
-                    <option value="اشتراك شهري"
-                        {{ old('plan_name', $player->subscription->plan_name ?? '') == 'اشتراك شهري' ? 'selected' : '' }}>
-                        اشتراك شهري</option>
-                    <option value="اشتراك ربع سنوي"
-                        {{ old('plan_name', $player->subscription->plan_name ?? '') == 'اشتراك ربع سنوي' ? 'selected' : '' }}>
-                        اشتراك ربع سنوي</option>
-                    <option value="اشتراك سنوي"
-                        {{ old('plan_name', $player->subscription->plan_name ?? '') == 'اشتراك سنوي' ? 'selected' : '' }}>
-                        اشتراك سنوي</option>
+                <select name="plan_type_id" class="form-input">
+                    <option value="">-- اختر الباقة --</option>
+                    @forelse ($planTypes as $planType)
+                        <option value="{{ $planType->id }}"
+                            {{ old('plan_type_id', $player->subscription->plan_type_id ?? '') == $planType->id ? 'selected' : '' }}>
+                            {{ $planType->name }} — {{ $planType->duration_days }} يوم —
+                            {{ number_format($planType->price, 2) }}
+                        </option>
+                    @empty
+                        <option value="" disabled>لا توجد باقات مفعّلة، أضف باقة أولاً من "الباقات والأسعار"
+                        </option>
+                    @endforelse
                 </select>
             </div>
         </div>
@@ -97,7 +97,7 @@
             <label class="form-label">المدرب المسؤول</label>
             <div class="input-wrap">
                 <i class="fas fa-user-tie"></i>
-                <select name="coach_id" class="form-input" >
+                <select name="coach_id" class="form-input">
                     <option value="">-- اختر المدرب المسؤول --</option>
                     @foreach ($coaches as $coach)
                         <option value="{{ $coach->id }}"

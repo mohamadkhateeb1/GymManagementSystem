@@ -10,7 +10,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// داش بورد للاعبين
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -22,7 +21,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// 2fa employee
 Route::get('admin/2fa', [TowFactorAuthenticatorController::class, 'index'])->name('admin.2fa');
 Route::get('employee/2fa', [TowFactorAuthenticatorController::class, 'index'])->name('employee.2fa');
 
