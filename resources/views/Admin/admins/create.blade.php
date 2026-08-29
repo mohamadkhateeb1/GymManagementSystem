@@ -1,301 +1,632 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+@extends('Admin.layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إضافة مشرف جديد</title>
+@section('title', 'إضافة مسؤول جديد | Elite Club')
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+@section('styles')
 
     <style>
-        /* ---- الإعدادات الأساسية (Reset) ---- */
-        * {
+        /* =========================================================
+       ADMIN CREATE / EDIT
+    ========================================================= */
+
+        .admin-page {
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 10px 0 40px;
+            direction: rtl;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .admin-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
+
+        .admin-page-header-main {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .admin-page-accent {
+            width: 4px;
+            height: 48px;
+            border-radius: 10px;
+            background: linear-gradient(180deg,
+                    var(--gold, #c9a961),
+                    rgba(201, 169, 97, .25));
+            box-shadow: 0 0 18px rgba(201, 169, 97, .15);
+        }
+
+        .admin-page-title {
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            color: var(--text, #f5f5f5);
+            font-size: 24px;
+            font-weight: 800;
         }
 
-        :root {
-            --bg: #0d0f14;
-            --card: #181c27;
-            --border: #252a38;
-            --accent: #6c63ff;
-            --accent2: #00d4aa;
-            --text: #e8eaf6;
-            --muted: #6b7280;
-            --danger: #f87171;
+        .admin-page-subtitle {
+            margin-top: 5px;
+            color: var(--muted, #8d95a3);
+            font-size: 13px;
         }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            color: var(--text);
-            min-height: 100vh;
-            background:
-                radial-gradient(100% 70% at 100% 0%, rgba(0, 212, 170, 0.10), transparent 55%),
-                radial-gradient(90% 70% at 0% 100%, rgba(108, 99, 255, 0.10), transparent 55%),
-                var(--bg);
-        }
 
-        .create-wrapper {
-            max-width: 720px;
-            margin: 2.5rem auto;
-            padding: 0 1.25rem 4rem;
-            animation: fadeUp .35s ease both;
-        }
+        /* ================= BACK ================= */
 
-        /* ---- BREADCRUMB ---- */
-        .breadcrumb-row {
-            display: flex;
+        .admin-back-btn {
+            display: inline-flex;
             align-items: center;
-            gap: .5rem;
-            font-size: .78rem;
-            color: var(--muted);
-            margin-bottom: 1.75rem;
-        }
-
-        .breadcrumb-row a {
-            color: var(--muted);
+            gap: 9px;
+            padding: 10px 16px;
+            border-radius: 10px;
             text-decoration: none;
-            transition: color .15s;
+            color: var(--text, #f5f5f5);
+            background: var(--surface, #1a202b);
+            border: 1px solid var(--border, rgba(255, 255, 255, .09));
+            transition: .2s ease;
         }
 
-        .breadcrumb-row a:hover {
-            color: var(--text);
+        .admin-back-btn:hover {
+            color: var(--gold, #c9a961);
+            border-color: rgba(201, 169, 97, .35);
+            transform: translateY(-1px);
         }
 
-        .breadcrumb-row span {
-            color: var(--accent2);
-            font-weight: 600;
-        }
 
-        .breadcrumb-row svg {
-            width: 13px;
-            height: 13px;
-        }
+        /* ================= CARD ================= */
 
-        /* ---- CARD ---- */
-        .create-card {
-            position: relative;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 1.25rem;
+        .admin-form-card {
+            background: var(--surface, #1a202b);
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 18px 50px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .03);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .12);
         }
 
-        /* لمعة علوية رفيعة */
-        .create-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0, 212, 170, .6), transparent);
-            z-index: 2;
-        }
-
-        /* ---- HEADER ---- */
-        .create-card-header {
-            padding: 1.5rem 1.75rem;
-            border-bottom: 1px solid var(--border);
+        .admin-form-card-head {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            position: relative;
-            overflow: hidden;
-            background: rgba(0, 212, 170, .03);
+            gap: 13px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: linear-gradient(135deg,
+                    rgba(201, 169, 97, .08),
+                    transparent);
         }
 
-        .create-card-header::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--accent2), #34d399);
-            border-radius: 2px 0 0 2px;
-        }
-
-        .header-icon {
+        .admin-form-card-icon {
             width: 42px;
             height: 42px;
-            border-radius: .8rem;
-            background: rgba(0, 212, 170, .12);
-            border: 1px solid rgba(0, 212, 170, .25);
+            border-radius: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent2);
-            flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(0, 212, 170, .2);
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .10);
+            border: 1px solid rgba(201, 169, 97, .22);
         }
 
-        .header-icon svg {
-            width: 20px;
-            height: 20px;
+        .admin-form-card-head h3 {
+            margin: 0;
+            color: var(--text, #f5f5f5);
+            font-size: 16px;
+            font-weight: 800;
         }
 
-        .header-text h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.2;
+        .admin-form-card-head span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted, #8d95a3);
+            font-size: 12px;
         }
 
-        .header-text p {
-            font-size: .78rem;
-            color: var(--muted);
-            margin-top: .15rem;
+
+        /* ================= FORM ================= */
+
+        .admin-form {
+            padding: 25px;
         }
 
-        /* ---- BODY ---- */
-        .create-card-body {
-            padding: 1.75rem;
+        .form-section {
+            margin-bottom: 25px;
+            padding: 22px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 15px;
+            background: var(--surface-2, rgba(255, 255, 255, .018));
         }
 
-        /* ---- FOOTER ---- */
-        .create-card-footer {
-            padding: 1.25rem 1.75rem;
-            border-top: 1px solid var(--border);
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
             display: flex;
             align-items: center;
-            gap: .75rem;
-            flex-wrap: wrap;
-            background: rgba(255, 255, 255, .015);
+            gap: 12px;
+            padding-bottom: 17px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border, rgba(255, 255, 255, .07));
         }
 
-        .btn-submit {
-            display: inline-flex;
+        .section-title-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
             align-items: center;
-            gap: .45rem;
-            padding: .65rem 1.6rem;
-            border-radius: .7rem;
-            font-family: 'DM Sans', sans-serif;
-            font-size: .875rem;
+            justify-content: center;
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .10);
+            border: 1px solid rgba(201, 169, 97, .20);
+        }
+
+        .section-title h3 {
+            margin: 0;
+            color: var(--text, #f5f5f5);
+            font-size: 15px;
+        }
+
+        .section-title span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted, #8d95a3);
+            font-size: 12px;
+        }
+
+
+        /* ================= GRID ================= */
+
+        .fields-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+
+        /* ================= FIELD ================= */
+
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-group>label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 8px;
+            color: var(--text, #e8e9eb);
+            font-size: 13px;
             font-weight: 700;
-            color: #062b22;
-            background: linear-gradient(135deg, var(--accent2), #34d399);
+        }
+
+        .field-group>label i {
+            color: var(--gold, #c9a961);
+            font-size: 12px;
+        }
+
+
+        /* ================= INPUT ================= */
+
+        .field-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .field-icon {
+            position: absolute;
+            right: 15px;
+            z-index: 2;
+            color: var(--muted, #7e8795);
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        .field-wrap input {
+            width: 100%;
+            min-height: 46px;
+            padding: 0 43px 0 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .10));
+            outline: none;
+            background: var(--input-bg, #131923);
+            color: var(--text, #f5f5f5);
+            font-family: inherit;
+            font-size: 13px;
+            transition: .2s ease;
+        }
+
+        .field-wrap input::placeholder {
+            color: var(--muted, #737c89);
+        }
+
+        .field-wrap input:focus {
+            border-color: rgba(201, 169, 97, .60);
+            box-shadow: 0 0 0 3px rgba(201, 169, 97, .08);
+        }
+
+        .field-wrap input.is-invalid {
+            border-color: #ef6b73;
+        }
+
+
+        /* ================= PASSWORD ================= */
+
+        .password-toggle {
+            position: absolute;
+            left: 10px;
+            width: 32px;
+            height: 32px;
             border: none;
+            background: transparent;
+            color: var(--muted, #7e8795);
             cursor: pointer;
-            transition: transform .2s, box-shadow .2s;
-            box-shadow: 0 6px 18px rgba(0, 212, 170, .3);
+            border-radius: 7px;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(0, 212, 170, .45);
+        .password-toggle:hover {
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .08);
         }
 
-        .btn-submit svg {
-            width: 16px;
-            height: 16px;
+
+        /* ================= HINT ================= */
+
+        .field-hint {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 8px;
+            color: var(--muted, #808998);
+            font-size: 11.5px;
         }
 
-        .btn-cancel {
+        .field-hint i {
+            color: var(--gold, #c9a961);
+        }
+
+
+        /* ================= ERROR ================= */
+
+        .field-error {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+            color: #f87171;
+            font-size: 11.5px;
+        }
+
+        .field-error i {
+            font-size: 11px;
+        }
+
+
+        /* ================= ROLES ================= */
+
+        .roles-container {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .role-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            border-radius: 11px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: var(--input-bg, #131923);
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .role-option:hover {
+            border-color: rgba(201, 169, 97, .35);
+            background: rgba(201, 169, 97, .035);
+        }
+
+        .role-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .custom-checkbox {
+            width: 21px;
+            height: 21px;
+            flex: 0 0 21px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border, rgba(255, 255, 255, .15));
+            color: transparent;
+            transition: .2s ease;
+        }
+
+        .role-option input:checked+.custom-checkbox {
+            background: var(--gold, #c9a961);
+            border-color: var(--gold, #c9a961);
+            color: #171a20;
+        }
+
+        .role-option:has(input:checked) {
+            border-color: rgba(201, 169, 97, .45);
+            background: rgba(201, 169, 97, .07);
+        }
+
+        .role-option-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .role-option-name {
+            color: var(--text, #f1f1f1);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .role-option-name i {
+            color: var(--gold, #c9a961);
+            margin-left: 4px;
+        }
+
+        .role-option-status {
+            color: var(--muted, #7d8592);
+            font-size: 10.5px;
+        }
+
+        .roles-empty {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px dashed var(--border, rgba(255, 255, 255, .12));
+            color: var(--muted, #8d95a3);
+        }
+
+        .roles-empty>i {
+            color: var(--gold, #c9a961);
+            font-size: 22px;
+        }
+
+        .roles-empty strong,
+        .roles-empty span {
+            display: block;
+        }
+
+        .roles-empty strong {
+            color: var(--text, #f5f5f5);
+            margin-bottom: 4px;
+        }
+
+        .roles-empty span {
+            font-size: 12px;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .admin-form-footer {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 25px;
+            border-top: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: var(--surface-2, rgba(255, 255, 255, .015));
+        }
+
+        .admin-submit-btn,
+        .admin-cancel-btn {
             display: inline-flex;
             align-items: center;
-            gap: .45rem;
-            padding: .65rem 1.3rem;
-            border-radius: .7rem;
-            font-family: 'DM Sans', sans-serif;
-            font-size: .875rem;
-            font-weight: 500;
-            color: var(--muted);
-            background: transparent;
-            border: 1px solid var(--border);
+            justify-content: center;
+            gap: 8px;
+            min-width: 145px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
             text-decoration: none;
-            transition: color .2s, border-color .2s, background .2s;
+            transition: .2s ease;
         }
 
-        .btn-cancel:hover {
-            color: var(--text);
-            border-color: #3d4460;
-            background: rgba(255, 255, 255, .04);
+        .admin-submit-btn {
+            border: 1px solid rgba(201, 169, 97, .55);
+            color: #17191e;
+            background: linear-gradient(135deg,
+                    #dfbd68,
+                    #bd9640);
+            box-shadow: 0 8px 20px rgba(201, 169, 97, .12);
         }
 
-        .btn-cancel svg {
-            width: 15px;
-            height: 15px;
+        .admin-submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 11px 25px rgba(201, 169, 97, .18);
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
+        .admin-cancel-btn {
+            color: var(--text, #e8e9eb);
+            background: transparent;
+            border: 1px solid var(--border, rgba(255, 255, 255, .10));
+        }
+
+        .admin-cancel-btn:hover {
+            border-color: rgba(201, 169, 97, .30);
+            color: var(--gold, #c9a961);
+        }
+
+
+        /* ================= LIGHT MODE ================= */
+
+        [data-theme="light"] .admin-form-card,
+        [data-theme="light"] .form-section {
+            background: #ffffff;
+        }
+
+        [data-theme="light"] .admin-form-card-head {
+            background: linear-gradient(135deg,
+                    rgba(201, 169, 97, .08),
+                    rgba(255, 255, 255, .5));
+        }
+
+        [data-theme="light"] .field-wrap input,
+        [data-theme="light"] .role-option {
+            background: #f8f9fb;
+            color: #20242b;
+        }
+
+        [data-theme="light"] .field-wrap input {
+            border-color: #e2e5ea;
+        }
+
+        [data-theme="light"] .role-option {
+            border-color: #e3e6eb;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .admin-page {
+                padding: 5px 12px 30px;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .admin-page-header {
+                align-items: flex-start;
+            }
+
+            .admin-page-title {
+                font-size: 19px;
+            }
+
+            .admin-page-header {
+                flex-direction: column;
+            }
+
+            .admin-back-btn {
+                align-self: stretch;
+                justify-content: center;
+            }
+
+            .admin-form {
+                padding: 15px;
+            }
+
+            .form-section {
+                padding: 16px;
+            }
+
+            .fields-grid,
+            .roles-container {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form-footer {
+                flex-direction: column;
+            }
+
+            .admin-submit-btn,
+            .admin-cancel-btn {
+                width: 100%;
             }
         }
     </style>
-</head>
+@endsection
 
-<body>
 
-    <div class="create-wrapper">
+@section('content')
 
-        {{-- Breadcrumb --}}
-        <div class="breadcrumb-row">
-            <a href="{{ route('admins.index') }}">Admins</a>
-            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-            <span>Create Admin</span>
-        </div>
+    <div class="admin-page">
 
-        <div class="create-card">
+        {{-- Header --}}
+        <div class="admin-page-header">
 
-            {{-- Header --}}
-            <div class="create-card-header">
-                <div class="header-icon">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-                    </svg>
+            <div class="admin-page-header-main">
+
+                <div class="admin-page-accent"></div>
+
+                <div>
+                    <h1 class="admin-page-title">
+                        إضافة مسؤول جديد
+                    </h1>
+
+                    <div class="admin-page-subtitle">
+                        إنشاء حساب مسؤول جديد وتحديد أدواره وصلاحياته
+                    </div>
                 </div>
-                <div class="header-text">
-                    <h3>Create Admin</h3>
-                    <p>إضافة مشرف جديد — جميع الحقول مطلوبة</p>
-                </div>
+
             </div>
 
-            {{-- Form --}}
+            <a href="{{ route('admins.index') }}" class="admin-back-btn">
+                <i class="fas fa-arrow-right"></i>
+                رجوع للمسؤولين
+            </a>
+
+        </div>
+
+
+        {{-- Card --}}
+        <div class="admin-form-card">
+
+            <div class="admin-form-card-head">
+
+                <div class="admin-form-card-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+
+                <div>
+                    <h3>بيانات المسؤول</h3>
+                    <span>أدخل المعلومات الأساسية للحساب الجديد</span>
+                </div>
+
+            </div>
+
+
             <form action="{{ route('admins.store') }}" method="POST">
+
                 @csrf
 
-                <div class="create-card-body">
-                    @include('Admin.admins._form')
+                @include('Admin.admins._form')
+
+                <div class="admin-form-footer">
+
+                    <button type="submit" class="admin-submit-btn">
+                        <i class="fas fa-user-plus"></i>
+                        إنشاء المسؤول
+                    </button>
+
+                    <a href="{{ route('admins.index') }}" class="admin-cancel-btn">
+                        <i class="fas fa-xmark"></i>
+                        إلغاء
+                    </a>
+
                 </div>
 
-                <div class="create-card-footer">
-                    <button type="submit" class="btn-submit">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        Create Admin
-                    </button>
-                    <a href="{{ route('admins.index') }}" class="btn-cancel">
-                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                        Cancel
-                    </a>
-                </div>
             </form>
 
         </div>
+
     </div>
 
-</body>
-
-</html>
+@endsection

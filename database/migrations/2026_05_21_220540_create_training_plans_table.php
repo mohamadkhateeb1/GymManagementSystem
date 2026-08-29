@@ -18,6 +18,10 @@ return new class extends Migration
             // حقل اللاعب nullable لأن الخطة تُخزن بالبنك أولاً كخطة عامة للمستوى
             $table->foreignId('player_id')->nullable()->constrained('players')->cascadeOnDelete();
 
+            // 🆕 يميّز الحاوية المخفية الخاصة بتمارين اللاعب اليدوية عن الخطط
+            // النازلة من بنك المستوى العام (سواء كانت بنك أو نسخة موزَّعة للاعب)
+            $table->boolean('is_custom')->default(false);
+
             // 🎯 اسم الخطة التدريبية
             $table->string('title');
 

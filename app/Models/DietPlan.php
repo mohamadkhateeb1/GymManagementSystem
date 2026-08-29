@@ -9,6 +9,7 @@ class DietPlan extends Model
     protected $fillable = [
         'coach_id',
         'player_id',
+        'is_custom',
         'plan_details',
         'start_date',
         'end_date',
@@ -19,5 +20,9 @@ class DietPlan extends Model
         'carbs',
         'fats',
         'image_path',   
+    ];
+
+    protected $casts = [
+        'is_custom' => 'boolean',
     ];
 }

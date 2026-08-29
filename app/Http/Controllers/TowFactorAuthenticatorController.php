@@ -1,19 +1,28 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
-use Laravel\Fortify\Fortify;
 
 class TowFactorAuthenticatorController extends Controller
 {
-    public function index()
+    /**
+     * 2FA الخاص بالأدمن
+     */
+    public function admin()
     {
-        if(Auth::guard('admin')->check()){
-            $user = Auth::guard('admin')->user();
-        }else{
-            $user = Auth::guard('employee')->user();
-        }
+        $user = Auth::guard('admin')->user();
+
+        return view('auth.two_factor_auth', compact('user'));
+    }
+
+    /**
+     * 2FA الخاص بالموظف
+     */
+    public function employee()
+    {
+        $user = Auth::guard('employee')->user();
+
         return view('auth.two_factor_auth', compact('user'));
     }
 }

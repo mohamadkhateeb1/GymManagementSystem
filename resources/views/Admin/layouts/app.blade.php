@@ -2,188 +2,362 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Elite Club - Admin')</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        @yield('title', 'Elite Club - Admin')
+    </title>
+
+    {{-- =====================================================
+         FONT
+    ====================================================== --}}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    {{-- =====================================================
+         FONT AWESOME
+    ====================================================== --}}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    {{-- =====================================================
+         BOOTSTRAP RTL
+    ====================================================== --}}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+        rel="stylesheet">
+
+
+    {{-- =====================================================
+         THEME — BEFORE PAGE RENDER
+    ====================================================== --}}
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('elite-theme');
+            const theme = savedTheme === 'dark' ? 'dark' : 'light';
+
+            document.documentElement.setAttribute(
+                'data-theme',
+                theme
+            );
+        })();
+    </script>
+
 
     <style>
-        /* ── التنسيقات الجذرية ── */
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg: #0d0f14;
-            --surface: #13161d;
-            --surface-2: #1a1e28;
-            --border: #252a38;
-            --accent: #6c63ff;
-            --text: #e8eaf6;
-            --text-muted: #9ca3af;
-            --sidebar-width: 270px;
+        html {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
         }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg);
+            margin: 0;
+            padding: 0;
+
+            min-height: 100vh;
+
+            font-family: 'Tajawal', sans-serif;
+
+            background: var(--app-bg);
             color: var(--text);
-            display: flex;
-            min-height: 100vh;
+
             overflow-x: hidden;
+
+            transition:
+                background .25s ease,
+                color .25s ease;
         }
 
-        /* ── السايدبار (القائمة الجانبية) ── */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--surface);
-            border-left: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            right: 0;
-            top: 0;
-            height: 100vh;
-            z-index: 100;
-            padding: 20px 16px;
+        button,
+        input,
+        select,
+        textarea {
+            font-family: 'Tajawal', sans-serif;
         }
 
-        /* تنسيق الشعار (Brand) */
-        .brand {
-            margin-bottom: 30px;
-            padding: 0 8px;
+        button {
+            outline: none;
         }
 
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        a {
+            text-decoration: none;
         }
 
-        .brand-mark {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #6c63ff, #818cf8);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+
+        /* =====================================================
+           LIGHT THEME
+        ====================================================== */
+
+        :root {
+
+            --gold: #b89445;
+            --gold-light: #d7bd7b;
+            --gold-dark: #8f6d2d;
+
+            --app-bg: #f4f5f7;
+
+            --surface: #ffffff;
+            --surface-2: #fafbfc;
+            --surface-3: #f1f3f5;
+
+            --surface-hover: #fbf7ee;
+
+            --text: #272b31;
+            --text-soft: #565d67;
+
+            --muted: #858c95;
+            --muted-light: #a8adb4;
+
+            --border: #e3e6ea;
+            --border-soft: #edf0f2;
+
+            --sidebar-bg: #ffffff;
+            --sidebar-text: #656c76;
+
+            --sidebar-hover: #fbf8f0;
+            --sidebar-active: #f8f1df;
+
+            --input-bg: #ffffff;
+            --input-border: #dfe3e7;
+
+            --success: #3f916a;
+            --success-bg: #edf8f2;
+
+            --danger: #c45d5d;
+            --danger-bg: #fff2f2;
+
+            --warning: #a97925;
+            --warning-bg: #fff8e9;
+
+            --info: #66809f;
+            --info-bg: #f0f5fa;
+
+            --shadow-sm:
+                0 2px 10px rgba(30, 35, 42, .035);
+
+            --shadow-md:
+                0 7px 24px rgba(30, 35, 42, .055);
+
+            --shadow-lg:
+                0 14px 35px rgba(30, 35, 42, .075);
+
+            --sidebar-width: 270px;
+
+            --topbar-height: 76px;
         }
 
-        .brand-text h2 {
-            font-size: 18px;
-            font-weight: 900;
-            color: #fff;
-            letter-spacing: 1px;
-            line-height: 1.2;
+
+        /* =====================================================
+           DARK THEME
+        ====================================================== */
+
+        html[data-theme="dark"] {
+
+            --app-bg: #181b20;
+
+            --surface: #20242a;
+            --surface-2: #252a30;
+            --surface-3: #2b3037;
+
+            --surface-hover: #302b21;
+
+            --text: #f0f1f3;
+            --text-soft: #c4c8ce;
+
+            --muted: #969da6;
+            --muted-light: #747b84;
+
+            --border: #343941;
+            --border-soft: #2b3036;
+
+            --sidebar-bg: #1d2126;
+            --sidebar-text: #b8bec6;
+
+            --sidebar-hover: #292823;
+            --sidebar-active: #302b20;
+
+            --input-bg: #252a30;
+            --input-border: #3a4048;
+
+            --success: #6bc99a;
+            --success-bg: rgba(65, 175, 120, .12);
+
+            --danger: #df7b7b;
+            --danger-bg: rgba(210, 80, 80, .12);
+
+            --warning: #dfae52;
+            --warning-bg: rgba(220, 165, 65, .12);
+
+            --info: #91a9c8;
+            --info-bg: rgba(90, 120, 160, .12);
+
+            --shadow-sm:
+                0 3px 12px rgba(0, 0, 0, .15);
+
+            --shadow-md:
+                0 8px 25px rgba(0, 0, 0, .20);
+
+            --shadow-lg:
+                0 16px 38px rgba(0, 0, 0, .27);
         }
 
-        .brand-text span {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
 
-        /* تنسيقات أقسام السايدبار (لتتوافق مع مكون x-side) */
-        .nav-section {
-            margin-bottom: 24px;
-        }
+        /* =====================================================
+           MAIN LAYOUT
+        ====================================================== */
 
-        .nav-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 12px;
-            padding: 0 8px;
-        }
-
-        /* زر تسجيل الخروج */
-        .sidebar-logout {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            background: rgba(248, 113, 113, 0.08);
-            color: #f87171;
-            border: 1px solid rgba(248, 113, 113, 0.2);
-            border-radius: 8px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .sidebar-logout:hover {
-            background: rgba(248, 113, 113, 0.15);
-            border-color: rgba(248, 113, 113, 0.35);
-            transform: translateY(-1px);
-        }
-
-        /* ── منطقة المحتوى الرئيسية ── */
         .main-wrapper {
-            flex: 1;
-            margin-right: var(--sidebar-width);
-            display: flex;
-            flex-direction: column;
+
+            width: calc(100% - var(--sidebar-width));
+
             min-height: 100vh;
-        }
 
-        .top-navbar {
-            height: 70px;
-            background: rgba(13, 15, 20, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
+            margin-right: var(--sidebar-width);
+
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            position: sticky;
-            top: 0;
-            z-index: 90;
+
+            flex-direction: column;
+
+            background: var(--app-bg);
+
+            transition:
+                background .25s ease,
+                margin .25s ease,
+                width .25s ease;
         }
 
-        .nav-left {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
 
-        /* ── مساحة عرض المحتوى ── */
+        /* =====================================================
+           CONTENT
+        ====================================================== */
+
         .content-area {
-            padding: 40px 32px;
+
             flex: 1;
+
+            min-width: 0;
+
+            padding: 25px 30px 35px;
+
+            background: var(--app-bg);
+
+            transition:
+                background .25s ease;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 1100px) {
+
+            :root {
+                --sidebar-width: 240px;
+            }
+
+            .content-area {
+                padding: 22px 20px 30px;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+
+            :root {
+                --sidebar-width: 270px;
+            }
+
+            .main-wrapper {
+
+                width: 100%;
+
+                margin-right: 0;
+            }
+
+            .content-area {
+
+                padding: 18px 14px 28px;
+            }
         }
 
     </style>
-            @yield('styles')
+
+
+    @yield('styles')
 
 </head>
 
+
 <body>
+
+
+    {{-- =====================================================
+         SIDEBAR
+    ====================================================== --}}
+
     @include('Admin.sections.sidebar')
-   
+
+
+    {{-- =====================================================
+         MAIN
+    ====================================================== --}}
+
     <div class="main-wrapper">
 
+
+        {{-- =================================================
+             NAVBAR
+        ================================================== --}}
+
         <header class="top-navbar">
-            <div class="nav-left">
-                <span>مرحباً بك في لوحة تحكم الإدارة</span>
+
+            {{-- PAGE TITLE --}}
+
+            <div class="nav-page-title">
+
+                <h1>
+                    @yield('page-title', 'لوحة التحكم')
+                </h1>
+
+                <p>
+                    @yield('page-description', 'نظرة سريعة على أداء النادي والاشتراكات والموظفين')
+                </p>
+
+                <span class="nav-title-line"></span>
+
             </div>
+
+
+            {{-- NAV ACTIONS --}}
+
             <div class="nav-right">
+
+                @include('Admin.sections.navbar')
+
             </div>
+
         </header>
+
+
+        {{-- =================================================
+             CONTENT
+        ================================================== --}}
 
         <main class="content-area">
 
@@ -194,6 +368,107 @@
         </main>
 
     </div>
+
+
+    {{-- =====================================================
+         BOOTSTRAP JS
+    ====================================================== --}}
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    {{-- =====================================================
+         THEME SYSTEM
+    ====================================================== --}}
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const html = document.documentElement;
+
+            const themeButton =
+                document.getElementById('themeToggle');
+
+            const themeIcon =
+                document.getElementById('themeIcon');
+
+
+            function updateThemeIcon() {
+
+                if (!themeIcon) {
+                    return;
+                }
+
+                const theme =
+                    html.getAttribute('data-theme');
+
+
+                if (theme === 'dark') {
+
+                    themeIcon.className =
+                        'fas fa-sun';
+
+                    themeButton?.setAttribute(
+                        'title',
+                        'الوضع النهاري'
+                    );
+
+                } else {
+
+                    themeIcon.className =
+                        'fas fa-moon';
+
+                    themeButton?.setAttribute(
+                        'title',
+                        'الوضع الليلي'
+                    );
+                }
+            }
+
+
+            updateThemeIcon();
+
+
+            if (themeButton) {
+
+                themeButton.addEventListener(
+                    'click',
+                    function () {
+
+                        const current =
+                            html.getAttribute('data-theme') || 'light';
+
+                        const next =
+                            current === 'dark'
+                                ? 'light'
+                                : 'dark';
+
+
+                        html.setAttribute(
+                            'data-theme',
+                            next
+                        );
+
+
+                        localStorage.setItem(
+                            'elite-theme',
+                            next
+                        );
+
+
+                        updateThemeIcon();
+
+                    }
+                );
+            }
+
+        });
+
+    </script>
+
 
     @yield('scripts')
 

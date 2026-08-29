@@ -1,109 +1,284 @@
 @extends('Employee.layouts.app')
 
 @section('title', 'ملف اللاعب والخطط | Elite Club')
-
 @section('styles')
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        .player-profile-container {
-            --gold: #c9a961;
-            --gold-soft: rgba(201, 169, 97, 0.12);
-            --gold-line: rgba(201, 169, 97, 0.16);
-            --surface: #1c1f27;
-            --surface-2: #232733;
-            --text: #f2f3f5;
-            --muted: #8a8f9c;
-            --tracker-blue: #3b82f6;
-            --tracker-blue-soft: rgba(59, 130, 246, 0.1);
-            font-family: 'Tajawal', sans-serif;
-            color: var(--text);
+        /* =========================================================
+           THEME VARIABLES
+           لا تعتمد على .player-profile-container
+           حتى تعمل المودالات الموجودة خارج الـ container أيضاً
+        ========================================================= */
+
+        :root {
+            --profile-bg: #f5f6f8;
+            --profile-surface: #ffffff;
+            --profile-surface-2: #f8f9fb;
+            --profile-surface-3: #eef0f4;
+
+            --profile-text: #181b22;
+            --profile-text-secondary: #4b5563;
+            --profile-muted: #7b8492;
+
+            --profile-border: #e1e5eb;
+            --profile-border-hover: #cdd3dc;
+
+            --gold: #b38a38;
+            --gold-soft: rgba(179, 138, 56, .10);
+            --gold-line: rgba(179, 138, 56, .24);
+
+            --tracker-blue: #2563eb;
+            --tracker-blue-soft: rgba(37, 99, 235, .09);
+
+            --special: #6366f1;
+            --special-soft: rgba(99, 102, 241, .09);
+
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #d99b00;
+
+            --modal-bg: rgba(15, 23, 42, .58);
+
+            --card-shadow:
+                0 5px 20px rgba(15, 23, 42, .055);
+
+            --card-shadow-hover:
+                0 12px 32px rgba(15, 23, 42, .09);
         }
 
+        /* Dark mode */
+        html.dark,
+        body.dark,
+        html[data-theme="dark"],
+        body[data-theme="dark"],
+        html.dark-mode,
+        body.dark-mode {
+            --profile-bg: #101216;
+            --profile-surface: #181b22;
+            --profile-surface-2: #20242d;
+            --profile-surface-3: #272c35;
+
+            --profile-text: #f3f4f6;
+            --profile-text-secondary: #c5cad3;
+            --profile-muted: #8c94a3;
+
+            --profile-border: rgba(255, 255, 255, .075);
+            --profile-border-hover: rgba(255, 255, 255, .15);
+
+            --gold: #d0ae61;
+            --gold-soft: rgba(208, 174, 97, .11);
+            --gold-line: rgba(208, 174, 97, .25);
+
+            --tracker-blue: #60a5fa;
+            --tracker-blue-soft: rgba(96, 165, 250, .10);
+
+            --special: #818cf8;
+            --special-soft: rgba(129, 140, 248, .10);
+
+            --danger: #f87171;
+            --success: #4ade80;
+            --warning: #eab308;
+
+            --modal-bg: rgba(0, 0, 0, .76);
+
+            --card-shadow:
+                0 12px 35px rgba(0, 0, 0, .25);
+
+            --card-shadow-hover:
+                0 18px 45px rgba(0, 0, 0, .35);
+        }
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .player-profile-container {
+            --surface: var(--profile-surface);
+            --surface-2: var(--profile-surface-2);
+            --text: var(--profile-text);
+            --muted: var(--profile-muted);
+
+            --gold: var(--gold);
+            --gold-soft: var(--gold-soft);
+            --gold-line: var(--gold-line);
+
+            --tracker-blue: var(--tracker-blue);
+            --tracker-blue-soft: var(--tracker-blue-soft);
+
+            --special: var(--special);
+            --special-soft: var(--special-soft);
+
+            font-family: 'Tajawal', sans-serif;
+            color: var(--profile-text);
+            width: 100%;
+        }
+
+        /* =========================================================
+           BACK BUTTON
+        ========================================================= */
+
         .back-btn {
-            background: var(--surface-2);
-            color: var(--text);
-            border: 1px solid var(--gold-line);
-            padding: 8px 16px;
-            border-radius: 8px;
+            background: var(--profile-surface);
+            color: var(--profile-text);
+            border: 1px solid var(--profile-border);
+
+            padding: 9px 16px;
+            border-radius: 9px;
+
             text-decoration: none;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
+
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
+
+            transition: all .2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .03);
+        }
+
+        .back-btn i {
+            color: var(--gold);
         }
 
         .back-btn:hover {
-            border-color: var(--gold);
             color: var(--gold);
+            border-color: var(--gold);
+            transform: translateY(-1px);
+            box-shadow: var(--card-shadow);
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .btn-add-custom,
+        .btn-add-special,
+        .btn-rate-player,
+        .btn-add-progress {
+            font-family: 'Tajawal', sans-serif;
+            cursor: pointer;
+            transition: all .2s ease;
         }
 
         .btn-add-custom {
             background: var(--gold-soft);
             color: var(--gold);
-            border: 1px solid rgba(201, 169, 97, 0.3);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
+            border: 1px solid var(--gold-line);
+
+            padding: 7px 13px;
+            border-radius: 8px;
+
             font-size: 12px;
-            font-weight: 600;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.2s;
+            font-weight: 700;
         }
 
         .btn-add-custom:hover {
             background: var(--gold);
-            color: #1c1f27;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .btn-add-special {
+            background: var(--special-soft);
+            color: var(--special);
+            border: 1px solid rgba(99, 102, 241, .28);
+
+            padding: 7px 13px;
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .btn-add-special:hover {
+            background: var(--special);
+            color: #fff;
+            transform: translateY(-1px);
         }
 
         .btn-rate-player {
-            background: rgba(234, 179, 8, 0.1);
-            color: #eab308;
-            border: 1px solid rgba(234, 179, 8, 0.3);
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
+            background: rgba(234, 179, 8, .10);
+            color: var(--warning);
+            border: 1px solid rgba(234, 179, 8, .28);
+
+            padding: 7px 14px;
+            border-radius: 8px;
+
             font-size: 12px;
-            font-weight: 600;
-            transition: all 0.2s;
+            font-weight: 700;
         }
 
         .btn-rate-player:hover {
-            background: #eab308;
-            color: #1c1f27;
+            background: var(--warning);
+            color: #fff;
+            transform: translateY(-1px);
         }
 
         .btn-add-progress {
             background: var(--tracker-blue-soft);
             color: var(--tracker-blue);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
+            border: 1px solid rgba(37, 99, 235, .25);
+
+            padding: 7px 14px;
+            border-radius: 8px;
+
             font-size: 12px;
-            font-weight: 600;
-            transition: all 0.2s;
+            font-weight: 700;
         }
 
         .btn-add-progress:hover {
             background: var(--tracker-blue);
             color: #fff;
+            transform: translateY(-1px);
         }
 
+        /* =========================================================
+           HEADER CARD
+        ========================================================= */
+
         .profile-header-card {
-            background: linear-gradient(135deg, var(--surface), #15171c);
-            border: 1px solid var(--gold-line);
+            background: var(--profile-surface);
+            border: 1px solid var(--profile-border);
             border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 25px;
+
+            padding: 22px 24px;
+            margin-bottom: 24px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             flex-wrap: wrap;
             gap: 20px;
+
+            box-shadow: var(--card-shadow);
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+
+            height: 3px;
+
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--gold),
+                transparent
+            );
+
+            opacity: .7;
         }
 
         .player-info-block {
@@ -113,50 +288,63 @@
         }
 
         .player-avatar-icon {
-            width: 60px;
-            height: 60px;
+            width: 62px;
+            height: 62px;
+            flex: 0 0 62px;
+
             background: var(--gold-soft);
-            border: 1px solid var(--gold);
-            border-radius: 50%;
+            border: 1px solid var(--gold-line);
+
+            border-radius: 15px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             color: var(--gold);
             font-size: 24px;
         }
 
         .player-meta h2 {
-            margin: 0 0 6px 0;
+            margin: 0 0 7px 0;
             font-size: 20px;
             font-weight: 800;
+            color: var(--profile-text);
         }
 
         .meta-badges {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .badge-item {
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 11.5px;
+            padding: 5px 10px;
+
+            border-radius: 7px;
+            font-weight: 700;
+
+            background: var(--profile-surface-2);
+            border: 1px solid var(--profile-border);
+
+            color: var(--profile-text-secondary);
         }
 
         .badge-gold {
             background: var(--gold-soft);
-            border: 1px solid var(--gold);
+            border-color: var(--gold-line);
             color: var(--gold);
-            text-transform: capitalize;
         }
 
-        /* 📊 الهيكلية الجديدة لتقسيم اللوحة على السوا */
+        /* =========================================================
+           MAIN GRID
+        ========================================================= */
+
         .profile-main-layout {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+
             gap: 20px;
             align-items: start;
         }
@@ -173,33 +361,59 @@
             gap: 20px;
         }
 
-        @media (max-width: 1200px) {
-            .profile-main-layout {
-                grid-template-columns: 1fr;
-            }
-        }
+        /* =========================================================
+           PANELS / CARDS
+        ========================================================= */
 
         .plan-panel {
-            background: var(--surface);
-            border: 1px solid var(--gold-line);
-            border-radius: 16px;
+            background: var(--profile-surface);
+
+            border: 1px solid var(--profile-border);
+            border-radius: 15px;
+
             overflow: hidden;
+
+            box-shadow: var(--card-shadow);
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease,
+                transform .2s ease;
+        }
+
+        .plan-panel:hover {
+            border-color: var(--profile-border-hover);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .plan-panel.special-panel {
+            border-color: rgba(99, 102, 241, .25);
         }
 
         .panel-title-bar {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--gold-soft);
-            background: rgba(255, 255, 255, 0.01);
+            min-height: 58px;
+
+            padding: 13px 18px;
+
+            border-bottom: 1px solid var(--profile-border);
+
+            background: var(--profile-surface-2);
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             gap: 10px;
         }
 
         .panel-title-bar h3 {
             margin: 0;
-            font-size: 15px;
-            font-weight: 700;
+
+            color: var(--profile-text);
+
+            font-size: 14px;
+            font-weight: 800;
+
             display: flex;
             align-items: center;
             gap: 8px;
@@ -209,85 +423,239 @@
             color: var(--gold);
         }
 
-        .plan-list {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 450px;
-            overflow-y: auto;
+        .special-panel .panel-title-bar i {
+            color: var(--special);
         }
 
-        .plan-card {
-            background: var(--surface-2);
-            border: 1px solid rgba(201, 169, 97, 0.05);
-            border-radius: 10px;
+        /* =========================================================
+           LIST
+        ========================================================= */
+
+        .plan-list {
             padding: 15px;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+
+            max-height: 450px;
+            overflow-y: auto;
+
+            background: var(--profile-surface);
+        }
+
+        .plan-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .plan-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .plan-list::-webkit-scrollbar-thumb {
+            background: var(--profile-border-hover);
+            border-radius: 20px;
+        }
+
+        /* =========================================================
+           INNER CARD
+        ========================================================= */
+
+        .plan-card {
+            background: var(--profile-surface-2);
+
+            border: 1px solid var(--profile-border);
+
+            border-radius: 11px;
+
+            padding: 14px;
+
+            transition: all .2s ease;
+        }
+
+        .plan-card:hover {
+            border-color: var(--profile-border-hover);
+            transform: translateY(-1px);
         }
 
         .plan-card.rating-card-item {
-            border-right: 4px solid #eab308;
+            border-right: 4px solid var(--warning);
         }
 
         .plan-card.progress-card-item {
             border-right: 4px solid var(--tracker-blue);
         }
 
+        .plan-card.special-item {
+            border-right: 4px solid var(--special);
+        }
+
         .plan-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            gap: 10px;
+
             margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+
+            border-bottom: 1px solid var(--profile-border);
+
             padding-bottom: 8px;
         }
 
         .plan-card-title {
-            font-weight: 700;
-            color: #fff;
-            font-size: 14px;
+            font-weight: 800;
+            color: var(--profile-text);
+            font-size: 13.5px;
         }
 
         .plan-card-calories {
-            font-size: 12px;
+            font-size: 11px;
+
             color: var(--gold);
+
             background: var(--gold-soft);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 700;
+
+            padding: 3px 8px;
+
+            border-radius: 5px;
+
+            font-weight: 800;
+            white-space: nowrap;
         }
 
         .plan-details-text {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.6;
+            font-size: 12.5px;
+            color: var(--profile-muted);
+
+            line-height: 1.7;
+
             white-space: pre-line;
         }
 
         .plan-dates {
             margin-top: 10px;
-            font-size: 11px;
-            color: var(--muted);
+
+            font-size: 10.5px;
+            color: var(--profile-muted);
+
             display: flex;
             gap: 15px;
+            flex-wrap: wrap;
         }
+
+        .item-delete-btn {
+            background: transparent;
+            border: none;
+
+            color: var(--danger);
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            padding: 4px;
+
+            transition: .2s ease;
+        }
+
+        .item-delete-btn:hover {
+            transform: scale(1.15);
+        }
+
+        /* =========================================================
+           MACROS
+        ========================================================= */
+
+        .macros-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 9px;
+        }
+
+        .macro-chip {
+            font-size: 10.5px;
+            font-weight: 700;
+
+            padding: 4px 8px;
+
+            border-radius: 5px;
+        }
+
+        .macro-chip.protein {
+            background: rgba(96, 165, 250, .12);
+            color: #60a5fa;
+        }
+
+        .macro-chip.carbs {
+            background: rgba(234, 179, 8, .12);
+            color: #eab308;
+        }
+
+        .macro-chip.fats {
+            background: rgba(248, 113, 113, .12);
+            color: #f87171;
+        }
+
+        /* =========================================================
+           EXERCISE
+        ========================================================= */
+
+        .exercise-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+
+            font-size: 11.5px;
+            color: var(--profile-muted);
+
+            margin-top: 6px;
+        }
+
+        .exercise-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* =========================================================
+           EMPTY
+        ========================================================= */
 
         .empty-plan-box {
             text-align: center;
-            padding: 40px 20px;
-            color: var(--muted);
-            font-size: 13px;
+
+            padding: 42px 20px;
+
+            color: var(--profile-muted);
+
+            font-size: 12.5px;
         }
 
-        .stars-display {
-            color: #eab308;
-            font-size: 13px;
+        .empty-plan-box::before {
+            content: "◌";
+            display: block;
+
+            font-size: 25px;
+
+            margin-bottom: 7px;
+
+            opacity: .45;
         }
 
-        /* 📈 صندوق الرسم البياني لتطور اللاعب */
+        /* =========================================================
+           CHART
+        ========================================================= */
+
         .progress-chart-box {
-            padding: 18px 20px 8px;
-            border-bottom: 1px solid var(--gold-soft);
+            padding: 18px 20px 10px;
+
+            border-bottom: 1px solid var(--profile-border);
+
+            background: var(--profile-surface);
         }
 
         .progress-chart-canvas-wrap {
@@ -297,63 +665,43 @@
 
         .progress-chart-empty {
             text-align: center;
+
             padding: 30px 20px;
-            color: var(--muted);
+
+            color: var(--profile-muted);
+
             font-size: 12.5px;
+
+            background: var(--profile-surface);
         }
 
-        /* Modals */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(4px);
-            align-items: center;
-            justify-content: center;
+        .stars-display {
+            color: #eab308;
+            font-size: 13px;
         }
 
-        .modal.open {
+        /* =========================================================
+           FIELDS
+        ========================================================= */
+
+        .field-row {
             display: flex;
+            gap: 10px;
         }
 
-        .modal-content {
-            background: var(--surface);
-            border: 1px solid var(--gold-line);
-            width: 100%;
-            max-width: 500px;
-            border-radius: 16px;
-            overflow: hidden;
+        .field-row .field-group {
+            flex: 1;
         }
 
-        .modal-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--gold-soft);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .field-hint {
+            display: block;
 
-        .modal-header h4 {
-            margin: 0;
-            color: var(--text);
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+            margin-top: -10px;
+            margin-bottom: 16px;
 
-        .close-modal {
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 24px;
-            font-weight: bold;
-            line-height: 1;
-        }
+            font-size: 11px;
 
-        .modal-body {
-            padding: 20px;
+            color: var(--profile-muted);
         }
 
         .field-group {
@@ -362,34 +710,343 @@
 
         .field-label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
-            color: var(--text);
-            font-weight: 600;
+
+            margin-bottom: 7px;
+
+            font-size: 12.5px;
+
+            color: var(--profile-text);
+
+            font-weight: 700;
         }
 
         .field-input {
             width: 100%;
-            padding: 12px;
-            background: var(--surface-2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            padding: 11px 12px;
+
+            background: var(--profile-surface-2);
+
+            border: 1px solid var(--profile-border);
+
             border-radius: 8px;
-            color: var(--text);
+
+            color: var(--profile-text);
+
             font-family: 'Tajawal', sans-serif;
+
             outline: none;
+
             box-sizing: border-box;
+
+            transition: all .2s ease;
         }
+
+        .field-input::placeholder {
+            color: var(--profile-muted);
+            opacity: .75;
+        }
+
+        .field-input:focus {
+            border-color: var(--gold);
+
+            box-shadow:
+                0 0 0 3px var(--gold-soft);
+        }
+
+        textarea.field-input {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        select.field-input {
+            cursor: pointer;
+        }
+
+        input[type="file"].field-input {
+            padding: 8px;
+        }
+
+        /* =========================================================
+           SUBMIT
+        ========================================================= */
 
         .btn-submit {
             width: 100%;
+
             padding: 12px;
-            font-weight: 700;
-            border-radius: 8px;
-            color: #1c1f27;
-            background: linear-gradient(135deg, #e7cd8e, #c9a961);
+
+            font-weight: 800;
+
+            border-radius: 9px;
+
             border: none;
+
             cursor: pointer;
+
             font-family: 'Tajawal', sans-serif;
+
+            transition: all .2s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+
+            filter: brightness(1.05);
+
+            box-shadow:
+                0 7px 18px rgba(0, 0, 0, .14);
+        }
+
+        /* =========================================================
+           MODALS
+           مهم: هذه القواعد Global لأن الـ modal خارج
+           .player-profile-container
+        ========================================================= */
+
+        .modal {
+            display: none;
+
+            position: fixed;
+
+            z-index: 99999;
+
+            inset: 0;
+
+            background: var(--modal-bg);
+
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            box-sizing: border-box;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--profile-surface);
+
+            border: 1px solid var(--profile-border);
+
+            width: 100%;
+
+            max-width: 500px;
+
+            max-height: calc(100vh - 40px);
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, .28);
+
+            animation: modalShow .18s ease-out;
+        }
+
+        @keyframes modalShow {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            min-height: 58px;
+
+            padding: 14px 18px;
+
+            border-bottom: 1px solid var(--profile-border);
+
+            background: var(--profile-surface-2);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-sizing: border-box;
+        }
+
+        .modal-header h4 {
+            margin: 0;
+
+            color: var(--profile-text);
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .close-modal {
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--profile-muted);
+
+            cursor: pointer;
+
+            font-size: 22px;
+            font-weight: 400;
+
+            line-height: 1;
+
+            border-radius: 7px;
+
+            transition: all .2s ease;
+        }
+
+        .close-modal:hover {
+            background: rgba(220, 38, 38, .10);
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 20px;
+
+            max-height: calc(100vh - 120px);
+
+            overflow-y: auto;
+
+            background: var(--profile-surface);
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--profile-border-hover);
+            border-radius: 20px;
+        }
+
+        /* =========================================================
+           INLINE COLORS FIX
+           لا نغيّر الـ HTML، فقط نخلي الألوان متوافقة
+        ========================================================= */
+
+        .player-profile-container [style*="color: #fff"],
+        .player-profile-container [style*="color:#fff"] {
+            color: var(--profile-text) !important;
+        }
+
+        /* النصوص داخل الهيدر */
+        .profile-header-card > div:last-child {
+            color: var(--profile-muted) !important;
+        }
+
+        .profile-header-card > div:last-child span {
+            color: var(--profile-text) !important;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1200px) {
+            .profile-main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .side-tracking-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 800px) {
+            .profile-header-card {
+                padding: 18px;
+            }
+
+            .player-info-block {
+                width: 100%;
+            }
+
+            .side-tracking-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .profile-main-layout {
+                gap: 14px;
+            }
+
+            .inner-tabs-grid,
+            .side-tracking-grid {
+                gap: 14px;
+            }
+
+            .profile-header-card {
+                border-radius: 12px;
+                padding: 15px;
+            }
+
+            .player-avatar-icon {
+                width: 52px;
+                height: 52px;
+                flex-basis: 52px;
+                font-size: 20px;
+            }
+
+            .player-meta h2 {
+                font-size: 17px;
+            }
+
+            .panel-title-bar {
+                padding: 12px 14px;
+            }
+
+            .panel-title-bar h3 {
+                font-size: 13px;
+            }
+
+            .plan-list {
+                padding: 11px;
+            }
+
+            .modal {
+                padding: 10px;
+            }
+
+            .modal-content {
+                max-height: calc(100vh - 20px);
+                border-radius: 13px;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
         }
     </style>
 @endsection

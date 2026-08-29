@@ -7,281 +7,1414 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .attendance-container {
-            --gold: #c9a961;
-            --gold-soft: rgba(201, 169, 97, 0.08);
-            --gold-line: rgba(201, 169, 97, 0.15);
-            --surface: #1c1f27;
-            --surface-2: #232733;
-            --text: #f2f3f5;
-            --muted: #8a8f9c;
-            --success: #4ade80;
-            --danger: #f87171;
-            --warning: #fbbf24;
-            --blue-vip: #818cf8;
-            font-family: 'Tajawal', sans-serif;
-            color: var(--text);
-        }
+  /* =========================================================
+   ELITE CLUB
+   ATTENDANCE & EMPLOYEE PRESENCE
+   Light / Dark Theme
+   ========================================================= */
 
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
 
-        .page-header-title {
-            color: #fff;
-            margin: 0 0 5px 0;
-            font-weight: 800;
-            font-size: 24px;
-        }
+/* =========================================================
+   1. CONTAINER
+   ========================================================= */
 
-        /* كروت الإحصائيات الفاخرة */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
+.attendance-container {
+    width: 100%;
+    direction: rtl;
+    color: var(--text, #202631);
+}
 
-        .stat-card-luxury {
-            background: linear-gradient(145deg, var(--surface), #17191e);
-            border: 1px solid var(--gold-line);
-            border-radius: 14px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        }
 
-        .stat-card-luxury .info h4 {
-            margin: 0 0 8px 0;
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 700;
-        }
+/* =========================================================
+   2. PAGE HEADER
+   ========================================================= */
 
-        .stat-card-luxury .info p {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff;
-        }
+.attendance-container .page-header {
+    position: relative;
 
-        .stat-card-luxury .icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        /* فلاتر البحث المتطورة */
-        .filter-panel {
-            background: var(--surface);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
+    gap: 20px;
 
-        .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            align-items: flex-end;
-        }
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 20px 22px;
 
-        .form-group-luxury {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+    background: var(--surface, #ffffff);
 
-        .form-group-luxury label {
-            font-size: 12.5px;
-            color: var(--muted);
-            font-weight: 700;
-        }
+    border: 1px solid var(--border, #e4e8ef);
+    border-radius: 16px;
 
-        .input-luxury {
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--gold-line);
-            background: var(--surface-2);
-            color: #fff;
-            font-size: 13px;
-            font-family: 'Tajawal', sans-serif;
-            outline: none;
-        }
+    box-shadow:
+        0 7px 24px rgba(25, 35, 50, 0.05);
+}
 
-        .input-luxury:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.15);
-        }
+.attendance-container .page-header::before {
+    content: "";
 
-        .btn-submit-filter {
-            background: linear-gradient(135deg, #e7cd8e, #c9a961);
-            color: #1c1f27;
-            border: none;
-            padding: 11px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 13px;
-            font-family: 'Tajawal', sans-serif;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+    position: absolute;
 
-        .btn-clear-filter {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 600;
-        }
+    right: 0;
+    top: 18px;
+    bottom: 18px;
 
-        /* الجدول الفاخر */
-        .panel-luxury {
-            background: linear-gradient(145deg, var(--surface), #17191e);
-            border: 1px solid var(--gold-line);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
+    width: 4px;
 
-        .luxury-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    border-radius: 10px 0 0 10px;
 
-        .luxury-table th {
-            padding: 18px 24px;
-            text-align: right;
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 700;
-            border-bottom: 1px solid var(--gold-soft);
-            background: rgba(0, 0, 0, 0.1);
-        }
+    background: linear-gradient(
+        to bottom,
+        #e2b14d,
+        #ad781c
+    );
+}
 
-        .luxury-table td {
-            padding: 18px 24px;
-            border-bottom: 1px solid rgba(201, 169, 97, 0.04);
-            font-size: 14px;
-            vertical-align: middle;
-        }
+.attendance-container .page-header > div {
+    padding-right: 14px;
+}
 
-        .luxury-table tbody tr:hover {
-            background: rgba(201, 169, 97, 0.02);
-        }
+.attendance-container .page-header-title {
+    margin: 0 0 5px;
 
-        /* شارات الحضور */
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11.5px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+    color: var(--text, #202631);
 
-        .status-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-        }
+    font-size: 19px;
+    font-weight: 850;
 
-        .badge-present {
-            background: rgba(74, 222, 128, 0.08);
-            color: var(--success);
-            border: 1px solid rgba(74, 222, 128, 0.15);
-        }
+    line-height: 1.5;
+}
 
-        .badge-late {
-            background: rgba(251, 191, 36, 0.08);
-            color: var(--warning);
-            border: 1px solid rgba(251, 191, 36, 0.15);
-        }
+.attendance-container .page-header span {
+    color: var(--muted, #858e9b) !important;
 
-        .badge-forgot {
-            background: rgba(248, 113, 113, 0.08);
-            color: var(--danger);
-            border: 1px solid rgba(248, 113, 113, 0.15);
-        }
+    font-size: 12px !important;
+    line-height: 1.7;
+}
 
-        .time-box {
-            font-weight: 700;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
 
-        .btn-add-manual {
-            background: rgba(201, 169, 97, 0.1);
-            color: var(--gold);
-            border: 1px solid rgba(201, 169, 97, 0.2);
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 13px;
-            font-family: 'Tajawal', sans-serif;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
+/* =========================================================
+   3. ADD MANUAL BUTTON
+   ========================================================= */
 
-        .btn-add-manual:hover {
-            background: var(--gold);
-            color: #1c1f27;
-        }
+.btn-add-manual {
+    height: 43px;
 
-        .btn-action {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.15s ease;
-            text-decoration: none;
-        }
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-        .btn-delete {
-            background: rgba(248, 113, 113, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(248, 113, 113, 0.15);
-        }
+    gap: 8px;
 
-        .btn-delete:hover {
-            background: var(--danger);
-            color: #fff;
-        }
+    flex-shrink: 0;
+
+    padding: 0 18px;
+
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #d8a844,
+        #b67f20
+    );
+
+    border: 1px solid #bd8b2d;
+    border-radius: 10px;
+
+    box-shadow:
+        0 6px 15px rgba(184, 130, 31, 0.18);
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.btn-add-manual:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 9px 20px rgba(184, 130, 31, 0.25);
+
+    filter: brightness(1.04);
+}
+
+.btn-add-manual i {
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   4. STATISTICS GRID
+   ========================================================= */
+
+.attendance-container .stats-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   5. STAT CARD
+   ========================================================= */
+
+.attendance-container .stat-card-luxury {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 105px;
+
+    padding: 20px;
+
+    background: var(--surface, #ffffff);
+
+    border: 1px solid var(--border, #e4e8ef);
+    border-radius: 15px;
+
+    box-shadow:
+        0 6px 20px rgba(25, 35, 50, 0.045);
+
+    overflow: hidden;
+
+    transition: all 0.2s ease;
+}
+
+.attendance-container .stat-card-luxury::before {
+    content: "";
+
+    position: absolute;
+
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    background: #2fbd7c;
+
+    opacity: 0.8;
+}
+
+.attendance-container .stat-card-luxury:nth-child(2)::before {
+    background: #e0a32f;
+}
+
+.attendance-container .stat-card-luxury:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(205, 155, 58, 0.35);
+
+    box-shadow:
+        0 10px 25px rgba(25, 35, 50, 0.07);
+}
+
+
+/* =========================================================
+   6. STAT INFO
+   ========================================================= */
+
+.attendance-container .stat-card-luxury .info h4 {
+    margin: 0 0 7px;
+
+    color: var(--muted, #858e9b);
+
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.attendance-container .stat-card-luxury .info p {
+    margin: 0;
+
+    color: var(--text, #202631);
+
+    font-size: 25px;
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   7. STAT ICON
+   ========================================================= */
+
+.attendance-container .stat-card-luxury .icon-box {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    font-size: 17px;
+
+    border: 1px solid rgba(74, 222, 128, 0.16);
+}
+
+
+/* =========================================================
+   8. FILTER PANEL
+   ========================================================= */
+
+.attendance-container .filter-panel {
+    width: 100%;
+
+    margin-bottom: 18px;
+    padding: 20px;
+
+    background: var(--surface, #ffffff);
+
+    border: 1px solid var(--border, #e4e8ef);
+    border-radius: 15px;
+
+    box-shadow:
+        0 6px 20px rgba(25, 35, 50, 0.04);
+}
+
+.attendance-container .filter-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, 1.2fr)
+        minmax(160px, 1fr)
+        minmax(150px, 1fr)
+        minmax(150px, 1fr)
+        minmax(180px, auto);
+
+    gap: 13px;
+
+    align-items: end;
+}
+
+
+/* =========================================================
+   9. FORM GROUP
+   ========================================================= */
+
+.attendance-container .form-group-luxury {
+    min-width: 0;
+}
+
+.attendance-container .form-group-luxury label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--text, #454d59);
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   10. INPUT
+   ========================================================= */
+
+.attendance-container .input-luxury {
+    width: 100%;
+    height: 43px;
+
+    padding: 0 13px;
+
+    color: var(--text, #252b35);
+
+    background: var(--input-bg, #fbfcfd);
+
+    border: 1px solid var(--border, #dfe4eb);
+    border-radius: 9px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 650;
+
+    transition: all 0.2s ease;
+}
+
+.attendance-container .input-luxury:hover {
+    border-color: #cba04d;
+}
+
+.attendance-container .input-luxury:focus {
+    background: var(--surface, #ffffff);
+
+    border-color: #c79637;
+
+    box-shadow:
+        0 0 0 3px rgba(199, 150, 55, 0.10);
+}
+
+.attendance-container .input-luxury::placeholder {
+    color: #a1a8b2;
+}
+
+
+/* =========================================================
+   11. SELECT
+   ========================================================= */
+
+.attendance-container select.input-luxury {
+    appearance: none;
+    -webkit-appearance: none;
+
+    cursor: pointer;
+
+    padding-left: 34px;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #9aa2ae 50%),
+        linear-gradient(135deg, #9aa2ae 50%, transparent 50%);
+
+    background-position:
+        calc(100% - 17px) 18px,
+        calc(100% - 12px) 18px;
+
+    background-size: 5px 5px;
+
+    background-repeat: no-repeat;
+}
+
+.attendance-container select.input-luxury option {
+    color: #202631;
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   12. FILTER BUTTON
+   ========================================================= */
+
+.btn-submit-filter {
+    height: 43px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 17px;
+
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #d3a03d,
+        #b47d1f
+    );
+
+    border: 1px solid #bc8929;
+    border-radius: 9px;
+
+    box-shadow:
+        0 5px 13px rgba(181, 128, 31, 0.15);
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.btn-submit-filter:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 17px rgba(181, 128, 31, 0.22);
+}
+
+
+/* =========================================================
+   13. CLEAR FILTER
+   ========================================================= */
+
+.btn-clear-filter {
+    height: 43px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 14px;
+
+    color: #606977;
+
+    background: #f6f7f9;
+
+    border: 1px solid #dfe3e8;
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 750;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.btn-clear-filter:hover {
+    color: #a67821;
+
+    background: #fff9ed;
+
+    border-color: #dfc583;
+}
+
+
+/* =========================================================
+   14. TABLE PANEL
+   ========================================================= */
+
+.attendance-container .panel-luxury {
+    width: 100%;
+
+    padding: 8px;
+
+    background: var(--surface, #ffffff);
+
+    border: 1px solid var(--border, #e4e8ef);
+    border-radius: 16px;
+
+    box-shadow:
+        0 7px 24px rgba(25, 35, 50, 0.05);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   15. TABLE
+   ========================================================= */
+
+.attendance-container .luxury-table {
+    width: 100%;
+
+    min-width: 760px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    color: var(--text, #303744);
+
+    font-size: 11px;
+}
+
+
+/* Header */
+
+.attendance-container .luxury-table thead th {
+    height: 48px;
+
+    padding: 0 15px;
+
+    color: #707a89;
+
+    background: var(--table-head, #f7f8fa);
+
+    border-bottom: 1px solid var(--border, #e4e8ef);
+
+    font-size: 10px;
+    font-weight: 850;
+
+    text-align: right;
+    white-space: nowrap;
+}
+
+.attendance-container .luxury-table thead th:first-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.attendance-container .luxury-table thead th:last-child {
+    border-radius: 10px 0 0 10px;
+}
+
+
+/* Body */
+
+.attendance-container .luxury-table tbody tr {
+    background: var(--surface, #ffffff);
+
+    transition: background 0.18s ease;
+}
+
+.attendance-container .luxury-table tbody tr:hover {
+    background: #fffdf8;
+}
+
+.attendance-container .luxury-table tbody td {
+    height: 59px;
+
+    padding: 8px 15px;
+
+    color: var(--text, #3b4350);
+
+    background: transparent;
+
+    border-bottom: 1px solid var(--border-soft, #edf0f4);
+
+    vertical-align: middle;
+
+    font-weight: 600;
+}
+
+.attendance-container .luxury-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* Employee name
+   Overrides inline color:#fff
+*/
+
+.attendance-container .luxury-table tbody td:first-child {
+    color: var(--text, #252b35) !important;
+
+    font-weight: 800 !important;
+}
+
+
+/* Date */
+
+.attendance-container .luxury-table tbody td:nth-child(2) {
+    color: var(--muted, #6e7785);
+}
+
+.attendance-container .luxury-table tbody td:nth-child(2) i {
+    color: var(--gold, #c79535) !important;
+}
+
+
+/* =========================================================
+   16. STATUS BADGES
+   ========================================================= */
+
+.attendance-container .status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 62px;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+    font-weight: 850;
+}
+
+
+/* Present */
+
+.attendance-container .badge-present {
+    color: #12865a;
+
+    background: #e8f8f0;
+
+    border: 1px solid #c4ead8;
+}
+
+
+/* Late */
+
+.attendance-container .badge-late {
+    color: #c4871f;
+
+    background: #fff7e3;
+
+    border: 1px solid #eed9a6;
+}
+
+
+/* =========================================================
+   17. TIME BOX
+   ========================================================= */
+
+.attendance-container .time-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-width: 82px;
+
+    padding: 7px 10px;
+
+    color: #505966;
+
+    background: #f6f8fa;
+
+    border: 1px solid #e2e6eb;
+    border-radius: 8px;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.attendance-container .time-box i {
+    color: #21a96e !important;
+}
+
+
+/* =========================================================
+   18. DELETE BUTTON
+   ========================================================= */
+
+.attendance-container .btn-action.btn-delete {
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    color: #d34a4a;
+
+    background: #fff2f2;
+
+    border: 1px solid #efcccc;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: all 0.18s ease;
+}
+
+.attendance-container .btn-action.btn-delete:hover {
+    color: #ffffff;
+
+    background: #d44949;
+
+    border-color: #d44949;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   19. EMPTY STATE
+   ========================================================= */
+
+.attendance-container .luxury-table .empty-state,
+.attendance-container .luxury-table tbody tr:has(td[colspan]) {
+    background: var(--surface, #ffffff);
+}
+
+.attendance-container .luxury-table tbody tr:has(td[colspan]) td {
+    color: var(--muted, #858e9b) !important;
+}
+
+.attendance-container .luxury-table tbody tr:has(td[colspan]) td i {
+    color: var(--gold-line, #d4a441) !important;
+}
+
+
+/* =========================================================
+   20. PAGINATION
+   ========================================================= */
+
+.attendance-container > div:last-of-type {
+    direction: rtl;
+}
+
+.attendance-container .pagination {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 5px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.attendance-container .pagination .page-link {
+    min-width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 9px;
+
+    color: #68717f;
+
+    background: var(--surface, #ffffff);
+
+    border: 1px solid var(--border, #dfe4eb);
+    border-radius: 8px;
+
+    font-size: 10px;
+    font-weight: 750;
+
+    text-decoration: none;
+
+    transition: all 0.18s ease;
+}
+
+.attendance-container .pagination .page-link:hover {
+    color: #a67821;
+
+    background: #fff9ed;
+
+    border-color: #dfc583;
+}
+
+.attendance-container .pagination .active .page-link {
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #d4a23e,
+        #b77f21
+    );
+
+    border-color: #bd8a2b;
+}
+
+
+/* =========================================================
+   21. MODAL OVERLAY
+   ========================================================= */
+
+#addManualModal {
+    direction: rtl;
+
+    background: rgba(10, 14, 20, 0.62) !important;
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+
+/* =========================================================
+   22. MODAL BOX
+   ========================================================= */
+
+#addManualModal > div {
+    width: min(500px, calc(100vw - 30px)) !important;
+
+    max-height: calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    padding: 24px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e5d3a4 !important;
+    border-radius: 17px !important;
+
+    box-shadow:
+        0 20px 60px rgba(20, 25, 35, 0.25) !important;
+
+    animation: eliteModalIn 0.2s ease-out;
+}
+
+@keyframes eliteModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   23. MODAL HEADER
+   ========================================================= */
+
+#addManualModal > div > div:first-child {
+    margin-bottom: 20px !important;
+
+    padding-bottom: 13px !important;
+
+    border-bottom: 1px solid #eee5d0 !important;
+}
+
+#addManualModal h3 {
+    color: #252b35 !important;
+
+    font-size: 15px !important;
+    font-weight: 850 !important;
+}
+
+#addManualModal h3 i {
+    color: #bf8b29 !important;
+}
+
+#addManualModal > div > div:first-child button {
+    color: #89919d !important;
+
+    transition: color 0.18s ease;
+}
+
+#addManualModal > div > div:first-child button:hover {
+    color: #d04b4b !important;
+}
+
+
+/* =========================================================
+   24. MODAL FORM
+   ========================================================= */
+
+#addManualModal .form-group-luxury label {
+    color: #4b5360;
+}
+
+#addManualModal .input-luxury {
+    height: 44px;
+
+    color: #252b35;
+
+    background: #fbfcfd;
+
+    border-color: #dfe4eb;
+}
+
+#addManualModal .input-luxury:focus {
+    background: #ffffff;
+
+    border-color: #c79637;
+
+    box-shadow:
+        0 0 0 3px rgba(199, 150, 55, 0.10);
+}
+
+
+/* =========================================================
+   25. MODAL ACTIONS
+   ========================================================= */
+
+#addManualModal .btn-clear-filter {
+    height: 40px !important;
+}
+
+#addManualModal .btn-submit-filter {
+    height: 40px !important;
+}
+
+
+/* =========================================================
+   =========================================================
+   DARK MODE
+   =========================================================
+   ========================================================= */
+
+
+/* =========================================================
+   26. DARK - HEADER
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .page-header,
+.dark-mode .attendance-container .page-header,
+body.dark .attendance-container .page-header {
+    background: #121720;
+
+    border-color: #29313d;
+
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.23);
+}
+
+[data-theme="dark"] .attendance-container .page-header-title,
+.dark-mode .attendance-container .page-header-title,
+body.dark .attendance-container .page-header-title {
+    color: #f0f2f5;
+}
+
+[data-theme="dark"] .attendance-container .page-header span,
+.dark-mode .attendance-container .page-header span,
+body.dark .attendance-container .page-header span {
+    color: #7f8998 !important;
+}
+
+
+/* =========================================================
+   27. DARK - STATS
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .stat-card-luxury,
+.dark-mode .attendance-container .stat-card-luxury,
+body.dark .attendance-container .stat-card-luxury {
+    background: #121720;
+
+    border-color: #29313d;
+
+    box-shadow:
+        0 8px 26px rgba(0, 0, 0, 0.20);
+}
+
+[data-theme="dark"] .attendance-container .stat-card-luxury:hover,
+.dark-mode .attendance-container .stat-card-luxury:hover,
+body.dark .attendance-container .stat-card-luxury:hover {
+    border-color: rgba(210, 158, 55, 0.30);
+
+    background: #141a23;
+}
+
+[data-theme="dark"] .attendance-container .stat-card-luxury .info h4,
+.dark-mode .attendance-container .stat-card-luxury .info h4,
+body.dark .attendance-container .stat-card-luxury .info h4 {
+    color: #808a99;
+}
+
+[data-theme="dark"] .attendance-container .stat-card-luxury .info p,
+.dark-mode .attendance-container .stat-card-luxury .info p,
+body.dark .attendance-container .stat-card-luxury .info p {
+    color: #f0f2f5;
+}
+
+
+/* =========================================================
+   28. DARK - FILTER
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .filter-panel,
+.dark-mode .attendance-container .filter-panel,
+body.dark .attendance-container .filter-panel {
+    background: #121720;
+
+    border-color: #29313d;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.20);
+}
+
+[data-theme="dark"] .attendance-container .form-group-luxury label,
+.dark-mode .attendance-container .form-group-luxury label,
+body.dark .attendance-container .form-group-luxury label {
+    color: #c6ccd5;
+}
+
+[data-theme="dark"] .attendance-container .input-luxury,
+.dark-mode .attendance-container .input-luxury,
+body.dark .attendance-container .input-luxury {
+    color: #e1e5eb;
+
+    background: #181e27;
+
+    border-color: #323b48;
+}
+
+[data-theme="dark"] .attendance-container .input-luxury:hover,
+.dark-mode .attendance-container .input-luxury:hover,
+body.dark .attendance-container .input-luxury:hover {
+    border-color: #9d762e;
+}
+
+[data-theme="dark"] .attendance-container .input-luxury:focus,
+.dark-mode .attendance-container .input-luxury:focus,
+body.dark .attendance-container .input-luxury:focus {
+    background: #1b222b;
+
+    border-color: #c79738;
+
+    box-shadow:
+        0 0 0 3px rgba(199, 151, 56, 0.10);
+}
+
+[data-theme="dark"] .attendance-container select.input-luxury option,
+.dark-mode .attendance-container select.input-luxury option,
+body.dark select.input-luxury option {
+    color: #e6e9ee;
+    background: #181e27;
+}
+
+
+/* =========================================================
+   29. DARK - CLEAR BUTTON
+   ========================================================= */
+
+[data-theme="dark"] .btn-clear-filter,
+.dark-mode .btn-clear-filter,
+body.dark .btn-clear-filter {
+    color: #b7bec8;
+
+    background: #1a2029;
+
+    border-color: #323b48;
+}
+
+[data-theme="dark"] .btn-clear-filter:hover,
+.dark-mode .btn-clear-filter:hover,
+body.dark .btn-clear-filter:hover {
+    color: #dfaa43;
+
+    background: rgba(210, 158, 55, 0.08);
+
+    border-color: rgba(210, 158, 55, 0.28);
+}
+
+
+/* =========================================================
+   30. DARK - TABLE PANEL
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .panel-luxury,
+.dark-mode .attendance-container .panel-luxury,
+body.dark .attendance-container .panel-luxury {
+    background: #121720;
+
+    border-color: #29313d;
+
+    box-shadow:
+        0 9px 28px rgba(0, 0, 0, 0.24);
+}
+
+
+/* =========================================================
+   31. DARK - TABLE
+   ========================================================= */
+
+/*
+   مهم جداً:
+   هذا الجزء يحل مشكلة الصفوف البيضاء التي ظهرت
+   عندك في جدول اللاعبين.
+*/
+
+[data-theme="dark"] .attendance-container .luxury-table,
+[data-theme="dark"] .attendance-container .luxury-table tbody,
+[data-theme="dark"] .attendance-container .luxury-table tbody tr,
+[data-theme="dark"] .attendance-container .luxury-table tbody td,
+.dark-mode .attendance-container .luxury-table,
+.dark-mode .attendance-container .luxury-table tbody,
+.dark-mode .attendance-container .luxury-table tbody tr,
+.dark-mode .attendance-container .luxury-table tbody td,
+body.dark .attendance-container .luxury-table,
+body.dark .attendance-container .luxury-table tbody,
+body.dark .attendance-container .luxury-table tbody tr,
+body.dark .attendance-container .luxury-table tbody td {
+    background: #121720 !important;
+}
+
+[data-theme="dark"] .attendance-container .luxury-table thead th,
+.dark-mode .attendance-container .luxury-table thead th,
+body.dark .attendance-container .luxury-table thead th {
+    color: #8d97a6;
+
+    background: #191f28 !important;
+
+    border-bottom-color: #2d3642;
+}
+
+[data-theme="dark"] .attendance-container .luxury-table tbody td,
+.dark-mode .attendance-container .luxury-table tbody td,
+body.dark .attendance-container .luxury-table tbody td {
+    color: #cbd1da !important;
+
+    border-bottom-color: #29313d;
+}
+
+[data-theme="dark"] .attendance-container .luxury-table tbody tr:hover td,
+.dark-mode .attendance-container .luxury-table tbody tr:hover td,
+body.dark .attendance-container .luxury-table tbody tr:hover td {
+    background: rgba(210, 158, 55, 0.045) !important;
+}
+
+
+/* Employee name */
+
+[data-theme="dark"] .attendance-container .luxury-table tbody td:first-child,
+.dark-mode .attendance-container .luxury-table tbody td:first-child,
+body.dark .attendance-container .luxury-table tbody td:first-child {
+    color: #edf0f5 !important;
+}
+
+
+/* Date */
+
+[data-theme="dark"] .attendance-container .luxury-table tbody td:nth-child(2),
+.dark-mode .attendance-container .luxury-table tbody td:nth-child(2),
+body.dark .attendance-container .luxury-table tbody td:nth-child(2) {
+    color: #aeb6c1 !important;
+}
+
+
+/* =========================================================
+   32. DARK - STATUS
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .badge-present,
+.dark-mode .attendance-container .badge-present,
+body.dark .attendance-container .badge-present {
+    color: #43d89a;
+
+    background: rgba(25, 157, 100, 0.10);
+
+    border-color: rgba(25, 157, 100, 0.24);
+}
+
+[data-theme="dark"] .attendance-container .badge-late,
+.dark-mode .attendance-container .badge-late,
+body.dark .attendance-container .badge-late {
+    color: #e2aa42;
+
+    background: rgba(210, 158, 55, 0.09);
+
+    border-color: rgba(210, 158, 55, 0.24);
+}
+
+
+/* =========================================================
+   33. DARK - TIME
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .time-box,
+.dark-mode .attendance-container .time-box,
+body.dark .attendance-container .time-box {
+    color: #c5cbd4;
+
+    background: #1a2029;
+
+    border-color: #303946;
+}
+
+
+/* =========================================================
+   34. DARK - DELETE
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .btn-action.btn-delete,
+.dark-mode .attendance-container .btn-action.btn-delete,
+body.dark .attendance-container .btn-action.btn-delete {
+    color: #ff7272;
+
+    background: rgba(210, 65, 65, 0.09);
+
+    border-color: rgba(210, 65, 65, 0.23);
+}
+
+[data-theme="dark"] .attendance-container .btn-action.btn-delete:hover,
+.dark-mode .attendance-container .btn-action.btn-delete:hover,
+body.dark .attendance-container .btn-action.btn-delete:hover {
+    color: #ffffff;
+
+    background: #c94545;
+
+    border-color: #c94545;
+}
+
+
+/* =========================================================
+   35. DARK - EMPTY
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .luxury-table tbody tr:has(td[colspan]),
+.dark-mode .attendance-container .luxury-table tbody tr:has(td[colspan]),
+body.dark .attendance-container .luxury-table tbody tr:has(td[colspan]) {
+    background: #121720 !important;
+}
+
+[data-theme="dark"] .attendance-container .luxury-table tbody tr:has(td[colspan]) td,
+.dark-mode .attendance-container .luxury-table tbody tr:has(td[colspan]) td,
+body.dark .attendance-container .luxury-table tbody tr:has(td[colspan]) td {
+    color: #7e8897 !important;
+}
+
+
+/* =========================================================
+   36. DARK - PAGINATION
+   ========================================================= */
+
+[data-theme="dark"] .attendance-container .pagination .page-link,
+.dark-mode .attendance-container .pagination .page-link,
+body.dark .attendance-container .pagination .page-link {
+    color: #b8c0ca;
+
+    background: #181e27;
+
+    border-color: #303946;
+}
+
+[data-theme="dark"] .attendance-container .pagination .page-link:hover,
+.dark-mode .attendance-container .pagination .page-link:hover,
+body.dark .attendance-container .pagination .page-link:hover {
+    color: #dfaa43;
+
+    background: rgba(210, 158, 55, 0.08);
+
+    border-color: rgba(210, 158, 55, 0.28);
+}
+
+
+/* =========================================================
+   37. DARK - MODAL
+   ========================================================= */
+
+[data-theme="dark"] #addManualModal > div,
+.dark-mode #addManualModal > div,
+body.dark #addManualModal > div {
+    background: #171d26 !important;
+
+    border-color: rgba(210, 158, 55, 0.30) !important;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.55) !important;
+}
+
+[data-theme="dark"] #addManualModal h3,
+.dark-mode #addManualModal h3,
+body.dark #addManualModal h3 {
+    color: #eef1f5 !important;
+}
+
+[data-theme="dark"] #addManualModal > div > div:first-child,
+.dark-mode #addManualModal > div > div:first-child,
+body.dark #addManualModal > div > div:first-child {
+    border-bottom-color: #303946 !important;
+}
+
+[data-theme="dark"] #addManualModal .form-group-luxury label,
+.dark-mode #addManualModal .form-group-luxury label,
+body.dark #addManualModal .form-group-luxury label {
+    color: #c5cbd4;
+}
+
+[data-theme="dark"] #addManualModal .input-luxury,
+.dark-mode #addManualModal .input-luxury,
+body.dark #addManualModal .input-luxury {
+    color: #e5e8ed;
+
+    background: #11161e;
+
+    border-color: #323b48;
+}
+
+[data-theme="dark"] #addManualModal .input-luxury:focus,
+.dark-mode #addManualModal .input-luxury:focus,
+body.dark #addManualModal .input-luxury:focus {
+    background: #151b24;
+
+    border-color: #c79738;
+}
+
+[data-theme="dark"] #addManualModal select.input-luxury option,
+.dark-mode #addManualModal select.input-luxury option,
+body.dark #addManualModal select.input-luxury option {
+    color: #e5e8ed;
+    background: #171d26;
+}
+
+
+/* =========================================================
+   38. MOBILE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .attendance-container .filter-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .attendance-container .filter-grid > div:last-child {
+        grid-column: span 2;
+    }
+}
+
+
+@media (max-width: 750px) {
+
+    .attendance-container .page-header {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 18px;
+    }
+
+    .attendance-container .page-header > div {
+        padding-right: 10px;
+    }
+
+    .btn-add-manual {
+        width: 100%;
+    }
+
+    .attendance-container .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .attendance-container .filter-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .attendance-container .filter-grid > div:last-child {
+        grid-column: span 1;
+    }
+
+    .attendance-container .panel-luxury {
+        padding: 6px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .attendance-container .page-header-title {
+        font-size: 17px;
+    }
+
+    .attendance-container .page-header span {
+        font-size: 11px !important;
+    }
+
+    .attendance-container .stat-card-luxury {
+        min-height: 92px;
+        padding: 16px;
+    }
+
+    .attendance-container .stat-card-luxury .info p {
+        font-size: 22px;
+    }
+
+    .attendance-container .stat-card-luxury .icon-box {
+        width: 42px;
+        height: 42px;
+    }
+
+    #addManualModal > div {
+        width: calc(100vw - 24px) !important;
+
+        padding: 18px !important;
+    }
+}
     </style>
 @endsection
 

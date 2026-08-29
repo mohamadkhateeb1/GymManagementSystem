@@ -2,436 +2,951 @@
 
 @section('title', 'إدارة الأدوار | Elite Club')
 
+
 @section('styles')
-    <style>
-        .wrapper {
-            max-width: 860px;
-            margin: 0 auto;
-        }
 
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 32px;
-            animation: fadeUp 0.5s ease;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
+<style>
 
-        .header-title {
-            font-size: 28px;
-            font-weight: 900;
-            color: #e8eaf6;
-            letter-spacing: -0.5px;
-        }
+/* =========================================================
+   ROLES MANAGEMENT
+   ========================================================= */
 
-        .header-sub {
-            font-size: 13px;
-            color: #6b7280;
-            margin-top: 3px;
-        }
+.roles-management {
+    width: 100%;
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+    direction: rtl;
 
-        .btn-top {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 22px;
-            border-radius: 10px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: opacity .15s, transform .15s, box-shadow .15s;
-        }
+    color: var(--text, #111827);
+}
 
-        .btn-primary-top {
-            background: linear-gradient(135deg, #6c63ff, #818cf8);
-            color: #fff;
-            box-shadow: 0 4px 18px rgba(108, 99, 255, 0.35);
-        }
+.roles-management * {
+    box-sizing: border-box;
+}
 
-        .btn-primary-top:hover {
-            opacity: .9;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 24px rgba(108, 99, 255, 0.45);
-        }
 
-        .btn-danger-top {
-            background: rgba(248, 113, 113, 0.1);
-            color: #f87171;
-            border: 1px solid rgba(248, 113, 113, 0.25);
-        }
+/* =========================
+   HEADER
+   ========================= */
 
-        .btn-danger-top:hover {
-            background: rgba(248, 113, 113, 0.18);
-            border-color: rgba(248, 113, 113, 0.4);
-            transform: translateY(-1px);
-        }
+.roles-management .roles-header {
+    display: flex;
 
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 16px;
-            background: transparent;
-            color: #9ca3af;
-            border: 1px solid #252a38;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all .2s ease;
-        }
+    align-items: center;
+    justify-content: space-between;
 
-        .btn-back:hover {
-            color: #e8eaf6;
-            border-color: #3d4460;
-            background: rgba(255, 255, 255, 0.04);
-        }
+    gap: 20px;
 
-        .btn-back svg {
-            width: 16px;
-            height: 16px;
-        }
+    margin-bottom: 22px;
+}
 
-        .card {
-            background: #181c27;
-            border-radius: 18px;
-            border: 1px solid #252a38;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            animation: fadeUp 0.5s ease 0.1s both;
-        }
+.roles-management .header-info {
+    display: flex;
 
-        .card-top {
-            padding: 18px 24px;
-            border-bottom: 1px solid #252a38;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.02);
-        }
+    align-items: center;
 
-        .card-top-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #e8eaf6;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    gap: 14px;
+}
 
-        .card-top-title::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #6c63ff;
-            box-shadow: 0 0 8px rgba(108, 99, 255, 0.6);
-        }
+.roles-management .header-accent {
+    width: 4px;
+    height: 52px;
 
-        .count-badge {
-            background: rgba(108, 99, 255, 0.12);
-            color: #a78bfa;
-            border: 1px solid rgba(108, 99, 255, 0.2);
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-        }
+    border-radius: 10px;
 
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-        }
+    background: linear-gradient(
+        to bottom,
+        var(--gold, #c9a227),
+        #e8c66a
+    );
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 500px;
-        }
+    box-shadow:
+        0 0 18px rgba(201,162,39,.18);
+}
 
-        thead th {
-            padding: 14px 24px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid #252a38;
-            text-align: right;
-        }
+.roles-management .header-title {
+    margin: 0;
 
-        tbody tr {
-            border-bottom: 1px solid #1e2233;
-            transition: background 0.2s ease;
-            animation: fadeUp 0.4s ease both;
-        }
+    color: var(--text, #111827);
 
-        /* حركات متتالية لظهور الصفوف */
-        tbody tr:nth-child(1) {
-            animation-delay: 0.15s;
-        }
+    font-size: 24px;
 
-        tbody tr:nth-child(2) {
-            animation-delay: 0.20s;
-        }
+    font-weight: 800;
+}
 
-        tbody tr:nth-child(3) {
-            animation-delay: 0.25s;
-        }
+.roles-management .header-sub {
+    margin-top: 5px;
 
-        tbody tr:nth-child(4) {
-            animation-delay: 0.30s;
-        }
+    color: var(--muted, #6b7280);
 
-        tbody tr:nth-child(5) {
-            animation-delay: 0.35s;
-        }
+    font-size: 13px;
+}
 
-        tbody tr:last-child {
-            border-bottom: none;
-        }
 
-        tbody tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
+/* =========================
+   HEADER ACTIONS
+   ========================= */
 
-        tbody td {
-            padding: 16px 24px;
-            font-size: 14px;
-            color: #e8eaf6;
-            text-align: right;
-            vertical-align: middle;
-        }
+.roles-management .header-actions {
+    display: flex;
 
-        .id-pill {
-            display: inline-block;
-            background: #252a38;
-            color: #9ca3af;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-family: monospace;
-        }
+    align-items: center;
 
-        .role-cell {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    gap: 9px;
+}
 
-        .role-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-        }
+.roles-management .btn-top {
+    min-height: 42px;
 
-        .role-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: #e8eaf6;
-        }
+    display: inline-flex;
 
-        .actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
+    align-items: center;
+    justify-content: center;
 
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 12.5px;
-            font-weight: 700;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            border: none;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
+    gap: 7px;
 
-        .btn-edit {
-            background: rgba(234, 179, 8, 0.1);
-            color: #fbbf24;
-            border: 1px solid rgba(234, 179, 8, 0.2);
-        }
+    padding: 0 17px;
 
-        .btn-edit:hover {
-            background: rgba(234, 179, 8, 0.18);
-            border-color: rgba(234, 179, 8, 0.4);
-            transform: translateY(-2px);
-        }
+    border-radius: 10px;
 
-        .btn-delete {
-            background: rgba(248, 113, 113, 0.08);
-            color: #f87171;
-            border: 1px solid rgba(248, 113, 113, 0.18);
-        }
+    font-size: 12px;
 
-        .btn-delete:hover {
-            background: rgba(248, 113, 113, 0.15);
-            border-color: rgba(248, 113, 113, 0.35);
-            transform: translateY(-2px);
-        }
+    font-weight: 800;
 
-        .empty {
-            padding: 64px 24px;
-            text-align: center;
-            color: #6b7280;
-        }
+    text-decoration: none;
 
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
+    cursor: pointer;
 
-        .empty-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #9ca3af;
-        }
+    transition: .2s ease;
+}
 
-        .empty-sub {
-            font-size: 14px;
-            margin-top: 8px;
-            color: #6b7280;
-        }
+.roles-management .btn-primary-top {
+    border: 1px solid #b88b20;
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
+    background: linear-gradient(
+        135deg,
+        #d6aa3b,
+        #b98922
+    );
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    color: #fff;
 
-        @media (max-width: 600px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+    box-shadow:
+        0 6px 15px rgba(184,139,32,.18);
+}
 
-            .header-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-    </style>
+.roles-management .btn-primary-top:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(184,139,32,.27);
+}
+
+.roles-management .btn-danger-top {
+    border: 1px solid rgba(239,68,68,.25);
+
+    background: rgba(239,68,68,.07);
+
+    color: #ef4444;
+}
+
+.roles-management .btn-danger-top:hover {
+    background: rgba(239,68,68,.12);
+}
+
+
+/* =========================
+   MAIN CARD
+   ========================= */
+
+.roles-management .roles-card {
+    overflow: hidden;
+
+    background: var(--surface, #fff);
+
+    border: 1px solid var(--border, #e5e7eb);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.04);
+}
+
+
+/* =========================
+   CARD TOP
+   ========================= */
+
+.roles-management .card-top {
+    min-height: 64px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 14px 22px;
+
+    border-bottom: 1px solid var(--border, #e5e7eb);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(201,162,39,.055),
+            transparent
+        );
+}
+
+.roles-management .card-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--text, #111827);
+
+    font-size: 15px;
+
+    font-weight: 800;
+}
+
+.roles-management .card-title i {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: rgba(201,162,39,.11);
+
+    color: var(--gold, #c9a227);
+
+    font-size: 13px;
+}
+
+.roles-management .count-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 28px;
+
+    padding: 0 11px;
+
+    border-radius: 20px;
+
+    background: rgba(201,162,39,.10);
+
+    border: 1px solid rgba(201,162,39,.18);
+
+    color: var(--gold, #b88920);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* =========================
+   TABLE
+   ========================= */
+
+.roles-management .table-responsive {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.roles-management table {
+    width: 100%;
+
+    min-width: 650px;
+
+    border-collapse: collapse;
+
+    border-spacing: 0;
+
+    background: var(--surface, #fff);
+
+    color: var(--text, #111827);
+}
+
+
+/* HEAD */
+
+.roles-management table thead {
+    background: var(--table-head, #f5f6f8);
+}
+
+.roles-management table thead tr {
+    background: var(--table-head, #f5f6f8);
+}
+
+.roles-management table th {
+    height: 56px;
+
+    padding: 0 18px;
+
+    border-bottom: 1px solid var(--border, #e5e7eb);
+
+    color: var(--muted, #6b7280);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    text-align: right;
+}
+
+.roles-management table th:last-child {
+    text-align: left;
+}
+
+
+/* BODY */
+
+.roles-management table tbody {
+    background: var(--surface, #fff);
+}
+
+.roles-management table tbody tr {
+    background: var(--surface, #fff);
+
+    transition:
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+.roles-management table tbody tr:nth-child(even) {
+    background: var(--table-row-alt, rgba(0,0,0,.018));
+}
+
+.roles-management table tbody tr:hover {
+    background: rgba(201,162,39,.055);
+}
+
+.roles-management table td {
+    height: 68px;
+
+    padding: 10px 18px;
+
+    border-bottom: 1px solid var(--border, #e5e7eb);
+
+    color: var(--text, #111827);
+
+    font-size: 13px;
+
+    vertical-align: middle;
+}
+
+
+/* =========================
+   ID
+   ========================= */
+
+.roles-management .id-pill {
+    min-width: 32px;
+    height: 28px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 9px;
+
+    border-radius: 8px;
+
+    background: var(--surface-2, #f3f4f6);
+
+    border: 1px solid var(--border, #e5e7eb);
+
+    color: var(--muted, #6b7280);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* =========================
+   ROLE CELL
+   ========================= */
+
+.roles-management .role-cell {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+.roles-management .role-dot {
+    width: 11px;
+    height: 11px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 4px rgba(201,162,39,.06);
+}
+
+.roles-management .role-name {
+    color: var(--text, #111827);
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+
+/* =========================
+   ACTIONS
+   ========================= */
+
+.roles-management .actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 7px;
+}
+
+.roles-management .btn-action {
+    min-height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 0 12px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+
+/* EDIT */
+
+.roles-management .btn-edit {
+    border: 1px solid rgba(201,162,39,.25);
+
+    background: rgba(201,162,39,.08);
+
+    color: var(--gold, #b88920);
+}
+
+.roles-management .btn-edit:hover {
+    background: rgba(201,162,39,.15);
+
+    border-color: rgba(201,162,39,.4);
+}
+
+
+/* DELETE */
+
+.roles-management .btn-delete {
+    border: 1px solid rgba(239,68,68,.22);
+
+    background: rgba(239,68,68,.07);
+
+    color: #ef4444;
+}
+
+.roles-management .btn-delete:hover {
+    background: rgba(239,68,68,.13);
+
+    border-color: rgba(239,68,68,.35);
+}
+
+
+/* =========================
+   EMPTY
+   ========================= */
+
+.roles-management .empty {
+    min-height: 270px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 40px 20px;
+}
+
+.roles-management .empty-icon {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 15px;
+
+    border-radius: 18px;
+
+    background: rgba(201,162,39,.09);
+
+    border: 1px solid rgba(201,162,39,.15);
+
+    color: var(--gold, #c9a227);
+
+    font-size: 27px;
+}
+
+.roles-management .empty-title {
+    margin-bottom: 7px;
+
+    color: var(--text, #111827);
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+.roles-management .empty-sub {
+    max-width: 430px;
+
+    color: var(--muted, #6b7280);
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+/*
+|--------------------------------------------------------------------------
+| مهم جداً
+|--------------------------------------------------------------------------
+| هنا نثبت ألوان الجدول بشكل صريح حتى لا يرث Bootstrap
+| أو أي CSS آخر اللون الأبيض.
+|--------------------------------------------------------------------------
+*/
+
+[data-theme="dark"] .roles-management table,
+.dark .roles-management table {
+    background: #171c24 !important;
+
+    color: #f3f4f6 !important;
+}
+
+[data-theme="dark"] .roles-management table thead,
+[data-theme="dark"] .roles-management table thead tr,
+.dark .roles-management table thead,
+.dark .roles-management table thead tr {
+    background: #111720 !important;
+}
+
+[data-theme="dark"] .roles-management table tbody,
+.dark .roles-management table tbody {
+    background: #171c24 !important;
+}
+
+[data-theme="dark"] .roles-management table tbody tr,
+.dark .roles-management table tbody tr {
+    background: #171c24 !important;
+}
+
+[data-theme="dark"] .roles-management table tbody tr:nth-child(even),
+.dark .roles-management table tbody tr:nth-child(even) {
+    background: #151a22 !important;
+}
+
+[data-theme="dark"] .roles-management table tbody tr:hover,
+.dark .roles-management table tbody tr:hover {
+    background: #202733 !important;
+}
+
+[data-theme="dark"] .roles-management table th,
+.dark .roles-management table th {
+    color: #9ca8b8 !important;
+
+    background: #111720 !important;
+
+    border-color: #303846 !important;
+}
+
+[data-theme="dark"] .roles-management table td,
+.dark .roles-management table td {
+    color: #f3f4f6 !important;
+
+    background: transparent !important;
+
+    border-color: #2d3542 !important;
+}
+
+[data-theme="dark"] .roles-management .role-name,
+.dark .roles-management .role-name {
+    color: #f3f4f6 !important;
+}
+
+[data-theme="dark"] .roles-management .id-pill,
+.dark .roles-management .id-pill {
+    background: #202733 !important;
+
+    border-color: #303846 !important;
+
+    color: #9ca8b8 !important;
+}
+
+[data-theme="dark"] .roles-management .roles-card,
+.dark .roles-management .roles-card {
+    background: #171c24 !important;
+
+    border-color: #303846 !important;
+}
+
+[data-theme="dark"] .roles-management .card-top,
+.dark .roles-management .card-top {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(201,162,39,.08),
+            transparent
+        );
+
+    border-color: #303846 !important;
+}
+
+[data-theme="dark"] .roles-management .card-title,
+.dark .roles-management .card-title {
+    color: #f3f4f6 !important;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 768px) {
+
+    .roles-management .roles-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .roles-management .header-actions {
+        width: 100%;
+    }
+
+    .roles-management .btn-top {
+        flex: 1;
+    }
+
+    .roles-management .header-title {
+        font-size: 20px;
+    }
+
+    .roles-management .card-top {
+        padding: 14px 16px;
+    }
+
+    .roles-management table {
+        min-width: 600px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .roles-management .header-actions {
+        flex-direction: column;
+    }
+
+    .roles-management .btn-top {
+        width: 100%;
+    }
+
+}
+
+</style>
+
 @endsection
 
+
 @section('content')
-    <div class="wrapper">
 
-        <div class="header">
+<div class="roles-management">
+
+    {{-- =========================
+         PAGE HEADER
+    ========================== --}}
+
+    <div class="roles-header">
+
+        <div class="header-info">
+
+            <div class="header-accent"></div>
+
             <div>
-                <div class="header-title">إدارة الأدوار</div>
-                <div class="header-sub">Roles Management</div>
-            </div>
-            <div class="header-actions">
-            
 
-                @can('role.delete')
-                    <form action="{{ route('admin.roles.destroy_all') }}" method="POST"
-                        onsubmit="return confirm('هل أنت متأكد من حذف جميع الأدوار؟ (لن يتم حذف دور المشرف الأساسي)')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-top btn-danger-top">حذف الكل</button>
-                    </form>
-                @endcan
+                <h1 class="header-title">
+                    إدارة الأدوار
+                </h1>
 
-                @can('role.create')
-                    <a href="{{ route('admin.roles.create') }}" class="btn-top btn-primary-top">
-                        إنشاء دور جديد
-                    </a>
-                @endcan
+                <div class="header-sub">
+                    إدارة أدوار النظام وتحديد صلاحيات الوصول
+                </div>
+
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="card-top">
-                <span class="card-top-title">جميع الأدوار</span>
-                <span class="count-badge">{{ $roles->count() }} أدوار</span>
-            </div>
 
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width:80px;">#</th>
-                            <th>اسم الدور</th>
-                            <th style="width:200px; text-align:left;">الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($roles as $index => $role)
-                            <tr>
-                                <td><span class="id-pill">{{ $index + 1 }}</span></td>
-                                <td>
-                                    <div class="role-cell">
-                                        <div class="role-dot" style="background: {{ $role->color ?? '#6c63ff' }};"></div>
-                                        <span class="role-name">{{ $role->name }}</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="actions">
-                                        @can('role.edit')
-                                            <a href="{{ route('admin.roles.edit', $role->id) }}" class="btn-action btn-edit">
-                                                ✏️ تعديل
-                                            </a>
-                                        @endcan
-                                        @can('role.delete')
-                                            <form action="{{ route('admin.roles.delete', $role->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-action btn-delete"
-                                                    onclick="return confirm('هل أنت متأكد من حذف هذا الدور؟')">
-                                                    🗑 حذف
-                                                </button>
-                                            </form>
-                                        @endcan
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3">
-                                    <div class="empty">
-                                        <div class="empty-icon">🛡️</div>
-                                        <div class="empty-title">لا توجد أدوار مسجلة حالياً</div>
-                                        <div class="empty-sub">قم بالنقر على "إنشاء دور جديد" للبدء في توزيع الصلاحيات</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+        <div class="header-actions">
+
+            @can('role.delete')
+
+                <form
+                    action="{{ route('admin.roles.destroy_all') }}"
+                    method="POST"
+                    onsubmit="return confirm('هل أنت متأكد من حذف جميع الأدوار؟ (لن يتم حذف دور المشرف الأساسي)')"
+                >
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button
+                        type="submit"
+                        class="btn-top btn-danger-top"
+                    >
+                        <i class="fas fa-trash-can"></i>
+                        حذف الكل
+                    </button>
+
+                </form>
+
+            @endcan
+
+
+            @can('role.create')
+
+                <a
+                    href="{{ route('admin.roles.create') }}"
+                    class="btn-top btn-primary-top"
+                >
+                    <i class="fas fa-plus"></i>
+                    إنشاء دور جديد
+                </a>
+
+            @endcan
+
         </div>
 
     </div>
+
+
+    {{-- =========================
+         CARD
+    ========================== --}}
+
+    <div class="roles-card">
+
+        <div class="card-top">
+
+            <div class="card-title">
+
+                <div>
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+
+                <span>
+                    جميع الأدوار
+                </span>
+
+            </div>
+
+
+            <span class="count-badge">
+                {{ $roles->count() }} أدوار
+            </span>
+
+        </div>
+
+
+        {{-- =========================
+             TABLE
+        ========================== --}}
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th style="width:80px;">
+                            #
+                        </th>
+
+                        <th>
+                            اسم الدور
+                        </th>
+
+                        <th style="width:220px;">
+                            الإجراءات
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    @forelse ($roles as $index => $role)
+
+                        <tr>
+
+                            <td>
+
+                                <span class="id-pill">
+                                    {{ $index + 1 }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="role-cell">
+
+                                    <div
+                                        class="role-dot"
+                                        style="background: {{ $role->color ?? '#c9a227' }};"
+                                    ></div>
+
+                                    <span class="role-name">
+                                        {{ $role->name }}
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="actions">
+
+                                    @can('role.edit')
+
+                                        <a
+                                            href="{{ route('admin.roles.edit', $role->id) }}"
+                                            class="btn-action btn-edit"
+                                        >
+                                            <i class="fas fa-pen-to-square"></i>
+                                            تعديل
+                                        </a>
+
+                                    @endcan
+
+
+                                    @can('role.delete')
+
+                                        <form
+                                            action="{{ route('admin.roles.delete', $role->id) }}"
+                                            method="POST"
+                                            style="display:inline;"
+                                        >
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                class="btn-action btn-delete"
+                                                onclick="return confirm('هل أنت متأكد من حذف هذا الدور؟')"
+                                            >
+                                                <i class="fas fa-trash-can"></i>
+                                                حذف
+                                            </button>
+
+                                        </form>
+
+                                    @endcan
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="3">
+
+                                <div class="empty">
+
+                                    <div class="empty-icon">
+                                        <i class="fas fa-shield-halved"></i>
+                                    </div>
+
+                                    <div class="empty-title">
+                                        لا توجد أدوار مسجلة حالياً
+                                    </div>
+
+                                    <div class="empty-sub">
+                                        قم بالنقر على "إنشاء دور جديد"
+                                        للبدء في توزيع الصلاحيات على المستخدمين.
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 @endsection

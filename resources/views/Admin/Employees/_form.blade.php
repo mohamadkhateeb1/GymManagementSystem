@@ -1,154 +1,366 @@
 <style>
-    .field-group {
-        margin-bottom: 1.25rem;
+<style>
+/* =========================================================
+   ELITE CLUB — EMPLOYEE FORM
+   Shared by Create / Edit
+   ========================================================= */
+
+.employee-form-wrapper {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    direction: rtl;
+}
+
+
+/* =========================================================
+   FORM GRID
+   ========================================================= */
+
+.employee-form-wrapper .fields-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   FIELD
+   ========================================================= */
+
+.employee-form-wrapper .field-group {
+    min-width: 0;
+}
+
+.employee-form-wrapper .field-group > label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 8px;
+
+    color: var(--text);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    line-height: 1.5;
+}
+
+.employee-form-wrapper .field-group > label svg {
+    width: 15px;
+    height: 15px;
+
+    flex: 0 0 15px;
+
+    color: var(--gold);
+}
+
+
+/* =========================================================
+   FIELD WRAPPER
+   ========================================================= */
+
+.employee-form-wrapper .field-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.employee-form-wrapper .field-icon {
+    position: absolute;
+
+    top: 50%;
+    right: 14px;
+
+    width: 17px;
+    height: 17px;
+
+    transform: translateY(-50%);
+
+    color: var(--muted);
+
+    pointer-events: none;
+
+    transition: color .2s ease;
+}
+
+
+/* =========================================================
+   INPUT
+   ========================================================= */
+
+.employee-form-wrapper .field-wrap input,
+.employee-form-wrapper .field-group input:not(.field-wrap input) {
+    width: 100%;
+    min-height: 46px;
+
+    padding: 10px 43px 10px 14px;
+
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+
+    outline: none;
+
+    background: var(--input-bg);
+    color: var(--text);
+
+    font-family: 'Tajawal', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.employee-form-wrapper .field-wrap input::placeholder {
+    color: var(--muted-light);
+}
+
+.employee-form-wrapper .field-wrap:focus-within .field-icon {
+    color: var(--gold);
+}
+
+.employee-form-wrapper .field-wrap:focus-within input {
+    border-color: rgba(184, 146, 62, .55);
+
+    box-shadow:
+        0 0 0 3px rgba(184, 146, 62, .08);
+}
+
+
+/* =========================================================
+   INVALID
+   ========================================================= */
+
+.employee-form-wrapper .field-wrap input.is-invalid {
+    border-color: var(--danger);
+    box-shadow:
+        0 0 0 3px rgba(196, 93, 93, .07);
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.employee-form-wrapper .field-error {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    margin-top: 7px;
+
+    color: var(--danger);
+
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.employee-form-wrapper .field-error svg {
+    width: 14px;
+    height: 14px;
+
+    flex: 0 0 14px;
+}
+
+
+/* =========================================================
+   ROLES
+   ========================================================= */
+
+.employee-form-wrapper .field-group:has(.roles-box) {
+    margin-top: 2px;
+    margin-bottom: 20px;
+}
+
+.employee-form-wrapper .roles-box {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background: var(--surface-2);
+
+    transition:
+        background .25s ease,
+        border-color .25s ease;
+}
+
+
+/* =========================================================
+   ROLE ITEM
+   ========================================================= */
+
+.employee-form-wrapper .role-item {
+    position: relative;
+
+    min-width: 0;
+}
+
+.employee-form-wrapper .role-item input {
+    position: absolute;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.employee-form-wrapper .role-item label {
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface);
+    color: var(--text-soft);
+
+    font-family: 'Tajawal', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.employee-form-wrapper .role-item label:hover {
+    border-color: rgba(184, 146, 62, .35);
+
+    color: var(--gold-dark);
+
+    background: var(--surface-hover);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SELECTED ROLE
+   ========================================================= */
+
+.employee-form-wrapper .role-item input:checked + label {
+    border-color: rgba(184, 146, 62, .45);
+
+    background: var(--sidebar-active);
+
+    color: var(--gold-dark);
+
+    box-shadow:
+        0 4px 12px rgba(184, 146, 62, .08);
+}
+
+html[data-theme="dark"]
+.employee-form-wrapper .role-item input:checked + label {
+    color: var(--gold-light);
+}
+
+
+/* =========================================================
+   SUBMIT
+   ========================================================= */
+
+.employee-form-wrapper .employee-submit {
+    width: 100%;
+    min-height: 47px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 6px;
+
+    border: 1px solid var(--gold-dark);
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold-dark)
+        );
+
+    color: #fff;
+
+    font-family: 'Tajawal', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 18px rgba(184, 146, 62, .12);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        filter .2s ease;
+}
+
+.employee-form-wrapper .employee-submit:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 10px 24px rgba(184, 146, 62, .17);
+
+    filter: brightness(1.03);
+}
+
+.employee-form-wrapper .employee-submit:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .employee-form-wrapper .fields-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
     }
 
-    .field-group label {
-        display: flex;
-        align-items: center;
-        gap: .4rem;
-        font-size: .72rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: .07em;
-        color: #6b7280;
-        margin-bottom: .5rem;
+    .employee-form-wrapper .roles-box {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+
+    .employee-form-wrapper .roles-box {
+        grid-template-columns: 1fr;
     }
 
-    .field-group label svg {
-        width: 13px;
-        height: 13px;
-        color: #00d4aa;
+    .employee-form-wrapper .field-wrap input {
+        min-height: 44px;
     }
-
-    .field-wrap {
-        position: relative;
-    }
-
-    .field-wrap .field-icon {
-        position: absolute;
-        left: .85rem;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 16px;
-        height: 16px;
-        color: #3d4460;
-        pointer-events: none;
-    }
-
-    .field-wrap input {
-        width: 100%;
-        padding: .65rem 1rem .65rem 2.5rem;
-        background: #1e2233;
-        border: 1px solid #252a38;
-        border-radius: .65rem;
-        color: #e8eaf6;
-        font-family: 'Cairo', sans-serif;
-        font-size: .875rem;
-        transition: border-color .2s, box-shadow .2s;
-        outline: none;
-    }
-
-    .field-wrap input:focus {
-        border-color: #00d4aa;
-        box-shadow: 0 0 0 3px rgba(0, 212, 170, .15);
-    }
-
-    .field-wrap input::placeholder {
-        color: #3d4255;
-    }
-
-    .field-wrap input.is-invalid {
-        border-color: #f87171;
-        box-shadow: 0 0 0 3px rgba(248, 113, 113, .12);
-    }
-
-    .field-hint {
-        font-size: .72rem;
-        color: #4b5368;
-        margin-top: .35rem;
-        display: flex;
-        align-items: center;
-        gap: .3rem;
-    }
-
-    .field-hint svg {
-        width: 12px;
-        height: 12px;
-    }
-
-    .roles-box {
-        background: #1e2233;
-        border: 1px solid #252a38;
-        border-radius: .75rem;
-        padding: .5rem .25rem;
-        max-height: 210px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: #2e3348 transparent;
-    }
-
-    .roles-box:focus-within {
-        border-color: #00d4aa;
-        box-shadow: 0 0 0 3px rgba(0, 212, 170, .12);
-    }
-
-    .role-item {
-        display: flex;
-        align-items: center;
-        gap: .7rem;
-        padding: .55rem .9rem;
-        border-radius: .5rem;
-        cursor: pointer;
-        transition: background .15s;
-    }
-
-    .role-item:hover {
-        background: rgba(0, 212, 170, .08);
-    }
-
-    .role-item input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-        accent-color: #00d4aa;
-        cursor: pointer;
-        flex-shrink: 0;
-    }
-
-    .role-item label {
-        font-size: .84rem;
-        font-weight: 500;
-        color: #c5c8e0;
-        cursor: pointer;
-        margin: 0;
-    }
-
-    .field-error {
-        font-size: .73rem;
-        color: #f87171;
-        margin-top: .4rem;
-        display: flex;
-        align-items: center;
-        gap: .3rem;
-    }
-
-    .field-error svg {
-        width: 12px;
-        height: 12px;
-        flex-shrink: 0;
-    }
-
-    .fields-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0 1.25rem;
-    }
-
-    @media (max-width: 560px) {
-        .fields-grid {
-            grid-template-columns: 1fr;
-        }
-    }
+}
+</style>
 </style>
 
 <div class="fields-grid">

@@ -18,6 +18,10 @@ return new class extends Migration
             // جعل حقل اللاعب nullable لأنه يُخزن بالبنك أولاً كخطة عامة
             $table->foreignId('player_id')->nullable()->constrained('players')->cascadeOnDelete();
 
+            // 🆕 يميّز الوجبات الخاصة المضافة يدوياً للاعب عن الوجبات النازلة
+            // من بنك المستوى العام (بنك أو نسخة موزَّعة للاعب)
+            $table->boolean('is_custom')->default(false);
+
             // حقل لتحديد المستوى المستهدف عند الربط
             $table->string('level')->nullable();
 

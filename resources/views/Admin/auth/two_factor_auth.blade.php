@@ -4,10 +4,6 @@
 
 @section('styles')
 <style>
-    /* =========================================================
-       TWO FACTOR AUTHENTICATION - ELITE CLUB
-       ========================================================= */
-
     .two-factor-page {
         width: 100%;
         min-height: calc(100vh - 120px);
@@ -16,10 +12,6 @@
         align-items: flex-start;
         padding: 35px 20px 60px;
     }
-
-    /* =========================
-       MAIN CARD
-       ========================= */
 
     .two-factor-card {
         width: 100%;
@@ -49,12 +41,7 @@
             var(--gold, #c9a961),
             transparent
         );
-        opacity: .9;
     }
-
-    /* =========================
-       CARD HEADER
-       ========================= */
 
     .two-factor-header {
         min-height: 145px;
@@ -95,15 +82,9 @@
         justify-content: center;
 
         border-radius: 20px;
-
         color: var(--gold, #c9a961);
-
         background: rgba(201, 169, 97, 0.07);
         border: 1px solid rgba(201, 169, 97, 0.32);
-
-        box-shadow:
-            inset 0 0 20px rgba(201, 169, 97, 0.035),
-            0 8px 25px rgba(0, 0, 0, 0.08);
     }
 
     .two-factor-icon i {
@@ -115,8 +96,6 @@
         color: var(--text, #f4f1e9);
         font-size: 24px;
         font-weight: 800;
-        line-height: 1.5;
-        letter-spacing: -.4px;
     }
 
     .two-factor-subtitle {
@@ -124,81 +103,52 @@
         margin-top: 4px;
         color: var(--muted, #8f99a8);
         font-size: 13px;
-        font-weight: 500;
     }
 
     .security-badge {
         display: inline-flex;
         align-items: center;
         gap: 7px;
-
         padding: 8px 13px;
         border-radius: 999px;
-
         color: var(--gold, #c9a961);
         background: rgba(201, 169, 97, 0.07);
         border: 1px solid rgba(201, 169, 97, 0.22);
-
         font-size: 11px;
         font-weight: 700;
-        white-space: nowrap;
     }
-
-    .security-badge i {
-        font-size: 10px;
-    }
-
-    /* =========================
-       CARD BODY
-       ========================= */
 
     .two-factor-body {
         padding: 34px;
     }
 
-    /* =========================
-       ALERTS
-       ========================= */
-
     .two-factor-alert {
         padding: 14px 17px;
         margin-bottom: 22px;
-
         border-radius: 13px;
-
         font-size: 13px;
         line-height: 1.8;
     }
 
     .two-factor-alert ul {
         margin: 0;
-        padding: 0 18px 0 0;
+        padding-right: 18px;
     }
 
     .two-factor-alert-danger {
         color: #fca5a5;
-        background: rgba(239, 68, 68, 0.08);
-        border: 1px solid rgba(239, 68, 68, 0.22);
+        background: rgba(239, 68, 68, .08);
+        border: 1px solid rgba(239, 68, 68, .22);
     }
 
     .two-factor-alert-info {
         display: flex;
         align-items: center;
         gap: 10px;
-
         color: #93c5fd;
-        background: rgba(59, 130, 246, 0.07);
-        border: 1px solid rgba(59, 130, 246, 0.20);
+        background: rgba(59, 130, 246, .07);
+        border: 1px solid rgba(59, 130, 246, .20);
     }
-
-    .two-factor-alert-info i {
-        color: #60a5fa;
-        font-size: 15px;
-    }
-
-    /* =========================
-       INTRO
-       ========================= */
 
     .two-factor-intro {
         text-align: center;
@@ -210,7 +160,6 @@
         margin: 0 0 8px;
         color: var(--text, #f4f1e9);
         font-size: 17px;
-        font-weight: 750;
     }
 
     .two-factor-intro p {
@@ -220,82 +169,55 @@
         line-height: 1.9;
     }
 
-    /* =========================
-       SECURITY INFO BOX
-       ========================= */
-
     .security-info-box {
         display: flex;
         align-items: flex-start;
         gap: 15px;
-
         padding: 18px 20px;
         margin-bottom: 25px;
-
         border-radius: 16px;
-
-        background: var(--surface-2, rgba(255, 255, 255, 0.025));
-        border: 1px solid var(--border, rgba(201, 169, 97, 0.15));
+        background: var(--surface-2, rgba(255, 255, 255, .025));
+        border: 1px solid var(--border, rgba(201, 169, 97, .15));
     }
 
     .security-info-icon {
         width: 43px;
         height: 43px;
         flex: 0 0 43px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         border-radius: 12px;
-
         color: var(--gold, #c9a961);
-        background: rgba(201, 169, 97, 0.08);
-        border: 1px solid rgba(201, 169, 97, 0.20);
+        background: rgba(201, 169, 97, .08);
+        border: 1px solid rgba(201, 169, 97, .20);
     }
 
     .security-info-content h4 {
         margin: 0 0 5px;
-
         color: var(--text, #f4f1e9);
         font-size: 14px;
-        font-weight: 700;
     }
 
     .security-info-content p {
         margin: 0;
-
         color: var(--muted, #8f99a8);
         font-size: 12px;
         line-height: 1.8;
     }
 
-    /* =========================
-       MAIN BUTTON
-       ========================= */
-
     .two-factor-btn {
         width: 100%;
         min-height: 54px;
-
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
-
-        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 13px;
-
         cursor: pointer;
-        text-decoration: none;
-
         font-size: 14px;
         font-weight: 750;
-
-        transition:
-            transform .2s ease,
-            box-shadow .2s ease,
-            background .2s ease;
+        transition: .2s ease;
     }
 
     .two-factor-btn:hover {
@@ -304,31 +226,16 @@
 
     .two-factor-btn-primary {
         color: #171717;
-
-        background: linear-gradient(
-            135deg,
-            #d9b968,
-            #bd9540
-        );
-
-        border-color: rgba(230, 201, 120, .45);
-
-        box-shadow:
-            0 10px 28px rgba(201, 169, 97, .16);
+        background: linear-gradient(135deg, #d9b968, #bd9540);
+        border: 1px solid rgba(230, 201, 120, .45);
+        box-shadow: 0 10px 28px rgba(201, 169, 97, .16);
     }
 
-    .two-factor-btn-primary:hover {
-        box-shadow:
-            0 14px 35px rgba(201, 169, 97, .25);
+    .two-factor-btn-danger {
+        color: #ef9a9a;
+        background: rgba(239, 68, 68, .035);
+        border: 1px solid rgba(239, 68, 68, .20);
     }
-
-    .two-factor-btn-primary i {
-        color: #fff;
-    }
-
-    /* =========================
-       QR SECTION
-       ========================= */
 
     .qr-section {
         margin-bottom: 28px;
@@ -338,9 +245,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
-
         margin-bottom: 14px;
-
         color: var(--text, #f4f1e9);
         font-size: 14px;
         font-weight: 750;
@@ -352,19 +257,13 @@
 
     .qr-wrapper {
         min-height: 285px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         padding: 28px;
-
         border-radius: 18px;
-
         background: #fff;
-
         border: 1px solid rgba(201, 169, 97, .35);
-
         box-shadow:
             inset 0 0 0 8px #f8f8f8,
             0 12px 35px rgba(0, 0, 0, .16);
@@ -378,28 +277,18 @@
 
     .qr-note {
         margin: 12px 0 0;
-
         text-align: center;
-
         color: var(--muted, #8f99a8);
         font-size: 11px;
         line-height: 1.7;
     }
 
-    /* =========================
-       RECOVERY CODES
-       ========================= */
-
     .recovery-section {
-        margin-top: 25px;
-        margin-bottom: 28px;
-
+        margin: 25px 0 28px;
         padding: 21px;
-
         border-radius: 17px;
-
-        background: rgba(201, 169, 97, 0.035);
-        border: 1px solid rgba(201, 169, 97, 0.17);
+        background: rgba(201, 169, 97, .035);
+        border: 1px solid rgba(201, 169, 97, .17);
     }
 
     .recovery-head {
@@ -407,7 +296,6 @@
         align-items: center;
         justify-content: space-between;
         gap: 15px;
-
         margin-bottom: 17px;
     }
 
@@ -415,7 +303,6 @@
         display: flex;
         align-items: center;
         gap: 10px;
-
         color: var(--text, #f4f1e9);
         font-size: 14px;
         font-weight: 750;
@@ -439,177 +326,45 @@
 
     .recovery-code {
         padding: 11px 12px;
-
         text-align: center;
-
         border-radius: 9px;
-
         color: var(--text, #f4f1e9);
-
         background: var(--surface, #171d27);
         border: 1px dashed rgba(201, 169, 97, .20);
-
-        font-family:
-            'SFMono-Regular',
-            Consolas,
-            'Liberation Mono',
-            monospace;
-
+        font-family: monospace;
         font-size: 12px;
-        letter-spacing: .4px;
     }
-
-    /* =========================
-       DANGER BUTTON
-       ========================= */
-
-    .two-factor-btn-danger {
-        color: #ef9a9a;
-
-        background: rgba(239, 68, 68, .035);
-        border-color: rgba(239, 68, 68, .20);
-    }
-
-    .two-factor-btn-danger:hover {
-        background: rgba(239, 68, 68, .08);
-        border-color: rgba(239, 68, 68, .32);
-    }
-
-    /* =========================
-       DIVIDER
-       ========================= */
 
     .two-factor-divider {
         height: 1px;
         margin: 28px 0 20px;
-
-        background:
-            linear-gradient(
-                90deg,
-                transparent,
-                var(--border, rgba(201, 169, 97, .16)),
-                transparent
-            );
+        background: linear-gradient(
+            90deg,
+            transparent,
+            var(--border, rgba(201, 169, 97, .16)),
+            transparent
+        );
     }
-
-    /* =========================
-       BACK BUTTON
-       ========================= */
 
     .two-factor-back {
         width: 100%;
         min-height: 50px;
-
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 9px;
-
         border-radius: 12px;
-
         color: var(--muted, #8f99a8);
-
         background: rgba(255, 255, 255, .025);
         border: 1px solid var(--border, rgba(201, 169, 97, .13));
-
         text-decoration: none;
-
         font-size: 13px;
         font-weight: 650;
-
-        transition: all .2s ease;
-    }
-
-    .two-factor-back:hover {
-        color: var(--text, #f4f1e9);
-        background: rgba(255, 255, 255, .045);
-        border-color: rgba(201, 169, 97, .25);
-        transform: translateY(-1px);
     }
 
     .two-factor-back i {
         color: var(--gold, #c9a961);
     }
-
-    /* =========================
-       LIGHT MODE
-       ========================= */
-
-    body.light .two-factor-card,
-    [data-theme="light"] .two-factor-card {
-        background: #ffffff;
-        border-color: #e5e7eb;
-
-        box-shadow:
-            0 20px 55px rgba(15, 23, 42, .09);
-    }
-
-    body.light .two-factor-header,
-    [data-theme="light"] .two-factor-header {
-        background:
-            radial-gradient(
-                circle at 15% 50%,
-                rgba(201, 169, 97, .06),
-                transparent 35%
-            ),
-            #fff;
-        border-color: #e5e7eb;
-    }
-
-    body.light .two-factor-title,
-    [data-theme="light"] .two-factor-title,
-    body.light .two-factor-intro h3,
-    [data-theme="light"] .two-factor-intro h3,
-    body.light .security-info-content h4,
-    [data-theme="light"] .security-info-content h4,
-    body.light .qr-title,
-    [data-theme="light"] .qr-title,
-    body.light .recovery-title,
-    [data-theme="light"] .recovery-title,
-    body.light .recovery-code,
-    [data-theme="light"] .recovery-code {
-        color: #1f2937;
-    }
-
-    body.light .two-factor-subtitle,
-    body.light .two-factor-intro p,
-    body.light .security-info-content p,
-    body.light .qr-note,
-    [data-theme="light"] .two-factor-subtitle,
-    [data-theme="light"] .two-factor-intro p,
-    [data-theme="light"] .security-info-content p,
-    [data-theme="light"] .qr-note {
-        color: #6b7280;
-    }
-
-    body.light .security-info-box,
-    [data-theme="light"] .security-info-box {
-        background: #f8fafc;
-        border-color: #e5e7eb;
-    }
-
-    body.light .recovery-section,
-    [data-theme="light"] .recovery-section {
-        background: #fffcf5;
-        border-color: rgba(201, 169, 97, .22);
-    }
-
-    body.light .recovery-code,
-    [data-theme="light"] .recovery-code {
-        background: #fff;
-        border-color: #e5e7eb;
-    }
-
-    body.light .two-factor-back,
-    [data-theme="light"] .two-factor-back {
-        background: #f8fafc;
-        border-color: #e5e7eb;
-        color: #6b7280;
-    }
-
-    /* =========================
-       RESPONSIVE
-       ========================= */
 
     @media (max-width: 700px) {
 
@@ -617,28 +372,8 @@
             padding: 20px 12px 40px;
         }
 
-        .two-factor-card {
-            border-radius: 18px;
-        }
-
         .two-factor-header {
             padding: 24px 20px;
-            min-height: auto;
-        }
-
-        .two-factor-header-info {
-            gap: 13px;
-        }
-
-        .two-factor-icon {
-            width: 58px;
-            height: 58px;
-            flex-basis: 58px;
-            border-radius: 16px;
-        }
-
-        .two-factor-icon i {
-            font-size: 23px;
         }
 
         .two-factor-title {
@@ -655,16 +390,6 @@
 
         .qr-wrapper {
             min-height: 240px;
-            padding: 20px;
-        }
-
-        .qr-wrapper svg {
-            width: 190px;
-            height: 190px;
-        }
-
-        .recovery-section {
-            padding: 16px;
         }
 
         .recovery-head {
@@ -688,16 +413,6 @@
             font-size: 17px;
         }
 
-        .two-factor-subtitle {
-            font-size: 11px;
-        }
-
-        .two-factor-icon {
-            width: 52px;
-            height: 52px;
-            flex-basis: 52px;
-        }
-
         .recovery-codes {
             grid-template-columns: 1fr;
         }
@@ -717,9 +432,6 @@
 
     <div class="two-factor-card">
 
-        {{-- =====================================================
-             HEADER
-        ====================================================== --}}
         <div class="two-factor-header">
 
             <div class="two-factor-header-info">
@@ -734,7 +446,7 @@
                     </h1>
 
                     <span class="two-factor-subtitle">
-                        Two Factor Authentication
+                        Admin Two Factor Authentication
                     </span>
                 </div>
 
@@ -742,18 +454,14 @@
 
             <div class="security-badge">
                 <i class="fas fa-lock"></i>
-                حماية الحساب
+                حماية حساب الأدمن
             </div>
 
         </div>
 
 
-        {{-- =====================================================
-             BODY
-        ====================================================== --}}
         <div class="two-factor-body">
 
-            {{-- الأخطاء --}}
             @if ($errors->any())
 
                 <div class="two-factor-alert two-factor-alert-danger">
@@ -769,26 +477,22 @@
             @endif
 
 
-            {{-- =================================================
-                 NOT ENABLED
-            ================================================== --}}
             @if (!$user->two_factor_secret)
 
                 <div class="two-factor-intro">
 
                     <h3>
-                        حماية إضافية لحسابك
+                        حماية إضافية لحساب الأدمن
                     </h3>
 
                     <p>
                         فعّل المصادقة الثنائية لإضافة طبقة أمان إضافية
-                        عند تسجيل الدخول إلى حسابك.
+                        إلى حساب الأدمن.
                     </p>
 
                 </div>
 
 
-                {{-- Info Box --}}
                 <div class="security-info-box">
 
                     <div class="security-info-icon">
@@ -802,9 +506,9 @@
                         </h4>
 
                         <p>
-                            حتى في حال معرفة كلمة المرور الخاصة بك،
-                            سيحتاج أي شخص إلى رمز المصادقة الإضافي
-                            للوصول إلى حسابك.
+                            حتى في حال معرفة كلمة المرور،
+                            سيحتاج الشخص إلى رمز المصادقة الإضافي
+                            للوصول إلى حساب الأدمن.
                         </p>
 
                     </div>
@@ -812,7 +516,6 @@
                 </div>
 
 
-                {{-- Status --}}
                 @if (session('status') == 'two-factor-authentication-enabled')
 
                     <div class="two-factor-alert two-factor-alert-info">
@@ -821,8 +524,7 @@
 
                         <span>
                             تم تفعيل المصادقة الثنائية.
-                            يرجى إكمال إعدادها باستخدام التطبيق
-                            الخاص بالمصادقة.
+                            يرجى إكمال إعدادها باستخدام تطبيق المصادقة.
                         </span>
 
                     </div>
@@ -830,13 +532,12 @@
                 @endif
 
 
-                {{-- Enable --}}
                 <form action="{{ route('two-factor.enable') }}" method="POST">
 
                     @csrf
 
                     <button type="submit"
-                        class="two-factor-btn two-factor-btn-primary">
+                            class="two-factor-btn two-factor-btn-primary">
 
                         <i class="fas fa-lock"></i>
 
@@ -847,9 +548,6 @@
                 </form>
 
 
-            {{-- =================================================
-                 ENABLED
-            ================================================== --}}
             @else
 
                 <div class="two-factor-intro">
@@ -859,23 +557,20 @@
                     </h3>
 
                     <p>
-                        امسح رمز QR باستخدام تطبيق المصادقة على هاتفك،
+                        امسح رمز QR باستخدام تطبيق المصادقة
                         ثم احتفظ بأكواد الاسترداد في مكان آمن.
                     </p>
 
                 </div>
 
 
-                {{-- QR --}}
                 <div class="qr-section">
 
                     <div class="qr-title">
 
                         <i class="fas fa-qrcode"></i>
 
-                        <span>
-                            رمز المصادقة QR
-                        </span>
+                        رمز المصادقة QR
 
                     </div>
 
@@ -893,7 +588,6 @@
                 </div>
 
 
-                {{-- Recovery Codes --}}
                 <div class="recovery-section">
 
                     <div class="recovery-head">
@@ -902,9 +596,7 @@
 
                             <i class="fas fa-key"></i>
 
-                            <span>
-                                أكواد الاسترداد
-                            </span>
+                            أكواد الاسترداد
 
                         </div>
 
@@ -934,15 +626,14 @@
                 </div>
 
 
-                {{-- Disable --}}
-                <form action="{{ route('two-factor.enable') }}"
-                    method="POST">
+                <form action="{{ route('two-factor.enable') }}" method="POST">
 
                     @csrf
+
                     @method('DELETE')
 
                     <button type="submit"
-                        class="two-factor-btn two-factor-btn-danger">
+                            class="two-factor-btn two-factor-btn-danger">
 
                         <i class="fas fa-shield-xmark"></i>
 
@@ -955,38 +646,17 @@
             @endif
 
 
-            {{-- =================================================
-                 DIVIDER
-            ================================================== --}}
             <div class="two-factor-divider"></div>
 
 
-            {{-- =================================================
-                 BACK
-            ================================================== --}}
-            @if (Auth::guard('employee')->check())
+            <a href="{{ route('admin.dashboard') }}"
+               class="two-factor-back">
 
-                <a href="{{ route('employee.dashboard') }}"
-                    class="two-factor-back">
+                <i class="fas fa-arrow-right"></i>
 
-                    <i class="fas fa-arrow-right"></i>
+                العودة إلى لوحة تحكم الأدمن
 
-                    العودة إلى لوحة التحكم
-
-                </a>
-
-            @else
-
-                <a href="{{ route('admin.dashboard') }}"
-                    class="two-factor-back">
-
-                    <i class="fas fa-arrow-right"></i>
-
-                    العودة إلى لوحة التحكم
-
-                </a>
-
-            @endif
+            </a>
 
         </div>
 

@@ -1,351 +1,543 @@
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+@extends('Admin.layouts.app')
 
-    :root {
-        --bg: #0d0f14;
-        --card: #181c27;
-        --border: #252a38;
-        --accent: #6c63ff;
-        --accent2: #00d4aa;
-        --text: #e8eaf6;
-        --muted: #6b7280;
-        --input-bg: #1e2233;
-        --danger: #f87171;
-    }
+@section('title', 'تعديل المسؤول | Elite Club')
 
-    body {
-        font-family: 'DM Sans', sans-serif;
-        color: var(--text);
-        background:
-            radial-gradient(100% 70% at 0% 0%, rgba(108, 99, 255, 0.12), transparent 55%),
-            radial-gradient(90% 70% at 100% 100%, rgba(0, 212, 170, 0.08), transparent 55%),
-            var(--bg);
-    }
+@section('styles')
 
-    /* ---- WRAPPER ---- */
-    .edit-wrapper {
-        max-width: 720px;
-        margin: 2.5rem auto;
-        padding: 0 1.25rem 4rem;
-    }
+    <style>
+        /* =========================================================
+       ADMIN EDIT PAGE
+    ========================================================= */
 
-    /* ---- BREADCRUMB ---- */
-    .breadcrumb-row {
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-        font-size: .78rem;
-        color: var(--muted);
-        margin-bottom: 1.75rem;
-    }
+        .admin-page {
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 10px 0 40px;
+            direction: rtl;
+        }
 
-    .breadcrumb-row a {
-        color: var(--muted);
-        text-decoration: none;
-        transition: color .15s;
-    }
+        .admin-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 22px;
+        }
 
-    .breadcrumb-row a:hover {
-        color: var(--text);
-    }
+        .admin-page-header-main {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
-    .breadcrumb-row span {
-        color: var(--accent);
-        font-weight: 600;
-    }
+        .admin-page-accent {
+            width: 4px;
+            height: 48px;
+            border-radius: 10px;
+            background: linear-gradient(180deg,
+                    var(--gold, #c9a961),
+                    rgba(201, 169, 97, .25));
+        }
 
-    .breadcrumb-row svg {
-        width: 13px;
-        height: 13px;
-        flex-shrink: 0;
-    }
+        .admin-page-title {
+            margin: 0;
+            color: var(--text, #f5f5f5);
+            font-size: 24px;
+            font-weight: 800;
+        }
 
-    /* ---- CARD ---- */
-    .edit-card {
-        position: relative;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 1.25rem;
-        overflow: hidden;
-        box-shadow: 0 18px 50px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .03);
-    }
+        .admin-page-subtitle {
+            margin-top: 5px;
+            color: var(--muted, #8d95a3);
+            font-size: 13px;
+        }
 
-    /* لمعة علوية رفيعة */
-    .edit-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(108, 99, 255, .6), transparent);
-        z-index: 2;
-    }
+        .admin-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text, #f5f5f5);
+            background: var(--surface, #1a202b);
+            border: 1px solid var(--border, rgba(255, 255, 255, .09));
+            transition: .2s ease;
+        }
 
-    /* ---- CARD HEADER ---- */
-    .edit-card-header {
-        padding: 1.5rem 1.75rem;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        position: relative;
-        overflow: hidden;
-        background: rgba(108, 99, 255, .04);
-    }
+        .admin-back-btn:hover {
+            color: var(--gold, #c9a961);
+            border-color: rgba(201, 169, 97, .35);
+        }
 
-    .edit-card-header::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 3px;
-        background: linear-gradient(180deg, var(--accent), var(--accent2));
-        border-radius: 2px 0 0 2px;
-    }
+        .admin-form-card {
+            background: var(--surface, #1a202b);
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .12);
+        }
 
-    .header-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: .8rem;
-        background: rgba(108, 99, 255, .15);
-        border: 1px solid rgba(108, 99, 255, .3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--accent);
-        flex-shrink: 0;
-        box-shadow: 0 4px 14px rgba(108, 99, 255, .25);
-    }
+        .admin-form-card-head {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: linear-gradient(135deg,
+                    rgba(201, 169, 97, .08),
+                    transparent);
+        }
 
-    .header-icon svg {
-        width: 20px;
-        height: 20px;
-    }
+        .admin-form-card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .10);
+            border: 1px solid rgba(201, 169, 97, .22);
+        }
 
-    .header-text h3 {
-        font-family: 'Syne', sans-serif;
-        font-size: 1.05rem;
-        font-weight: 700;
-        color: var(--text);
-        line-height: 1.2;
-    }
+        .admin-form-card-head h3 {
+            margin: 0;
+            color: var(--text, #f5f5f5);
+            font-size: 16px;
+            font-weight: 800;
+        }
 
-    .header-text p {
-        font-size: .78rem;
-        color: var(--muted);
-        margin-top: .15rem;
-    }
+        .admin-form-card-head span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted, #8d95a3);
+            font-size: 12px;
+        }
 
-    /* ---- CARD BODY ---- */
-    .edit-card-body {
-        padding: 1.75rem;
-    }
 
-    /* ---- FORM FIELDS (override AdminLTE / Bootstrap) ---- */
-    .edit-card-body .form-group label,
-    .edit-card-body label {
-        font-size: .78rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: .07em;
-        color: var(--muted);
-        margin-bottom: .5rem;
-        display: block;
-    }
+        /* FORM */
 
-    .edit-card-body .form-control,
-    .edit-card-body input:not([type=submit]):not([type=checkbox]):not([type=radio]),
-    .edit-card-body select,
-    .edit-card-body textarea {
-        background: var(--input-bg) !important;
-        border: 1px solid var(--border) !important;
-        border-radius: .65rem !important;
-        color: var(--text) !important;
-        font-family: 'DM Sans', sans-serif !important;
-        font-size: .875rem !important;
-        padding: .65rem 1rem !important;
-        width: 100%;
-        transition: border-color .2s, box-shadow .2s, background .2s !important;
-        box-shadow: none !important;
-    }
+        .admin-form {
+            padding: 25px;
+        }
 
-    .edit-card-body .form-control:focus,
-    .edit-card-body input:focus,
-    .edit-card-body select:focus,
-    .edit-card-body textarea:focus {
-        border-color: var(--accent) !important;
-        background: #20253a !important;
-        box-shadow: 0 0 0 3px rgba(108, 99, 255, .15) !important;
-        outline: none !important;
-    }
+        .form-section {
+            margin-bottom: 25px;
+            padding: 22px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 15px;
+            background: var(--surface-2, rgba(255, 255, 255, .018));
+        }
 
-    .edit-card-body .form-control::placeholder,
-    .edit-card-body input::placeholder {
-        color: #3d4255 !important;
-    }
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
 
-    .edit-card-body select option {
-        background: var(--card);
-        color: var(--text);
-    }
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 17px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border, rgba(255, 255, 255, .07));
+        }
 
-    .edit-card-body .invalid-feedback,
-    .edit-card-body .text-danger {
-        font-size: .76rem;
-        color: var(--danger) !important;
-        margin-top: .3rem;
-        display: block;
-    }
+        .section-title-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .10);
+            border: 1px solid rgba(201, 169, 97, .20);
+        }
 
-    .edit-card-body .is-invalid,
-    .edit-card-body .form-control.is-invalid {
-        border-color: var(--danger) !important;
-        box-shadow: 0 0 0 3px rgba(248, 113, 113, .12) !important;
-    }
+        .section-title h3 {
+            margin: 0;
+            color: var(--text, #f5f5f5);
+            font-size: 15px;
+        }
 
-    .edit-card-body .form-group {
-        margin-bottom: 1.25rem;
-    }
+        .section-title span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted, #8d95a3);
+            font-size: 12px;
+        }
 
-    /* ---- CARD FOOTER ---- */
-    .edit-card-footer {
-        padding: 1.25rem 1.75rem;
-        border-top: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: .75rem;
-        flex-wrap: wrap;
-        background: rgba(255, 255, 255, .015);
-    }
+        .fields-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
 
-    .btn-update {
-        display: inline-flex;
-        align-items: center;
-        gap: .45rem;
-        padding: .65rem 1.6rem;
-        border-radius: .7rem;
-        font-family: 'DM Sans', sans-serif;
-        font-size: .875rem;
-        font-weight: 700;
-        color: #fff;
-        background: linear-gradient(135deg, var(--accent), #818cf8);
-        border: none;
-        cursor: pointer;
-        transition: transform .2s, box-shadow .2s;
-        box-shadow: 0 6px 18px rgba(108, 99, 255, .35);
-    }
+        .field-group {
+            margin-bottom: 20px;
+        }
 
-    .btn-update:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 28px rgba(108, 99, 255, .5);
-    }
+        .field-group>label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 8px;
+            color: var(--text, #e8e9eb);
+            font-size: 13px;
+            font-weight: 700;
+        }
 
-    .btn-update svg {
-        width: 16px;
-        height: 16px;
-    }
+        .field-group>label i {
+            color: var(--gold, #c9a961);
+        }
 
-    .btn-cancel {
-        display: inline-flex;
-        align-items: center;
-        gap: .45rem;
-        padding: .65rem 1.3rem;
-        border-radius: .7rem;
-        font-family: 'DM Sans', sans-serif;
-        font-size: .875rem;
-        font-weight: 500;
-        color: var(--muted);
-        background: transparent;
-        border: 1px solid var(--border);
-        text-decoration: none;
-        transition: color .2s, border-color .2s, background .2s;
-    }
+        .field-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
-    .btn-cancel:hover {
-        color: var(--text);
-        border-color: #3d4460;
-        background: rgba(255, 255, 255, .04);
-    }
+        .field-icon {
+            position: absolute;
+            right: 15px;
+            z-index: 2;
+            color: var(--muted, #7e8795);
+            pointer-events: none;
+        }
 
-    .btn-cancel svg {
-        width: 15px;
-        height: 15px;
-    }
+        .field-wrap input {
+            width: 100%;
+            min-height: 46px;
+            padding: 0 43px 0 48px;
+            border-radius: 10px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .10));
+            outline: none;
+            background: var(--input-bg, #131923);
+            color: var(--text, #f5f5f5);
+            font-family: inherit;
+            font-size: 13px;
+            transition: .2s ease;
+        }
 
-    /* ---- FADE IN ---- */
-    @keyframes fadeUp {
-        from {
+        .field-wrap input:focus {
+            border-color: rgba(201, 169, 97, .60);
+            box-shadow: 0 0 0 3px rgba(201, 169, 97, .08);
+        }
+
+        .password-toggle {
+            position: absolute;
+            left: 10px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: var(--muted, #7e8795);
+            cursor: pointer;
+        }
+
+        .password-toggle:hover {
+            color: var(--gold, #c9a961);
+        }
+
+        .field-hint {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 8px;
+            color: var(--muted, #808998);
+            font-size: 11.5px;
+        }
+
+        .field-hint i {
+            color: var(--gold, #c9a961);
+        }
+
+        .field-error {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+            color: #f87171;
+            font-size: 11.5px;
+        }
+
+
+        /* ROLES */
+
+        .roles-container {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .role-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 14px;
+            border-radius: 11px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: var(--input-bg, #131923);
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .role-option:hover {
+            border-color: rgba(201, 169, 97, .35);
+        }
+
+        .role-option input {
+            position: absolute;
             opacity: 0;
-            transform: translateY(14px);
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        .custom-checkbox {
+            width: 21px;
+            height: 21px;
+            flex: 0 0 21px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border, rgba(255, 255, 255, .15));
+            color: transparent;
         }
-    }
 
-    .edit-wrapper {
-        animation: fadeUp .35s ease both;
-    }
-</style>
+        .role-option input:checked+.custom-checkbox {
+            background: var(--gold, #c9a961);
+            border-color: var(--gold, #c9a961);
+            color: #171a20;
+        }
 
-<div class="edit-wrapper">
+        .role-option:has(input:checked) {
+            border-color: rgba(201, 169, 97, .45);
+            background: rgba(201, 169, 97, .07);
+        }
 
-    {{-- Breadcrumb --}}
-    <div class="breadcrumb-row">
-        <a href="{{ route('admins.index') }}">Admins</a>
-        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-        </svg>
-        <span>Edit Admin</span>
-    </div>
+        .role-option-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
 
-    {{-- Card --}}
-    <div class="edit-card">
+        .role-option-name {
+            color: var(--text, #f1f1f1);
+            font-size: 13px;
+            font-weight: 700;
+        }
 
-        {{-- Header --}}
-        <div class="edit-card-header">
-            <div class="header-icon">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 7.125L18 8.625" />
-                </svg>
+        .role-option-name i {
+            color: var(--gold, #c9a961);
+        }
+
+        .role-option-status {
+            color: var(--muted, #7d8592);
+            font-size: 10.5px;
+        }
+
+        .roles-empty {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px dashed var(--border, rgba(255, 255, 255, .12));
+            color: var(--muted, #8d95a3);
+        }
+
+        .roles-empty>i {
+            color: var(--gold, #c9a961);
+            font-size: 22px;
+        }
+
+
+        /* FOOTER */
+
+        .admin-form-footer {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            padding: 18px 25px;
+            border-top: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: var(--surface-2, rgba(255, 255, 255, .015));
+        }
+
+        .admin-submit-btn,
+        .admin-cancel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 145px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .admin-submit-btn {
+            border: 1px solid rgba(201, 169, 97, .55);
+            color: #17191e;
+            background: linear-gradient(135deg, #dfbd68, #bd9640);
+        }
+
+        .admin-submit-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .admin-cancel-btn {
+            color: var(--text, #e8e9eb);
+            background: transparent;
+            border: 1px solid var(--border, rgba(255, 255, 255, .10));
+        }
+
+        .admin-cancel-btn:hover {
+            color: var(--gold, #c9a961);
+        }
+
+
+        /* LIGHT */
+
+        [data-theme="light"] .admin-form-card,
+        [data-theme="light"] .form-section {
+            background: #fff;
+        }
+
+        [data-theme="light"] .field-wrap input,
+        [data-theme="light"] .role-option {
+            background: #f8f9fb;
+            color: #20242b;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .admin-page {
+                padding: 5px 12px 30px;
+            }
+
+            .admin-page-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .admin-page-title {
+                font-size: 19px;
+            }
+
+            .admin-back-btn {
+                justify-content: center;
+            }
+
+            .admin-form {
+                padding: 15px;
+            }
+
+            .form-section {
+                padding: 16px;
+            }
+
+            .fields-grid,
+            .roles-container {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form-footer {
+                flex-direction: column;
+            }
+
+            .admin-submit-btn,
+            .admin-cancel-btn {
+                width: 100%;
+            }
+        }
+    </style>
+@endsection
+
+
+@section('content')
+
+    <div class="admin-page">
+
+        <div class="admin-page-header">
+
+            <div class="admin-page-header-main">
+
+                <div class="admin-page-accent"></div>
+
+                <div>
+
+                    <h1 class="admin-page-title">
+                        تعديل المسؤول
+                    </h1>
+
+                    <div class="admin-page-subtitle">
+                        تحديث بيانات وصلاحيات المسؤول:
+                        <strong>{{ $admin->name }}</strong>
+                    </div>
+
+                </div>
+
             </div>
-            <div class="header-text">
-                <h3>Edit Admin</h3>
-                <p>تعديل بيانات المشرف — جميع الحقول مطلوبة</p>
-            </div>
+
+            <a href="{{ route('admins.index') }}" class="admin-back-btn">
+                <i class="fas fa-arrow-right"></i>
+                رجوع للمسؤولين
+            </a>
+
         </div>
 
-        {{-- Form --}}
-        <form action="{{ route('admins.update', $admin->id) }}" method="POST">
-            @csrf
-            @method('PUT')
 
-            <div class="edit-card-body">
-                @include('Admin.admins._form')
+        <div class="admin-form-card">
+
+            <div class="admin-form-card-head">
+
+                <div class="admin-form-card-icon">
+                    <i class="fas fa-user-pen"></i>
+                </div>
+
+                <div>
+                    <h3>تعديل بيانات المسؤول</h3>
+                    <span>قم بتحديث المعلومات المطلوبة ثم احفظ التغييرات</span>
+                </div>
+
             </div>
 
-            <div class="edit-card-footer">
-                <button type="submit" class="btn-update">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Update
-                </button>
-                <a href="{{ route('admins.index') }}" class="btn-cancel">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    Cancel
-                </a>
-            </div>
-        </form>
+
+            <form action="{{ route('admins.update', $admin->id) }}" method="POST">
+
+                @csrf
+                @method('PUT')
+
+                @include('Admin.admins._form', ['admin' => $admin])
+
+                <div class="admin-form-footer">
+
+                    <button type="submit" class="admin-submit-btn">
+                        <i class="fas fa-floppy-disk"></i>
+                        حفظ التعديلات
+                    </button>
+
+                    <a href="{{ route('admins.index') }}" class="admin-cancel-btn">
+                        <i class="fas fa-xmark"></i>
+                        إلغاء
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
-</div>
+
+@endsection

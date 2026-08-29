@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TrainingPlanController extends Controller
 {
-    
+
     private function copyExercises(TrainingPlan $source, TrainingPlan $target): void
     {
         foreach ($source->exercises as $exercise) {
@@ -62,6 +62,7 @@ class TrainingPlanController extends Controller
         TrainingPlan::create([
             'coach_id'   => $coachId,
             'player_id'  => null,
+            'is_custom'  => false, // خطة بنك عامة، ليست حاوية تمارين خاصة
             'title'      => $request->title,
             'level'      => $request->level,
             'start_date' => now(),
@@ -93,16 +94,20 @@ class TrainingPlanController extends Controller
         }
 
         foreach ($players as $player) {
+            // 🛡️ where('is_custom', false) يمنع أي احتمال (نادر) بلمس حاوية
+            // التمارين الخاصة للاعب لو تطابق اسمها صدفةً مع اسم خطة البنك
             TrainingPlan::whereNotNull('player_id')
                 ->where('player_id', $player->id)
                 ->where('coach_id', $coachId)
                 ->where('level', $plan->level)
+                ->where('is_custom', false)
                 ->where('title', $plan->title)
                 ->delete();
 
             $playerPlan = TrainingPlan::create([
                 'coach_id'   => $coachId,
                 'player_id'  => $player->id,
+                'is_custom'  => false,
                 'title'      => $plan->title,
                 'level'      => $plan->level,
                 'start_date' => now(),
@@ -121,9 +126,11 @@ class TrainingPlanController extends Controller
             ->where('coach_id', Auth::guard('employee')->id())
             ->findOrFail($id);
 
+        // 🛡️ نفس الحماية: لا نلمس حاوية التمارين الخاصة عند حذف خطة بنك
         TrainingPlan::whereNotNull('player_id')
             ->where('coach_id', $plan->coach_id)
             ->where('level', $plan->level)
+            ->where('is_custom', false)
             ->where('title', $plan->title)
             ->delete();
 

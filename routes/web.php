@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TowFactorAuthenticatorController;
-use App\Http\Controllers\TowFactorAuthenticatorControllerAdmins;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,14 +12,30 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+/*
+|--------------------------------------------------------------------------
+| General Profile
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
 });
 
-Route::get('admin/2fa', [TowFactorAuthenticatorController::class, 'index'])->name('admin.2fa');
-Route::get('employee/2fa', [TowFactorAuthenticatorController::class, 'index'])->name('employee.2fa');
 
-require __DIR__.'/admin.php';
-require __DIR__.'/employee.php';
+
+
+require __DIR__ . '/admin.php';
+
+
+
+
+require __DIR__ . '/employee.php';

@@ -1,223 +1,330 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+@extends('Admin.layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تعديل بيانات الموظف</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+@section('title', 'تعديل بيانات الموظف | Elite Club')
 
-        body {
-            font-family: 'Cairo', sans-serif;
-            color: #e8eaf6;
-            min-height: 100vh;
-            padding: 48px 24px;
-            background:
-                radial-gradient(110% 80% at 100% 0%, rgba(251, 191, 36, 0.10), transparent 55%),
-                radial-gradient(90% 70% at 0% 100%, rgba(108, 99, 255, 0.08), transparent 55%),
-                #0d0f14;
-        }
+@section('styles')
 
-        .wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+<style>
+/* =========================================================
+   ELITE CLUB — EDIT EMPLOYEE
+   ========================================================= */
 
-        /* ===== الهيدر ===== */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 16px;
-            animation: fadeUp 0.5s ease both;
-        }
+.employee-form-wrapper {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    direction: rtl;
+}
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
 
-        .header-accent {
-            width: 5px;
-            height: 48px;
-            border-radius: 6px;
-            background: linear-gradient(180deg, #fbbf24, #d97706);
-            box-shadow: 0 0 18px rgba(251, 191, 36, 0.5);
-        }
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
 
-        .header-avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 13px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            color: #2a2000;
-            background: linear-gradient(135deg, #fbbf24, #d97706);
-            box-shadow: 0 4px 14px rgba(251, 191, 36, 0.3);
-        }
+.employee-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        .header-title {
-            font-size: 24px;
-            font-weight: 900;
-            color: #e8eaf6;
-            line-height: 1.15;
-        }
+    gap: 20px;
 
-        .header-title span {
-            color: #fbbf24;
-        }
+    margin-bottom: 22px;
+}
 
-        .header-sub {
-            font-size: 13px;
-            color: #6b7280;
-            margin-top: 4px;
-        }
+.employee-heading {
+    display: flex;
+    align-items: center;
 
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 10px 16px;
-            background: transparent;
-            color: #9ca3af;
-            border: 1px solid #252a38;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all .2s ease;
-        }
+    gap: 12px;
 
-        .btn-back:hover {
-            color: #fbbf24;
-            border-color: rgba(251, 191, 36, 0.4);
-            background: rgba(251, 191, 36, 0.06);
-        }
+    min-width: 0;
+}
 
-        .btn-back svg {
-            width: 16px;
-            height: 16px;
-        }
+.employee-heading-accent {
+    width: 4px;
+    height: 43px;
 
-        /* ===== الكارد ===== */
-        .card {
-            position: relative;
-            background: #181c27;
-            border-radius: 20px;
-            border: 1px solid #252a38;
-            padding: 34px;
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-            overflow: hidden;
-            animation: fadeUp 0.5s ease 0.1s both;
-        }
+    flex: 0 0 4px;
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.6), transparent);
-        }
+    border-radius: 99px;
 
-        /* ===== زر التحديث ===== */
-        .btn-submit {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            width: 100%;
-            padding: 14px;
-            margin-top: 26px;
-            background: linear-gradient(135deg, #fbbf24, #d97706);
-            color: #2a2000;
-            border: none;
-            border-radius: 11px;
-            font-size: 15px;
-            font-weight: 800;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 6px 18px rgba(251, 191, 36, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+    background:
+        linear-gradient(
+            180deg,
+            var(--gold-light),
+            var(--gold-dark)
+        );
+}
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 28px rgba(251, 191, 36, 0.45);
-        }
+.employee-heading-icon {
+    width: 43px;
+    height: 43px;
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
+    flex: 0 0 43px;
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        @media (max-width: 640px) {
-            body {
-                padding: 28px 16px;
-            }
+    border: 1px solid rgba(184, 146, 62, .18);
+    border-radius: 11px;
 
-            .card {
-                padding: 24px;
-            }
-        }
-    </style>
-</head>
+    background: var(--sidebar-active);
+    color: var(--gold-dark);
 
-<body>
-    <div class="wrapper">
-        <x-flash-message />
+    font-size: 16px;
+}
 
-        <div class="header">
-            <div class="header-left">
-                <div class="header-accent"></div>
-                <div class="header-avatar">{{ mb_strtoupper(mb_substr($employee->username, 0, 1)) }}</div>
-                <div>
-                    <div class="header-title">تعديل الموظف: <span>{{ $employee->username }}</span></div>
-                    <div class="header-sub">قم بتحديث بيانات الموظف ثم احفظ التغييرات</div>
-                </div>
+.employee-title {
+    color: var(--text);
+
+    font-size: 20px;
+    font-weight: 900;
+
+    line-height: 1.3;
+}
+
+.employee-title-name {
+    color: var(--gold-dark);
+
+    font-weight: 900;
+}
+
+html[data-theme="dark"]
+.employee-title-name {
+    color: var(--gold-light);
+}
+
+.employee-subtitle {
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+.employee-back {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 8px 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    background: var(--surface);
+    color: var(--text-soft);
+
+    font-family: 'Tajawal', sans-serif;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    transition: .2s ease;
+}
+
+.employee-back:hover {
+    color: var(--gold-dark);
+
+    border-color: rgba(184, 146, 62, .30);
+
+    background: var(--surface-hover);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.employee-form-card {
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.employee-card-header {
+    min-height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid var(--border-soft);
+
+    background: var(--surface-2);
+}
+
+.employee-card-heading {
+    color: var(--text);
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.employee-card-hint {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+.employee-form-body {
+    padding: 25px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .employee-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .employee-back {
+        width: 100%;
+    }
+
+    .employee-form-body {
+        padding: 18px;
+    }
+
+    .employee-title {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .employee-heading-icon {
+        width: 39px;
+        height: 39px;
+        flex-basis: 39px;
+    }
+
+    .employee-heading-accent {
+        height: 39px;
+    }
+
+    .employee-card-hint {
+        display: none;
+    }
+
+    .employee-card-header {
+        padding: 0 15px;
+    }
+}
+</style>
+
+@endsection
+
+@section('content')
+
+<div class="employee-form-wrapper">
+
+```
+<div class="employee-page-header">
+
+    <div class="employee-heading">
+
+        <div class="employee-heading-accent"></div>
+
+        <div class="employee-heading-icon">
+            <i class="fas fa-user-pen"></i>
+        </div>
+
+        <div>
+            <div class="employee-title">
+                تعديل الموظف:
+                <span class="employee-title-name">
+                    {{ $employee->username }}
+                </span>
             </div>
 
-            <a href="{{ route('employees.index') }}" class="btn-back">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                </svg>
-                العودة للقائمة
-            </a>
+            <div class="employee-subtitle">
+                قم بتحديث بيانات الموظف ثم احفظ التغييرات
+            </div>
         </div>
 
-        <div class="card">
-            <form action="{{ route('employees.update', $employee->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-                @include('Admin.Employees._form')
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-floppy-disk"></i> تحديث بيانات الموظف
-                </button>
-            </form>
-        </div>
     </div>
-</body>
 
-</html>
+    <a href="{{ route('employees.index') }}" class="employee-back">
+        <i class="fas fa-arrow-right"></i>
+        العودة للقائمة
+    </a>
+
+</div>
+
+
+<div class="employee-form-card">
+
+    <div class="employee-card-header">
+
+        <div class="employee-card-heading">
+            تحديث بيانات الموظف
+        </div>
+
+        <div class="employee-card-hint">
+            التعديلات ستُحفظ مباشرة
+        </div>
+
+    </div>
+
+
+    <div class="employee-form-body">
+
+        <form action="{{ route('employees.update', $employee->id) }}" method="POST">
+
+            @csrf
+            @method('PUT')
+
+            @include('Admin.Employees._form')
+
+            <button type="submit" class="employee-submit">
+                <i class="fas fa-floppy-disk"></i>
+                تحديث بيانات الموظف
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+@endsection

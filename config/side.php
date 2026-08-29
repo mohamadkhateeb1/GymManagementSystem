@@ -98,7 +98,7 @@ return [
             ],
 
                 [
-                    'label' => 'إدارة المدراء',
+                    'label' => 'مسؤولين النظام',
                     'icon' => 'fas fa-cogs',
                     'route' => 'admins.index',
                     'ability' => 'admin.view',

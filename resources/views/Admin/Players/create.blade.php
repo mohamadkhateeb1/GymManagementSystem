@@ -4,104 +4,221 @@
 
 @section('styles')
     <style>
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
+        /* =========================================================
+   ELITE CLUB - CREATE / EDIT PAGE HEADER
+   ========================================================= */
 
-        .page-header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+.page-header {
+    width: 100%;
 
-        .page-accent {
-            width: 5px;
-            height: 46px;
-            border-radius: 6px;
-            background: linear-gradient(180deg, var(--accent), #8a6d2f);
-            box-shadow: 0 0 18px rgba(201, 169, 97, 0.5);
-        }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        .page-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: #fff;
-            line-height: 1.2;
-        }
+    gap: 20px;
 
-        .page-sub {
-            margin-top: 5px;
-            font-size: 13px;
-            color: var(--text-muted, #8b8b8b);
-        }
+    margin-bottom: 20px;
+    padding: 18px 20px;
 
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
-            text-decoration: none;
-            color: var(--text-muted, #8b8b8b);
-            border: 1px solid rgba(201, 169, 97, 0.2);
-            background: rgba(16, 19, 28, 0.6);
-            transition: all 0.3s ease;
-        }
+    background: #ffffff;
+    border: 1px solid #e4e8ef;
+    border-radius: 16px;
 
-        .btn-back:hover {
-            color: var(--accent);
-            border-color: rgba(201, 169, 97, 0.45);
-            transform: translateX(3px);
-        }
+    box-shadow: 0 6px 22px rgba(25, 35, 50, 0.045);
 
-        .form-card {
-            position: relative;
-            background: rgba(16, 19, 28, 0.65);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(201, 169, 97, 0.18);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow:
-                0 20px 50px rgba(0, 0, 0, 0.45),
-                inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            overflow: hidden;
-            animation: cardIn 0.5s ease both;
-        }
+    direction: rtl;
+}
 
-        .form-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201, 169, 97, 0.6), transparent);
-        }
+.page-header-left {
+    display: flex;
+    align-items: center;
 
-        @keyframes cardIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
+    gap: 13px;
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    min-width: 0;
+}
 
-        @media (max-width: 640px) {
-            .form-card {
-                padding: 24px;
-            }
-        }
+.page-accent {
+    width: 4px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        to bottom,
+        #e0ad47,
+        #ad791c
+    );
+
+    box-shadow: 0 3px 10px rgba(190, 140, 40, 0.20);
+}
+
+.page-title {
+    color: #202631;
+
+    font-size: 20px;
+    font-weight: 850;
+
+    line-height: 1.5;
+}
+
+.page-title span {
+    color: #b98222;
+}
+
+.page-sub {
+    margin-top: 3px;
+
+    color: #8a929f;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* =========================
+   PAGE AVATAR - EDIT
+   ========================= */
+
+.page-avatar {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: #a9781f;
+
+    background: linear-gradient(
+        135deg,
+        #fff5d9,
+        #f3dfaa
+    );
+
+    border: 1px solid #e6c879;
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: 900;
+}
+
+/* =========================
+   BACK BUTTON
+   ========================= */
+
+.btn-back {
+    height: 42px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+
+    padding: 0 17px;
+
+    color: #596273;
+    background: #f8f9fb;
+
+    border: 1px solid #dfe4eb;
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 750;
+
+    transition: all 0.2s ease;
+}
+
+.btn-back i {
+    font-size: 11px;
+}
+
+.btn-back:hover {
+    color: #a9781f;
+    background: #fffaf0;
+    border-color: #d9b15d;
+    transform: translateX(2px);
+}
+
+/* =========================
+   DARK
+   ========================= */
+
+[data-theme="dark"] .page-header,
+.dark-mode .page-header,
+body.dark .page-header {
+    background: #121720;
+    border-color: #29313d;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme="dark"] .page-title,
+.dark-mode .page-title,
+body.dark .page-title {
+    color: #f1f3f6;
+}
+
+[data-theme="dark"] .page-sub,
+.dark-mode .page-sub,
+body.dark .page-sub {
+    color: #7f8998;
+}
+
+[data-theme="dark"] .page-avatar,
+.dark-mode .page-avatar,
+body.dark .page-avatar {
+    color: #e0ac45;
+
+    background: rgba(210, 158, 55, 0.10);
+    border-color: rgba(210, 158, 55, 0.28);
+}
+
+[data-theme="dark"] .btn-back,
+.dark-mode .btn-back,
+body.dark .btn-back {
+    color: #c0c6cf;
+    background: #191f28;
+    border-color: #323b48;
+}
+
+[data-theme="dark"] .btn-back:hover,
+.dark-mode .btn-back:hover,
+body.dark .btn-back:hover {
+    color: #e0ac45;
+    background: rgba(210, 158, 55, 0.08);
+    border-color: rgba(210, 158, 55, 0.30);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 650px) {
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .page-header-left {
+        width: 100%;
+    }
+
+    .btn-back {
+        width: 100%;
+    }
+
+    .page-title {
+        font-size: 17px;
+    }
+}
     </style>
 @endsection
 

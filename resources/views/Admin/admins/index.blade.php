@@ -1,469 +1,754 @@
 @extends('Admin.layouts.app')
 
-@section('title', 'قسم المسؤولين | Elite Club')
+@section('title', 'إدارة المسؤولين | Elite Club')
 
 @section('styles')
+
     <style>
-        .admins-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
+        /* =========================================================
+       ADMINS INDEX
+    ========================================================= */
+
+        .admins-page {
+            width: 100%;
+            direction: rtl;
         }
 
-        /* ===== الهيدر ===== */
-        .page-head {
+
+        /* ================= HEADER ================= */
+
+        .admins-page-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 16px;
-            animation: fadeUp .5s ease both;
+            gap: 20px;
+            margin-bottom: 22px;
         }
 
-        .page-head-left {
+        .admins-header-main {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 13px;
         }
 
-        .head-accent {
-            width: 5px;
+        .admins-header-accent {
+            width: 4px;
             height: 48px;
-            border-radius: 6px;
-            background: linear-gradient(180deg, #8b80ff, #6c63ff);
-            box-shadow: 0 0 18px rgba(108, 99, 255, 0.5);
+            border-radius: 10px;
+            background: linear-gradient(180deg,
+                    var(--gold, #c9a961),
+                    rgba(201, 169, 97, .20));
         }
 
-        .head-title {
-            font-size: 26px;
-            font-weight: 900;
-            color: #e8eaf6;
-            line-height: 1.15;
+        .admins-title {
+            margin: 0;
+            color: var(--text, #f5f5f5);
+            font-size: 24px;
+            font-weight: 800;
         }
 
-        .head-sub {
-            font-size: 13px;
-            color: #6b7280;
-            margin-top: 4px;
-            letter-spacing: .5px;
+        .admins-subtitle {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted, #8d95a3);
+            font-size: 12px;
         }
 
-        .head-actions {
+
+        /* ================= ACTIONS ================= */
+
+        .admins-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .admins-header-actions form {
+            margin: 0;
+        }
+
+        .admin-top-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 0 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .admin-create-btn {
+            color: #17191e;
+            background: linear-gradient(135deg,
+                    #dfbd68,
+                    #bd9640);
+            border: 1px solid rgba(201, 169, 97, .45);
+            box-shadow: 0 6px 18px rgba(201, 169, 97, .10);
+        }
+
+        .admin-create-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 9px 23px rgba(201, 169, 97, .18);
+        }
+
+        .admin-delete-all {
+            color: #ef7b82;
+            background: rgba(239, 107, 115, .07);
+            border: 1px solid rgba(239, 107, 115, .25);
+        }
+
+        .admin-delete-all:hover {
+            background: rgba(239, 107, 115, .12);
+            border-color: rgba(239, 107, 115, .40);
+        }
+
+
+        /* ================= CARD ================= */
+
+        .admins-card {
+            overflow: hidden;
+            border-radius: 17px;
+            background: var(--surface, #1a202b);
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .10);
+        }
+
+
+        /* ================= CARD HEADER ================= */
+
+        .admins-card-header {
+            min-height: 67px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-bottom: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: linear-gradient(135deg,
+                    rgba(201, 169, 97, .055),
+                    transparent);
+        }
+
+        .admins-card-title {
             display: flex;
             align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
+            color: var(--text, #f5f5f5);
+            font-size: 14px;
+            font-weight: 800;
         }
 
-        /* ===== أزرار علوية ===== */
-        .btn-top {
+        .admins-card-title i {
+            color: var(--gold, #c9a961);
+        }
+
+        .admins-count {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            padding: 10px 22px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all .2s ease;
-        }
-
-        .btn-primary-top {
-            background: linear-gradient(135deg, #6c63ff, #8b80ff);
-            color: #fff;
-            box-shadow: 0 4px 18px rgba(108, 99, 255, 0.3);
-        }
-
-        .btn-primary-top:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 26px rgba(108, 99, 255, 0.45);
-        }
-
-        .btn-danger-top {
-            background: rgba(248, 113, 113, 0.1);
-            color: #f87171;
-            border: 1px solid rgba(248, 113, 113, 0.25);
-        }
-
-        .btn-danger-top:hover {
-            background: #f87171;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(248, 113, 113, 0.35);
-        }
-
-        /* ===== الكارد ===== */
-        .card {
-            background: #181c27;
-            border-radius: 18px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            border: 1px solid #252a38;
-            animation: fadeUp .5s ease .1s both;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 28px;
-            border-bottom: 1px solid #252a38;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        h3.card-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #e8eaf6;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
-        }
-
-        h3.card-title::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #6c63ff;
-            box-shadow: 0 0 8px rgba(108, 99, 255, 0.6);
-        }
-
-        .count-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(108, 99, 255, 0.12);
-            color: #a78bfa;
-            border: 1px solid rgba(108, 99, 255, 0.22);
-            font-size: 12px;
-            font-weight: 700;
-            padding: 5px 13px;
+            padding: 6px 11px;
             border-radius: 20px;
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .08);
+            border: 1px solid rgba(201, 169, 97, .18);
+            font-size: 11px;
+            font-weight: 700;
         }
 
-        .table-responsive {
+
+        /* ================= TABLE ================= */
+
+        .admins-table-wrap {
+            width: 100%;
             overflow-x: auto;
         }
 
-        table {
+        .admins-table {
             width: 100%;
+            min-width: 750px;
             border-collapse: collapse;
-            min-width: 680px;
+            border-spacing: 0;
         }
 
-        thead tr {
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid #252a38;
+
+        /* HEAD */
+
+        .admins-table thead {
+            background: var(--table-head, #151b25);
         }
 
-        th {
-            padding: 13px 28px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: #6b7280;
+        .admins-table th {
+            height: 54px;
+            padding: 0 20px;
             text-align: right;
             white-space: nowrap;
+            color: var(--muted, #8d95a3);
+            border-bottom: 1px solid var(--border, rgba(255, 255, 255, .09));
+            font-size: 11px;
+            font-weight: 800;
         }
 
-        tbody tr {
-            border-bottom: 1px solid #1e2233;
-            transition: background .15s;
-            animation: fadeUp .45s ease both;
+        .admins-table th:first-child {
+            padding-right: 24px;
         }
 
-        tbody tr:last-child {
+        .admins-table th:last-child {
+            text-align: left;
+            padding-left: 24px;
+        }
+
+
+        /* BODY */
+
+        .admins-table tbody tr {
+            transition: background .18s ease;
+            border-bottom: 1px solid var(--border, rgba(255, 255, 255, .055));
+        }
+
+        .admins-table tbody tr:last-child {
             border-bottom: none;
         }
 
-        tbody tr:hover {
-            background: rgba(108, 99, 255, 0.05);
+        .admins-table tbody tr:hover {
+            background: rgba(201, 169, 97, .025);
         }
 
-        td {
-            padding: 15px 28px;
-            font-size: 14px;
-            color: #e8eaf6;
-            vertical-align: middle;
-            white-space: nowrap;
-            text-align: right;
-        }
-
-        .id-badge {
-            font-family: 'JetBrains Mono', monospace;
+        .admins-table td {
+            height: 72px;
+            padding: 10px 20px;
+            color: var(--text, #e8e9eb);
             font-size: 12px;
-            color: #7c83a3;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid #252a38;
-            padding: 3px 9px;
-            border-radius: 6px;
+            vertical-align: middle;
         }
 
-        /* خلية الاسم: أفاتار + اسم */
-        .admin-cell {
+        .admins-table td:first-child {
+            padding-right: 24px;
+        }
+
+        .admins-table td:last-child {
+            padding-left: 24px;
+        }
+
+
+        /* ================= ID ================= */
+
+        .admin-id {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 43px;
+            height: 27px;
+            padding: 0 8px;
+            border-radius: 7px;
+            color: var(--muted, #9ba3af);
+            background: rgba(255, 255, 255, .035);
+            border: 1px solid var(--border, rgba(255, 255, 255, .07));
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+
+        /* ================= ADMIN CELL ================= */
+
+        .admin-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 11px;
         }
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 11px;
-            flex-shrink: 0;
+        .admin-avatar {
+            width: 39px;
+            height: 39px;
+            flex: 0 0 39px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
+            border-radius: 11px;
+            color: var(--gold, #c9a961);
+            background: linear-gradient(135deg,
+                    rgba(201, 169, 97, .18),
+                    rgba(201, 169, 97, .05));
+            border: 1px solid rgba(201, 169, 97, .22);
             font-size: 15px;
-            color: #fff;
-            background: linear-gradient(135deg, #8b80ff, #6c63ff);
-            box-shadow: 0 4px 14px rgba(108, 99, 255, 0.3);
+            font-weight: 800;
         }
 
         .admin-name {
+            color: var(--text, #f1f1f1);
             font-weight: 700;
-            color: #e8eaf6;
         }
 
-        /* badges الأدوار */
-        .roles-wrap {
+
+        /* ================= ROLES ================= */
+
+        .admin-roles {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
         }
 
-        .role-badge {
+        .admin-role {
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            background: rgba(108, 99, 255, 0.1);
-            color: #a78bfa;
-            border: 1px solid rgba(108, 99, 255, 0.2);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
+            padding: 5px 9px;
+            border-radius: 7px;
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .065);
+            border: 1px solid rgba(201, 169, 97, .16);
+            white-space: nowrap;
+            font-size: 10.5px;
+            font-weight: 700;
         }
 
-        .muted {
-            color: #6b7280;
-            font-size: 13px;
+        .admin-role i {
+            font-size: 9px;
         }
 
-        /* أزرار الجدول */
-        .actions {
+        .no-role {
+            color: var(--muted, #7d8592);
+            font-size: 11px;
+        }
+
+
+        /* ================= ACTIONS ================= */
+
+        .admin-row-actions {
             display: flex;
-            gap: 8px;
-            justify-content: flex-start;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 7px;
         }
 
-        .btn {
+        .admin-action {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
-            padding: 7px 14px;
+            min-height: 32px;
+            padding: 0 10px;
             border-radius: 8px;
-            font-size: 12.5px;
+            font-family: inherit;
+            font-size: 10.5px;
             font-weight: 700;
-            border: 1px solid transparent;
-            cursor: pointer;
             text-decoration: none;
-            transition: all .2s ease;
+            cursor: pointer;
+            transition: .18s ease;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
+        .admin-edit-action {
+            color: #79aef7;
+            background: rgba(96, 165, 250, .07);
+            border: 1px solid rgba(96, 165, 250, .18);
         }
 
-        .btn-primary {
-            background: rgba(108, 99, 255, 0.12);
-            color: #a78bfa;
-            border-color: rgba(108, 99, 255, 0.22);
-        }
-
-        .btn-primary:hover {
-            background: #6c63ff;
+        .admin-edit-action:hover {
             color: #fff;
-            box-shadow: 0 6px 16px rgba(108, 99, 255, 0.35);
+            background: rgba(96, 165, 250, .16);
         }
 
-        .btn-danger {
-            background: rgba(248, 113, 113, 0.08);
-            color: #f87171;
-            border-color: rgba(248, 113, 113, 0.18);
+        .admin-delete-action {
+            color: #ef777e;
+            background: rgba(239, 107, 115, .06);
+            border: 1px solid rgba(239, 107, 115, .18);
         }
 
-        .btn-danger:hover {
-            background: #f87171;
+        .admin-delete-action:hover {
             color: #fff;
-            box-shadow: 0 6px 16px rgba(248, 113, 113, 0.35);
+            background: rgba(239, 107, 115, .14);
         }
 
-        /* حالة فارغة */
-        .empty {
-            padding: 60px 24px;
-            text-align: center;
-            color: #6b7280;
-        }
-
-        .empty-icon {
-            font-size: 44px;
-            color: rgba(108, 99, 255, 0.4);
-            margin-bottom: 14px;
-        }
-
-        .empty-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #9ca3af;
-        }
-
-        form {
+        .admin-row-actions form {
             margin: 0;
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
+
+        /* ================= EMPTY ================= */
+
+        .admin-empty {
+            padding: 70px 25px;
+            text-align: center;
+        }
+
+        .admin-empty-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            color: var(--gold, #c9a961);
+            background: rgba(201, 169, 97, .07);
+            border: 1px solid rgba(201, 169, 97, .15);
+            font-size: 25px;
+        }
+
+        .admin-empty-title {
+            color: var(--text, #f1f1f1);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .admin-empty-subtitle {
+            margin-top: 6px;
+            color: var(--muted, #7e8795);
+            font-size: 11px;
+        }
+
+
+        /* ================= LIGHT MODE ================= */
+
+        [data-theme="light"] .admins-card {
+            background: #fff;
+            border-color: #e4e7eb;
+        }
+
+        [data-theme="light"] .admins-table thead {
+            background: #f5f6f8;
+        }
+
+        [data-theme="light"] .admins-table tbody tr:hover {
+            background: rgba(201, 169, 97, .035);
+        }
+
+        [data-theme="light"] .admins-table tbody tr {
+            border-bottom-color: #eceef1;
+        }
+
+        [data-theme="light"] .admin-id {
+            background: #f6f7f9;
+            border-color: #e5e7eb;
+        }
+
+        [data-theme="light"] .admins-card-header {
+            border-bottom-color: #e4e7eb;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 750px) {
+
+            .admins-page-header {
+                flex-direction: column;
+                align-items: stretch;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .admins-header-actions {
+                width: 100%;
             }
+
+            .admin-top-btn {
+                flex: 1;
+            }
+
+            .admins-card-header {
+                padding: 0 15px;
+            }
+
+            .admins-table {
+                min-width: 680px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .admins-header-actions {
+                flex-direction: column;
+            }
+
+            .admin-top-btn {
+                width: 100%;
+            }
+
         }
     </style>
 @endsection
 
-@section('content')
-    @php $visibleAdmins = $admins->filter(fn ($a) => !$a->super_admin); @endphp
 
-    <div class="admins-wrapper">
-        <div class="page-head">
-            <div class="page-head-left">
-                <div class="head-accent"></div>
+@section('content')
+
+    @php
+        $visibleAdmins = $admins->filter(fn($a) => !$a->super_admin);
+    @endphp
+
+
+    <div class="admins-page">
+
+        {{-- ================= PAGE HEADER ================= --}}
+
+        <div class="admins-page-header">
+
+            <div class="admins-header-main">
+
+                <div class="admins-header-accent"></div>
+
                 <div>
-                    <div class="head-title">قسم المسؤولين</div>
-                    <div class="head-sub">Admins Management</div>
+
+                    <h1 class="admins-title">
+                        قسم المسؤولين
+                    </h1>
+
+                    <span class="admins-subtitle">
+                        إدارة حسابات المسؤولين والأدوار والصلاحيات
+                    </span>
+
                 </div>
+
             </div>
 
-            <div class="head-actions">
+
+            <div class="admins-header-actions">
+
                 @can('admin.delete')
                     <form action="{{ route('admins.destroy_all') }}" method="POST"
                         onsubmit="return confirm('هل أنت متأكد من حذف جميع المسؤولين؟ (لن يتم حذف السوبر أدمن)')">
+
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn-top btn-danger-top">
-                            <i class="fas fa-trash-alt"></i> Delete All
+
+                        <button type="submit" class="admin-top-btn admin-delete-all">
+                            <i class="fas fa-trash-alt"></i>
+                            حذف الكل
                         </button>
+
                     </form>
                 @endcan
 
+
                 @can('admin.create')
-                    <a href="{{ route('admins.create') }}" class="btn-top btn-primary-top">
-                        <i class="fas fa-plus"></i> Create Admin
+                    <a href="{{ route('admins.create') }}" class="admin-top-btn admin-create-btn">
+                        <i class="fas fa-plus"></i>
+                        إضافة مسؤول
                     </a>
                 @endcan
+
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Admins Table</h3>
-                <span class="count-badge">
-                    <i class="fas fa-user-shield"></i> {{ $visibleAdmins->count() }} admins
+
+        {{-- ================= TABLE CARD ================= --}}
+
+        <div class="admins-card">
+
+            <div class="admins-card-header">
+
+                <div class="admins-card-title">
+                    <i class="fas fa-user-shield"></i>
+                    قائمة المسؤولين
+                </div>
+
+                <span class="admins-count">
+                    <i class="fas fa-users"></i>
+                    {{ $visibleAdmins->count() }} مسؤول
                 </span>
+
             </div>
 
-            <div class="table-responsive">
-                <table>
+
+            <div class="admins-table-wrap">
+
+                <table class="admins-table">
+
                     <thead>
+
                         <tr>
-                            <th style="width:70px;">ID</th>
-                            <th>Name</th>
-                            <th>Roles</th>
-                            <th style="width:220px;">Actions</th>
+
+                            <th style="width: 80px;">
+                                ID
+                            </th>
+
+                            <th>
+                                المسؤول
+                            </th>
+
+                            <th>
+                                الأدوار
+                            </th>
+
+                            <th style="width: 220px;">
+                                الإجراءات
+                            </th>
+
                         </tr>
+
                     </thead>
+
+
                     <tbody>
+
                         @forelse ($admins as $admin)
+
                             @if ($admin->super_admin)
                                 @continue
                             @endif
-                            <tr style="animation-delay: {{ 0.1 + $loop->index * 0.05 }}s;">
-                                <td><span class="id-badge">#{{ $admin->id }}</span></td>
+
+
+                            <tr>
+
+                                {{-- ID --}}
                                 <td>
-                                    <div class="admin-cell">
-                                        <div class="avatar">{{ mb_strtoupper(mb_substr($admin->name, 0, 1)) }}</div>
-                                        <span class="admin-name">{{ $admin->name }}</span>
-                                    </div>
+
+                                    <span class="admin-id">
+                                        #{{ $admin->id }}
+                                    </span>
+
                                 </td>
+
+
+                                {{-- ADMIN --}}
                                 <td>
+
+                                    <div class="admin-info">
+
+                                        <div class="admin-avatar">
+                                            {{ mb_strtoupper(mb_substr($admin->name, 0, 1)) }}
+                                        </div>
+
+                                        <span class="admin-name">
+                                            {{ $admin->name }}
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+
+                                {{-- ROLES --}}
+                                <td>
+
                                     @if ($admin->roles->isNotEmpty())
-                                        <div class="roles-wrap">
+                                        <div class="admin-roles">
+
                                             @foreach ($admin->roles as $role)
-                                                <span class="role-badge">
-                                                    <i class="fas fa-shield-halved"></i> {{ $role->name }}
+                                                <span class="admin-role">
+
+                                                    <i class="fas fa-shield-halved"></i>
+
+                                                    {{ $role->name }}
+
                                                 </span>
                                             @endforeach
+
                                         </div>
                                     @else
-                                        <span class="muted">No roles</span>
+                                        <span class="no-role">
+                                            لا توجد أدوار
+                                        </span>
                                     @endif
+
                                 </td>
+
+
+                                {{-- ACTIONS --}}
                                 <td>
-                                    <div class="actions">
+
+                                    <div class="admin-row-actions">
+
                                         @can('admin.edit')
-                                            <a href="{{ route('admins.edit', $admin->id) }}" class="btn btn-primary">
-                                                <i class="fas fa-edit"></i> Edit
+                                            <a href="{{ route('admins.edit', $admin->id) }}"
+                                                class="admin-action admin-edit-action">
+                                                <i class="fas fa-pen"></i>
+                                                تعديل
                                             </a>
                                         @endcan
+
+
                                         @can('admin.delete')
                                             <form action="{{ route('admins.destroy', $admin->id) }}" method="POST"
-                                                onsubmit="return confirm('Delete this admin?')">
+                                                onsubmit="return confirm('هل أنت متأكد من حذف هذا المسؤول؟')">
+
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="fas fa-trash-alt"></i> Delete
+
+                                                <button type="submit" class="admin-action admin-delete-action">
+                                                    <i class="fas fa-trash"></i>
+                                                    حذف
                                                 </button>
+
                                             </form>
                                         @endcan
+
                                     </div>
+
                                 </td>
+
                             </tr>
+
+
                         @empty
+
                             <tr>
+
                                 <td colspan="4">
-                                    <div class="empty">
-                                        <div class="empty-icon"><i class="fas fa-user-shield"></i></div>
-                                        <div class="empty-title">No admins found</div>
+
+                                    <div class="admin-empty">
+
+                                        <div class="admin-empty-icon">
+                                            <i class="fas fa-user-shield"></i>
+                                        </div>
+
+                                        <div class="admin-empty-title">
+                                            لا يوجد مسؤولون حالياً
+                                        </div>
+
+                                        <div class="admin-empty-subtitle">
+                                            قم بإضافة مسؤول جديد للبدء بإدارة الحسابات والصلاحيات.
+                                        </div>
+
                                     </div>
+
                                 </td>
+
                             </tr>
+
                         @endforelse
 
+
+                        {{-- فقط Super Admin موجود --}}
                         @if ($admins->isNotEmpty() && $visibleAdmins->isEmpty())
                             <tr>
+
                                 <td colspan="4">
-                                    <div class="empty">
-                                        <div class="empty-icon"><i class="fas fa-user-shield"></i></div>
-                                        <div class="empty-title">No admins found</div>
+
+                                    <div class="admin-empty">
+
+                                        <div class="admin-empty-icon">
+                                            <i class="fas fa-user-shield"></i>
+                                        </div>
+
+                                        <div class="admin-empty-title">
+                                            لا يوجد مسؤولون إضافيون
+                                        </div>
+
+                                        <div class="admin-empty-subtitle">
+                                            حساب الـ Super Admin محمي ولا يظهر ضمن قائمة المسؤولين.
+                                        </div>
+
                                     </div>
+
                                 </td>
+
                             </tr>
                         @endif
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
+
     </div>
+
 @endsection

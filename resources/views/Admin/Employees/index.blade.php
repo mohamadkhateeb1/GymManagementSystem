@@ -3,509 +3,1033 @@
 @section('title', 'إدارة الموظفين | Elite Club')
 
 @section('styles')
-    <style>
-        .wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
 
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 32px;
-            animation: fadeUp 0.5s ease;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
+<style>
+/* =========================================================
+   ELITE CLUB — EMPLOYEES INDEX
+   ========================================================= */
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+.employees-wrapper {
+    width: 100%;
+    max-width: 1250px;
 
-        .header-accent {
-            width: 5px;
-            height: 48px;
-            border-radius: 6px;
-            background: linear-gradient(180deg, #34d399, #00a37f);
-            box-shadow: 0 0 18px rgba(0, 212, 170, 0.5);
-        }
+    margin: 0 auto;
 
-        .header-title {
-            font-size: 28px;
-            font-weight: 900;
-            color: #e8eaf6;
-            letter-spacing: -0.5px;
-            line-height: 1.15;
-        }
+    direction: rtl;
+}
 
-        .header-sub {
-            font-size: 13px;
-            color: #6b7280;
-            margin-top: 4px;
-            letter-spacing: 0.5px;
-        }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
 
-        /* Top buttons */
-        .btn-top {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 10px 22px;
-            border-radius: 10px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all .2s ease;
-        }
+.employees-header {
+    display: flex;
 
-        .btn-primary-top {
-            background: linear-gradient(135deg, #00d4aa, #34d399);
-            color: #062b22;
-            box-shadow: 0 4px 18px rgba(0, 212, 170, 0.28);
-        }
+    align-items: center;
+    justify-content: space-between;
 
-        .btn-primary-top:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 26px rgba(0, 212, 170, 0.42);
-        }
+    gap: 20px;
 
-        .btn-danger-top {
-            background: rgba(248, 113, 113, 0.1);
-            color: #f87171;
-            border: 1px solid rgba(248, 113, 113, 0.25);
-        }
+    margin-bottom: 22px;
+}
 
-        .btn-danger-top:hover {
-            background: #f87171;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(248, 113, 113, 0.35);
-        }
+.employees-heading {
+    display: flex;
 
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 10px 16px;
-            background: transparent;
-            color: #9ca3af;
-            border: 1px solid #252a38;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all .2s ease;
-        }
+    align-items: center;
 
-        .btn-back:hover {
-            color: #34d399;
-            border-color: rgba(0, 212, 170, 0.4);
-            background: rgba(0, 212, 170, 0.06);
-        }
+    gap: 12px;
 
-        .btn-back svg {
-            width: 16px;
-            height: 16px;
-        }
+    min-width: 0;
+}
 
-        .card {
-            background: #181c27;
-            border-radius: 18px;
-            border: 1px solid #252a38;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            animation: fadeUp 0.5s ease 0.1s both;
-        }
+.employees-heading-accent {
+    width: 4px;
+    height: 44px;
 
-        .card-top {
-            padding: 18px 24px;
-            border-bottom: 1px solid #252a38;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.02);
-        }
+    flex: 0 0 4px;
 
-        .card-top-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #e8eaf6;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    border-radius: 99px;
 
-        .card-top-title::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #00d4aa;
-            box-shadow: 0 0 8px rgba(0, 212, 170, 0.6);
-        }
+    background:
+        linear-gradient(
+            180deg,
+            var(--gold-light),
+            var(--gold-dark)
+        );
+}
 
-        .count-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(0, 212, 170, 0.12);
-            color: #34d399;
-            border: 1px solid rgba(0, 212, 170, 0.2);
-            font-size: 12px;
-            font-weight: 700;
-            padding: 5px 13px;
-            border-radius: 20px;
-        }
+.employees-heading-icon {
+    width: 44px;
+    height: 44px;
 
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-        }
+    flex: 0 0 44px;
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
+    display: flex;
 
-        thead th {
-            padding: 14px 24px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid #252a38;
-            text-align: right;
-        }
+    align-items: center;
+    justify-content: center;
 
-        tbody tr {
-            border-bottom: 1px solid #1e2233;
-            transition: background 0.2s ease;
-            animation: fadeUp 0.45s ease both;
-        }
+    border: 1px solid rgba(184, 146, 62, .18);
 
-        tbody tr:last-child {
-            border-bottom: none;
-        }
+    border-radius: 11px;
 
-        tbody tr:hover {
-            background: rgba(0, 212, 170, 0.04);
-        }
+    background: var(--sidebar-active);
 
-        tbody td {
-            padding: 16px 24px;
-            font-size: 14px;
-            color: #e8eaf6;
-            text-align: right;
-            vertical-align: middle;
-        }
+    color: var(--gold-dark);
 
-        /* خلية الموظف: أفاتار + معلومات */
-        .user-cell {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-        }
+    font-size: 16px;
+}
 
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            color: #062b22;
-            background: linear-gradient(135deg, #34d399, #00a37f);
-            box-shadow: 0 4px 14px rgba(0, 212, 170, 0.3);
-        }
+html[data-theme="dark"]
+.employees-heading-icon {
+    color: var(--gold-light);
+}
 
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            min-width: 0;
-        }
+.employees-title {
+    color: var(--text);
 
-        .user-name {
-            font-weight: 700;
-            font-size: 14px;
-            color: #e8eaf6;
-        }
+    font-size: 20px;
 
-        .user-email {
-            font-size: 12px;
-            color: #6b7280;
-            direction: ltr;
-            text-align: right;
-        }
+    font-weight: 900;
 
-        .spec-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(108, 99, 255, 0.1);
-            color: #a78bfa;
-            border: 1px solid rgba(108, 99, 255, 0.2);
-            padding: 5px 11px;
-            border-radius: 7px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+    line-height: 1.2;
+}
 
-        .role-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(0, 212, 170, 0.08);
-            color: #34d399;
-            border: 1px solid rgba(0, 212, 170, 0.18);
-            padding: 5px 11px;
-            border-radius: 7px;
-            font-size: 12.5px;
-            font-weight: 700;
-        }
+.employees-subtitle {
+    margin-top: 5px;
 
-        .muted {
-            color: #6b7280;
-            font-size: 13px;
-        }
+    color: var(--muted);
 
-        .actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
+    font-size: 11px;
+}
 
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 13px;
-            border-radius: 8px;
-            font-size: 12.5px;
-            font-weight: 700;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            border: 1px solid transparent;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
 
-        .btn-action:hover {
-            transform: translateY(-2px);
-        }
+/* =========================================================
+   ACTIONS
+   ========================================================= */
 
-        .btn-show {
-            background: rgba(108, 99, 255, 0.1);
-            color: #a78bfa;
-            border-color: rgba(108, 99, 255, 0.22);
-        }
+.employees-actions {
+    display: flex;
 
-        .btn-show:hover {
-            background: #6c63ff;
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(108, 99, 255, 0.35);
-        }
+    align-items: center;
 
-        .btn-edit {
-            background: rgba(234, 179, 8, 0.1);
-            color: #fbbf24;
-            border-color: rgba(234, 179, 8, 0.2);
-        }
+    gap: 8px;
 
-        .btn-edit:hover {
-            background: #fbbf24;
-            color: #2a2000;
-            box-shadow: 0 6px 16px rgba(234, 179, 8, 0.3);
-        }
+    flex-wrap: wrap;
+}
 
-        .btn-delete {
-            background: rgba(248, 113, 113, 0.08);
-            color: #f87171;
-            border-color: rgba(248, 113, 113, 0.18);
-        }
+.employees-btn {
+    min-height: 39px;
 
-        .btn-delete:hover {
-            background: #f87171;
-            color: #fff;
-            box-shadow: 0 6px 16px rgba(248, 113, 113, 0.35);
-        }
+    display: inline-flex;
 
-        .empty {
-            padding: 64px 24px;
-            text-align: center;
-            color: #6b7280;
-        }
+    align-items: center;
 
-        .empty-icon {
-            font-size: 46px;
-            margin-bottom: 16px;
-            color: rgba(0, 212, 170, 0.4);
-        }
+    justify-content: center;
 
-        .empty-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #9ca3af;
-            margin-bottom: 6px;
-        }
+    gap: 7px;
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(14px);
-            }
+    padding: 8px 13px;
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    border-radius: 9px;
+
+    font-family: 'Tajawal', sans-serif;
+
+    font-size: 10.5px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+
+/* BACK */
+
+.employees-btn-back {
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--text-soft);
+}
+
+.employees-btn-back:hover {
+    color: var(--gold-dark);
+
+    border-color: rgba(184, 146, 62, .30);
+
+    background: var(--surface-hover);
+
+    transform: translateY(-1px);
+}
+
+
+/* ADD */
+
+.employees-btn-add {
+    border: 1px solid var(--gold-dark);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold-dark)
+        );
+
+    color: #fff;
+
+    box-shadow:
+        0 5px 14px rgba(184, 146, 62, .12);
+}
+
+.employees-btn-add:hover {
+    color: #fff;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 18px rgba(184, 146, 62, .18);
+}
+
+
+/* DELETE ALL */
+
+.employees-btn-delete-all {
+    border: 1px solid rgba(196, 93, 93, .22);
+
+    background: var(--danger-bg);
+
+    color: var(--danger);
+}
+
+.employees-btn-delete-all:hover {
+    color: #fff;
+
+    background: var(--danger);
+
+    border-color: var(--danger);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.employees-card {
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        background .25s ease,
+        border-color .25s ease;
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.employees-card-header {
+    min-height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid var(--border-soft);
+
+    background: var(--surface-2);
+}
+
+.employees-card-title {
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+.employees-count {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px 10px;
+
+    border: 1px solid rgba(184, 146, 62, .17);
+
+    border-radius: 99px;
+
+    background: var(--sidebar-active);
+
+    color: var(--gold-dark);
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+html[data-theme="dark"]
+.employees-count {
+    color: var(--gold-light);
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.employees-table-wrap {
+    width: 100%;
+
+    overflow-x: auto;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        var(--border)
+        transparent;
+}
+
+.employees-table-wrap::-webkit-scrollbar {
+    height: 5px;
+}
+
+.employees-table-wrap::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.employees-table-wrap::-webkit-scrollbar-thumb {
+    background: var(--border);
+
+    border-radius: 99px;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.employees-table {
+    width: 100%;
+
+    min-width: 850px;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+}
+
+
+/* HEADER */
+
+.employees-table thead th {
+    height: 48px;
+
+    padding: 0 18px;
+
+    border-bottom: 1px solid var(--border);
+
+    background: var(--surface-2);
+
+    color: var(--muted);
+
+    font-size: 10.5px;
+
+    font-weight: 800;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+
+/* BODY */
+
+.employees-table tbody td {
+    padding: 14px 18px;
+
+    border-bottom: 1px solid var(--border-soft);
+
+    background: var(--surface);
+
+    color: var(--text-soft);
+
+    font-size: 11px;
+
+    vertical-align: middle;
+
+    transition:
+        background .2s ease;
+}
+
+.employees-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.employees-table tbody tr:hover td {
+    background: var(--surface-hover);
+}
+
+
+/* =========================================================
+   USER
+   ========================================================= */
+
+.employee-user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 190px;
+}
+
+.employee-avatar {
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold-dark)
+        );
+
+    color: #fff;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 4px 10px rgba(184, 146, 62, .12);
+}
+
+.employee-user-info {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.employee-name {
+    color: var(--text);
+
+    font-size: 11.5px;
+
+    font-weight: 800;
+
+    line-height: 1.3;
+}
+
+.employee-email {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 9.5px;
+
+    direction: ltr;
+
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.employee-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    max-width: 190px;
+
+    padding: 6px 9px;
+
+    border-radius: 7px;
+
+    font-size: 9.5px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.employee-badge i {
+    font-size: 8px;
+}
+
+
+/* SPECIALIZATION */
+
+.employee-specialization {
+    border: 1px solid rgba(101, 125, 156, .16);
+
+    background: var(--info-bg);
+
+    color: var(--info);
+}
+
+
+/* ROLE */
+
+.employee-role {
+    border: 1px solid rgba(184, 146, 62, .18);
+
+    background: var(--sidebar-active);
+
+    color: var(--gold-dark);
+}
+
+html[data-theme="dark"]
+.employee-role {
+    color: var(--gold-light);
+}
+
+
+/* MUTED */
+
+.employee-muted {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.employee-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 6px;
+
+    flex-wrap: wrap;
+}
+
+.employee-action {
+    min-height: 31px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 5px 9px;
+
+    border-radius: 7px;
+
+    font-family: 'Tajawal', sans-serif;
+
+    font-size: 9.5px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.employee-action:hover {
+    transform: translateY(-1px);
+}
+
+
+/* SHOW */
+
+.employee-show {
+    border: 1px solid rgba(101, 125, 156, .20);
+
+    background: var(--info-bg);
+
+    color: var(--info);
+}
+
+.employee-show:hover {
+    border-color: var(--info);
+
+    background: var(--info);
+
+    color: #fff;
+}
+
+
+/* EDIT */
+
+.employee-edit {
+    border: 1px solid rgba(184, 146, 62, .22);
+
+    background: var(--sidebar-active);
+
+    color: var(--gold-dark);
+}
+
+.employee-edit:hover {
+    border-color: var(--gold-dark);
+
+    background: var(--gold-dark);
+
+    color: #fff;
+}
+
+
+/* DELETE */
+
+.employee-delete {
+    border: 1px solid rgba(196, 93, 93, .20);
+
+    background: var(--danger-bg);
+
+    color: var(--danger);
+}
+
+.employee-delete:hover {
+    border-color: var(--danger);
+
+    background: var(--danger);
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.employees-empty {
+    padding: 55px 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.employees-empty-icon {
+    width: 60px;
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 13px;
+
+    border-radius: 16px;
+
+    background: var(--surface-3);
+
+    color: var(--muted);
+
+    font-size: 21px;
+}
+
+.employees-empty-title {
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+.employees-empty-text {
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: 10.5px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .employees-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .employees-actions {
+        width: 100%;
+    }
+
+    .employees-btn {
+        flex: 1;
+    }
+}
+
+
+@media (max-width: 576px) {
+
+    .employees-title {
+        font-size: 17px;
+    }
+
+    .employees-subtitle {
+        font-size: 10px;
+    }
+
+    .employees-actions {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .employees-btn {
+        width: 100%;
+    }
+
+    .employees-btn-add {
+        grid-column: span 2;
+    }
+
+    .employees-card-header {
+        padding: 0 14px;
+    }
+
+    .employees-count {
+        font-size: 9px;
+    }
+}
+</style>
+
 @endsection
 
 @section('content')
-    <div class="wrapper">
-        <div class="header">
-            <div class="header-left">
-                <div class="header-accent"></div>
-                <div>
-                    <div class="header-title">إدارة الموظفين والمدربين</div>
-                    <div class="header-sub">Employees &amp; Coaches Management</div>
+
+    <div class="employees-wrapper">
+
+        ```
+        {{-- ================= PAGE HEADER ================= --}}
+
+        <div class="employees-header">
+
+            <div class="employees-heading">
+
+                <div class="employees-heading-accent"></div>
+
+                <div class="employees-heading-icon">
+                    <i class="fas fa-users-gear"></i>
                 </div>
+
+                <div>
+                    <div class="employees-title">
+                        إدارة الموظفين والمدربين
+                    </div>
+
+                    <div class="employees-subtitle">
+                        إدارة فريق العمل والصلاحيات في نظام Elite Club
+                    </div>
+                </div>
+
             </div>
-            <div class="header-actions">
-                <a href="{{ route('admin.dashboard') }}" class="btn-back">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                    </svg>
+
+
+            <div class="employees-actions">
+
+                <a href="{{ route('admin.dashboard') }}" class="employees-btn employees-btn-back">
+
+                    <i class="fas fa-arrow-right"></i>
                     العودة للوحة التحكم
+
                 </a>
 
+
                 @can('employee.delete')
-                    <form action="{{ route('employees.destroy_all') }}" method="POST"
+                    <form action="{{ route('employees.destroy_all') }}" method="POST" style="margin:0;"
                         onsubmit="return confirm('هل أنت متأكد من حذف جميع الموظفين؟')">
+
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn-top btn-danger-top">
-                            <i class="fas fa-trash-alt"></i> حذف الكل
+
+                        <button type="submit" class="employees-btn employees-btn-delete-all">
+
+                            <i class="fas fa-trash-can"></i>
+                            حذف الكل
+
                         </button>
+
                     </form>
                 @endcan
 
+
                 @can('employee.create')
-                    <a href="{{ route('employees.create') }}" class="btn-top btn-primary-top">
-                        <i class="fas fa-plus"></i> إضافة موظف جديد
+                    <a href="{{ route('employees.create') }}" class="employees-btn employees-btn-add">
+
+                        <i class="fas fa-user-plus"></i>
+                        إضافة موظف جديد
+
                     </a>
                 @endcan
+
             </div>
+
         </div>
 
-        <div class="card">
-            <div class="card-top">
-                <span class="card-top-title">قائمة الموظفين</span>
-                <span class="count-badge">
-                    <i class="fas fa-user-tie"></i> {{ $employees->count() }} موظف
-                </span>
+
+        {{-- ================= EMPLOYEES CARD ================= --}}
+
+        <div class="employees-card">
+
+            <div class="employees-card-header">
+
+                <div class="employees-card-title">
+                    قائمة الموظفين
+                </div>
+
+                <div class="employees-count">
+                    <i class="fas fa-user-tie"></i>
+                    {{ $employees->count() }} موظف
+                </div>
+
             </div>
 
-            <div class="table-responsive">
-                <table>
+
+            <div class="employees-table-wrap">
+
+                <table class="employees-table">
+
                     <thead>
+
                         <tr>
+
                             <th>الموظف</th>
                             <th>التخصص</th>
                             <th>الدور</th>
-                            <th style="width:230px; text-align:left;">الإجراءات</th>
+                            <th>الإجراءات</th>
+
                         </tr>
+
                     </thead>
+
+
                     <tbody>
+
                         @forelse ($employees as $employee)
-                            <tr style="animation-delay: {{ 0.1 + $loop->index * 0.05 }}s;">
+                            <tr style="animation-delay: {{ 0.08 + $loop->index * 0.04 }}s;">
+
+                                {{-- الموظف --}}
+
                                 <td>
-                                    <div class="user-cell">
-                                        <div class="avatar">{{ mb_strtoupper(mb_substr($employee->name, 0, 1)) }}</div>
-                                        <div class="user-info">
-                                            <span class="user-name">{{ $employee->name }}</span>
-                                            <span class="user-email">{{ $employee->email }}</span>
+
+                                    <div class="employee-user">
+
+                                        <div class="employee-avatar">
+                                            {{ mb_strtoupper(mb_substr($employee->name, 0, 1)) }}
                                         </div>
+
+                                        <div class="employee-user-info">
+
+                                            <span class="employee-name">
+                                                {{ $employee->name }}
+                                            </span>
+
+                                            <span class="employee-email">
+                                                {{ $employee->email }}
+                                            </span>
+
+                                        </div>
+
                                     </div>
+
                                 </td>
+
+
+                                {{-- التخصص --}}
+
                                 <td>
+
                                     @if ($employee->specialization)
-                                        <span class="spec-badge">
-                                            <i class="fas fa-star"></i> {{ $employee->specialization }}
+                                        <span class="employee-badge employee-specialization">
+
+                                            <i class="fas fa-star"></i>
+
+                                            {{ $employee->specialization }}
+
                                         </span>
                                     @else
-                                        <span class="muted">غير محدد</span>
+                                        <span class="employee-muted">
+                                            غير محدد
+                                        </span>
                                     @endif
+
                                 </td>
+
+
+                                {{-- الدور --}}
+
                                 <td>
+
                                     @if ($employee->roles->first())
-                                        <span class="role-badge">
-                                            <i class="fas fa-shield-halved"></i> {{ $employee->roles->first()->name }}
+                                        <span class="employee-badge employee-role">
+
+                                            <i class="fas fa-shield-halved"></i>
+
+                                            {{ $employee->roles->first()->name }}
+
                                         </span>
                                     @else
-                                        <span class="muted">بلا دور</span>
+                                        <span class="employee-muted">
+                                            بلا دور
+                                        </span>
                                     @endif
+
                                 </td>
+
+
+                                {{-- الإجراءات --}}
+
                                 <td>
-                                    <div class="actions">
-                                        <a href="{{ route('employees.show', $employee->id) }}" class="btn-action btn-show">
-                                            <i class="fas fa-eye"></i> عرض
+
+                                    <div class="employee-actions">
+
+                                        <a href="{{ route('employees.show', $employee->id) }}"
+                                            class="employee-action employee-show">
+
+                                            <i class="fas fa-eye"></i>
+                                            عرض
+
                                         </a>
+
+
                                         @can('employee.edit')
-                                            <a href="{{ route('employees.edit', $employee->id) }}" class="btn-action btn-edit">
-                                                <i class="fas fa-edit"></i> تعديل
+                                            <a href="{{ route('employees.edit', $employee->id) }}"
+                                                class="employee-action employee-edit">
+
+                                                <i class="fas fa-pen"></i>
+                                                تعديل
+
                                             </a>
                                         @endcan
+
+
                                         @can('employee.delete')
                                             <form action="{{ route('employees.destroy', $employee->id) }}" method="POST"
                                                 style="display:inline; margin:0;">
+
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn-action btn-delete"
+
+                                                <button type="submit" class="employee-action employee-delete"
                                                     onclick="return confirm('هل أنت متأكد من حذف هذا الموظف؟')">
-                                                    <i class="fas fa-trash-alt"></i> حذف
+
+                                                    <i class="fas fa-trash-can"></i>
+                                                    حذف
+
                                                 </button>
+
                                             </form>
                                         @endcan
+
                                     </div>
+
                                 </td>
+
                             </tr>
+
                         @empty
+
                             <tr>
+
                                 <td colspan="4">
-                                    <div class="empty">
-                                        <div class="empty-icon"><i class="fas fa-users-slash"></i></div>
-                                        <div class="empty-title">لا يوجد موظفون حالياً</div>
-                                        <div>ابدأ بإضافة أول موظف من زر «إضافة موظف جديد»</div>
+
+                                    <div class="employees-empty">
+
+                                        <div class="employees-empty-icon">
+                                            <i class="fas fa-users-slash"></i>
+                                        </div>
+
+                                        <div class="employees-empty-title">
+                                            لا يوجد موظفون حالياً
+                                        </div>
+
+                                        <div class="employees-empty-text">
+                                            ابدأ بإضافة أول موظف من زر «إضافة موظف جديد»
+                                        </div>
+
                                     </div>
+
                                 </td>
+
                             </tr>
                         @endforelse
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
+        ```
+
     </div>
+
 @endsection

@@ -10,6 +10,7 @@ use App\Models\BodyProgress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PlayerMonitorController extends Controller
 {
@@ -37,6 +38,28 @@ class PlayerMonitorController extends Controller
                 'video_url',
             ]));
         }
+    }
+
+    /**
+     * 📦 يجيب (أو ينشئ لو أول مرة) الحاوية المخفية الوحيدة لتمارين هذا اللاعب
+     * الخاصة — المدرب لا يتعامل معها إطلاقاً كـ"خطة"، هي تفصيل تقني داخلي
+     * بس حتى نحتفظ بنفس بنية جدول plans (لازم كل تمرين ينتمي لخطة).
+     */
+    private function getOrCreateCustomContainer(Player $player, int $coachId): TrainingPlan
+    {
+        return TrainingPlan::firstOrCreate(
+            [
+                'player_id'  => $player->id,
+                'coach_id'   => $coachId,
+                'is_custom'  => true,
+            ],
+            [
+                'title'      => 'تمارين خاصة',
+                'level'      => $player->level,
+                'start_date' => now(),
+                'end_date'   => now()->addYears(10), // لا تنتهي فعلياً، هي حاوية دائمة
+            ]
+        );
     }
 
     public function index()
@@ -100,12 +123,14 @@ class PlayerMonitorController extends Controller
                 ->where('player_id', $player->id)
                 ->where('coach_id', $coachId)
                 ->where('level', $request->level)
+                ->where('is_custom', false) // ✅ لا نمس أبداً حاوية التمارين الخاصة عند إعادة التنزيل
                 ->where('title', $templatePlan->title)
                 ->delete();
 
             $playerPlan = TrainingPlan::create([
                 'coach_id'     => $coachId,
                 'player_id'    => $player->id,
+                'is_custom'    => false,
                 'title'        => $templatePlan->title,
                 'level'        => $request->level,
                 'start_date'   => now(),
@@ -119,9 +144,13 @@ class PlayerMonitorController extends Controller
             DietPlan::create([
                 'coach_id'     => $coachId,
                 'player_id'    => $player->id,
+                'is_custom'    => false,
                 'level'        => $request->level,
                 'meal_name'    => $templateDiet->meal_name,
                 'calories'     => $templateDiet->calories,
+                'protein'      => $templateDiet->protein,
+                'carbs'        => $templateDiet->carbs,
+                'fats'         => $templateDiet->fats,
                 'image_path'   => $templateDiet->image_path,
                 'plan_details' => $templateDiet->plan_details,
                 'start_date'   => now(),
@@ -134,44 +163,90 @@ class PlayerMonitorController extends Controller
 
     public function show($id)
     {
-        $player = $this->findMyPlayer($id, ['subscription', 'trainingPlans' => function ($query) {
-            $query->latest();
-        }, 'dietPlans' => function ($query) {
-            $query->latest();
-        }, 'bodyProgress' => function ($query) {
-            $query->latest();
-        }]);
+        $player = $this->findMyPlayer($id, [
+            'subscription',
+            // 📋 الخطط النازلة من البنك العام فقط — الحاوية الخاصة مستبعدة هنا عمداً
+            'trainingPlans' => function ($query) {
+                $query->where('is_custom', false)->latest();
+            },
+            'dietPlans' => function ($query) {
+                $query->where('is_custom', false)->latest();
+            },
+            'bodyProgress' => function ($query) {
+                $query->latest();
+            },
+        ]);
+
+        // 🏋️ التمارين الخاصة: قائمة مسطّحة مباشرة (بلا كروت "خطط")
+        $customExercises = \App\Models\Plan::whereHas('trainingPlan', function ($q) use ($player) {
+            $q->where('player_id', $player->id)
+                ->where('coach_id', Auth::guard('employee')->id())
+                ->where('is_custom', true);
+        })
+            ->orderByRaw('day_of_week IS NULL, day_of_week ASC')
+            ->orderBy('order')
+            ->get();
+
+        // 🍽️ الوجبات الخاصة: قائمة مسطّحة منفصلة عن البرنامج المعتمد من البنك
+        $customDiets = DietPlan::where('player_id', $player->id)
+            ->where('coach_id', Auth::guard('employee')->id())
+            ->where('is_custom', true)
+            ->latest()
+            ->get();
 
         $ratings = DB::table('player_ratings')
             ->where('player_id', $player->id)
             ->latest()
             ->get();
 
-        return view('Employee.monitoring.show', compact('player', 'ratings'));
+        return view('Employee.monitoring.show', compact('player', 'ratings', 'customExercises', 'customDiets'));
     }
 
+    /**
+     * 🆕 إضافة تمرين خاص مباشرة (خطوة واحدة بلا "خطة" وسيطة يراها المدرب).
+     * يُحفظ فعلياً تحت حاوية مخفية خاصة بهذا اللاعب (getOrCreateCustomContainer).
+     */
     public function storeCustomTraining(Request $request, $playerId)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'name'         => 'required|string|max:255',
+            'sets'         => 'required|numeric',
+            'reps'         => 'required|numeric',
+            'rest_time'    => 'nullable|string|max:50',
+            'day_of_week'  => 'nullable|integer|min:1|max:7',
+            'order'        => 'nullable|integer|min:0',
+            'instructions' => 'nullable|string',
+            'image'        => 'nullable|image|max:5120',
+            'video_url'    => 'nullable|string',
         ]);
 
         $player = $this->findMyPlayer($playerId, ['subscription']);
+        $coachId = Auth::guard('employee')->id();
 
         if (!$player->hasActiveSubscription()) {
-            return redirect()->back()->with('error', 'لا يمكن إضافة خطة مخصصة للاعب اشتراكه مجمد أو منتهي.');
+            return redirect()->back()->with('error', 'لا يمكن إضافة تمرين خاص للاعب اشتراكه مجمد أو منتهي.');
         }
 
-        TrainingPlan::create([
-            'coach_id'     => Auth::guard('employee')->id(),
-            'player_id'    => $player->id,
-            'title'        => $request->title,
-            'level'        => $player->level,
-            'start_date'   => now(),
-            'end_date'     => now()->addMonth(),
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('exercises', 'public');
+        }
+
+        $container = $this->getOrCreateCustomContainer($player, $coachId);
+
+        $container->exercises()->create([
+            'name'         => $request->name,
+            'sets'         => $request->sets,
+            'reps'         => $request->reps,
+            'rest_time'    => $request->rest_time,
+            'day_of_week'  => $request->day_of_week,
+            'order'        => $request->order ?? 0,
+            'instructions' => $request->instructions,
+            'image_path'   => $imagePath,
+            'video_url'    => $request->video_url,
         ]);
 
-        return redirect()->back()->with('success', 'تمت إضافة الخطة التدريبية الخاصة باللاعب بنجاح.');
+        return redirect()->back()->with('success', 'تمت إضافة التمرين الخاص للاعب بنجاح.');
     }
 
     public function storeCustomDiet(Request $request, $playerId)
@@ -179,6 +254,9 @@ class PlayerMonitorController extends Controller
         $request->validate([
             'meal_name'    => 'required|string|max:255',
             'calories'     => 'required|numeric',
+            'protein'      => 'nullable|numeric|min:0',
+            'carbs'        => 'nullable|numeric|min:0',
+            'fats'         => 'nullable|numeric|min:0',
             'plan_details' => 'required|string',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
@@ -197,9 +275,13 @@ class PlayerMonitorController extends Controller
         DietPlan::create([
             'coach_id'     => Auth::guard('employee')->id(),
             'player_id'    => $player->id,
+            'is_custom'    => true,
             'level'        => $player->level,
             'meal_name'    => $request->meal_name,
             'calories'     => $request->calories,
+            'protein'      => $request->protein,
+            'carbs'        => $request->carbs,
+            'fats'         => $request->fats,
             'image_path'   => $imagePath,
             'plan_details' => $request->plan_details,
             'start_date'   => now(),
@@ -207,6 +289,29 @@ class PlayerMonitorController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'تمت إضافة الوجبة الغذائية الخاصة باللاعب بنجاح.');
+    }
+
+    /**
+     * 🗑️ حذف وجبة خاصة (من قسم "الوجبات الخاصة" في ملف اللاعب فقط).
+     */
+    public function destroyCustomDiet($playerId, $dietId)
+    {
+        $diet = DietPlan::where('player_id', $playerId)
+            ->where('coach_id', Auth::guard('employee')->id())
+            ->where('is_custom', true)
+            ->findOrFail($dietId);
+
+        $imagePath = $diet->image_path;
+        $diet->delete();
+
+        if (!empty($imagePath)) {
+            $imageStillUsed = DietPlan::where('image_path', $imagePath)->exists();
+            if (!$imageStillUsed && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        }
+
+        return redirect()->back()->with('success', 'تم حذف الوجبة الخاصة بنجاح.');
     }
 
     public function storeRating(Request $request, $playerId)
