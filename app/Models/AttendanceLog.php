@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AttendanceLog extends Model
 {
+    protected $table = 'redesign_attendance_logs';
+
     protected $fillable = [
         'player_id',
         'attendance_date',

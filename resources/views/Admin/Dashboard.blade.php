@@ -1263,76 +1263,377 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
-    <script>
-        // ✨ عدّاد أرقام متحرك — الأرقام تصعد من 0 للقيمة الحقيقية بحركة سلسة عند تحميل الصفحة
-        function animateCountUp(el) {
-            const target = parseFloat(el.getAttribute('data-count-to'));
-            const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
-            const duration = 900;
-            const startTime = performance.now();
 
-            function step(now) {
-                const progress = Math.min((now - startTime) / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-                const current = target * eased;
-                el.textContent = decimals > 0 ? current.toFixed(decimals) : Math.round(current);
-                if (progress < 1) requestAnimationFrame(step);
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /* =========================================================
+       CHECK CHART.JS
+       ========================================================= */
+
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js لم يتم تحميله');
+        return;
+    }
+
+
+    /* =========================================================
+       COUNT UP
+       ========================================================= */
+
+    function animateCountUp(el) {
+
+        const target = parseFloat(
+            el.getAttribute('data-count-to') || 0
+        );
+
+        const decimals = parseInt(
+            el.getAttribute('data-decimals') || '0',
+            10
+        );
+
+        const duration = 900;
+        const startTime = performance.now();
+
+        function step(now) {
+
+            const progress = Math.min(
+                (now - startTime) / duration,
+                1
+            );
+
+            const eased =
+                1 - Math.pow(1 - progress, 3);
+
+            const current = target * eased;
+
+            el.textContent =
+                decimals > 0
+                    ? current.toFixed(decimals)
+                    : Math.round(current);
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
             }
-            requestAnimationFrame(step);
         }
 
-        document.querySelectorAll('[data-count-to]').forEach(animateCountUp);
+        requestAnimationFrame(step);
+    }
 
-        // ===== مخطط توزيع الاشتراكات (Doughnut) =====
-        new Chart(document.getElementById('subscriptionsDoughnut'), {
+
+    document
+        .querySelectorAll('[data-count-to]')
+        .forEach(animateCountUp);
+
+
+    /* =========================================================
+       GLOBAL CHART DEFAULTS
+       ========================================================= */
+
+    Chart.defaults.font.family = 'Tajawal, sans-serif';
+
+    Chart.defaults.animation.duration = 900;
+
+    Chart.defaults.animation.easing = 'easeOutQuart';
+
+
+    /* =========================================================
+       SUBSCRIPTIONS DOUGHNUT
+       ========================================================= */
+
+    const doughnutCanvas =
+        document.getElementById('subscriptionsDoughnut');
+
+    if (doughnutCanvas) {
+
+        const activeCount =
+            Number(@json($activeCount)) || 0;
+
+        const expiredCount =
+            Number(@json($expiredCount)) || 0;
+
+        const noneCount =
+            Number(@json($noneCount)) || 0;
+
+
+        new Chart(doughnutCanvas, {
+
             type: 'doughnut',
+
             data: {
-                labels: ['فعّالة', 'منتهية', 'بدون اشتراك'],
+
+                labels: [
+                    'فعّالة',
+                    'منتهية',
+                    'بدون اشتراك'
+                ],
+
                 datasets: [{
-                    data: [{{ $activeCount }}, {{ $expiredCount }}, {{ $noneCount }}],
-                    backgroundColor: ['#5a9c7a', '#c55a5a', '#5a5f6e'],
-                    borderColor: '#121826',
-                    borderWidth: 3,
-                    hoverOffset: 6,
+
+                    data: [
+                        activeCount,
+                        expiredCount,
+                        noneCount
+                    ],
+
+                    backgroundColor: [
+                        '#51c78b',
+                        '#ef6262',
+                        '#777777'
+                    ],
+
+                    borderColor:
+                        document.documentElement
+                            .getAttribute('data-theme') === 'dark'
+                            ? '#20242a'
+                            : '#ffffff',
+
+                    borderWidth: 4,
+
+                    hoverOffset: 8
                 }]
             },
-            options: {
-                cutout: '72%',
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { rtl: true, titleFont: { family: 'Tajawal' }, bodyFont: { family: 'Tajawal' } }
-                }
-            }
-        });
 
-        // ===== مخطط الإيرادات آخر 6 أشهر (Bar) =====
-        const monthlyRevenue = @json($monthlyRevenue);
-
-        new Chart(document.getElementById('revenueChart'), {
-            type: 'bar',
-            data: {
-                labels: monthlyRevenue.map(m => m.label),
-                datasets: [{
-                    label: 'الإيرادات',
-                    data: monthlyRevenue.map(m => m.total),
-                    backgroundColor: '#c9a961',
-                    borderRadius: 8,
-                    maxBarThickness: 42,
-                }]
-            },
             options: {
+
                 responsive: true,
+
                 maintainAspectRatio: false,
+
+                cutout: '72%',
+
                 plugins: {
-                    legend: { display: false },
-                    tooltip: { rtl: true, titleFont: { family: 'Tajawal' }, bodyFont: { family: 'Tajawal' } }
-                },
-                scales: {
-                    x: { grid: { display: false }, ticks: { color: '#93a0b8', font: { family: 'Tajawal' } } },
-                    y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#93a0b8', font: { family: 'Tajawal' } } }
+
+                    legend: {
+                        display: false
+                    },
+
+                    tooltip: {
+
+                        rtl: true,
+
+                        titleFont: {
+                            family: 'Tajawal'
+                        },
+
+                        bodyFont: {
+                            family: 'Tajawal'
+                        },
+
+                        padding: 10
+                    }
                 }
             }
         });
-    </script>
-@endsection 
+    }
+
+
+    /* =========================================================
+       MONTHLY REVENUE
+       ========================================================= */
+
+    const revenueCanvas =
+        document.getElementById('revenueChart');
+
+    if (revenueCanvas) {
+
+        const monthlyRevenue =
+            @json($monthlyRevenue);
+
+
+        const labels =
+            monthlyRevenue.map(function (item) {
+                return item.label;
+            });
+
+
+        const values =
+            monthlyRevenue.map(function (item) {
+                return Number(item.total) || 0;
+            });
+
+
+        new Chart(revenueCanvas, {
+
+            type: 'bar',
+
+            data: {
+
+                labels: labels,
+
+                datasets: [{
+
+                    label: 'الإيرادات',
+
+                    data: values,
+
+                    backgroundColor: '#c9a961',
+
+                    borderColor: '#c9a961',
+
+                    borderWidth: 1,
+
+                    borderRadius: 8,
+
+                    borderSkipped: false,
+
+                    maxBarThickness: 42
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+                    tooltip: {
+
+                        rtl: true,
+
+                        displayColors: false,
+
+                        backgroundColor:
+                            document.documentElement
+                                .getAttribute('data-theme') === 'dark'
+                                ? '#252a30'
+                                : '#ffffff',
+
+                        titleColor:
+                            document.documentElement
+                                .getAttribute('data-theme') === 'dark'
+                                ? '#f0f1f3'
+                                : '#272b31',
+
+                        bodyColor:
+                            document.documentElement
+                                .getAttribute('data-theme') === 'dark'
+                                ? '#c4c8ce'
+                                : '#565d67',
+
+                        borderColor:
+                            document.documentElement
+                                .getAttribute('data-theme') === 'dark'
+                                ? '#343941'
+                                : '#e3e6ea',
+
+                        borderWidth: 1,
+
+                        padding: 10,
+
+                        titleFont: {
+                            family: 'Tajawal',
+                            weight: '700'
+                        },
+
+                        bodyFont: {
+                            family: 'Tajawal'
+                        },
+
+                        callbacks: {
+
+                            label: function (context) {
+
+                                return ' ' +
+                                    Number(context.raw)
+                                        .toLocaleString('ar-SA') +
+                                    ' $';
+                            }
+                        }
+                    }
+                },
+
+                scales: {
+
+                    x: {
+
+                        grid: {
+                            display: false
+                        },
+
+                        border: {
+                            display: false
+                        },
+
+                        ticks: {
+
+                            color:
+                                getComputedStyle(
+                                    document.documentElement
+                                ).getPropertyValue('--muted'),
+
+                            font: {
+                                family: 'Tajawal',
+                                size: 11
+                            }
+                        }
+                    },
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        border: {
+                            display: false
+                        },
+
+                        grid: {
+
+                            color:
+                                document.documentElement
+                                    .getAttribute('data-theme') === 'dark'
+                                    ? 'rgba(255,255,255,.06)'
+                                    : 'rgba(30,35,42,.06)'
+                        },
+
+                        ticks: {
+
+                            color:
+                                getComputedStyle(
+                                    document.documentElement
+                                ).getPropertyValue('--muted'),
+
+                            font: {
+                                family: 'Tajawal',
+                                size: 10
+                            },
+
+                            callback: function (value) {
+
+                                return Number(value)
+                                    .toLocaleString('ar-SA');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    
+    setTimeout(function () {
+
+        window.dispatchEvent(
+            new Event('resize')
+        );
+
+    }, 300);
+
+});
+</script>
+
+@endsection
