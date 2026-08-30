@@ -508,14 +508,14 @@ class TestScenarioSeeder extends Seeder
                         ->copy()
                         ->setTime($hour, $minute);
 
-                    DB::table('employee_attendance_logs')->insert([
-                        'employee_id' => $employeeId,
-                        'attendance_date' => $attendanceDate->format('Y-m-d'),
-                        'recorded_at' => $recordedAt,
-                        'status' => $late ? 'late' : 'present',
-                        'created_at' => $recordedAt,
-                        'updated_at' => $recordedAt,
-                    ]);
+                    // DB::table('employee_attendance_logs')->insert([
+                    //     'employee_id' => $employeeId,
+                    //     'attendance_date' => $attendanceDate->format('Y-m-d'),
+                    //     'recorded_at' => $recordedAt,
+                    //     'status' => $late ? 'late' : 'present',
+                    //     'created_at' => $recordedAt,
+                    //     'updated_at' => $recordedAt,
+                    // ]);
                 }
             }
 
