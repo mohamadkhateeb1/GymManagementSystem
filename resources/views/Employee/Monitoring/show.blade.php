@@ -3,16 +3,15 @@
 @section('title', 'ملف اللاعب والخطط | Elite Club')
 @section('styles')
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         /* =========================================================
-           THEME VARIABLES
-           لا تعتمد على .player-profile-container
-           حتى تعمل المودالات الموجودة خارج الـ container أيضاً
-        ========================================================= */
+               THEME VARIABLES
+               لا تعتمد على .player-profile-container
+               حتى تعمل المودالات الموجودة خارج الـ container أيضاً
+            ========================================================= */
 
         :root {
             --profile-bg: #f5f6f8;
@@ -93,8 +92,8 @@
         }
 
         /* =========================================================
-           MAIN
-        ========================================================= */
+               MAIN
+            ========================================================= */
 
         .player-profile-container {
             --surface: var(--profile-surface);
@@ -118,8 +117,8 @@
         }
 
         /* =========================================================
-           BACK BUTTON
-        ========================================================= */
+               BACK BUTTON
+            ========================================================= */
 
         .back-btn {
             background: var(--profile-surface);
@@ -153,8 +152,8 @@
         }
 
         /* =========================================================
-           BUTTONS
-        ========================================================= */
+               BUTTONS
+            ========================================================= */
 
         .btn-add-custom,
         .btn-add-special,
@@ -238,8 +237,8 @@
         }
 
         /* =========================================================
-           HEADER CARD
-        ========================================================= */
+               HEADER CARD
+            ========================================================= */
 
         .profile-header-card {
             background: var(--profile-surface);
@@ -271,12 +270,10 @@
 
             height: 3px;
 
-            background: linear-gradient(
-                90deg,
-                transparent,
-                var(--gold),
-                transparent
-            );
+            background: linear-gradient(90deg,
+                    transparent,
+                    var(--gold),
+                    transparent);
 
             opacity: .7;
         }
@@ -338,8 +335,8 @@
         }
 
         /* =========================================================
-           MAIN GRID
-        ========================================================= */
+               MAIN GRID
+            ========================================================= */
 
         .profile-main-layout {
             display: grid;
@@ -362,8 +359,8 @@
         }
 
         /* =========================================================
-           PANELS / CARDS
-        ========================================================= */
+               PANELS / CARDS
+            ========================================================= */
 
         .plan-panel {
             background: var(--profile-surface);
@@ -428,8 +425,8 @@
         }
 
         /* =========================================================
-           LIST
-        ========================================================= */
+               LIST
+            ========================================================= */
 
         .plan-list {
             padding: 15px;
@@ -459,8 +456,8 @@
         }
 
         /* =========================================================
-           INNER CARD
-        ========================================================= */
+               INNER CARD
+            ========================================================= */
 
         .plan-card {
             background: var(--profile-surface-2);
@@ -566,8 +563,8 @@
         }
 
         /* =========================================================
-           MACROS
-        ========================================================= */
+               MACROS
+            ========================================================= */
 
         .macros-row {
             display: flex;
@@ -601,8 +598,8 @@
         }
 
         /* =========================================================
-           EXERCISE
-        ========================================================= */
+               EXERCISE
+            ========================================================= */
 
         .exercise-meta {
             display: flex;
@@ -622,8 +619,8 @@
         }
 
         /* =========================================================
-           EMPTY
-        ========================================================= */
+               EMPTY
+            ========================================================= */
 
         .empty-plan-box {
             text-align: center;
@@ -647,8 +644,8 @@
         }
 
         /* =========================================================
-           CHART
-        ========================================================= */
+               CHART
+            ========================================================= */
 
         .progress-chart-box {
             padding: 18px 20px 10px;
@@ -681,8 +678,8 @@
         }
 
         /* =========================================================
-           FIELDS
-        ========================================================= */
+               FIELDS
+            ========================================================= */
 
         .field-row {
             display: flex;
@@ -768,8 +765,8 @@
         }
 
         /* =========================================================
-           SUBMIT
-        ========================================================= */
+               SUBMIT
+            ========================================================= */
 
         .btn-submit {
             width: 100%;
@@ -799,10 +796,10 @@
         }
 
         /* =========================================================
-           MODALS
-           مهم: هذه القواعد Global لأن الـ modal خارج
-           .player-profile-container
-        ========================================================= */
+               MODALS
+               مهم: هذه القواعد Global لأن الـ modal خارج
+               .player-profile-container
+            ========================================================= */
 
         .modal {
             display: none;
@@ -945,9 +942,9 @@
         }
 
         /* =========================================================
-           INLINE COLORS FIX
-           لا نغيّر الـ HTML، فقط نخلي الألوان متوافقة
-        ========================================================= */
+               INLINE COLORS FIX
+               لا نغيّر الـ HTML، فقط نخلي الألوان متوافقة
+            ========================================================= */
 
         .player-profile-container [style*="color: #fff"],
         .player-profile-container [style*="color:#fff"] {
@@ -955,17 +952,17 @@
         }
 
         /* النصوص داخل الهيدر */
-        .profile-header-card > div:last-child {
+        .profile-header-card>div:last-child {
             color: var(--profile-muted) !important;
         }
 
-        .profile-header-card > div:last-child span {
+        .profile-header-card>div:last-child span {
             color: var(--profile-text) !important;
         }
 
         /* =========================================================
-           RESPONSIVE
-        ========================================================= */
+               RESPONSIVE
+            ========================================================= */
 
         @media (max-width: 1200px) {
             .profile-main-layout {
@@ -1084,18 +1081,47 @@
                             {{ $player->weight ?? '---' }} كغ
                         </span>
 
-                        @if ($player->hasActiveSubscription())
-                            <span class="badge-item"
-                                style="color: #4ade80; background: rgba(255,255,255,0.02)">
+                        @php
+                            $endDate = optional($player->subscription)->end_date;
+                            $isExpiringSoon =
+                                $endDate &&
+                                $player->hasActiveSubscription() &&
+                                \Carbon\Carbon::parse($endDate)->diffInDays(now(), false) >= -2 &&
+                                \Carbon\Carbon::parse($endDate)->isFuture();
+                        @endphp
+
+                        @if ($player->hasActiveSubscription() && !$isExpiringSoon)
+                            <span class="badge-item" style="color: #4ade80; background: rgba(255,255,255,0.02)">
                                 <i class="fas fa-circle" style="font-size: 8px; margin-left: 5px; color: currentColor;"></i>
                                 اشتراك نشط
                             </span>
+                        @elseif ($isExpiringSoon)
+                            <span class="badge-item" style="color: #f59e0b; background: rgba(245,158,11,0.06)">
+                                <i class="fas fa-triangle-exclamation"
+                                    style="font-size: 10px; margin-left: 5px; color: currentColor;"></i>
+                                اشتراك على وشك الانتهاء
+                            </span>
+                            <form action="{{ route('employee.monitoring.notify-expiring', $player->id) }}" method="POST"
+                                style="display:inline;">
+                                @csrf
+                                <button type="submit" class="badge-item"
+                                    style="cursor:pointer; color:#f59e0b; background: rgba(245,158,11,0.10); border-color: rgba(245,158,11,0.25);">
+                                    <i class="fas fa-bell" style="margin-left:5px;"></i> إرسال تذكير للاعب
+                                </button>
+                            </form>
                         @else
-                            <span class="badge-item"
-                                style="color: #f87171; background: rgba(255,255,255,0.02)">
+                            <span class="badge-item" style="color: #f87171; background: rgba(255,255,255,0.02)">
                                 <i class="fas fa-circle" style="font-size: 8px; margin-left: 5px; color: currentColor;"></i>
                                 اشتراك منتهي/مجمد
                             </span>
+                            <form action="{{ route('employee.monitoring.notify-expired', $player->id) }}" method="POST"
+                                style="display:inline;">
+                                @csrf
+                                <button type="submit" class="badge-item"
+                                    style="cursor:pointer; color:#f87171; background: rgba(248,113,113,0.10); border-color: rgba(248,113,113,0.25);">
+                                    <i class="fas fa-bell" style="margin-left:5px;"></i> إشعار اللاعب بالانتهاء
+                                </button>
+                            </form>
                         @endif
                     </div>
                 </div>
@@ -1137,7 +1163,8 @@
                                             باللاعب</span>
                                     @endif
                                 </div>
-                                <div class="plan-details-text">المستوى المستهدف: {{ $trainingPlan->level ?? 'غير محدد' }}</div>
+                                <div class="plan-details-text">المستوى المستهدف: {{ $trainingPlan->level ?? 'غير محدد' }}
+                                </div>
                                 <div class="plan-dates">
                                     <span>البدء: {{ $trainingPlan->start_date }}</span>
                                     <span>الانتهاء: {{ $trainingPlan->end_date }}</span>
@@ -1430,8 +1457,7 @@
                 type: 'line',
                 data: {
                     labels: progressData.map(p => p.date),
-                    datasets: [
-                        {
+                    datasets: [{
                             label: 'الوزن (كغ)',
                             data: progressData.map(p => p.weight),
                             borderColor: '#c9a961',
@@ -1456,23 +1482,76 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            labels: {color: '#8a8f9c', font: {family: 'Tajawal', size: 11}}
+                            labels: {
+                                color: '#8a8f9c',
+                                font: {
+                                    family: 'Tajawal',
+                                    size: 11
+                                }
+                            }
                         },
-                        tooltip: {rtl: true, titleFont: {family: 'Tajawal'}, bodyFont: {family: 'Tajawal'}}
+                        tooltip: {
+                            rtl: true,
+                            titleFont: {
+                                family: 'Tajawal'
+                            },
+                            bodyFont: {
+                                family: 'Tajawal'
+                            }
+                        }
                     },
                     scales: {
-                        x: {grid: {display: false}, ticks: {color: '#8a8f9c', font: {family: 'Tajawal', size: 10}}},
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#8a8f9c',
+                                font: {
+                                    family: 'Tajawal',
+                                    size: 10
+                                }
+                            }
+                        },
                         y: {
                             position: 'left',
-                            grid: {color: 'rgba(255,255,255,0.05)'},
-                            ticks: {color: '#c9a961', font: {size: 10}},
-                            title: {display: true, text: 'كغ', color: '#c9a961', font: {size: 10}}
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: '#c9a961',
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'كغ',
+                                color: '#c9a961',
+                                font: {
+                                    size: 10
+                                }
+                            }
                         },
                         y1: {
                             position: 'right',
-                            grid: {display: false},
-                            ticks: {color: '#3b82f6', font: {size: 10}},
-                            title: {display: true, text: '%', color: '#3b82f6', font: {size: 10}}
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#3b82f6',
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: '%',
+                                color: '#3b82f6',
+                                font: {
+                                    size: 10
+                                }
+                            }
                         }
                     }
                 }

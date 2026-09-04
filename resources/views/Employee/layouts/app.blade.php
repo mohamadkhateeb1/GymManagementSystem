@@ -1,27 +1,21 @@
 <!DOCTYPE html>
-<html lang="ar"
-      dir="rtl"
-      data-theme="light">
+<html lang="ar" dir="rtl" data-theme="light">
 
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="csrf-token"
-          content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
         @yield('title', 'Elite Club')
-    </title> 
+    </title>
     {{-- Font Awesome --}}
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-
         /* =====================================================
            ELITE CLUB — GLOBAL THEME
            ===================================================== */
@@ -193,8 +187,15 @@
         }
 
         @keyframes pageFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* =====================================================
@@ -252,7 +253,6 @@
             }
 
         }
-
     </style>
 
     @yield('styles')
@@ -261,184 +261,183 @@
 
 <body>
 
-<div class="app-wrapper"> 
-    {{-- =====================================================
+    <div class="app-wrapper">
+        {{-- =====================================================
          SIDEBAR — طول الشاشة كاملاً من الأعلى
     ====================================================== --}}
 
-    @include('Employee.layouts.sections.sidebar')
+        @include('Employee.layouts.sections.sidebar')
 
-    {{-- =====================================================
+        {{-- =====================================================
          MAIN WRAPPER — يحتوي النافبار والمحتوى معاً، مُزاح
          عن عرض السايدبار بالكامل، بلا أي تضارب أو تراكب بينهما
     ====================================================== --}}
 
-    <div class="main-wrapper">
+        <div class="main-wrapper">
 
-        @include('Employee.layouts.sections.navbar')
+            @include('Employee.layouts.sections.navbar')
 
-        <main class="main-content">
+            <main class="main-content">
+                @include('partials.flash-message')
+                @yield('content')
 
-            @yield('content')
+            </main>
 
-        </main>
+        </div>
 
     </div>
 
-</div>
+    <script>
+        /* =========================================================
+           ELITE CLUB GLOBAL THEME SYSTEM
+           ========================================================= */
 
-<script>
+        (function() {
+            const STORAGE_KEY = 'elite-theme';
 
-    /* =========================================================
-       ELITE CLUB GLOBAL THEME SYSTEM
-       ========================================================= */
+            const savedTheme =
+                localStorage.getItem(STORAGE_KEY);
 
-    (function () {
-        const STORAGE_KEY = 'elite-theme';
-
-        const savedTheme =
-            localStorage.getItem(STORAGE_KEY);
-
-        const systemDark =
-            window.matchMedia &&
-            window.matchMedia(
-                '(prefers-color-scheme: dark)').matches;
-
-        const initialTheme =
-            savedTheme === 'dark' ||
-            savedTheme === 'light'
-
-                ? savedTheme: (systemDark ? 'dark' : 'light');
-
-        function applyTheme(theme) {
-            if (
-                theme !== 'dark' &&
-                theme !== 'light'
-            ) {
-                theme = 'light';
-
-            }
-
-            /* HTML */
-
-            document.documentElement
-                .setAttribute(
-                    'data-theme',
-                    theme
-                );
-
-            /* BODY */
-
-            document.body
-                .setAttribute(
-                    'data-theme',
-                    theme
-                );
-
-            /* Legacy dark class */
-
-            if (theme === 'dark') {
-                document.body.classList.add('dark');
-
-            } else {
-                document.body.classList.remove('dark');
-
-            }
-
-            /* Save */
-
-            localStorage.setItem(
-                STORAGE_KEY,
-                theme
-            );
-
-            /* Event */
-
-            window.dispatchEvent(
-                new CustomEvent(
-                    'eliteThemeChanged',                     {
-                        detail: {
-                            theme: theme
-                        }
-                    }
-                )
-            );
-        }
-
-        /* Apply immediately */
-
-        applyTheme(initialTheme);
-
-        /* =====================================================
-           GLOBAL TOGGLE
-        ====================================================== */
-
-        window.toggleEliteTheme = function () {
-            const current =
-                document.documentElement
-                    .getAttribute('data-theme');
-
-            const next =
-                current === 'dark'
-                    ? 'light'
-                    : 'dark';
-
-            applyTheme(next);
-        };
-
-        /* =====================================================
-           GLOBAL SET
-        ====================================================== */
-
-        window.setEliteTheme = function (theme) {
-            if (
-                theme !== 'dark' &&
-                theme !== 'light'
-            ) {
-                return;
-            }
-
-            applyTheme(theme);
-        };
-
-        /* =====================================================
-           SYSTEM THEME CHANGE
-           فقط إذا المستخدم لم يختر ثيم يدوي
-        ====================================================== */
-
-        if (window.matchMedia) {
-            const media =
+            const systemDark =
+                window.matchMedia &&
                 window.matchMedia(
-                    '(prefers-color-scheme: dark)');
+                    '(prefers-color-scheme: dark)').matches;
 
-            media.addEventListener(
-                'change',
-                function (event) {
-                    const manualTheme =
-                        localStorage.getItem(
-                            STORAGE_KEY
-                        );
+            const initialTheme =
+                savedTheme === 'dark' ||
+                savedTheme === 'light'
 
-                    if (manualTheme) {
-                        return;
-                    }
+                ?
+                savedTheme : (systemDark ? 'dark' : 'light');
 
-                    applyTheme(
-                        event.matches
-                            ? 'dark'
-                            : 'light'
-                    );
+            function applyTheme(theme) {
+                if (
+                    theme !== 'dark' &&
+                    theme !== 'light'
+                ) {
+                    theme = 'light';
 
                 }
-            );
 
-        }
+                /* HTML */
 
-    })();
+                document.documentElement
+                    .setAttribute(
+                        'data-theme',
+                        theme
+                    );
 
-</script>
+                /* BODY */
 
-@yield('scripts')
+                document.body
+                    .setAttribute(
+                        'data-theme',
+                        theme
+                    );
+
+                /* Legacy dark class */
+
+                if (theme === 'dark') {
+                    document.body.classList.add('dark');
+
+                } else {
+                    document.body.classList.remove('dark');
+
+                }
+
+                /* Save */
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    theme
+                );
+
+                /* Event */
+
+                window.dispatchEvent(
+                    new CustomEvent(
+                        'eliteThemeChanged', {
+                            detail: {
+                                theme: theme
+                            }
+                        }
+                    )
+                );
+            }
+
+            /* Apply immediately */
+
+            applyTheme(initialTheme);
+
+            /* =====================================================
+               GLOBAL TOGGLE
+            ====================================================== */
+
+            window.toggleEliteTheme = function() {
+                const current =
+                    document.documentElement
+                    .getAttribute('data-theme');
+
+                const next =
+                    current === 'dark' ?
+                    'light' :
+                    'dark';
+
+                applyTheme(next);
+            };
+
+            /* =====================================================
+               GLOBAL SET
+            ====================================================== */
+
+            window.setEliteTheme = function(theme) {
+                if (
+                    theme !== 'dark' &&
+                    theme !== 'light'
+                ) {
+                    return;
+                }
+
+                applyTheme(theme);
+            };
+
+            /* =====================================================
+               SYSTEM THEME CHANGE
+               فقط إذا المستخدم لم يختر ثيم يدوي
+            ====================================================== */
+
+            if (window.matchMedia) {
+                const media =
+                    window.matchMedia(
+                        '(prefers-color-scheme: dark)');
+
+                media.addEventListener(
+                    'change',
+                    function(event) {
+                        const manualTheme =
+                            localStorage.getItem(
+                                STORAGE_KEY
+                            );
+
+                        if (manualTheme) {
+                            return;
+                        }
+
+                        applyTheme(
+                            event.matches ?
+                            'dark' :
+                            'light'
+                        );
+
+                    }
+                );
+
+            }
+
+        })();
+    </script>
+
+    @yield('scripts')
 
 </body>
 

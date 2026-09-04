@@ -90,4 +90,12 @@ class Player extends Authenticatable
     {
         return $this->hasOne(BodyProgress::class, 'player_id')->latestOfMany();
     }
+
+    /**
+     * 🔔 إشعارات اللاعب (اقتراب/انتهاء الاشتراك حالياً، قابلة للتوسع لاحقاً).
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'player_id')->latest();
+    }
 }

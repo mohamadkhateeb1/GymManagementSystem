@@ -203,6 +203,42 @@ class PlayerMonitorController extends Controller
     }
 
     /**
+     * 🔔 إرسال إشعار "اقتراب انتهاء الاشتراك" — بضغطة زر يدوية من المدرب،
+     * يظهر بس لما يشوف اشتراك اللاعب قرب ينتهي.
+     */
+    public function sendExpiringNotification($playerId)
+    {
+        $player = $this->findMyPlayer($playerId, ['subscription']);
+
+        \App\Models\Notification::create([
+            'player_id' => $player->id,
+            'type'      => 'subscription_expiring',
+            'title'     => 'اشتراكك على وشك الانتهاء',
+            'body'      => 'اشتراكك سينتهي قريباً بتاريخ ' . optional($player->subscription)->end_date . '. جدّده الآن لتجنّب انقطاع الخدمة.',
+        ]);
+
+        return redirect()->back()->with('success', 'تم إرسال تذكير اقتراب انتهاء الاشتراك للاعب.');
+    }
+
+    /**
+     * 🔔 إرسال إشعار "انتهاء الاشتراك" — بضغطة زر يدوية من المدرب،
+     * يظهر بس لما يشوف اشتراك اللاعب منتهي فعلياً.
+     */
+    public function sendExpiredNotification($playerId)
+    {
+        $player = $this->findMyPlayer($playerId, ['subscription']);
+
+        \App\Models\Notification::create([
+            'player_id' => $player->id,
+            'type'      => 'subscription_expired',
+            'title'     => 'انتهى اشتراكك',
+            'body'      => 'انتهى اشتراكك. جدّده الآن لمتابعة الاستفادة من خدمات النادي.',
+        ]);
+
+        return redirect()->back()->with('success', 'تم إرسال إشعار انتهاء الاشتراك للاعب.');
+    }
+
+    /**
      * 🆕 إضافة تمرين خاص مباشرة (خطوة واحدة بلا "خطة" وسيطة يراها المدرب).
      * يُحفظ فعلياً تحت حاوية مخفية خاصة بهذا اللاعب (getOrCreateCustomContainer).
      */

@@ -18,11 +18,13 @@ Route::middleware('auth:employee')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('employee/dashboard',
+    Route::get(
+        'employee/dashboard',
         [DashboardController::class, 'index']
     )->name('employee.dashboard');
 
-    Route::post('employee/attendance/toggle',
+    Route::post(
+        'employee/attendance/toggle',
         [DashboardController::class, 'toggleAttendance']
     )->name('employee.dashboard.attendance.toggle');
 
@@ -33,7 +35,8 @@ Route::middleware('auth:employee')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('employee/2fa',
+    Route::get(
+        'employee/2fa',
         [TwoFactorAuthenticatorController::class, 'index']
     )->name('employee.2fa');
 
@@ -44,37 +47,56 @@ Route::middleware('auth:employee')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('employee/monitoring',
+    Route::get(
+        'employee/monitoring',
         [PlayerMonitorController::class, 'index']
     )->name('employee.monitoring');
 
-    Route::get('employee/monitoring/{id}',
+    Route::get(
+        'employee/monitoring/{id}',
         [PlayerMonitorController::class, 'show']
     )->name('employee.monitoring.show');
 
-    Route::post('employee/monitoring/{playerId}/assign-level',
+    Route::post(
+        'employee/monitoring/{playerId}/assign-level',
         [PlayerMonitorController::class, 'assignLevel']
     )->name('employee.monitoring.assign-level');
 
-    Route::post('employee/monitoring/{playerId}/custom-training',
+    Route::post(
+        'employee/monitoring/{playerId}/custom-training',
         [PlayerMonitorController::class, 'storeCustomTraining']
     )->name('employee.monitoring.custom-training');
 
-    Route::post('employee/monitoring/{playerId}/custom-diet',
+    Route::post(
+        'employee/monitoring/{playerId}/custom-diet',
         [PlayerMonitorController::class, 'storeCustomDiet']
     )->name('employee.monitoring.custom-diet');
 
-    Route::delete('employee/monitoring/{playerId}/custom-diet/{dietId}',
+    Route::delete(
+        'employee/monitoring/{playerId}/custom-diet/{dietId}',
         [PlayerMonitorController::class, 'destroyCustomDiet']
     )->name('employee.monitoring.custom-diet.destroy');
 
-    Route::post('employee/monitoring/{playerId}/rate',
+    Route::post(
+        'employee/monitoring/{playerId}/rate',
         [PlayerMonitorController::class, 'storeRating']
     )->name('employee.monitoring.store-rating');
 
-    Route::post('employee/monitoring/{playerId}/custom-progress',
+    Route::post(
+        'employee/monitoring/{playerId}/custom-progress',
         [PlayerMonitorController::class, 'storeCustomProgress']
     )->name('employee.monitoring.custom-progress');
+
+    // 🔔 إرسال إشعارات الاشتراك يدوياً من صفحة متابعة اللاعب
+    Route::post(
+        'employee/monitoring/{playerId}/notify-expiring',
+        [PlayerMonitorController::class, 'sendExpiringNotification']
+    )->name('employee.monitoring.notify-expiring');
+
+    Route::post(
+        'employee/monitoring/{playerId}/notify-expired',
+        [PlayerMonitorController::class, 'sendExpiredNotification']
+    )->name('employee.monitoring.notify-expired');
 
 
     /*
@@ -83,23 +105,28 @@ Route::middleware('auth:employee')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('employee/training-bank',
+    Route::get(
+        'employee/training-bank',
         [TrainingPlanController::class, 'index']
     )->name('employee.training.bank');
 
-    Route::post('employee/training-bank/store',
+    Route::post(
+        'employee/training-bank/store',
         [TrainingPlanController::class, 'store']
     )->name('employee.training.bank.store');
 
-    Route::post('employee/training-bank/{id}/distribute',
+    Route::post(
+        'employee/training-bank/{id}/distribute',
         [TrainingPlanController::class, 'distribute']
     )->name('employee.training.bank.distribute');
 
-    Route::delete('employee/training-bank/{id}',
+    Route::delete(
+        'employee/training-bank/{id}',
         [TrainingPlanController::class, 'destroy']
     )->name('employee.training.bank.destroy');
 
-    Route::get('employee/training-bank/{id}',
+    Route::get(
+        'employee/training-bank/{id}',
         [TrainingPlanController::class, 'show']
     )->name('employee.training.bank.show');
 
@@ -110,15 +137,18 @@ Route::middleware('auth:employee')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('employee/diet-bank',
+    Route::get(
+        'employee/diet-bank',
         [DietPlanController::class, 'index']
     )->name('employee.diet.bank');
 
-    Route::post('employee/diet-bank/store',
+    Route::post(
+        'employee/diet-bank/store',
         [DietPlanController::class, 'store']
     )->name('employee.diet.bank.store');
 
-    Route::delete('employee/diet-bank/{id}',
+    Route::delete(
+        'employee/diet-bank/{id}',
         [DietPlanController::class, 'destroy']
     )->name('employee.diet.bank.destroy');
 
@@ -131,26 +161,31 @@ Route::middleware('auth:employee')->group(function () {
 
     Route::prefix('training-bank')->group(function () {
 
-        Route::get('/{planId}/exercises',
+        Route::get(
+            '/{planId}/exercises',
             [PlanController::class, 'index']
         )->name('employee.training.exercises.index');
 
-        Route::post('/{planId}/exercises',
+        Route::post(
+            '/{planId}/exercises',
             [PlanController::class, 'store']
         )->name('employee.training.exercises.store');
 
-        Route::delete('/exercises/{id}',
+        Route::delete(
+            '/exercises/{id}',
             [PlanController::class, 'destroy']
         )->name('employee.training.exercises.destroy');
 
 
         Route::prefix('exercise-library')->group(function () {
 
-            Route::get('/',
+            Route::get(
+                '/',
                 [PlanController::class, 'library']
             )->name('employee.exercise.library');
 
-            Route::get('/{id}',
+            Route::get(
+                '/{id}',
                 [PlanController::class, 'showExercise']
             )->name('employee.exercise.show');
         });
@@ -163,15 +198,18 @@ Route::middleware('auth:employee')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get('employee/profile',
+    Route::get(
+        'employee/profile',
         [ProfileController::class, 'edit']
     )->name('employee.profile.edit');
 
-    Route::put('employee/profile',
+    Route::put(
+        'employee/profile',
         [ProfileController::class, 'update']
     )->name('employee.profile.update');
 
-    Route::put('employee/profile/password',
+    Route::put(
+        'employee/profile/password',
         [ProfileController::class, 'updatePassword']
     )->name('employee.profile.password');
 });

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\WorkoutController;
 use App\Http\Controllers\Api\DietController;
 use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,4 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // 👤 الملف الشخصي للاعب
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile/password', [ProfileController::class, 'updatePassword']);
+
+    // 🔔 إشعارات اللاعب (اقتراب/انتهاء الاشتراك)
+    // 🔔 إشعارات اللاعب — تُرسَل وتُحذف من الجدول فوراً بمجرد استلامها
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });

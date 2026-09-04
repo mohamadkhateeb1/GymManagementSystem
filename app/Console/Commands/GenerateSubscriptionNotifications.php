@@ -61,9 +61,11 @@ class GenerateSubscriptionNotifications extends Command
             }
         }
 
-        // 2️⃣ اشتراكات انتهت اليوم بالضبط (إشعار واحد لحظة الانتهاء)
+        // 2️⃣ اشتراكات منتهية (بتاريخ اليوم أو أي يوم سابق) — نستخدم <=
+        //    بدل == لضمان عدم فوات الإشعار لو الأمر ما اشتغل بالضبط
+        //    بيوم الانتهاء (مثلاً: توقّف السيرفر، أو تعديل تاريخ يدوي أثناء الاختبار).
         $expiredToday = Membership::where('status', 'active')
-            ->whereDate('end_date', $today)
+            ->whereDate('end_date', '<=', $today)
             ->with('player')
             ->get();
 
@@ -72,9 +74,11 @@ class GenerateSubscriptionNotifications extends Command
                 continue;
             }
 
+            // 🛡️ مو "بس اليوم" — نفحص من تاريخ الانتهاء نفسه لغاية الآن، حتى
+            // ما يتكرر نفس الإشعار كل يوم طالما الاشتراك ضلّ منتهي بلا تجديد.
             $alreadyExists = Notification::where('player_id', $membership->player_id)
                 ->where('type', 'subscription_expired')
-                ->whereDate('created_at', $today)
+                ->whereDate('created_at', '>=', $membership->end_date)
                 ->exists();
 
             if ($alreadyExists) {
