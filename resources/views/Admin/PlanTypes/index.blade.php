@@ -10,17 +10,18 @@
         }
 
         .panel {
-            background: var(--surface, #13161d);
-            border: 1px solid var(--border, #252a38);
+            background: var(--surface, #ffffff);
+            border: 1px solid var(--border, #e4e8ef);
             border-radius: 16px;
             margin-bottom: 24px;
             overflow: hidden;
+            box-shadow: 0 7px 24px rgba(25, 35, 50, 0.05);
         }
 
         .panel-head {
             padding: 18px 24px;
-            border-bottom: 1px solid var(--border, #252a38);
-            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border, #e4e8ef);
+            background: var(--surface-2, #fafbfc);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -31,9 +32,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text, #e8eaf6);
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text, #202631);
             margin: 0;
         }
 
@@ -42,17 +43,17 @@
             width: 4px;
             height: 18px;
             border-radius: 4px;
-            background: var(--accent, #6c63ff);
+            background: var(--gold, #c9a961);
         }
 
         .btn-solid {
-            background: var(--accent, #6c63ff);
-            color: #fff;
+            background: var(--gold, #c9a961);
+            color: #ffffff;
             border: none;
             padding: 10px 18px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
             font-family: 'Tajawal', sans-serif;
             display: inline-flex;
@@ -62,7 +63,7 @@
         }
 
         .btn-solid:hover {
-            filter: brightness(1.1);
+            filter: brightness(1.08);
         }
 
         .members-table {
@@ -72,48 +73,49 @@
         }
 
         .members-table th {
-            font-size: 12px;
-            color: var(--text-muted, #9ca3af);
+            font-size: 12.5px;
+            color: var(--text, #202631);
             padding: 14px 24px;
-            border-bottom: 1px solid var(--border, #252a38);
-            font-weight: 600;
+            border-bottom: 1px solid var(--border, #e4e8ef);
+            font-weight: 800;
         }
 
         .members-table td {
             padding: 15px 24px;
             font-size: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: var(--text, #e8eaf6);
+            border-bottom: 1px solid var(--border-soft, #edf0f4);
+            color: var(--text, #202631);
         }
 
         .members-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--surface-hover, #fffdf8);
         }
 
         .price-tag {
             font-weight: 800;
-            color: var(--accent, #6c63ff);
-            font-size: 15px;
+            color: var(--gold-dark, #8a6d2f);
+            font-size: 15.5px;
         }
 
         .status-chip {
             display: inline-flex;
             align-items: center;
             padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
             white-space: nowrap;
         }
 
+        /* 🆕 خلفية صلبة + نص أبيض — نفس منطق باقي شارات الحالة بالمشروع */
         .status-chip.active {
-            background: rgba(90, 156, 122, 0.15);
-            color: #5a9c7a;
+            background: #17a06b;
+            color: #ffffff;
         }
 
         .status-chip.inactive {
-            background: rgba(197, 90, 90, 0.15);
-            color: #c55a5a;
+            background: #d94b4b;
+            color: #ffffff;
         }
 
         .action-btn {
@@ -121,53 +123,54 @@
             align-items: center;
             justify-content: center;
             background: transparent;
-            border: 1px solid var(--accent, #6c63ff);
-            color: var(--accent, #6c63ff);
+            border: 1px solid var(--gold, #c9a961);
+            color: var(--gold-dark, #8a6d2f);
             padding: 7px 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 12.5px;
+            font-weight: 700;
             text-decoration: none;
             font-family: 'Tajawal', sans-serif;
             transition: 0.2s ease;
         }
 
         .action-btn:hover {
-            background: var(--accent, #6c63ff);
-            color: #fff;
+            background: var(--gold, #c9a961);
+            color: #ffffff;
         }
 
         .btn-toggle-on {
-            border-color: #c55a5a;
-            color: #c55a5a;
+            border-color: #d94b4b;
+            color: #d94b4b;
         }
 
         .btn-toggle-on:hover {
-            background: #c55a5a;
-            color: #fff;
+            background: #d94b4b;
+            color: #ffffff;
         }
 
         .btn-toggle-off {
-            border-color: #5a9c7a;
-            color: #5a9c7a;
+            border-color: #17a06b;
+            color: #17a06b;
         }
 
         .btn-toggle-off:hover {
-            background: #5a9c7a;
-            color: #fff;
+            background: #17a06b;
+            color: #ffffff;
         }
-
 
         .empty-row td {
             text-align: center;
             padding: 40px;
-            color: var(--text-muted, #9ca3af);
+            color: var(--text-soft, #4b5563);
+            font-weight: 600;
         }
 
         .usage-count {
-            font-size: 11.5px;
-            color: var(--text-muted, #9ca3af);
+            font-size: 12px;
+            color: var(--text-soft, #4b5563);
+            font-weight: 500;
         }
 
         /* ===== Modal ===== */
@@ -176,7 +179,7 @@
             position: fixed;
             z-index: 9999;
             inset: 0;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(15, 20, 30, 0.55);
             backdrop-filter: blur(4px);
             align-items: center;
             justify-content: center;
@@ -187,17 +190,19 @@
         }
 
         .modal-content {
-            background: var(--surface, #13161d);
-            border: 1px solid var(--border, #252a38);
+            background: var(--surface, #ffffff);
+            border: 1px solid var(--border, #e4e8ef);
             width: 100%;
             max-width: 480px;
             border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 25px 60px rgba(20, 25, 35, 0.25);
         }
 
         .modal-header {
             padding: 18px 22px;
-            border-bottom: 1px solid var(--border, #252a38);
+            border-bottom: 1px solid var(--border, #e4e8ef);
+            background: var(--surface-2, #fafbfc);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -205,21 +210,26 @@
 
         .modal-header h4 {
             margin: 0;
-            color: var(--text, #e8eaf6);
-            font-size: 16px;
+            color: var(--text, #202631);
+            font-size: 17px;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .close-modal {
-            color: var(--text-muted, #9ca3af);
+            color: var(--text-soft, #4b5563);
             cursor: pointer;
             font-size: 22px;
             font-weight: bold;
             line-height: 1;
             background: none;
             border: none;
+        }
+
+        .close-modal:hover {
+            color: #d94b4b;
         }
 
         .modal-body {
@@ -233,33 +243,35 @@
         .field-label {
             display: block;
             margin-bottom: 6px;
-            font-size: 13px;
-            color: var(--text, #e8eaf6);
-            font-weight: 600;
+            font-size: 13.5px;
+            color: var(--text, #202631);
+            font-weight: 700;
         }
 
         .field-hint {
             display: block;
             margin-top: 5px;
-            font-size: 11.5px;
-            color: var(--text-muted, #9ca3af);
+            font-size: 12px;
+            color: var(--text-soft, #4b5563);
         }
 
         .field-input {
             width: 100%;
             padding: 11px 14px;
-            background: var(--surface-2, #1a1e28);
-            border: 1px solid var(--border, #252a38);
+            background: var(--surface-2, #fafbfc);
+            border: 1px solid var(--border, #e4e8ef);
             border-radius: 8px;
-            color: var(--text, #e8eaf6);
+            color: var(--text, #202631);
             font-family: 'Tajawal', sans-serif;
+            font-size: 13.5px;
             outline: none;
             box-sizing: border-box;
             transition: 0.2s ease;
         }
 
         .field-input:focus {
-            border-color: var(--accent, #6c63ff);
+            border-color: var(--gold, #c9a961);
+            background: var(--surface, #ffffff);
         }
 
         .field-row {
@@ -276,13 +288,18 @@
             padding: 12px;
             font-weight: 700;
             border-radius: 8px;
-            color: #fff;
-            background: var(--accent, #6c63ff);
+            color: #ffffff;
+            background: var(--gold, #c9a961);
             border: none;
             cursor: pointer;
             font-family: 'Tajawal', sans-serif;
-            font-size: 14px;
+            font-size: 14.5px;
             margin-top: 6px;
+            transition: 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            filter: brightness(1.08);
         }
 
         @media (max-width: 640px) {
@@ -299,10 +316,6 @@
 
 @section('content')
     <div class="plans-wrapper">
-        {{-- ملاحظة: <x-flash-message /> لا تُستدعى هنا لأن Admin/layouts/app.blade.php
-             يستدعيها تلقائياً داخل content-area لكل الصفحات، فتكرارها هنا كان
-             يعرض رسالة النجاح مرتين. --}}
-
         <div class="panel">
             <div class="panel-head">
                 <h3><i class="fas fa-tags"></i> إدارة الباقات والأسعار</h3>
@@ -325,7 +338,7 @@
                 <tbody>
                     @forelse ($planTypes as $plan)
                         <tr>
-                            <td style="font-weight: 600;">
+                            <td style="font-weight: 700;">
                                 {{ $plan->name }}
                                 <div class="usage-count">مستخدَمة في {{ $plan->memberships_count }} اشتراك</div>
                             </td>
@@ -365,7 +378,7 @@
                         <tr class="empty-row">
                             <td colspan="6">
                                 <i class="fas fa-tags"
-                                    style="font-size: 30px; color: var(--accent, #6c63ff); margin-bottom: 10px; display: block;"></i>
+                                    style="font-size: 30px; color: var(--gold, #c9a961); margin-bottom: 10px; display: block;"></i>
                                 لا توجد باقات بعد. ابدأ بإضافة أول باقة (مثلاً: اشتراك شهري).
                             </td>
                         </tr>

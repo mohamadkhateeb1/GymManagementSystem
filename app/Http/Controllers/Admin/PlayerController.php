@@ -13,10 +13,45 @@ use Illuminate\Support\Facades\Hash;
 
 class PlayerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $players = Player::with('subscription')->get();
-        return view('Admin.Players.index', compact('players'));
+        $players = Player::with('subscription')
+            // 🔍 بحث موحّد بالاسم أو البريد الإلكتروني
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            // 🎯 فلترة حسب المدرب
+            ->when($request->filled('coach_id'), function ($query) use ($request) {
+                $query->where('coach_id', $request->coach_id);
+            })
+            // 🛡️ فلترة حسب حالة الاشتراك (فعّال / منتهٍ / بلا اشتراك)
+            ->when($request->filled('subscription_status'), function ($query) use ($request) {
+                if ($request->subscription_status === 'active') {
+                    $query->whereHas('subscription', function ($q) {
+                        $q->where('status', 'active')->whereDate('end_date', '>=', now());
+                    });
+                } elseif ($request->subscription_status === 'expired') {
+                    $query->whereHas('subscription', function ($q) {
+                        $q->where(function ($qq) {
+                            $qq->where('status', '!=', 'active')
+                                ->orWhereDate('end_date', '<', now());
+                        });
+                    });
+                } elseif ($request->subscription_status === 'none') {
+                    $query->doesntHave('subscription');
+                }
+            })
+            ->latest()
+            ->get();
+
+        return view('Admin.Players.index', [
+            'players' => $players,
+            'coaches' => Employee::all(),
+        ]);
     }
 
     public function create()
@@ -112,9 +147,9 @@ class PlayerController extends Controller
             unset($validated['password']);
         }
         $player->update($validated);
-
+        
         // 🛡️ نحدد اسم الجدول صراحة (memberships.player_id) لأن subscription()
-        // أصبحت تستخدم latestOfMany() التي تبني الاستعلام بـ JOIN داخلي،
+        // أصبحت تستخدم latestOfMany() التي تبني الاستعلام بـ JOIN داخلي，
         // فيصبح عمود player_id مبهماً (Ambiguous) بين memberships والـ subquery
         // ما لم يُحدَّد الجدول بوضوح.
         $player->subscription()->updateOrCreate(
@@ -139,7 +174,7 @@ class PlayerController extends Controller
         return view('Admin.Players.show', compact('player'));
     }
 
-  
+
     public function destroy(Player $player)
     {
         $player->forceDelete();

@@ -1,4 +1,27 @@
 <style>
+    /* =========================================================
+       🆕 عنوان الفئة — شكل عنوان قسم حقيقي (Section Title)
+       ========================================================= */
+    .nav-section {
+        margin-bottom: 22px;
+        /* 🆕 مسافة حقيقية تفصل كل فئة عن اللي بعدها */
+    }
+
+    .nav-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .nav-label {
+        padding: 0 16px;
+        margin-bottom: 10px;
+        color: #6b7280;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        /* 🆕 يعطيها إحساس "عنوان قسم" واضح، مو نص عادي */
+    }
+
     /* التنسيقات الأساسية للعنصر */
     .nav-item {
         display: flex;

@@ -80,71 +80,18 @@
 
     color: var(--text, #202631);
 
-    font-size: 19px;
+    font-size: 20.5px;
     font-weight: 850;
 
     line-height: 1.5;
 }
 
 .attendance-container .page-header span {
-    color: var(--muted, #858e9b) !important;
+    color: var(--text-soft, #4b5563) !important;
 
-    font-size: 12px !important;
+    font-size: 13px !important;
+    font-weight: 600;
     line-height: 1.7;
-}
-
-
-/* =========================================================
-   3. ADD MANUAL BUTTON
-   ========================================================= */
-
-.btn-add-manual {
-    height: 43px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    flex-shrink: 0;
-
-    padding: 0 18px;
-
-    color: #ffffff;
-
-    background: linear-gradient(
-        135deg,
-        #d8a844,
-        #b67f20
-    );
-
-    border: 1px solid #bd8b2d;
-    border-radius: 10px;
-
-    box-shadow:
-        0 6px 15px rgba(184, 130, 31, 0.18);
-
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-.btn-add-manual:hover {
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 9px 20px rgba(184, 130, 31, 0.25);
-
-    filter: brightness(1.04);
-}
-
-.btn-add-manual i {
-    font-size: 11px;
 }
 
 
@@ -228,9 +175,9 @@
 .attendance-container .stat-card-luxury .info h4 {
     margin: 0 0 7px;
 
-    color: var(--muted, #858e9b);
+    color: var(--text-soft, #4b5563);
 
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 750;
 }
 
@@ -239,7 +186,7 @@
 
     color: var(--text, #202631);
 
-    font-size: 25px;
+    font-size: 26px;
     font-weight: 900;
 
     line-height: 1;
@@ -316,9 +263,9 @@
 
     margin-bottom: 7px;
 
-    color: var(--text, #454d59);
+    color: var(--text, #202631);
 
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
 }
 
@@ -333,7 +280,7 @@
 
     padding: 0 13px;
 
-    color: var(--text, #252b35);
+    color: var(--text, #202631);
 
     background: var(--input-bg, #fbfcfd);
 
@@ -343,7 +290,7 @@
     outline: none;
 
     font-family: inherit;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 650;
 
     transition: all 0.2s ease;
@@ -363,7 +310,7 @@
 }
 
 .attendance-container .input-luxury::placeholder {
-    color: #a1a8b2;
+    color: #6b7280;
 }
 
 
@@ -428,7 +375,7 @@
         0 5px 13px rgba(181, 128, 31, 0.15);
 
     font-family: inherit;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 800;
 
     cursor: pointer;
@@ -457,7 +404,7 @@
 
     padding: 0 14px;
 
-    color: #606977;
+    color: #37404c;
 
     background: #f6f7f9;
 
@@ -467,7 +414,7 @@
     text-decoration: none;
 
     font-family: inherit;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 750;
 
     white-space: nowrap;
@@ -519,9 +466,9 @@
     border-collapse: separate;
     border-spacing: 0;
 
-    color: var(--text, #303744);
+    color: var(--text, #202631);
 
-    font-size: 11px;
+    font-size: 12.5px;
 }
 
 
@@ -532,13 +479,13 @@
 
     padding: 0 15px;
 
-    color: #707a89;
+    color: #37404c;
 
     background: var(--table-head, #f7f8fa);
 
     border-bottom: 1px solid var(--border, #e4e8ef);
 
-    font-size: 10px;
+    font-size: 11.5px;
     font-weight: 850;
 
     text-align: right;
@@ -571,7 +518,7 @@
 
     padding: 8px 15px;
 
-    color: var(--text, #3b4350);
+    color: var(--text, #202631);
 
     background: transparent;
 
@@ -592,7 +539,7 @@
 */
 
 .attendance-container .luxury-table tbody td:first-child {
-    color: var(--text, #252b35) !important;
+    color: var(--text, #202631) !important;
 
     font-weight: 800 !important;
 }
@@ -601,7 +548,8 @@
 /* Date */
 
 .attendance-container .luxury-table tbody td:nth-child(2) {
-    color: var(--muted, #6e7785);
+    color: var(--text-soft, #4b5563);
+    font-weight: 600;
 }
 
 .attendance-container .luxury-table tbody td:nth-child(2) i {
@@ -624,30 +572,30 @@
 
     border-radius: 20px;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 850;
 }
 
 
-/* Present */
+/* Present — خلفية صلبة + نص أبيض للوضوح الأقصى */
 
 .attendance-container .badge-present {
-    color: #12865a;
+    color: #ffffff;
 
-    background: #e8f8f0;
+    background: #17a06b;
 
-    border: 1px solid #c4ead8;
+    border: 1px solid #17a06b;
 }
 
 
 /* Late */
 
 .attendance-container .badge-late {
-    color: #c4871f;
+    color: #ffffff;
 
-    background: #fff7e3;
+    background: #c4871f;
 
-    border: 1px solid #eed9a6;
+    border: 1px solid #c4871f;
 }
 
 
@@ -666,14 +614,14 @@
 
     padding: 7px 10px;
 
-    color: #505966;
+    color: #303744;
 
     background: #f6f8fa;
 
     border: 1px solid #e2e6eb;
     border-radius: 8px;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
 }
 
@@ -729,7 +677,8 @@
 }
 
 .attendance-container .luxury-table tbody tr:has(td[colspan]) td {
-    color: var(--muted, #858e9b) !important;
+    color: var(--text-soft, #4b5563) !important;
+    font-weight: 600 !important;
 }
 
 .attendance-container .luxury-table tbody tr:has(td[colspan]) td i {
@@ -769,14 +718,14 @@
 
     padding: 0 9px;
 
-    color: #68717f;
+    color: #37404c;
 
     background: var(--surface, #ffffff);
 
     border: 1px solid var(--border, #dfe4eb);
     border-radius: 8px;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 750;
 
     text-decoration: none;
@@ -802,132 +751,6 @@
     );
 
     border-color: #bd8a2b;
-}
-
-
-/* =========================================================
-   21. MODAL OVERLAY
-   ========================================================= */
-
-#addManualModal {
-    direction: rtl;
-
-    background: rgba(10, 14, 20, 0.62) !important;
-
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-
-/* =========================================================
-   22. MODAL BOX
-   ========================================================= */
-
-#addManualModal > div {
-    width: min(500px, calc(100vw - 30px)) !important;
-
-    max-height: calc(100vh - 40px);
-
-    overflow-y: auto;
-
-    padding: 24px !important;
-
-    background: #ffffff !important;
-
-    border: 1px solid #e5d3a4 !important;
-    border-radius: 17px !important;
-
-    box-shadow:
-        0 20px 60px rgba(20, 25, 35, 0.25) !important;
-
-    animation: eliteModalIn 0.2s ease-out;
-}
-
-@keyframes eliteModalIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-
-/* =========================================================
-   23. MODAL HEADER
-   ========================================================= */
-
-#addManualModal > div > div:first-child {
-    margin-bottom: 20px !important;
-
-    padding-bottom: 13px !important;
-
-    border-bottom: 1px solid #eee5d0 !important;
-}
-
-#addManualModal h3 {
-    color: #252b35 !important;
-
-    font-size: 15px !important;
-    font-weight: 850 !important;
-}
-
-#addManualModal h3 i {
-    color: #bf8b29 !important;
-}
-
-#addManualModal > div > div:first-child button {
-    color: #89919d !important;
-
-    transition: color 0.18s ease;
-}
-
-#addManualModal > div > div:first-child button:hover {
-    color: #d04b4b !important;
-}
-
-
-/* =========================================================
-   24. MODAL FORM
-   ========================================================= */
-
-#addManualModal .form-group-luxury label {
-    color: #4b5360;
-}
-
-#addManualModal .input-luxury {
-    height: 44px;
-
-    color: #252b35;
-
-    background: #fbfcfd;
-
-    border-color: #dfe4eb;
-}
-
-#addManualModal .input-luxury:focus {
-    background: #ffffff;
-
-    border-color: #c79637;
-
-    box-shadow:
-        0 0 0 3px rgba(199, 150, 55, 0.10);
-}
-
-
-/* =========================================================
-   25. MODAL ACTIONS
-   ========================================================= */
-
-#addManualModal .btn-clear-filter {
-    height: 40px !important;
-}
-
-#addManualModal .btn-submit-filter {
-    height: 40px !important;
 }
 
 
@@ -1103,12 +926,6 @@ body.dark .attendance-container .panel-luxury {
    31. DARK - TABLE
    ========================================================= */
 
-/*
-   مهم جداً:
-   هذا الجزء يحل مشكلة الصفوف البيضاء التي ظهرت
-   عندك في جدول اللاعبين.
-*/
-
 [data-theme="dark"] .attendance-container .luxury-table,
 [data-theme="dark"] .attendance-container .luxury-table tbody,
 [data-theme="dark"] .attendance-container .luxury-table tbody tr,
@@ -1275,65 +1092,6 @@ body.dark .attendance-container .pagination .page-link:hover {
 
 
 /* =========================================================
-   37. DARK - MODAL
-   ========================================================= */
-
-[data-theme="dark"] #addManualModal > div,
-.dark-mode #addManualModal > div,
-body.dark #addManualModal > div {
-    background: #171d26 !important;
-
-    border-color: rgba(210, 158, 55, 0.30) !important;
-
-    box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.55) !important;
-}
-
-[data-theme="dark"] #addManualModal h3,
-.dark-mode #addManualModal h3,
-body.dark #addManualModal h3 {
-    color: #eef1f5 !important;
-}
-
-[data-theme="dark"] #addManualModal > div > div:first-child,
-.dark-mode #addManualModal > div > div:first-child,
-body.dark #addManualModal > div > div:first-child {
-    border-bottom-color: #303946 !important;
-}
-
-[data-theme="dark"] #addManualModal .form-group-luxury label,
-.dark-mode #addManualModal .form-group-luxury label,
-body.dark #addManualModal .form-group-luxury label {
-    color: #c5cbd4;
-}
-
-[data-theme="dark"] #addManualModal .input-luxury,
-.dark-mode #addManualModal .input-luxury,
-body.dark #addManualModal .input-luxury {
-    color: #e5e8ed;
-
-    background: #11161e;
-
-    border-color: #323b48;
-}
-
-[data-theme="dark"] #addManualModal .input-luxury:focus,
-.dark-mode #addManualModal .input-luxury:focus,
-body.dark #addManualModal .input-luxury:focus {
-    background: #151b24;
-
-    border-color: #c79738;
-}
-
-[data-theme="dark"] #addManualModal select.input-luxury option,
-.dark-mode #addManualModal select.input-luxury option,
-body.dark #addManualModal select.input-luxury option {
-    color: #e5e8ed;
-    background: #171d26;
-}
-
-
-/* =========================================================
    38. MOBILE
    ========================================================= */
 
@@ -1363,10 +1121,6 @@ body.dark #addManualModal select.input-luxury option {
         padding-right: 10px;
     }
 
-    .btn-add-manual {
-        width: 100%;
-    }
-
     .attendance-container .stats-grid {
         grid-template-columns: 1fr;
     }
@@ -1388,11 +1142,11 @@ body.dark #addManualModal select.input-luxury option {
 @media (max-width: 500px) {
 
     .attendance-container .page-header-title {
-        font-size: 17px;
+        font-size: 18px;
     }
 
     .attendance-container .page-header span {
-        font-size: 11px !important;
+        font-size: 12px !important;
     }
 
     .attendance-container .stat-card-luxury {
@@ -1401,18 +1155,12 @@ body.dark #addManualModal select.input-luxury option {
     }
 
     .attendance-container .stat-card-luxury .info p {
-        font-size: 22px;
+        font-size: 23px;
     }
 
     .attendance-container .stat-card-luxury .icon-box {
         width: 42px;
         height: 42px;
-    }
-
-    #addManualModal > div {
-        width: calc(100vw - 24px) !important;
-
-        padding: 18px !important;
     }
 }
     </style>
@@ -1427,12 +1175,9 @@ body.dark #addManualModal select.input-luxury option {
         <div class="page-header">
             <div>
                 <h2 class="page-header-title">تقارير حضور وانصراف المدربين</h2>
-                <span style="color: var(--muted); font-size: 13px;">تتبع ومراقبة الأداء الزمني وساعات العمل الفعلية للموظفين
+                <span style="color: var(--text-soft, #4b5563); font-size: 13px; font-weight: 600;">تتبع ومراقبة الأداء الزمني وساعات العمل الفعلية للموظفين
                     والمدربين</span>
             </div>
-            <button class="btn-add-manual" onclick="toggleModal('addManualModal')">
-                <i class="fas fa-plus"></i> تسجيل حضور يدوي موظف
-            </button>
         </div>
 
         <div class="stats-grid">
@@ -1515,7 +1260,7 @@ body.dark #addManualModal select.input-luxury option {
                     <tbody>
                         @forelse($logs as $log)
                             <tr>
-                                <td style="font-weight: 700; color: #fff;">{{ $log->employee->name }}</td>
+                                <td style="font-weight: 700;">{{ $log->employee->name }}</td>
                                 <td><i class="far fa-calendar-alt"
                                         style="margin-left: 6px; color: var(--gold);"></i>{{ $log->attendance_date->format('Y-m-d') }}
                                 </td>
@@ -1545,7 +1290,7 @@ body.dark #addManualModal select.input-luxury option {
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" style="text-align: center; padding: 50px; color: var(--muted);">
+                                <td colspan="7" style="text-align: center; padding: 50px; color: var(--text-soft, #4b5563);">
                                     <i class="fas fa-clipboard-user fa-2x"
                                         style="display: block; margin-bottom: 12px; color: var(--gold-line);"></i>
                                     لا توجد سجلات حضور مطابقة للفلاتر المحددة.
@@ -1561,64 +1306,4 @@ body.dark #addManualModal select.input-luxury option {
         </div>
     </div>
 
-    <div id="addManualModal"
-        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;">
-        <div
-            style="background: var(--surface); border: 1px solid var(--gold-line); border-radius: 16px; width: 500px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <div
-                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--gold-soft); padding-bottom: 10px;">
-                <h3 style="margin: 0; color: #fff; font-size: 16px;"><i class="fas fa-user-plus"
-                        style="color:var(--gold); margin-left: 8px;"></i>تسجيل قيد حضور يدوي</h3>
-                <button onclick="toggleModal('addManualModal')"
-                    style="background:none; border:none; color:var(--muted); cursor:pointer; font-size: 18px;"><i
-                        class="fas fa-times"></i></button>
-            </div>
-            <form action="{{ route('admin.attendance.employees.store') }}" method="POST">
-                @csrf
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <div class="form-group-luxury">
-                        <label>اختر الموظف / المدرب</label>
-                        <select name="employee_id" class="input-luxury" required>
-                            <option value="">اختر موظف...</option>
-                            @foreach ($employees as $emp)
-                                <option value="{{ $emp->id }}">{{ $emp->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group-luxury">
-                        <label>تاريخ الحضور</label>
-                        <input type="date" name="attendance_date" value="{{ date('Y-m-d') }}"
-                            max="{{ date('Y-m-d') }}" class="input-luxury" required>
-                    </div>
-                    <div class="form-group-luxury">
-                        <label>وقت الحضور</label>
-                        <input type="time" name="recorded_at" class="input-luxury" required>
-                    </div>
-                    <div class="form-group-luxury">
-                        <label>حالة التواجد</label>
-                        <select name="status" class="input-luxury" required>
-                            <option value="present">حاضر في الوقت (Present)</option>
-                            <option value="late">متأخر عن الوردية (Late)</option>
-                        </select>
-                    </div>
-                    <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end;">
-                        <button type="button" onclick="toggleModal('addManualModal')" class="btn-clear-filter"
-                            style="padding: 8px 16px;">إلغاء</button>
-                        <button type="submit" class="btn-submit-filter" style="padding: 8px 24px;">حفظ السجل</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function toggleModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal.style.display === 'none' || modal.style.display === '') {
-                modal.style.display = 'flex';
-            } else {
-                modal.style.display = 'none';
-            }
-        }
-    </script>
 @endsection

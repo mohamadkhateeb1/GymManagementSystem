@@ -30,6 +30,15 @@ class Player extends Authenticatable
         'password',
     ];
 
+    protected $casts = [
+        // 🔧 حرج: بلا هالتحويل، height وweight (نوعها decimal بقاعدة البيانات)
+        // بترجع كنص (String) بالـ JSON بدل رقم، وبتكسر أي Client بيتوقع رقماً
+        // صريحاً (متل تطبيق فلاتر) — نفس الخلل المكتشف بـ DietPlan بالضبط.
+        'date_of_birth' => 'date',
+        'height' => 'float',
+        'weight' => 'float',
+    ];
+
     public function memberships()
     {
         return $this->hasMany(Membership::class);

@@ -10,17 +10,18 @@
         }
 
         .panel {
-            background: var(--surface, #13161d);
-            border: 1px solid var(--border, #252a38);
+            background: var(--surface, #ffffff);
+            border: 1px solid var(--border, #e4e8ef);
             border-radius: 16px;
             margin-bottom: 24px;
             overflow: hidden;
+            box-shadow: 0 7px 24px rgba(25, 35, 50, 0.05);
         }
 
         .panel-head {
             padding: 18px 24px;
-            border-bottom: 1px solid var(--border, #252a38);
-            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border, #e4e8ef);
+            background: var(--surface-2, #fafbfc);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -31,9 +32,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text, #e8eaf6);
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--text, #202631);
             margin: 0;
         }
 
@@ -42,7 +43,7 @@
             width: 4px;
             height: 18px;
             border-radius: 4px;
-            background: var(--accent, #6c63ff);
+            background: var(--gold, #c9a961);
         }
 
         .members-table {
@@ -52,42 +53,43 @@
         }
 
         .members-table th {
-            font-size: 12px;
-            color: var(--text-muted, #9ca3af);
+            font-size: 12.5px;
+            color: var(--text, #202631);
             padding: 14px 24px;
-            border-bottom: 1px solid var(--border, #252a38);
-            font-weight: 600;
+            border-bottom: 1px solid var(--border, #e4e8ef);
+            font-weight: 800;
         }
 
         .members-table td {
             padding: 15px 24px;
             font-size: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: var(--text, #e8eaf6);
+            border-bottom: 1px solid var(--border-soft, #edf0f4);
+            color: var(--text, #202631);
         }
 
         .members-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--surface-hover, #fffdf8);
         }
 
         .status-chip {
             display: inline-flex;
             align-items: center;
             padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
             white-space: nowrap;
         }
 
+        /* 🆕 خلفية صلبة + نص أبيض — نفس منطق باقي شارات الحالة بالمشروع */
         .status-chip.active {
-            background: rgba(90, 156, 122, 0.15);
-            color: #5a9c7a;
+            background: #17a06b;
+            color: #ffffff;
         }
 
         .status-chip.expired {
-            background: rgba(197, 90, 90, 0.15);
-            color: #c55a5a;
+            background: #d94b4b;
+            color: #ffffff;
         }
 
         .action-btn {
@@ -95,26 +97,26 @@
             align-items: center;
             justify-content: center;
             background: transparent;
-            border: 1px solid var(--accent, #6c63ff);
-            color: var(--accent, #6c63ff);
+            border: 1px solid var(--gold, #c9a961);
+            color: var(--gold-dark, #8a6d2f);
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 12.5px;
+            font-weight: 700;
             text-decoration: none;
             font-family: 'Tajawal', sans-serif;
             transition: 0.2s ease;
         }
 
         .action-btn:hover {
-            background: var(--accent, #6c63ff);
-            color: #fff;
+            background: var(--gold, #c9a961);
+            color: #ffffff;
         }
 
         .btn-archive {
             border-color: #c9a961;
-            color: #c9a961;
+            color: #a87921;
         }
 
         .btn-archive:hover {
@@ -136,13 +138,14 @@
         .empty-row td {
             text-align: center;
             padding: 40px;
-            color: var(--text-muted, #9ca3af);
+            color: var(--text-soft, #4b5563);
+            font-weight: 600;
         }
 
         /* ===== شريط الصفحات (Pagination) — نفس أسلوب لوحة التحكم الرئيسية ===== */
         .pagination-wrap {
             padding: 16px 24px;
-            border-top: 1px solid var(--border, #252a38);
+            border-top: 1px solid var(--border, #e4e8ef);
         }
 
         .gym-pagination {
@@ -154,8 +157,9 @@
         }
 
         .gym-pagination-info {
-            font-size: 12.5px;
-            color: var(--text-muted, #9ca3af);
+            font-size: 13px;
+            color: var(--text-soft, #4b5563);
+            font-weight: 600;
         }
 
         .gym-pagination-list {
@@ -177,11 +181,11 @@
             padding: 0 10px;
             border-radius: 10px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
-            color: var(--text-muted, #9ca3af);
-            border: 1px solid var(--border, #252a38);
-            background: var(--surface-2, rgba(255, 255, 255, 0.02));
+            color: var(--text-soft, #4b5563);
+            border: 1px solid var(--border, #e4e8ef);
+            background: var(--surface-2, #fafbfc);
             transition: all 0.2s ease;
             line-height: 1;
         }
@@ -192,18 +196,18 @@
         }
 
         .gym-page-item a:hover {
-            border-color: var(--accent, #6c63ff);
-            color: var(--accent, #6c63ff);
+            border-color: var(--gold, #c9a961);
+            color: var(--gold-dark, #8a6d2f);
         }
 
         .gym-page-item.active span {
-            background: var(--accent, #6c63ff);
-            border-color: var(--accent, #6c63ff);
-            color: #fff;
+            background: var(--gold, #c9a961);
+            border-color: var(--gold, #c9a961);
+            color: #ffffff;
         }
 
         .gym-page-item.disabled span {
-            opacity: 0.35;
+            opacity: 0.4;
             cursor: default;
             background: transparent;
         }
@@ -251,13 +255,10 @@
                 <tbody>
                     @forelse($memberships as $membership)
                         @php
-                            // ✅ الاشتراك فعّال فقط إذا كانت حالته active والتاريخ لم ينتهِ معاً،
-                            // بنفس منطق Player::hasActiveSubscription() لكن مطبَّقاً على هذا
-                            // السجل تحديداً (وليس بالضرورة أحدث اشتراك للاعب).
                             $isRowActive = $membership->status === 'active' && !$membership->isExpired();
                         @endphp
                         <tr>
-                            <td style="font-weight: 500;">{{ $membership->player->name ?? 'غير معروف' }}</td>
+                            <td style="font-weight: 700;">{{ $membership->player->name ?? 'غير معروف' }}</td>
                             <td>{{ $membership->plan_name }}</td>
                             <td dir="ltr">{{ $membership->start_date }}</td>
                             <td dir="ltr">{{ $membership->end_date }}</td>
@@ -291,7 +292,6 @@
                 </tbody>
             </table>
 
-            {{-- 📄 روابط التنقل بين الصفحات — بنفس أسلوب لوحة التحكم الرئيسية --}}
             @if ($memberships->hasPages())
                 <div class="pagination-wrap">
                     <nav class="gym-pagination">

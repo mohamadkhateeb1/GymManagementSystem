@@ -5,16 +5,9 @@
          THEME TOGGLE
     ====================================================== --}}
 
-    <button
-        type="button"
-        class="elite-theme-toggle"
-        id="themeToggle"
-        aria-label="تغيير الوضع"
-        title="الوضع الليلي">
+    <button type="button" class="elite-theme-toggle" id="themeToggle" aria-label="تغيير الوضع" title="الوضع الليلي">
 
-        <i
-            class="fas fa-moon"
-            id="themeIcon">
+        <i class="fas fa-moon" id="themeIcon">
         </i>
 
     </button>
@@ -24,11 +17,7 @@
          NOTIFICATIONS
     ====================================================== --}}
 
-    <button
-        type="button"
-        class="elite-nav-icon"
-        aria-label="الإشعارات"
-        title="الإشعارات">
+    <button type="button" class="elite-nav-icon" aria-label="الإشعارات" title="الإشعارات">
 
         <i class="fas fa-bell"></i>
 
@@ -50,9 +39,7 @@
          PROFILE
     ====================================================== --}}
 
-    <button
-        type="button"
-        class="elite-profile">
+    <button type="button" class="elite-profile">
 
         <span class="elite-profile-avatar">
             A
@@ -80,7 +67,6 @@
 
 
 <style>
-
     /* =====================================================
        NAVBAR
     ====================================================== */
@@ -150,7 +136,7 @@
 
         color: var(--text);
 
-        font-size: 22px;
+        font-size: 24px;
 
         font-weight: 900;
 
@@ -166,9 +152,9 @@
 
         color: var(--muted);
 
-        font-size: 10.5px;
+        font-size: 12px;
 
-        font-weight: 400;
+        font-weight: 500;
 
         line-height: 1.5;
     }
@@ -187,11 +173,9 @@
         border-radius: 99px;
 
         background:
-            linear-gradient(
-                90deg,
+            linear-gradient(90deg,
                 var(--gold-dark),
-                var(--gold-light)
-            );
+                var(--gold-light));
     }
 
 
@@ -247,7 +231,7 @@
 
         cursor: pointer;
 
-        font-size: 13px;
+        font-size: 14px;
 
         transition: all .2s ease;
     }
@@ -266,8 +250,7 @@
     }
 
 
-    html[data-theme="dark"]
-    .elite-theme-toggle:hover {
+    html[data-theme="dark"] .elite-theme-toggle:hover {
 
         color: var(--gold-light);
     }
@@ -344,7 +327,7 @@
 
         color: #fff;
 
-        font-size: 8px;
+        font-size: 9px;
 
         font-weight: 800;
 
@@ -425,20 +408,17 @@
 
         color: #fff;
 
-        font-size: 12px;
+        font-size: 13px;
 
         font-weight: 800;
 
         background:
-            linear-gradient(
-                135deg,
+            linear-gradient(135deg,
                 #dcc27d,
-                #ad8636
-            );
+                #ad8636);
 
         box-shadow:
-            0 4px 12px
-            rgba(184, 146, 62, .16);
+            0 4px 12px rgba(184, 146, 62, .16);
     }
 
 
@@ -462,7 +442,7 @@
 
         color: var(--text);
 
-        font-size: 11px;
+        font-size: 12.5px;
 
         font-weight: 800;
     }
@@ -474,7 +454,9 @@
 
         color: var(--muted);
 
-        font-size: 8px;
+        font-size: 9.5px;
+
+        font-weight: 500;
     }
 
 
@@ -484,7 +466,7 @@
 
         color: var(--muted);
 
-        font-size: 8px;
+        font-size: 9px;
     }
 
 
@@ -506,7 +488,7 @@
 
         .nav-page-title h1 {
 
-            font-size: 18px;
+            font-size: 19px;
         }
 
 
@@ -571,7 +553,7 @@
 
         .nav-page-title h1 {
 
-            font-size: 16px;
+            font-size: 17px;
         }
 
         .elite-nav-actions {
@@ -579,5 +561,4 @@
             gap: 5px;
         }
     }
-
 </style>

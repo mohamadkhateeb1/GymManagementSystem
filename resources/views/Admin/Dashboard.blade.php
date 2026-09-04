@@ -72,7 +72,7 @@
 
     color: var(--text);
 
-    font-size: 14px;
+    font-size: 15.5px;
 
     font-weight: 800;
 }
@@ -82,15 +82,17 @@
 
     color: var(--gold);
 
-    font-size: 14px;
+    font-size: 15px;
 }
 
 
 .panel-sub {
 
-    color: var(--muted);
+    color: var(--text-soft);
 
-    font-size: 10px;
+    font-size: 11.5px;
+
+    font-weight: 600;
 }
 
 
@@ -184,47 +186,61 @@
 
     color: var(--kpi-color);
 
-    font-size: 14px;
+    font-size: 15px;
 }
 
 
 .kpi-trend {
 
-    padding: 5px 8px;
+    padding: 5px 10px;
 
     border-radius: 7px;
 
-    background: var(--surface-3);
+    background: var(--muted);
 
-    color: var(--muted);
+    color: #fff;
 
-    font-size: 9px;
+    font-size: 11px;
 
-    font-weight: 700;
+    font-weight: 800;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
 }
 
 
 .kpi-trend.up {
 
-    background: var(--success-bg);
+    background: var(--success);
 
-    color: var(--success);
+    color: #fff;
+
+    font-weight: 800;
+
+    box-shadow: 0 2px 6px rgba(63, 145, 106, .28);
 }
 
 
 .kpi-trend.down {
 
-    background: var(--danger-bg);
+    background: var(--danger);
 
-    color: var(--danger);
+    color: #fff;
+
+    font-weight: 800;
+
+    box-shadow: 0 2px 6px rgba(196, 93, 93, .28);
 }
 
 
 .kpi-trend.warn {
 
-    background: var(--warning-bg);
+    background: var(--warning);
 
-    color: var(--warning);
+    color: #fff;
+
+    font-weight: 800;
+
+    box-shadow: 0 2px 6px rgba(169, 121, 37, .28);
 }
 
 
@@ -234,7 +250,7 @@
 
     color: var(--text);
 
-    font-size: 27px;
+    font-size: 29px;
 
     font-weight: 900;
 
@@ -246,11 +262,11 @@
 
     margin-top: 7px;
 
-    color: var(--muted);
+    color: var(--text-soft);
 
-    font-size: 10.5px;
+    font-size: 12px;
 
-    font-weight: 500;
+    font-weight: 600;
 }
 
 
@@ -306,7 +322,7 @@
 
     color: var(--text);
 
-    font-size: 27px;
+    font-size: 29px;
 
     font-weight: 900;
 }
@@ -316,9 +332,11 @@
 
     margin-top: 3px;
 
-    color: var(--muted);
+    color: var(--text-soft);
 
-    font-size: 10px;
+    font-size: 11.5px;
+
+    font-weight: 600;
 }
 
 
@@ -342,9 +360,11 @@
 
     gap: 8px;
 
-    color: var(--text-soft);
+    color: var(--text);
 
-    font-size: 11px;
+    font-size: 12.5px;
+
+    font-weight: 600;
 }
 
 
@@ -384,9 +404,9 @@
 
     margin: 25px 3px 10px;
 
-    color: var(--muted);
+    color: var(--text);
 
-    font-size: 10px;
+    font-size: 12px;
 
     font-weight: 800;
 
@@ -416,7 +436,7 @@
 
     color: var(--text-soft);
 
-    font-size: 10px;
+    font-size: 11.5px;
 
     font-weight: 700;
 }
@@ -440,7 +460,7 @@
 
     color: var(--text);
 
-    font-size: 11px;
+    font-size: 12.5px;
 
     transition: .2s ease;
 }
@@ -481,7 +501,7 @@
 
     font-family: 'Tajawal', sans-serif;
 
-    font-size: 10.5px;
+    font-size: 12px;
 
     font-weight: 700;
 
@@ -600,9 +620,9 @@
 
     border-bottom: 1px solid var(--border);
 
-    color: var(--muted);
+    color: var(--text);
 
-    font-size: 9.5px;
+    font-size: 11px;
 
     font-weight: 800;
 
@@ -620,7 +640,9 @@
 
     color: var(--text-soft);
 
-    font-size: 10.5px;
+    font-size: 12.5px;
+
+    font-weight: 600;
 
     vertical-align: middle;
 }
@@ -658,6 +680,8 @@
 
     color: var(--text);
 
+    font-weight: 600;
+
     white-space: nowrap;
 }
 
@@ -687,7 +711,7 @@
 
     color: #fff;
 
-    font-size: 11px;
+    font-size: 12.5px;
 
     font-weight: 800;
 }
@@ -707,7 +731,7 @@
 
     border-radius: 7px;
 
-    font-size: 9px;
+    font-size: 10.5px;
 
     font-weight: 700;
 }
@@ -715,25 +739,31 @@
 
 .status-chip.active {
 
-    background: var(--success-bg);
+    background: var(--success);
 
-    color: var(--success);
+    color: #fff;
+
+    font-weight: 800;
 }
 
 
 .status-chip.expired {
 
-    background: var(--danger-bg);
+    background: var(--danger);
 
-    color: var(--danger);
+    color: #fff;
+
+    font-weight: 800;
 }
 
 
 .status-chip.none {
 
-    background: var(--surface-3);
+    background: var(--muted);
 
-    color: var(--muted);
+    color: #fff;
+
+    font-weight: 800;
 }
 
 
@@ -765,9 +795,11 @@
 
 .gym-pagination-info {
 
-    color: var(--muted);
+    color: var(--text-soft);
 
-    font-size: 9.5px;
+    font-size: 11px;
+
+    font-weight: 600;
 }
 
 
@@ -808,7 +840,9 @@
 
     color: var(--text-soft);
 
-    font-size: 10px;
+    font-size: 11.5px;
+
+    font-weight: 600;
 
     transition: .2s ease;
 }
@@ -853,7 +887,11 @@
 
     text-align: center;
 
-    color: var(--muted) !important;
+    color: var(--text-soft) !important;
+
+    font-size: 12.5px;
+
+    font-weight: 600;
 }
 
 
@@ -872,7 +910,7 @@
 
     .panel-head h3 {
 
-        font-size: 12px;
+        font-size: 13.5px;
     }
 
     .panel-sub {
@@ -1230,7 +1268,7 @@
                                 </div>
                             </td>
 
-                            <td style="color:var(--muted);">
+                            <td style="color:var(--text-soft);font-weight:600;">
                                 {{ $trainer->specialization ?? 'موظف' }}
                             </td>
 
@@ -1573,11 +1611,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             color:
                                 getComputedStyle(
                                     document.documentElement
-                                ).getPropertyValue('--muted'),
+                                ).getPropertyValue('--text-soft'),
 
                             font: {
                                 family: 'Tajawal',
-                                size: 11
+                                size: 11,
+                                weight: '600'
                             }
                         }
                     },
@@ -1604,11 +1643,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             color:
                                 getComputedStyle(
                                     document.documentElement
-                                ).getPropertyValue('--muted'),
+                                ).getPropertyValue('--text-soft'),
 
                             font: {
                                 family: 'Tajawal',
-                                size: 10
+                                size: 10,
+                                weight: '600'
                             },
 
                             callback: function (value) {

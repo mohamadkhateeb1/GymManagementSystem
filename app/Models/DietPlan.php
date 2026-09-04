@@ -24,5 +24,11 @@ class DietPlan extends Model
 
     protected $casts = [
         'is_custom' => 'boolean',
+        // 🔧 حرج: بلا هالتحويل، هالأعمدة (نوعها decimal بقاعدة البيانات)
+        // بترجع كنص (String) بالـ JSON بدل رقم، وهاد بيكسر أي Client
+        // بيتوقع رقماً صريحاً (متل تطبيق فلاتر) — 'float' يضمن رقماً حقيقياً دايماً.
+        'protein' => 'float',
+        'carbs' => 'float',
+        'fats' => 'float',
     ];
 }

@@ -161,7 +161,7 @@
 
         color: #fff;
 
-        font-size: 16px;
+        font-size: 17px;
 
         background:
             linear-gradient(
@@ -189,7 +189,7 @@
 
         color: var(--text);
 
-        font-size: 17px;
+        font-size: 20px;
 
         font-weight: 900;
 
@@ -207,9 +207,13 @@
 
         margin-top: 5px;
 
-        color: var(--muted);
+        color: var(--sidebar-text);
 
-        font-size: 8px;
+        font-size: 10.5px;
+
+        font-weight: 600;
+
+        font-weight: 500;
 
         letter-spacing: .5px;
 
@@ -312,13 +316,13 @@
 
         background: transparent;
 
-        color: var(--sidebar-text);
+        color: var(--text);
 
         font-family: 'Tajawal', sans-serif;
 
-        font-size: 12px;
+        font-size: 14.5px;
 
-        font-weight: 600;
+        font-weight: 700;
 
         text-decoration: none;
 
@@ -344,9 +348,9 @@
 
         text-align: center;
 
-        color: var(--muted);
+        color: var(--text-soft);
 
-        font-size: 13px;
+        font-size: 15px;
 
         transition:
             color .18s ease,
@@ -474,9 +478,11 @@
 
         padding: 7px 9px;
 
-        color: var(--muted);
+        color: var(--text-soft);
 
-        font-size: 11px;
+        font-size: 13.5px;
+
+        font-weight: 600;
     }
 
 
@@ -543,9 +549,9 @@
 
         font-family: 'Tajawal', sans-serif;
 
-        font-size: 11.5px;
+        font-size: 14px;
 
-        font-weight: 700;
+        font-weight: 800;
 
         cursor: pointer;
 

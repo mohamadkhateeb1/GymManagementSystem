@@ -4,30 +4,35 @@
 
 @section('styles')
     <style>
+        /* نفس أنماط create.blade.php + أفاتار اللاعب بالهيدر */
+
         .page-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 20px;
-            margin-bottom: 30px;
             flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 18px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
         }
 
         .page-header-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 13px;
         }
 
         .page-accent {
-            width: 5px;
-            height: 46px;
-            border-radius: 6px;
-            background: linear-gradient(180deg, var(--accent), #8a6d2f);
-            box-shadow: 0 0 18px rgba(201, 169, 97, 0.5);
+            width: 4px;
+            height: 42px;
+            border-radius: 10px;
+            background: linear-gradient(to bottom, var(--gold-light), var(--gold-dark));
         }
 
-        /* أفاتار اللاعب في الهيدر */
         .page-avatar {
             width: 46px;
             height: 46px;
@@ -37,89 +42,61 @@
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 18px;
+            font-size: 19px;
             color: #1a1305;
-            background: linear-gradient(135deg, var(--accent), #d9bd7c);
-            box-shadow: 0 4px 14px rgba(201, 169, 97, 0.3);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            box-shadow: 0 4px 14px rgba(184, 146, 62, .30);
         }
 
         .page-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: #fff;
-            line-height: 1.2;
+            color: var(--text);
+            font-size: 21px;
+            font-weight: 850;
         }
 
         .page-title span {
-            color: var(--accent);
+            color: var(--gold-dark);
         }
 
         .page-sub {
-            margin-top: 5px;
+            margin-top: 3px;
+            color: var(--text-soft);
             font-size: 13px;
-            color: var(--text-muted, #8b8b8b);
+            font-weight: 500;
         }
 
         .btn-back {
+            height: 42px;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            padding: 10px 18px;
+            padding: 0 17px;
+            color: var(--text-soft);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
             text-decoration: none;
-            color: var(--text-muted, #8b8b8b);
-            border: 1px solid rgba(201, 169, 97, 0.2);
-            background: rgba(16, 19, 28, 0.6);
-            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 750;
+            transition: .2s ease;
         }
 
         .btn-back:hover {
-            color: var(--accent);
-            border-color: rgba(201, 169, 97, 0.45);
-            transform: translateX(3px);
+            color: var(--gold-dark);
+            background: var(--surface-hover);
+            transform: translateX(2px);
         }
 
-        .form-card {
-            position: relative;
-            background: rgba(16, 19, 28, 0.65);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(201, 169, 97, 0.18);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow:
-                0 20px 50px rgba(0, 0, 0, 0.45),
-                inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            overflow: hidden;
-            animation: cardIn 0.5s ease both;
-        }
-
-        .form-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201, 169, 97, 0.6), transparent);
-        }
-
-        @keyframes cardIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
+        @media (max-width: 650px) {
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 640px) {
-            .form-card {
-                padding: 24px;
+            .page-header-left,
+            .btn-back {
+                width: 100%;
             }
         }
     </style>
@@ -135,10 +112,7 @@
                 <div class="page-sub">قم بتحديث معلومات اللاعب ثم احفظ التغييرات</div>
             </div>
         </div>
-
-        <a href="{{ route('players.index') }}" class="btn-back">
-            <i class="fas fa-arrow-right"></i> رجوع للقائمة
-        </a>
+        <a href="{{ route('players.index') }}" class="btn-back"><i class="fas fa-arrow-right"></i> رجوع للقائمة</a>
     </div>
 
     <form action="{{ route('players.update', $player->id) }}" method="POST" class="form-card">

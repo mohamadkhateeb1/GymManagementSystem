@@ -11,15 +11,42 @@ use Illuminate\Http\Request;
 class EmployeeController extends Controller
 {
     use AuthorizesRequests;
-    public function index()
+
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Employee::class);
-        $employees = Employee::with('roles')->latest()->get();
+
+        $employees = Employee::with('roles')
+            // 🔍 بحث بالاسم أو البريد الإلكتروني معاً بحقل واحد
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            // 🎯 فلترة حسب التخصص
+            ->when($request->filled('specialization'), function ($query) use ($request) {
+                $query->where('specialization', 'like', '%' . $request->specialization . '%');
+            })
+            // 🛡️ فلترة حسب الدور (Role)
+            ->when($request->filled('role_id'), function ($query) use ($request) {
+                $query->whereHas('roles', function ($q) use ($request) {
+                    $q->where('roles.id', $request->role_id);
+                });
+            })
+            ->latest()
+            ->get();
 
         return view('Admin.Employees.index', [
-            'employees' => $employees
+            'employees' => $employees,
+            'roles' => Role::all(),
+            'specializations' => Employee::whereNotNull('specialization')
+                ->distinct()
+                ->pluck('specialization'),
         ]);
     }
+
     public function create()
     {
         return view('Admin.Employees.create', [
@@ -27,6 +54,7 @@ class EmployeeController extends Controller
             'roles' => Role::all(),
         ]);
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -45,6 +73,7 @@ class EmployeeController extends Controller
 
         return redirect()->route('employees.index')->with('success', 'تم إضافة الموظف بنجاح.');
     }
+
     public function edit(Employee $employee)
     {
         return view('Admin.Employees.edit', [
@@ -53,12 +82,14 @@ class EmployeeController extends Controller
 
         ]);
     }
+
     public function show(Employee $employee)
     {
         return view('Admin.Employees.show', [
             'employee' => $employee,
         ]);
     }
+
     public function update(Request $request, Employee $employee)
     {
         $data = $request->validate([
@@ -74,11 +105,13 @@ class EmployeeController extends Controller
         }
         return redirect()->route('employees.index')->with('success', 'تم تحديث بيانات الموظف بنجاح.');
     }
+
     public function destroy(Employee $employee)
     {
         $employee->delete();
         return redirect()->route('employees.index')->with('success', 'تم حذف الموظف بنجاح.');
     }
+
     public function destroy_all()
     {
         $employees = Employee::all();
