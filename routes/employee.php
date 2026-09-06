@@ -98,6 +98,12 @@ Route::middleware('auth:employee')->group(function () {
         [PlayerMonitorController::class, 'sendExpiredNotification']
     )->name('employee.monitoring.notify-expired');
 
+    // 🔄 تجديد اشتراك اللاعب (مع إمكانية تغيير الباقة)
+    Route::post(
+        'employee/monitoring/{playerId}/renew-subscription',
+        [PlayerMonitorController::class, 'renewSubscription']
+    )->name('employee.monitoring.renew-subscription');
+
 
     /*
     |--------------------------------------------------------------------------

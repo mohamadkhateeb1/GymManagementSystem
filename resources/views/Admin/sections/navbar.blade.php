@@ -1,56 +1,19 @@
-<div class="elite-nav-actions">
-
-    <button type="button" class="elite-theme-toggle" id="themeToggle" aria-label="تغيير الوضع" title="الوضع الليلي">
-        <i class="fas fa-moon" id="themeIcon"></i>
-    </button>
-
-
-    <div class="elite-nav-divider"></div>
-
-
-    <a href="{{ route('admin.profile') }}" class="elite-profile" aria-label="الملف الشخصي" title="الملف الشخصي">
-
-        <span class="elite-profile-avatar">
-            {{ mb_strtoupper(mb_substr(auth('admin')->user()->name ?? 'A', 0, 1)) }}
-        </span>
-
-
-        <span class="elite-profile-info">
-
-            <strong>
-                {{ auth('admin')->user()->name ?? 'Admin' }}
-            </strong>
-
-            <small>
-                مدير النظام
-            </small>
-
-        </span>
-
-
-        <i class="fas fa-chevron-down elite-profile-arrow"></i>
-
-    </a>
-
-</div>
-
-
 <style>
-    .top-navbar {
+    /* =========================================================
+   ELITE CLUB — ADMIN NAVBAR
+   ========================================================= */
 
-        min-height: var(--topbar-height);
-
+    .navbar {
         width: 100%;
+        min-height: 78px;
 
         display: flex;
-
         align-items: center;
-
         justify-content: space-between;
 
         gap: 20px;
 
-        padding: 10px 28px;
+        padding: 12px 24px;
 
         background: var(--surface);
 
@@ -59,10 +22,9 @@
         box-shadow: var(--shadow-sm);
 
         position: sticky;
-
         top: 0;
 
-        z-index: 900;
+        z-index: 90;
 
         transition:
             background .25s ease,
@@ -71,357 +33,387 @@
     }
 
 
-    .nav-page-title {
+    /* =========================================================
+   RIGHT
+========================================================= */
 
-        min-width: 0;
+    .navbar-right {
 
         display: flex;
+        align-items: center;
 
-        flex-direction: column;
+        gap: 12px;
 
-        align-items: flex-start;
-
-        justify-content: center;
-
-        text-align: right;
-
-        line-height: 1;
-
-        margin: 0;
+        min-width: 0;
     }
 
 
-    .nav-page-title h1 {
-
-        margin: 0;
+    .navbar-welcome {
 
         color: var(--text);
 
-        font-size: 24px;
-
-        font-weight: 900;
-
-        line-height: 1.2;
-
-        letter-spacing: -.3px;
+        font-size: 15px;
+        font-weight: 700;
     }
 
 
-    .nav-page-title p {
+    /* =========================================================
+   LEFT — ACTIONS
+========================================================= */
 
-        margin: 5px 0 0;
-
-        color: var(--muted);
-
-        font-size: 12px;
-
-        font-weight: 500;
-
-        line-height: 1.5;
-    }
-
-
-    .nav-title-line {
-
-        display: block;
-
-        width: 42px;
-
-        height: 3px;
-
-        margin-top: 7px;
-
-        border-radius: 99px;
-
-        background:
-            linear-gradient(90deg,
-                var(--gold-dark),
-                var(--gold-light));
-    }
-
-
-    .nav-right {
+    .navbar-left {
 
         display: flex;
-
         align-items: center;
 
-        flex-shrink: 0;
+        gap: 10px;
     }
 
 
-    .elite-nav-actions {
+    /* =========================================================
+   THEME
+========================================================= */
+
+    .navbar-theme-toggle {
+
+        width: 43px;
+        height: 43px;
+
+        flex: 0 0 43px;
 
         display: flex;
-
         align-items: center;
-
-        gap: 9px;
-
-        direction: ltr;
-    }
-
-
-    .elite-theme-toggle {
-
-        width: 39px;
-
-        height: 39px;
-
-        display: flex;
-
-        align-items: center;
-
         justify-content: center;
+
+        border-radius: 11px;
 
         border: 1px solid var(--border);
 
-        border-radius: 11px;
+        background: var(--surface-2);
+
+        color: var(--text);
+
+        cursor: pointer;
+
+        font-size: 16px;
+
+        transition:
+            background .2s ease,
+            border-color .2s ease,
+            color .2s ease,
+            transform .2s ease;
+    }
+
+
+    .navbar-theme-toggle:hover {
+
+        color: var(--gold);
+
+        border-color:
+            color-mix(in srgb,
+                var(--gold) 35%,
+                var(--border));
+
+        background:
+            color-mix(in srgb,
+                var(--gold) 6%,
+                var(--surface-2));
+
+        transform:
+            translateY(-1px);
+    }
+
+
+    .navbar-theme-toggle:active {
+        transform: scale(.9);
+    }
+
+
+    .navbar-theme-toggle i {
+
+        transition:
+            transform .35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+
+    .navbar-theme-toggle:hover i {
+        transform: rotate(-15deg);
+    }
+
+
+    .navbar-theme-toggle .sun-icon {
+        display: none;
+    }
+
+
+    html[data-theme="dark"] .navbar-theme-toggle .moon-icon {
+
+        display: none;
+    }
+
+
+    html[data-theme="dark"] .navbar-theme-toggle .sun-icon {
+
+        display: inline-block;
+    }
+
+
+    /* =========================================================
+   USER
+========================================================= */
+
+    .navbar-user {
+
+        min-height: 54px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 11px;
+
+        padding:
+            5px 8px 5px 14px;
 
         background: var(--surface-2);
 
-        color: var(--muted);
+        border: 1px solid var(--border);
 
-        cursor: pointer;
+        border-radius: 12px;
+
+        transition:
+            background .25s ease,
+            border-color .25s ease,
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+
+    .navbar-user:hover {
+
+        transform:
+            translateY(-1px);
+
+        box-shadow:
+            var(--shadow-sm);
+
+        border-color:
+            color-mix(in srgb,
+                var(--gold) 25%,
+                var(--border));
+    }
+
+
+    .navbar-user:hover .navbar-user-avatar {
+
+        transform:
+            scale(1.08) rotate(-3deg);
+    }
+
+
+    .navbar-user-text {
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 3px;
+    }
+
+
+    .navbar-user-name {
+
+        color: var(--text);
 
         font-size: 14px;
+        font-weight: 850;
 
-        transition: all .2s ease;
+        white-space: nowrap;
     }
 
 
-    .elite-theme-toggle:hover {
+    .navbar-user-role {
 
-        color: var(--gold-dark);
+        color: var(--text-soft);
 
-        background: var(--surface-hover);
+        font-size: 11.5px;
+        font-weight: 600;
 
-        border-color:
-            rgba(184, 146, 62, .35);
-
-        transform: translateY(-1px);
+        white-space: nowrap;
     }
 
 
-    html[data-theme="dark"] .elite-theme-toggle:hover {
+    .navbar-user-avatar {
 
-        color: var(--gold-light);
-    }
+        width: 40px;
+        height: 40px;
 
-
-    .elite-nav-divider {
-
-        width: 1px;
-
-        height: 27px;
-
-        margin: 0 3px;
-
-        background: var(--border);
-    }
-
-
-    .elite-profile {
+        flex: 0 0 40px;
 
         display: flex;
-
         align-items: center;
-
-        gap: 8px;
-
-        padding: 3px 6px 3px 3px;
-
-        border: 1px solid transparent;
-
-        border-radius: 11px;
-
-        background: transparent;
-
-        color: var(--text);
-
-        cursor: pointer;
-
-        text-decoration: none;
-
-        transition: all .2s ease;
-    }
-
-
-    .elite-profile:hover {
-
-        background: var(--surface-hover);
-
-        border-color:
-            rgba(184, 146, 62, .20);
-
-        color: var(--text);
-
-        text-decoration: none;
-    }
-
-
-    .elite-profile-avatar {
-
-        width: 35px;
-
-        height: 35px;
-
-        display: flex;
-
-        align-items: center;
-
         justify-content: center;
 
-        flex-shrink: 0;
-
-        border-radius: 50%;
-
-        color: #fff;
-
-        font-size: 13px;
-
-        font-weight: 800;
+        border-radius: 10px;
 
         background:
             linear-gradient(135deg,
-                #dcc27d,
-                #ad8636);
+                var(--gold-light),
+                var(--gold-dark));
+
+        color: #fff;
+
+        font-size: 15px;
 
         box-shadow:
-            0 4px 12px rgba(184, 146, 62, .16);
+            0 6px 15px rgba(184, 146, 62, .18);
+
+        transition:
+            transform .25s cubic-bezier(.34, 1.56, .64, 1);
     }
 
 
-    .elite-profile-info {
+    /* =========================================================
+   DARK MODE
+========================================================= */
 
-        display: flex;
+    html[data-theme="dark"] .navbar-user,
+    html[data-theme="dark"] .navbar-theme-toggle {
 
-        flex-direction: column;
+        background: var(--surface-2);
 
-        align-items: flex-start;
-
-        line-height: 1.15;
+        border-color: var(--border);
     }
 
 
-    .elite-profile-info strong {
+    /* =========================================================
+   MOBILE
+========================================================= */
 
-        color: var(--text);
+    @media (max-width: 900px) {
 
-        font-size: 12.5px;
+        .navbar {
 
-        font-weight: 800;
-    }
+            min-height: 70px;
 
+            padding: 10px 16px;
 
-    .elite-profile-info small {
-
-        margin-top: 3px;
-
-        color: var(--muted);
-
-        font-size: 9.5px;
-
-        font-weight: 500;
-    }
-
-
-    .elite-profile-arrow {
-
-        margin-right: 3px;
-
-        color: var(--muted);
-
-        font-size: 9px;
-    }
-
-
-    @media (max-width: 768px) {
-
-        .top-navbar {
-
-            min-height: 68px;
-
-            padding: 8px 15px;
-
-            gap: 10px;
+            margin-bottom: 18px;
         }
 
 
-        .nav-page-title h1 {
-
-            font-size: 19px;
-        }
-
-
-        .nav-page-title p {
-
+        .navbar-user-text {
             display: none;
         }
 
 
-        .nav-title-line {
-
-            width: 32px;
-
-            height: 2px;
-
-            margin-top: 5px;
+        .navbar-user {
+            padding: 4px;
         }
 
 
-        .elite-profile-info,
-        .elite-profile-arrow,
-        .elite-nav-divider {
-
-            display: none;
-        }
-
-
-        .elite-theme-toggle {
+        .navbar-user-avatar {
 
             width: 36px;
-
             height: 36px;
 
-            border-radius: 10px;
+            flex-basis: 36px;
         }
 
 
-        .elite-profile {
+        .navbar-theme-toggle {
 
-            padding: 1px;
+            width: 40px;
+            height: 40px;
+
+            flex-basis: 40px;
         }
 
-
-        .elite-profile-avatar {
-
-            width: 33px;
-
-            height: 33px;
-        }
     }
 
 
-    @media (max-width: 430px) {
+    @media (max-width: 650px) {
 
-        .top-navbar {
+        .navbar {
 
-            padding-left: 12px;
+            gap: 8px;
 
-            padding-right: 12px;
+            padding:
+                9px 12px;
         }
 
 
-        .nav-page-title h1 {
+        .navbar-welcome {
+            font-size: 13.5px;
+        }
 
-            font-size: 17px;
+    }
+
+
+    @media (max-width: 480px) {
+
+        .navbar-right {
+            gap: 7px;
         }
 
 
-        .elite-nav-actions {
-
-            gap: 5px;
+        .navbar-welcome {
+            font-size: 12.5px;
         }
+
     }
 </style>
+
+
+<nav class="navbar">
+
+
+    <div class="navbar-right">
+
+        <span class="navbar-welcome">
+            مرحباً بك في Elite Club
+        </span>
+
+    </div>
+
+
+    <div class="navbar-left">
+
+        {{-- Theme --}}
+
+        <button type="button" class="navbar-theme-toggle" id="adminThemeToggle" onclick="toggleEliteTheme()"
+            aria-label="تغيير الوضع">
+
+            <i class="fas fa-moon moon-icon"></i>
+
+            <i class="fas fa-sun sun-icon"></i>
+
+        </button>
+
+
+
+        <div class="navbar-user">
+
+            <div class="navbar-user-text">
+
+                <span class="navbar-user-name">
+                    {{ auth('admin')->user()->name ?? 'Admin' }}
+                </span>
+
+                <span class="navbar-user-role">
+                    مدير النظام
+                </span>
+
+            </div>
+
+
+            <div class="navbar-user-avatar">
+
+                <i class="fas fa-user"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>

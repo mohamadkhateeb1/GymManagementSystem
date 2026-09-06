@@ -43,12 +43,7 @@
             })();
         </script>
 
-
         <style>
-            /* =====================================================
-            GLOBAL
-            ====================================================== */
-
             * {
                 box-sizing: border-box;
             }
@@ -66,6 +61,7 @@
                 min-height: 100vh;
 
                 font-family: 'Tajawal', sans-serif;
+                font-size: 16px;
 
                 background: var(--app-bg);
                 color: var(--text);
@@ -94,8 +90,8 @@
 
 
             /* =====================================================
-            LIGHT THEME
-            ====================================================== */
+    LIGHT THEME
+    ====================================================== */
 
             :root {
 
@@ -114,14 +110,14 @@
                 --text: #272b31;
                 --text-soft: #565d67;
 
-                --muted: #858c95;
-                --muted-light: #a8adb4;
+                --muted: #6b7280;
+                --muted-light: #939aa3;
 
                 --border: #e3e6ea;
                 --border-soft: #edf0f2;
 
                 --sidebar-bg: #ffffff;
-                --sidebar-text: #656c76;
+                --sidebar-text: #4b525c;
 
                 --sidebar-hover: #fbf8f0;
                 --sidebar-active: #f8f1df;
@@ -157,8 +153,8 @@
 
 
             /* =====================================================
-            DARK THEME
-            ====================================================== */
+    DARK THEME
+    ====================================================== */
 
             html[data-theme="dark"] {
 
@@ -173,14 +169,14 @@
                 --text: #f0f1f3;
                 --text-soft: #c4c8ce;
 
-                --muted: #969da6;
-                --muted-light: #747b84;
+                --muted: #a3aab3;
+                --muted-light: #838a93;
 
                 --border: #343941;
                 --border-soft: #2b3036;
 
                 --sidebar-bg: #1d2126;
-                --sidebar-text: #b8bec6;
+                --sidebar-text: #cfd4da;
 
                 --sidebar-hover: #292823;
                 --sidebar-active: #302b20;
@@ -212,8 +208,8 @@
 
 
             /* =====================================================
-            MAIN LAYOUT
-            ====================================================== */
+    MAIN LAYOUT
+    ====================================================== */
 
             .main-wrapper {
 
@@ -237,8 +233,8 @@
 
 
             /* =====================================================
-            CONTENT
-            ====================================================== */
+    CONTENT
+    ====================================================== */
 
             .content-area {
 
@@ -256,8 +252,8 @@
 
 
             /* =====================================================
-            MOBILE
-            ====================================================== */
+    MOBILE
+    ====================================================== */
 
             @media (max-width: 1100px) {
 
@@ -289,9 +285,15 @@
                     padding: 18px 14px 28px;
                 }
             }
+
+            /* 🆕 جوال صغير */
+            @media (max-width: 480px) {
+
+                .content-area {
+                    padding: 14px 10px 24px;
+                }
+            }
         </style>
-
-
         @yield('styles')
 
     </head>
@@ -324,13 +326,6 @@
 
                 <div class="nav-page-title">
 
-                    <h1>
-                        @yield('page-title', 'لوحة التحكم')
-                    </h1>
-
-                    <p>
-                        @yield('page-description', 'نظرة سريعة على أداء النادي والاشتراكات والموظفين')
-                    </p>
 
                     <span class="nav-title-line"></span>
 
@@ -356,90 +351,17 @@
 
         </div>
 
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-
+            // 🛡️ الدالة اللي زر النافبار فعلياً بينادي عليها (onclick="toggleEliteTheme()")
+            window.toggleEliteTheme = function() {
                 const html = document.documentElement;
+                const current = html.getAttribute('data-theme') || 'light';
+                const next = current === 'dark' ? 'light' : 'dark';
 
-                const themeButton =
-                    document.getElementById('themeToggle');
-
-                const themeIcon =
-                    document.getElementById('themeIcon');
-
-
-                function updateThemeIcon() {
-
-                    if (!themeIcon) {
-                        return;
-                    }
-
-                    const theme =
-                        html.getAttribute('data-theme');
-
-
-                    if (theme === 'dark') {
-
-                        themeIcon.className =
-                            'fas fa-sun';
-
-                        themeButton?.setAttribute(
-                            'title',
-                            'الوضع النهاري'
-                        );
-
-                    } else {
-
-                        themeIcon.className =
-                            'fas fa-moon';
-
-                        themeButton?.setAttribute(
-                            'title',
-                            'الوضع الليلي'
-                        );
-                    }
-                }
-
-
-                updateThemeIcon();
-
-
-                if (themeButton) {
-
-                    themeButton.addEventListener(
-                        'click',
-                        function() {
-
-                            const current =
-                                html.getAttribute('data-theme') || 'light';
-
-                            const next =
-                                current === 'dark' ?
-                                'light' :
-                                'dark';
-
-
-                            html.setAttribute(
-                                'data-theme',
-                                next
-                            );
-
-
-                            localStorage.setItem(
-                                'elite-theme',
-                                next
-                            );
-
-
-                            updateThemeIcon();
-
-                        }
-                    );
-                }
-
-            });
+                html.setAttribute('data-theme', next);
+                localStorage.setItem('elite-theme', next);
+            };
         </script>
 
 

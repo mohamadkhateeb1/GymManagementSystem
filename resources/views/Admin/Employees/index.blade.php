@@ -129,10 +129,6 @@
             transform: translateY(-1px);
         }
 
-        /* =========================================================
-       🆕 FILTER BAR — نفس تصميم صفحات الأدمن التانية (اللاعبين، التقارير المالية)
-       ========================================================= */
-
         .employees-filter-bar {
             padding: 18px 20px;
             margin-bottom: 18px;
@@ -280,6 +276,7 @@
             overflow-x: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--border) transparent;
+            -webkit-overflow-scrolling: touch;
         }
 
         .employees-table-wrap::-webkit-scrollbar {
@@ -540,6 +537,49 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .employees-wrapper {
+                max-width: 100%;
+            }
+
+            .employees-header {
+                gap: 15px;
+            }
+
+            .employees-heading {
+                width: 100%;
+            }
+
+            .employees-actions {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .employees-actions form {
+                width: 100%;
+            }
+
+            .employees-btn {
+                width: 100%;
+            }
+
+            .employees-btn-add {
+                grid-column: 1 / -1;
+            }
+
+            .employees-filter-bar {
+                padding: 15px;
+            }
+
+            .employees-card-header {
+                padding: 0 15px;
+            }
+
+            .employees-table {
+                min-width: 780px;
+            }
+        }
+
         @media (max-width: 576px) {
             .employees-title {
                 font-size: 18px;
@@ -549,29 +589,68 @@
                 font-size: 11px;
             }
 
-            .employees-actions {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
+            .employees-heading {
+                gap: 9px;
             }
 
-            .employees-btn {
-                width: 100%;
+            .employees-heading-icon {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+                font-size: 15px;
+            }
+
+            .employees-heading-accent {
+                height: 40px;
+            }
+
+            .employees-actions {
+                grid-template-columns: 1fr;
             }
 
             .employees-btn-add {
-                grid-column: span 2;
+                grid-column: auto;
             }
 
             .employees-filter-form {
                 grid-template-columns: 1fr;
             }
 
+            .employees-filter-actions {
+                grid-column: auto;
+            }
+
             .employees-card-header {
-                padding: 0 14px;
+                min-height: 55px;
+                padding: 0 12px;
+            }
+
+            .employees-card-title {
+                font-size: 13px;
             }
 
             .employees-count {
+                padding: 5px 8px;
                 font-size: 10px;
+            }
+
+            .employees-table {
+                min-width: 760px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .employees-filter-actions {
+                flex-direction: column;
+            }
+
+            .employees-btn-apply,
+            .employees-btn-reset {
+                width: 100%;
+            }
+
+            .employees-card-header {
+                gap: 8px;
             }
         }
     </style>
@@ -581,8 +660,6 @@
 @section('content')
 
     <div class="employees-wrapper">
-
-        {{-- ================= PAGE HEADER ================= --}}
 
         <div class="employees-header">
 
@@ -605,7 +682,6 @@
                 </div>
 
             </div>
-
 
             <div class="employees-actions">
 
@@ -637,10 +713,8 @@
 
         </div>
 
-
-        {{-- ================= 🆕 FILTER BAR ================= --}}
-
         <div class="employees-filter-bar">
+
             <form action="{{ route('employees.index') }}" method="GET" class="employees-filter-form">
 
                 <div>
@@ -675,16 +749,18 @@
 
                 <div class="employees-filter-actions">
                     <button type="submit" class="employees-btn-apply">
-                        <i class="fas fa-filter"></i> تطبيق
+                        <i class="fas fa-filter"></i>
+                        تطبيق
                     </button>
-                    <a href="{{ route('employees.index') }}" class="employees-btn-reset">إلغاء</a>
+
+                    <a href="{{ route('employees.index') }}" class="employees-btn-reset">
+                        إلغاء
+                    </a>
                 </div>
 
             </form>
+
         </div>
-
-
-        {{-- ================= EMPLOYEES CARD ================= --}}
 
         <div class="employees-card">
 
@@ -701,7 +777,6 @@
 
             </div>
 
-
             <div class="employees-table-wrap">
 
                 <table class="employees-table">
@@ -715,7 +790,6 @@
                         </tr>
                     </thead>
 
-
                     <tbody>
 
                         @forelse ($employees as $employee)
@@ -723,17 +797,23 @@
 
                                 <td>
                                     <div class="employee-user">
+
                                         <div class="employee-avatar">
                                             {{ mb_strtoupper(mb_substr($employee->name, 0, 1)) }}
                                         </div>
+
                                         <div class="employee-user-info">
+
                                             <span class="employee-name">
                                                 {{ $employee->name }}
                                             </span>
+
                                             <span class="employee-email">
                                                 {{ $employee->email }}
                                             </span>
+
                                         </div>
+
                                     </div>
                                 </td>
 
@@ -744,7 +824,9 @@
                                             {{ $employee->specialization }}
                                         </span>
                                     @else
-                                        <span class="employee-muted">غير محدد</span>
+                                        <span class="employee-muted">
+                                            غير محدد
+                                        </span>
                                     @endif
                                 </td>
 
@@ -755,21 +837,27 @@
                                             {{ $employee->roles->first()->name }}
                                         </span>
                                     @else
-                                        <span class="employee-muted">بلا دور</span>
+                                        <span class="employee-muted">
+                                            بلا دور
+                                        </span>
                                     @endif
                                 </td>
 
                                 <td>
+
                                     <div class="employee-actions">
+
                                         <a href="{{ route('employees.show', $employee->id) }}"
                                             class="employee-action employee-show">
-                                            <i class="fas fa-eye"></i> عرض
+                                            <i class="fas fa-eye"></i>
+                                            عرض
                                         </a>
 
                                         @can('employee.edit')
                                             <a href="{{ route('employees.edit', $employee->id) }}"
                                                 class="employee-action employee-edit">
-                                                <i class="fas fa-pen"></i> تعديل
+                                                <i class="fas fa-pen"></i>
+                                                تعديل
                                             </a>
                                         @endcan
 
@@ -778,13 +866,17 @@
                                                 style="display:inline; margin:0;">
                                                 @csrf
                                                 @method('DELETE')
+
                                                 <button type="submit" class="employee-action employee-delete"
                                                     onclick="return confirm('هل أنت متأكد من حذف هذا الموظف؟')">
-                                                    <i class="fas fa-trash-can"></i> حذف
+                                                    <i class="fas fa-trash-can"></i>
+                                                    حذف
                                                 </button>
                                             </form>
                                         @endcan
+
                                     </div>
+
                                 </td>
 
                             </tr>
@@ -792,27 +884,39 @@
                         @empty
 
                             <tr>
+
                                 <td colspan="4">
+
                                     <div class="employees-empty">
+
                                         <div class="employees-empty-icon">
                                             <i class="fas fa-users-slash"></i>
                                         </div>
+
                                         <div class="employees-empty-title">
+
                                             @if (request()->hasAny(['search', 'specialization', 'role_id']))
                                                 لا توجد نتائج مطابقة لبحثك
                                             @else
                                                 لا يوجد موظفون حالياً
                                             @endif
+
                                         </div>
+
                                         <div class="employees-empty-text">
+
                                             @if (request()->hasAny(['search', 'specialization', 'role_id']))
                                                 جرّب تعديل عوامل الفلترة أو إعادة تعيينها
                                             @else
                                                 ابدأ بإضافة أول موظف من زر «إضافة موظف جديد»
                                             @endif
+
                                         </div>
+
                                     </div>
+
                                 </td>
+
                             </tr>
                         @endforelse
 

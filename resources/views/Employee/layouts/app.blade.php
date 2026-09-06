@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+
+<html lang="ar" dir="rtl">
 
 <head>
 
@@ -7,448 +8,906 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>
-        @yield('title', 'Elite Club')
+        @yield('title', 'Elite Club - Admin')
     </title>
+
+
+    {{-- Google Font --}}
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+
+    {{-- Bootstrap RTL --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+
+    {{-- تحميل الوضع قبل ظهور الصفحة --}}
+    <script>
+        (function() {
+
+            const savedTheme =
+                localStorage.getItem('elite-theme');
+
+            const theme =
+                savedTheme === 'dark' ?
+                'dark' :
+                'light';
+
+            document.documentElement.setAttribute(
+                'data-theme',
+                theme
+            );
+
+        })();
+    </script>
+
+
     <style>
         /* =====================================================
-           ELITE CLUB — GLOBAL THEME
-           ===================================================== */
+           GLOBAL
+        ===================================================== */
 
-        :root {
-            --page-bg: #f4f5f7;
-
-            --surface: #ffffff;
-            --surface-2: #f8fafc;
-            --surface-3: #f1f3f5;
-            --surface-hover: #f8f7f3;
-
-            --border: #e4e7eb;
-            --border-soft: rgba(201, 169, 97, .16);
-
-            --text: #20242b;
-            --text-soft: #4b5563;
-            --muted: #6b7280;
-
-            --gold: #c9a961;
-            --gold-light: #dfc57e;
-            --gold-dark: #a7833e;
-
-            --success: #36b37e;
-            --danger: #e85d5d;
-
-            --shadow-sm: 0 4px 18px rgba(15, 23, 42, .05);
-
-            --shadow: 0 12px 35px rgba(15, 23, 42, .07);
-
-            --navbar-height: 82px;
-            --sidebar-width: 280px;
-        }
-
-        /* =====================================================
-           DARK THEME
-           ===================================================== */
-
-        html[data-theme="dark"],
-        body.dark,
-        body[data-theme="dark"] {
-            --page-bg: #15181d;
-
-            --surface: #1d2127;
-            --surface-2: #232830;
-            --surface-3: #292f37;
-            --surface-hover: #2c323a;
-
-            --border: #343b45;
-            --border-soft: rgba(208, 174, 97, .18);
-
-            --text: #f3f4f6;
-            --text-soft: #c8cdd5;
-            --muted: #a3abb8;
-
-            --gold: #d0ae61;
-            --gold-light: #e2c777;
-            --gold-dark: #b78f40;
-
-            --success: #43c995;
-            --danger: #e85d5d;
-
-            --shadow-sm: 0 5px 18px rgba(0, 0, 0, .22);
-
-            --shadow: 0 15px 40px rgba(0, 0, 0, .28);
-        }
-
-        /* =====================================================
-           RESET
-           ===================================================== */
-
-        *,
-        *::before,
-        *::after {
+        * {
             box-sizing: border-box;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border) var(--surface);
         }
 
         html {
             margin: 0;
             padding: 0;
-            background: var(--page-bg);
-            transition: background .25s ease;
+            min-height: 100%;
         }
 
         body {
             margin: 0;
-            min-height: 100vh;
-            background: var(--page-bg);
-            color: var(--text);
-            font-family: "Cairo", "Tajawal", Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 500;
-            transition: background .25s ease, color .25s ease;
-        }
+            padding: 0;
 
-        a {
-            color: inherit;
+            min-height: 100vh;
+
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+
+            background: var(--app-bg);
+            color: var(--text);
+
+            overflow-x: hidden;
+
+            transition:
+                background .25s ease,
+                color .25s ease;
         }
 
         button,
         input,
         select,
         textarea {
-            font-family: inherit;
+            font-family: 'Tajawal', sans-serif;
         }
+
+        button {
+            outline: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
 
         /* =====================================================
-           GLOBAL DARK OVERRIDES
-           ===================================================== */
+           LIGHT THEME
+        ===================================================== */
 
-        html[data-theme="dark"] input,
-        html[data-theme="dark"] select,
-        html[data-theme="dark"] textarea,
+        :root {
 
-        body.dark input,
-        body.dark select,
-        body.dark textarea,
+            --gold: #b89445;
+            --gold-light: #d7bd7b;
+            --gold-dark: #8f6d2d;
 
-        body[data-theme="dark"] input,
-        body[data-theme="dark"] select,
-        body[data-theme="dark"] textarea {
-            background: var(--surface-2);
-            color: var(--text);
-            border-color: var(--border);
+            --app-bg: #f4f5f7;
+
+            --surface: #ffffff;
+            --surface-2: #fafbfc;
+            --surface-3: #f1f3f5;
+            --surface-hover: #fbf7ee;
+
+            --text: #272b31;
+            --text-soft: #565d67;
+
+            --muted: #6b7280;
+            --muted-light: #939aa3;
+
+            --border: #e3e6ea;
+            --border-soft: #edf0f2;
+
+            --sidebar-bg: #ffffff;
+            --sidebar-text: #4b525c;
+            --sidebar-hover: #fbf8f0;
+            --sidebar-active: #f8f1df;
+
+            --input-bg: #ffffff;
+            --input-border: #dfe3e7;
+
+            --success: #3f916a;
+            --success-bg: #edf8f2;
+
+            --danger: #c45d5d;
+            --danger-bg: #fff2f2;
+
+            --warning: #a97925;
+            --warning-bg: #fff8e9;
+
+            --info: #66809f;
+            --info-bg: #f0f5fa;
+
+            --shadow-sm:
+                0 2px 10px rgba(30, 35, 42, .035);
+
+            --shadow-md:
+                0 7px 24px rgba(30, 35, 42, .055);
+
+            --shadow-lg:
+                0 14px 35px rgba(30, 35, 42, .075);
+
+            --sidebar-width: 270px;
+
+            --topbar-height: 76px;
         }
 
-        html[data-theme="dark"] input::placeholder,
-        html[data-theme="dark"] textarea::placeholder,
-
-        body.dark input::placeholder,
-        body.dark textarea::placeholder,
-
-        body[data-theme="dark"] input::placeholder,
-        body[data-theme="dark"] textarea::placeholder {
-            color: var(--muted);
-        }
 
         /* =====================================================
-           APP WRAPPER
-           ===================================================== */
+           DARK THEME
+        ===================================================== */
 
-        .app-wrapper {
-            min-height: 100vh;
-            background: var(--page-bg);
-            transition: background .25s ease;
+        html[data-theme="dark"] {
+
+            --app-bg: #181b20;
+
+            --surface: #20242a;
+            --surface-2: #252a30;
+            --surface-3: #2b3037;
+            --surface-hover: #302b21;
+
+            --text: #f0f1f3;
+            --text-soft: #c4c8ce;
+
+            --muted: #a3aab3;
+            --muted-light: #838a93;
+
+            --border: #343941;
+            --border-soft: #2b3036;
+
+            --sidebar-bg: #1d2126;
+            --sidebar-text: #cfd4da;
+
+            --sidebar-hover: #292823;
+            --sidebar-active: #302b20;
+
+            --input-bg: #252a30;
+            --input-border: #3a4048;
+
+            --success: #6bc99a;
+            --success-bg: rgba(65, 175, 120, .12);
+
+            --danger: #df7b7b;
+            --danger-bg: rgba(210, 80, 80, .12);
+
+            --warning: #dfae52;
+            --warning-bg: rgba(220, 165, 65, .12);
+
+            --info: #91a9c8;
+            --info-bg: rgba(90, 120, 160, .12);
+
+            --shadow-sm:
+                0 3px 12px rgba(0, 0, 0, .15);
+
+            --shadow-md:
+                0 8px 25px rgba(0, 0, 0, .20);
+
+            --shadow-lg:
+                0 16px 38px rgba(0, 0, 0, .27);
         }
 
-        /* =====================================================
-           MAIN AREA
-           Navbar صار خارج الـ main
-           ===================================================== */
 
-        /* الحاوية التي تُزاح عن السايدبار — تحتوي النافبار والمحتوى معاً،
-           حتى لا يمتد النافبار فوق عرض السايدبار إطلاقاً */
+        /* =====================================================
+           MAIN WRAPPER
+        ===================================================== */
+
         .main-wrapper {
+
+            width: calc(100% - var(--sidebar-width));
+
+            min-height: 100vh;
+
             margin-right: var(--sidebar-width);
+
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            transition: margin-right .25s ease;
+
+            background: var(--app-bg);
+
+            transition:
+                background .25s ease,
+                margin .25s ease,
+                width .25s ease;
         }
 
-        .main-content {
+
+        /* =====================================================
+           TOP NAVBAR
+        ===================================================== */
+
+        .top-navbar {
+
+            min-height: var(--topbar-height);
+
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 10px 28px;
+
+            background: var(--surface);
+
+            border-bottom: 1px solid var(--border);
+
+            box-shadow: var(--shadow-sm);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 900;
+
+            transition:
+                background .25s ease,
+                border-color .25s ease,
+                box-shadow .25s ease;
+        }
+
+
+        /* =====================================================
+           PAGE TITLE
+        ===================================================== */
+
+        .nav-page-title {
+
+            min-width: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: flex-start;
+            justify-content: center;
+
+            text-align: right;
+
+            line-height: 1;
+
+            margin: 0;
+        }
+
+
+        .nav-page-title h1 {
+
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 26px;
+            font-weight: 900;
+
+            line-height: 1.2;
+
+            letter-spacing: -.3px;
+        }
+
+
+        .nav-page-title p {
+
+            margin: 6px 0 0;
+
+            color: var(--text-soft);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            line-height: 1.5;
+        }
+
+
+        .nav-title-line {
+
+            display: block;
+
+            width: 42px;
+            height: 3px;
+
+            margin-top: 7px;
+
+            border-radius: 99px;
+
+            background:
+                linear-gradient(90deg,
+                    var(--gold-dark),
+                    var(--gold-light));
+        }
+
+
+        .nav-right {
+
+            display: flex;
+            align-items: center;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content-area {
+
             flex: 1;
-            padding: 25px 25px 40px;
-            background: var(--page-bg);
-            transition: background .25s ease;
-            animation: pageFadeIn .4s cubic-bezier(.2, .7, .2, 1) both;
+
+            min-width: 0;
+
+            padding: 25px 30px 35px;
+
+            background: var(--app-bg);
+
+            transition:
+                background .25s ease;
         }
 
-        @keyframes pageFadeIn {
+
+        /* =====================================================
+           SIDEBAR DESKTOP
+        ===================================================== */
+
+        #eliteSidebar {
+
+            position: fixed;
+
+            top: 0;
+            right: 0;
+
+            width: var(--sidebar-width);
+            height: 100vh;
+
+            z-index: 1200;
+
+            background: var(--sidebar-bg);
+
+            transition:
+                transform .3s ease,
+                box-shadow .3s ease;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE TABLET
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            :root {
+                --sidebar-width: 240px;
+            }
+
+            .content-area {
+                padding: 22px 20px 30px;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            :root {
+                --sidebar-width: 270px;
+            }
+
+
+            /* المحتوى يأخذ الشاشة كاملة */
+
+            .main-wrapper {
+
+                width: 100%;
+
+                margin-right: 0;
+            }
+
+
+            .content-area {
+
+                padding: 18px 14px 28px;
+            }
+
+
+            /* ================================
+               SIDEBAR MOBILE
+            ================================= */
+
+            #eliteSidebar {
+
+                width: min(var(--sidebar-width),
+                        85vw);
+
+                right: 0;
+                left: auto;
+
+                transform: translateX(100%);
+
+                box-shadow:
+                    -12px 0 35px rgba(0, 0, 0, .12);
+
+                z-index: 1300;
+            }
+
+
+            /* القائمة مفتوحة */
+
+            body.sidebar-open #eliteSidebar {
+
+                transform: translateX(0);
+            }
+
+
+            /* ================================
+               BACKDROP
+            ================================= */
+
+            body.sidebar-open::before {
+
+                content: "";
+
+                position: fixed;
+
+                inset: 0;
+
+                background:
+                    rgba(0, 0, 0, .38);
+
+                z-index: 1250;
+
+                cursor: pointer;
+
+                animation:
+                    eliteOverlayIn .25s ease;
+            }
+
+
+            /* ================================
+               NAVBAR
+            ================================= */
+
+            .top-navbar {
+
+                min-height: 68px;
+
+                padding: 8px 15px;
+
+                gap: 10px;
+            }
+
+
+            .nav-page-title h1 {
+                font-size: 20px;
+            }
+
+
+            .nav-page-title p {
+                display: none;
+            }
+
+
+            .nav-title-line {
+
+                width: 32px;
+                height: 2px;
+
+                margin-top: 5px;
+            }
+
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 480px) {
+
+            .content-area {
+                padding: 14px 10px 24px;
+            }
+
+            .top-navbar {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .nav-page-title h1 {
+                font-size: 18px;
+            }
+
+        }
+
+
+        /* =====================================================
+           ANIMATION
+        ===================================================== */
+
+        @keyframes eliteOverlayIn {
+
             from {
                 opacity: 0;
-                transform: translateY(10px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* =====================================================
-           THEME STATES
-           ===================================================== */
-
-        html[data-theme="dark"] body,
-        html[data-theme="dark"] .app-wrapper,
-        html[data-theme="dark"] .main-wrapper,
-        html[data-theme="dark"] .main-content,
-
-        body.dark,
-        body.dark .app-wrapper,
-        body.dark .main-wrapper,
-        body.dark .main-content,
-
-        body[data-theme="dark"],
-        body[data-theme="dark"] .app-wrapper,
-        body[data-theme="dark"] .main-wrapper,
-        body[data-theme="dark"] .main-content {
-            background: var(--page-bg);
-            color: var(--text);
-        }
-
-        /* =====================================================
-           MOBILE / TABLET
-           ===================================================== */
-
-        @media (max-width: 900px) {
-            :root {
-                --sidebar-width: 250px;
             }
 
-            .main-wrapper {
-                margin-right: var(--sidebar-width);
-            }
-
-            .main-content {
-                padding: 20px 15px 30px;
-            }
-
-        }
-
-        @media (max-width: 700px) {
-            body {
-                font-size: 15px;
-            }
-
-            :root {
-                --navbar-height: 68px;
-            }
-
-            .main-wrapper {
-                margin-right: 0;
-            }
-
-            .main-content {
-                padding: 18px 12px 30px;
-            }
-
-        }
-
-        /* 🆕 جوال ضيّق جداً — تباعد أصغر بلا ما ينزل حجم الخط أكتر */
-        @media (max-width: 420px) {
-            .main-content {
-                padding: 14px 10px 26px;
-            }
         }
     </style>
+
 
     @yield('styles')
 
 </head>
 
+
 <body>
 
-    <div class="app-wrapper">
-        {{-- =====================================================
-         SIDEBAR — طول الشاشة كاملاً من الأعلى
-    ====================================================== --}}
+    {{-- Sidebar --}}
+    @include('Admin.sections.sidebar')
 
-        @include('Employee.layouts.sections.sidebar')
 
-        {{-- =====================================================
-         MAIN WRAPPER — يحتوي النافبار والمحتوى معاً، مُزاح
-         عن عرض السايدبار بالكامل، بلا أي تضارب أو تراكب بينهما
-    ====================================================== --}}
+    {{-- Main --}}
+    <div class="main-wrapper">
 
-        <div class="main-wrapper">
 
-            @include('Employee.layouts.sections.navbar')
+        {{-- Navbar --}}
+        <header class="top-navbar">
 
-            <main class="main-content">
-                @include('partials.flash-message')
-                @yield('content')
+            <div class="nav-page-title">
 
-            </main>
+                <h1>
+                    @yield('page-title', 'لوحة التحكم')
+                </h1>
 
-        </div>
+                <p>
+                    @yield('page-description', 'نظرة سريعة على أداء النادي والاشتراكات والموظفين')
+                </p>
+
+                <span class="nav-title-line"></span>
+
+            </div>
+
+
+            <div class="nav-right">
+
+                @include('Admin.sections.navbar')
+
+            </div>
+
+        </header>
+
+
+        {{-- Page Content --}}
+        <main class="content-area">
+
+            <x-flash-message />
+
+            @yield('content')
+
+        </main>
 
     </div>
 
+
+    {{-- Bootstrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <script>
-        /* =========================================================
-                   ELITE CLUB GLOBAL THEME SYSTEM
-                   ========================================================= */
+        document.addEventListener(
+            'DOMContentLoaded',
+            function() {
 
-        (function() {
-            const STORAGE_KEY = 'elite-theme';
+                const html =
+                    document.documentElement;
 
-            const savedTheme =
-                localStorage.getItem(STORAGE_KEY);
+                const body =
+                    document.body;
 
-            const systemDark =
-                window.matchMedia &&
-                window.matchMedia(
-                    '(prefers-color-scheme: dark)').matches;
 
-            const initialTheme =
-                savedTheme === 'dark' ||
-                savedTheme === 'light'
+                /* =================================================
+                   THEME
+                ================================================= */
 
-                ?
-                savedTheme : (systemDark ? 'dark' : 'light');
-
-            function applyTheme(theme) {
-                if (
-                    theme !== 'dark' &&
-                    theme !== 'light'
-                ) {
-                    theme = 'light';
-
-                }
-
-                /* HTML */
-
-                document.documentElement
-                    .setAttribute(
-                        'data-theme',
-                        theme
+                const themeButton =
+                    document.getElementById(
+                        'themeToggle'
                     );
 
-                /* BODY */
-
-                document.body
-                    .setAttribute(
-                        'data-theme',
-                        theme
+                const themeIcon =
+                    document.getElementById(
+                        'themeIcon'
                     );
 
-                /* Legacy dark class */
 
-                if (theme === 'dark') {
-                    document.body.classList.add('dark');
+                function updateThemeIcon() {
 
-                } else {
-                    document.body.classList.remove('dark');
+                    if (!themeIcon) {
+                        return;
+                    }
 
-                }
+                    const theme =
+                        html.getAttribute(
+                            'data-theme'
+                        );
 
-                /* Save */
 
-                localStorage.setItem(
-                    STORAGE_KEY,
-                    theme
-                );
+                    if (theme === 'dark') {
 
-                /* Event */
+                        themeIcon.className =
+                            'fas fa-sun';
 
-                window.dispatchEvent(
-                    new CustomEvent(
-                        'eliteThemeChanged', {
-                            detail: {
-                                theme: theme
-                            }
-                        }
-                    )
-                );
-            }
+                        themeButton?.setAttribute(
+                            'title',
+                            'الوضع النهاري'
+                        );
 
-            /* Apply immediately */
+                    } else {
 
-            applyTheme(initialTheme);
+                        themeIcon.className =
+                            'fas fa-moon';
 
-            /* =====================================================
-               GLOBAL TOGGLE
-            ====================================================== */
-
-            window.toggleEliteTheme = function() {
-                const current =
-                    document.documentElement
-                    .getAttribute('data-theme');
-
-                const next =
-                    current === 'dark' ?
-                    'light' :
-                    'dark';
-
-                applyTheme(next);
-            };
-
-            /* =====================================================
-               GLOBAL SET
-            ====================================================== */
-
-            window.setEliteTheme = function(theme) {
-                if (
-                    theme !== 'dark' &&
-                    theme !== 'light'
-                ) {
-                    return;
-                }
-
-                applyTheme(theme);
-            };
-
-            /* =====================================================
-               SYSTEM THEME CHANGE
-               فقط إذا المستخدم لم يختر ثيم يدوي
-            ====================================================== */
-
-            if (window.matchMedia) {
-                const media =
-                    window.matchMedia(
-                        '(prefers-color-scheme: dark)');
-
-                media.addEventListener(
-                    'change',
-                    function(event) {
-                        const manualTheme =
-                            localStorage.getItem(
-                                STORAGE_KEY
-                            );
-
-                        if (manualTheme) {
-                            return;
-                        }
-
-                        applyTheme(
-                            event.matches ?
-                            'dark' :
-                            'light'
+                        themeButton?.setAttribute(
+                            'title',
+                            'الوضع الليلي'
                         );
 
                     }
-                );
+
+                }
+
+
+                updateThemeIcon();
+
+
+                if (themeButton) {
+
+                    themeButton.addEventListener(
+                        'click',
+                        function() {
+
+                            const current =
+                                html.getAttribute(
+                                    'data-theme'
+                                ) || 'light';
+
+
+                            const next =
+                                current === 'dark' ?
+                                'light' :
+                                'dark';
+
+
+                            html.setAttribute(
+                                'data-theme',
+                                next
+                            );
+
+
+                            localStorage.setItem(
+                                'elite-theme',
+                                next
+                            );
+
+
+                            updateThemeIcon();
+
+                        }
+                    );
+
+                }
+
+
+                /* =================================================
+                   MOBILE SIDEBAR
+                ================================================= */
+
+                const sidebar =
+                    document.getElementById(
+                        'eliteSidebar'
+                    );
+
+                const sidebarToggle =
+                    document.getElementById(
+                        'eliteSidebarToggle'
+                    );
+
+
+                if (
+                    sidebar &&
+                    sidebarToggle
+                ) {
+
+
+                    function openSidebar() {
+
+                        body.classList.add(
+                            'sidebar-open'
+                        );
+
+                        sidebarToggle.setAttribute(
+                            'aria-expanded',
+                            'true'
+                        );
+
+                        sidebarToggle.setAttribute(
+                            'aria-label',
+                            'إغلاق القائمة'
+                        );
+
+                        sidebarToggle.setAttribute(
+                            'title',
+                            'إغلاق القائمة'
+                        );
+
+                    }
+
+
+                    function closeSidebar() {
+
+                        body.classList.remove(
+                            'sidebar-open'
+                        );
+
+                        sidebarToggle.setAttribute(
+                            'aria-expanded',
+                            'false'
+                        );
+
+                        sidebarToggle.setAttribute(
+                            'aria-label',
+                            'فتح القائمة'
+                        );
+
+                        sidebarToggle.setAttribute(
+                            'title',
+                            'القائمة'
+                        );
+
+                    }
+
+
+                    function toggleSidebar() {
+
+                        if (
+                            body.classList.contains(
+                                'sidebar-open'
+                            )
+                        ) {
+
+                            closeSidebar();
+
+                        } else {
+
+                            openSidebar();
+
+                        }
+
+                    }
+
+
+                    sidebarToggle.addEventListener(
+                        'click',
+                        function(event) {
+
+                            event.stopPropagation();
+
+                            toggleSidebar();
+
+                        }
+                    );
+
+
+                    /* إغلاق عند الضغط على الخلفية */
+
+                    document.addEventListener(
+                        'click',
+                        function(event) {
+
+                            if (
+                                !body.classList.contains(
+                                    'sidebar-open'
+                                )
+                            ) {
+                                return;
+                            }
+
+
+                            if (
+                                sidebar.contains(event.target) ||
+                                sidebarToggle.contains(event.target)
+                            ) {
+                                return;
+                            }
+
+
+                            closeSidebar();
+
+                        }
+                    );
+
+
+                    /* إغلاق عند اختيار رابط */
+
+                    sidebar.addEventListener(
+                        'click',
+                        function(event) {
+
+                            const link =
+                                event.target.closest(
+                                    'a'
+                                );
+
+
+                            if (!link) {
+                                return;
+                            }
+
+
+                            if (
+                                window.innerWidth <= 768
+                            ) {
+
+                                closeSidebar();
+
+                            }
+
+                        }
+                    );
+
+
+                    /* منع بقاء القائمة مفتوحة عند تكبير الشاشة */
+
+                    window.addEventListener(
+                        'resize',
+                        function() {
+
+                            if (
+                                window.innerWidth > 768
+                            ) {
+
+                                closeSidebar();
+
+                            }
+
+                        }
+                    );
+
+                }
 
             }
-
-        })();
+        );
     </script>
+
 
     @yield('scripts')
 

@@ -7,6 +7,8 @@ use App\Models\Player;
 use App\Models\TrainingPlan;
 use App\Models\DietPlan;
 use App\Models\BodyProgress;
+use App\Models\PlanType;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -199,7 +201,53 @@ class PlayerMonitorController extends Controller
             ->latest()
             ->get();
 
-        return view('Employee.monitoring.show', compact('player', 'ratings', 'customExercises', 'customDiets'));
+        // 🆕 الباقات المفعّلة فقط — تُعرض بقائمة اختيار التجديد
+        $planTypes = PlanType::active()->orderBy('duration_days')->get();
+
+        return view('Employee.monitoring.show', compact('player', 'ratings', 'customExercises', 'customDiets', 'planTypes'));
+    }
+
+    /**
+     * 🔄 تجديد اشتراك اللاعب من صفحة متابعته عند المدرب، مع إمكانية
+     * تغيير نوع الباقة بالكامل (مو بالضرورة نفس الباقة القديمة).
+     */
+    public function renewSubscription(Request $request, $playerId)
+    {
+        $player = $this->findMyPlayer($playerId, ['subscription']);
+
+        $validated = $request->validate([
+            'plan_type_id' => 'required|exists:plan_types,id',
+        ]);
+
+        $planType = PlanType::findOrFail($validated['plan_type_id']);
+
+        $membershipData = [
+            'plan_type_id' => $planType->id,
+            'plan_name'    => $planType->name,
+            'price_paid'   => $planType->price,
+            'start_date'   => now(),
+            'end_date'     => now()->addDays($planType->duration_days),
+            'status'       => 'active',
+        ];
+
+        if ($player->subscription) {
+            $player->subscription->update($membershipData);
+            $membership = $player->subscription;
+        } else {
+            $membership = $player->subscription()->create($membershipData);
+        }
+
+        // 💰 تسجيل الدفعة بالسجل المالي الدائم
+        Payment::create([
+            'player_id'     => $player->id,
+            'membership_id' => $membership->id,
+            'plan_type_id'  => $planType->id,
+            'amount'        => $planType->price,
+            'type'          => 'renewal',
+            'paid_at'       => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'تم تجديد اشتراك اللاعب بنجاح — الباقة: ' . $planType->name);
     }
 
     // ارسال اشعار باقتراب انتهاء الاشتراك
@@ -217,7 +265,7 @@ class PlayerMonitorController extends Controller
         return redirect()->back()->with('success', 'تم إرسال تذكير اقتراب انتهاء الاشتراك للاعب.');
     }
 
-   // ارسال اشعار انتهاء الاشتراك
+    // ارسال اشعار انتهاء الاشتراك
     public function sendExpiredNotification($playerId)
     {
         $player = $this->findMyPlayer($playerId, ['subscription']);
