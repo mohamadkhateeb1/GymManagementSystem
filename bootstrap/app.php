@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\GuardAwareGuest;
 use App\Http\Middleware\SetFortifyGuard;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // 🛡️ استبدال alias الـ guest الافتراضي (يفحص حارس web بس)
+        // بنسخة واعية بالمسار، تفحص الحارس الصحيح حسب /admin أو /employee أو الافتراضي.
+        $middleware->alias([
+            'guest' => GuardAwareGuest::class,
+        ]);
+
         // $middleware->web(append: [
         //     SetFortifyGuard::class,
         // ]);

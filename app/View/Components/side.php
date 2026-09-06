@@ -30,6 +30,7 @@ class Side extends Component
             // فحص الصلاحية إذا كانت مطلوبة في العنصر
             if (isset($item['ability'])) {
                 // إذا لم يوجد مستخدم أو لا يملك الصلاحية، احذف العنصر وتجاوزه
+                
                 if (!$user || !$user->can($item['ability'])) {
                     unset($items[$key]);
                     continue; 
