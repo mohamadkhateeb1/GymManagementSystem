@@ -278,7 +278,8 @@
             flex-wrap: wrap;
         }
 
-        .profile-actions a {
+        .profile-actions a,
+        .profile-actions button {
             height: 43px;
             display: inline-flex;
             align-items: center;
@@ -286,9 +287,12 @@
             gap: 8px;
             padding: 0 17px;
             border-radius: 9px;
+            border: 0;
             text-decoration: none;
+            font-family: inherit;
             font-size: 13.5px;
             font-weight: 800;
+            cursor: pointer;
             transition: .2s ease;
         }
 
@@ -483,10 +487,14 @@
             <a href="{{ route('players.edit', $player->id) }}" class="btn-edit-lg"><i class="fas fa-pen-to-square"></i>
                 تعديل البيانات</a>
             @if ($sub)
-                <a href="{{ route('subscriptions.renew', $sub->id) }}" class="btn-renew-lg"><i class="fas fa-rotate"></i>
-                    تجديد الاشتراك</a>
+                <button type="button" onclick="openRenewModal({{ $sub->id }}, {{ $sub->plan_type_id ?? 'null' }})"
+                    class="btn-renew-lg">
+                    <i class="fas fa-rotate"></i> تجديد الاشتراك
+                </button>
             @endif
             <a href="{{ route('players.index') }}" class="btn-back-lg"><i class="fas fa-arrow-right"></i> رجوع</a>
         </div>
     </div>
+
+    @include('Admin.partials.renew-subscription-modal')
 @endsection

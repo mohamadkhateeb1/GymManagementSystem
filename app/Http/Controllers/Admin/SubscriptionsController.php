@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Membership;
 use App\Models\Player;
 use App\Models\Payment;
+use App\Models\PlanType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -14,41 +15,50 @@ class SubscriptionsController extends Controller
     public function index()
     {
         $memberships = Membership::with('player')->latest()->paginate(15);
+
+        // 🆕 الباقات المفعّلة — تُمرَّر للنافذة المنبثقة الموحّدة لكل صفحات التجديد
+        $planTypes = PlanType::active()->orderBy('duration_days')->get();
+
         return view('Admin.Subscriptions.index', [
-            'memberships' => $memberships
+            'memberships' => $memberships,
+            'planTypes'   => $planTypes,
         ]);
     }
 
+    /**
+     * 🔄 تجديد اشتراك — تابع موحّد واحد تناديه كل أزرار "تجديد" بالمشروع.
+     * يستقبل plan_type_id من النافذة المنبثقة، فيسمح بتغيير نوع الباقة
+     * بالكامل وقت التجديد، مو بس تكرار نفس الباقة القديمة.
+     */
     public function renew(Request $request, $id)
     {
         $membership = Membership::findOrFail($id);
 
-        $duration = 1;
-        if (str_contains($membership->plan_name, 'ربع سنوي')) {
-            $duration = 3;
-        } elseif (str_contains($membership->plan_name, 'سنوي')) {
-            $duration = 12;
-        }
+        $validated = $request->validate([
+            'plan_type_id' => 'required|exists:plan_types,id',
+        ]);
 
-        $amount = optional($membership->planType)->price ?? $membership->price_paid ?? 0;
+        $planType = PlanType::findOrFail($validated['plan_type_id']);
 
         $membership->update([
-            'start_date'  => \Carbon\Carbon::now(),
-            'end_date'    => \Carbon\Carbon::now()->addMonths($duration),
-            'status'      => 'active',
-            'price_paid'  => $amount,
+            'plan_type_id' => $planType->id,
+            'plan_name'    => $planType->name,
+            'start_date'   => Carbon::now(),
+            'end_date'     => Carbon::now()->addDays($planType->duration_days),
+            'status'       => 'active',
+            'price_paid'   => $planType->price,
         ]);
 
         Payment::create([
             'player_id'     => $membership->player_id,
             'membership_id' => $membership->id,
-            'plan_type_id'  => $membership->plan_type_id,
-            'amount'        => $amount,
+            'plan_type_id'  => $planType->id,
+            'amount'        => $planType->price,
             'type'          => 'renewal',
             'paid_at'       => Carbon::now(),
         ]);
 
-        return back()->with('success', 'تم تجديد الاشتراك بنجاح لنوع: ' . $membership->plan_name);
+        return back()->with('success', 'تم تجديد الاشتراك بنجاح — الباقة: ' . $planType->name);
     }
 
     public function store(Request $request)
@@ -87,7 +97,7 @@ class SubscriptionsController extends Controller
         return back()->with('success', $message);
     }
 
-   
+
     public function toggleByPlayer(Player $player)
     {
         $membership = $player->subscription;

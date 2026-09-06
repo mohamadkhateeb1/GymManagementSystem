@@ -269,12 +269,13 @@
                             </td>
                             <td>
                                 <div class="actions-cell">
-                                    <form action="{{ route('subscriptions.renew', $membership->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="action-btn">تجديد</button>
-                                    </form>
+                                    <button type="button" class="action-btn"
+                                        onclick="openRenewModal({{ $membership->id }}, {{ $membership->plan_type_id ?? 'null' }})">
+                                        تجديد
+                                    </button>
 
-                                    <form action="{{ route('admin.subscriptions.archive', $membership->id) }}" method="POST"
+                                    <form action="{{ route('admin.subscriptions.archive', $membership->id) }}"
+                                        method="POST"
                                         onsubmit="return confirm('سيتم رفع نسخة كاملة من بيانات هذا الاشتراك إلى الأرشيف بشكل دائم. النسخة المؤرشفة لن تتأثر لاحقاً حتى لو عُدّل أو حُذف الاشتراك الأصلي. متابعة؟');">
                                         @csrf
                                         <button type="submit" class="action-btn btn-archive">
@@ -335,4 +336,6 @@
             @endif
         </div>
     </div>
+
+    @include('Admin.partials.renew-subscription-modal')
 @endsection

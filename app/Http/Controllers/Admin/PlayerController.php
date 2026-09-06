@@ -147,7 +147,7 @@ class PlayerController extends Controller
             unset($validated['password']);
         }
         $player->update($validated);
-        
+
         // 🛡️ نحدد اسم الجدول صراحة (memberships.player_id) لأن subscription()
         // أصبحت تستخدم latestOfMany() التي تبني الاستعلام بـ JOIN داخلي，
         // فيصبح عمود player_id مبهماً (Ambiguous) بين memberships والـ subquery
@@ -170,8 +170,12 @@ class PlayerController extends Controller
     public function show($id)
     {
         $player = Player::findOrFail($id);
-        $player->load('coach');
-        return view('Admin.Players.show', compact('player'));
+        $player->load('coach', 'subscription');
+
+        // 🆕 الباقات المفعّلة — للنافذة المنبثقة الموحّدة عند التجديد
+        $planTypes = PlanType::active()->orderBy('duration_days')->get();
+
+        return view('Admin.Players.show', compact('player', 'planTypes'));
     }
 
 
