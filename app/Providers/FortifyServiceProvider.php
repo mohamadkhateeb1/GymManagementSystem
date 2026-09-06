@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
 use Laravel\Fortify\Fortify;

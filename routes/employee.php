@@ -187,3 +187,6 @@ Route::middleware('auth:employee')->group(function () {
         [ProfileController::class, 'updatePassword']
     )->name('employee.profile.password');
 });
+Route::get('/employee/2fa/challenge', function () {
+    return view('Employee.auth.two-factor-challenge');
+})->name('employee.two-factor.challenge');

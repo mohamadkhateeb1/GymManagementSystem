@@ -169,3 +169,6 @@ Route::prefix('admin')
                     ->name('index');
             });
     });
+Route::get('/admin/2fa/challenge', function () {
+    return view('Admin.auth.two-factor-challenge');
+})->name('admin.two-factor.challenge');
