@@ -39,3 +39,5 @@ require __DIR__ . '/admin.php';
 
 
 require __DIR__ . '/employee.php';
+
+require __DIR__ . '/multi_auth.php';

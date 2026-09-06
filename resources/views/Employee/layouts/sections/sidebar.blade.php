@@ -752,7 +752,7 @@
 
     <div class="sidebar-footer">
 
-        <form action="{{ route('logout') }}" method="POST">
+        <form action="{{ route('employee.logout') }}" method="POST">
 
             @csrf
 

@@ -4,25 +4,21 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class SetFortifyGuard
+class GuardAwareAuth
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ?string $guard = null): Response
     {
-        $guard = $this->resolveGuard($request);
+        $resolvedGuard = $this->resolveGuard($request);
 
-        config()->set('fortify.guard', $guard);
+        Auth::shouldUse($resolvedGuard);
 
-        if ($guard === 'admin') {
-            config()->set('fortify.passwords', 'admins');
-            config()->set('fortify.home', '/admin/dashboard');
-        } elseif ($guard === 'employee') {
-            config()->set('fortify.passwords', 'employees');
-            config()->set('fortify.home', '/employee/dashboard');
-        } else {
-            config()->set('fortify.passwords', 'players');
-            config()->set('fortify.home', '/home');
+        config()->set('fortify.guard', $resolvedGuard);
+
+        if (!Auth::guard($resolvedGuard)->check()) {
+            return redirect()->route($this->loginRoute($resolvedGuard));
         }
 
         return $next($request);
@@ -39,9 +35,9 @@ class SetFortifyGuard
         }
 
         if (
-            $request->is('two-factor-challenge') ||
             $request->is('user/*') ||
             $request->is('user') ||
+            $request->is('two-factor-challenge') ||
             $request->is('passkeys/*')
         ) {
             $sessionGuard = $request->session()->get('login.guard');
@@ -52,5 +48,14 @@ class SetFortifyGuard
         }
 
         return 'web';
+    }
+
+    private function loginRoute(string $guard): string
+    {
+        return match ($guard) {
+            'admin' => 'admin.login',
+            'employee' => 'employee.login',
+            default => 'login',
+        };
     }
 }

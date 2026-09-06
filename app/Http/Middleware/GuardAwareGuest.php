@@ -5,34 +5,22 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
-/**
- * 🛡️ نسخة "واعية بالمسار" من middleware الـ guest الافتراضي.
- *
- * المشكلة اللي بتحلّها: بمشروع متعدد الحرّاس (admin / employee / web)،
- * الـ guest الافتراضي بلارافيل بيفحص حارس واحد بس (الافتراضي: web).
- * فلو لاعب مسجّل دخول (حارس web) وحاول يفتح /admin/login، كان
- * الـ middleware القديم بيعتبره "مسجّل دخول أصلاً" ويطرده — رغم إنه
- * مش مسجّل دخول كأدمن إطلاقاً.
- *
- * هون، نحدد الحارس المطلوب فحصه بناءً على *مسار الطلب نفسه*، مش حارس
- * ثابت مُمرَّر كباراميتر، فكل صفحة دخول (admin/employee/web) تفحص
- * حارسها الخاص فقط، بشكل مستقل عن الحرّاس التانية تماماً.
- */
 class GuardAwareGuest
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        $guard = $this->resolveGuardFromPath($request);
+        $guard = $this->resolveGuard($request);
 
         if (Auth::guard($guard)->check()) {
-            return redirect($this->homeFor($guard));
+            return redirect()->route($this->dashboardRoute($guard));
         }
 
         return $next($request);
     }
 
-    private function resolveGuardFromPath(Request $request): string
+    private function resolveGuard(Request $request): string
     {
         if ($request->is('admin/*') || $request->is('admin')) {
             return 'admin';
@@ -45,12 +33,12 @@ class GuardAwareGuest
         return 'web';
     }
 
-    private function homeFor(string $guard): string
+    private function dashboardRoute(string $guard): string
     {
         return match ($guard) {
-            'admin'    => '/admin/dashboard',
-            'employee' => '/employee/dashboard',
-            default    => '/home',
+            'admin' => 'admin.dashboard',
+            'employee' => 'employee.dashboard',
+            default => 'dashboard',
         };
     }
 }
