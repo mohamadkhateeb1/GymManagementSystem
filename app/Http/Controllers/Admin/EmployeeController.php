@@ -62,26 +62,23 @@ class EmployeeController extends Controller
             'email' => 'required|string|email|max:255|unique:employees',
             'password' => 'required|string|min:8',
             'specialization' => 'nullable|string|max:255',
-            'role_id'=>'required|exists:roles,id',
-        ],
-        [
-            'name.required' => 'حقل الاسم مطلوب.',
-            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
-            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
-            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
-            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
-            'password.required' => 'حقل كلمة المرور مطلوب.',
-            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
-            'specialization.string' => 'حقل التخصص يجب أن يكون نصًا.',
-            'role_id.required' => 'حقل الدور مطلوب.',
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'exists:roles,id',
+        ], [
+            'roles.required' => 'يجب اختيار دور واحد على الأقل للموظف.',
+            'roles.min' => 'يجب اختيار دور واحد على الأقل للموظف.',
+            'roles.*.exists' => 'أحد الأدوار المختارة غير موجود.',
         ]);
 
-        Employee::create([
+        $employee = Employee::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'specialization' => $request->specialization,
         ]);
+
+        // 🛡️ ربط الأدوار المختارة فعلياً بالموظف
+        $employee->roles()->sync($request->roles);
 
         return redirect()->route('employees.index')->with('success', 'تم إضافة الموظف بنجاح.');
     }
@@ -108,41 +105,56 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:employees,email,' . $employee->id,
             'specialization' => 'nullable|string|max:255',
-            'role_id' => 'required|exists:roles,id',
-        ],
-        [
-            'name.required' => 'حقل الاسم مطلوب.',
-            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
-            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
-            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
-            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
-            'specialization.string' => 'حقل التخصص يجب أن يكون نصًا.',
-            'role_id.required' => 'حقل الدور مطلوب.',
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'exists:roles,id',
+        ], [
+            'roles.required' => 'يجب اختيار دور واحد على الأقل للموظف.',
+            'roles.min' => 'يجب اختيار دور واحد على الأقل للموظف.',
+            'roles.*.exists' => 'أحد الأدوار المختارة غير موجود.',
         ]);
-        $employee->update($data);
+
+        $employee->update([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'specialization' => $data['specialization'] ?? null,
+        ]);
+
         if (!empty($request->password)) {
             $employee->update([
                 'password' => bcrypt($request->password),
             ]);
         }
+
+        // 🛡️ تحديث الأدوار المرتبطة
+        $employee->roles()->sync($request->roles);
+
         return redirect()->route('employees.index')->with('success', 'تم تحديث بيانات الموظف بنجاح.');
     }
 
+    /**
+     * 🗑️ حذف نهائي (Force Delete) — بنفس نمط حذف اللاعبين بالمشروع.
+     * رغم إن الموديل يدعم Soft Delete، هالحذف يتجاوزه ويشيل السجل نهائياً
+     * من قاعدة البيانات مباشرة، بلا ما يضل مخفي بـ deleted_at.
+     */
     public function destroy(Employee $employee)
     {
-        $employee->delete();
-        return redirect()->route('employees.index')->with('success', 'تم حذف الموظف بنجاح.');
+        $employee->forceDelete();
+        return redirect()->route('employees.index')->with('success', 'تم حذف الموظف نهائياً من النظام.');
     }
 
     public function destroy_all()
     {
-        $employees = Employee::all();
+        // 🛡️ withTrashed() ضرورية هون — لضمان حذف حتى أي موظف محذوف "ناعم" مسبقاً
+        $employees = Employee::withTrashed()->get();
+
         if ($employees->isEmpty()) {
             return redirect()->route('employees.index')->with('success', 'لا يوجد موظفين لحذفهم.');
         }
+
         foreach ($employees as $employee) {
-            $employee->delete();
+            $employee->forceDelete();
         }
-        return redirect()->route('employees.index')->with('success', 'تم حذف جميع الموظفين بنجاح.');
+
+        return redirect()->route('employees.index')->with('success', 'تم حذف جميع الموظفين نهائياً من النظام.');
     }
 }
