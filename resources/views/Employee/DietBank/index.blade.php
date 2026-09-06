@@ -7,20 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================================
-           ELITE CLUB — DIET BANK
-           ========================================================= */
-
         .diet-bank-container {
             width: 100%;
             padding: 0;
             color: var(--text);
             font-family: "Cairo", "Tajawal", Arial, sans-serif;
+            min-width: 0;
         }
-
-        /* =========================================================
-           PAGE HEADER
-           ========================================================= */
 
         .diet-bank-container>div:first-child {
             min-height: 68px;
@@ -31,6 +24,7 @@
             margin-bottom: 20px !important;
             padding: 4px 2px;
             flex-wrap: wrap;
+            min-width: 0;
         }
 
         .diet-bank-container>div:first-child h2 {
@@ -40,6 +34,8 @@
             font-weight: 850;
             line-height: 1.4;
             letter-spacing: -.4px;
+            min-width: 0;
+            overflow-wrap: anywhere;
         }
 
         .diet-bank-container>div:first-child h2 i {
@@ -47,10 +43,6 @@
             font-size: 22px;
             margin-left: 9px !important;
         }
-
-        /* =========================================================
-           ADD BUTTON
-           ========================================================= */
 
         .btn-green {
             min-height: 46px;
@@ -69,6 +61,7 @@
             font-weight: 800;
             cursor: pointer;
             transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+            box-sizing: border-box;
         }
 
         .btn-green:hover {
@@ -86,20 +79,13 @@
             font-size: 13px;
         }
 
-        /* =========================================================
-           DIET GRID
-           ========================================================= */
-
         .diet-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
             gap: 16px;
             margin-top: 0;
+            min-width: 0;
         }
-
-        /* =========================================================
-           DIET CARD
-           ========================================================= */
 
         .diet-card {
             position: relative;
@@ -174,10 +160,6 @@
             pointer-events: none;
         }
 
-        /* =========================================================
-           IMAGE
-           ========================================================= */
-
         .diet-card-image {
             width: 100%;
             height: 185px;
@@ -217,10 +199,6 @@
             opacity: 1;
         }
 
-        /* =========================================================
-           LEVEL BADGE
-           ========================================================= */
-
         .level-badge {
             position: absolute;
             top: 11px;
@@ -239,10 +217,6 @@
             font-weight: 800;
             text-transform: capitalize;
         }
-
-        /* =========================================================
-           DELETE BUTTON
-           ========================================================= */
 
         .btn-delete {
             position: absolute;
@@ -281,12 +255,9 @@
             transform: scale(.92);
         }
 
-        /* =========================================================
-           CARD BODY
-           ========================================================= */
-
         .diet-card-body {
             min-height: 205px;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -301,6 +272,7 @@
             font-weight: 850;
             line-height: 1.6;
             text-align: right;
+            overflow-wrap: anywhere;
         }
 
         .diet-card-desc {
@@ -315,11 +287,8 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            overflow-wrap: anywhere;
         }
-
-        /* =========================================================
-           CARD FOOTER
-           ========================================================= */
 
         .diet-card-footer {
             display: flex;
@@ -329,14 +298,12 @@
             flex-wrap: wrap;
             padding-top: 13px;
             border-top: 1px solid var(--border);
+            min-width: 0;
         }
-
-        /* =========================================================
-           MACROS
-           ========================================================= */
 
         .macros-row {
             width: 100%;
+            min-width: 0;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -380,10 +347,6 @@
             border-color: color-mix(in srgb, #e87575 14%, var(--border));
         }
 
-        /* =========================================================
-           CALORIES
-           ========================================================= */
-
         .calories-badge {
             min-height: 29px;
             display: inline-flex;
@@ -397,14 +360,12 @@
             border-radius: 8px;
             font-size: 11px;
             font-weight: 800;
+            white-space: nowrap;
         }
-
-        /* =========================================================
-           EMPTY STATE
-           ========================================================= */
 
         .diet-grid>div[style*="grid-column"] {
             min-height: 220px;
+            min-width: 0;
             display: flex !important;
             flex-direction: column;
             align-items: center;
@@ -417,11 +378,9 @@
             border-radius: 17px;
             font-size: 14px;
             font-weight: 600;
+            text-align: center;
+            overflow-wrap: anywhere;
         }
-
-        /* =========================================================
-           MODAL
-           ========================================================= */
 
         .modal {
             display: none;
@@ -454,6 +413,7 @@
             box-shadow: var(--shadow);
             transform: translateY(8px) scale(.98);
             animation: dietModalIn .25s cubic-bezier(.2, .7, .2, 1) forwards;
+            box-sizing: border-box;
         }
 
         @keyframes dietModalIn {
@@ -461,10 +421,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-
-        /* =========================================================
-           MODAL HEADER
-           ========================================================= */
 
         .modal-header {
             min-height: 66px;
@@ -475,9 +431,11 @@
             padding: 14px 18px;
             background: var(--surface);
             border-bottom: 1px solid var(--border) !important;
+            min-width: 0;
         }
 
         .modal-header h4 {
+            min-width: 0;
             display: flex;
             align-items: center;
             gap: 9px;
@@ -485,14 +443,17 @@
             color: var(--text);
             font-size: 16px;
             font-weight: 800;
+            overflow-wrap: anywhere;
         }
 
         .modal-header h4 i {
             color: var(--gold) !important;
             font-size: 15px;
+            flex-shrink: 0;
         }
 
         .close-modal {
+            flex-shrink: 0;
             width: 32px;
             height: 32px;
             display: flex;
@@ -520,10 +481,6 @@
             transform: rotate(4deg);
         }
 
-        /* =========================================================
-           MODAL BODY
-           ========================================================= */
-
         .modal-body {
             padding: 19px;
             max-height: 75vh;
@@ -531,14 +488,12 @@
             background: var(--surface);
             scrollbar-width: thin;
             scrollbar-color: var(--border) transparent;
+            min-width: 0;
         }
-
-        /* =========================================================
-           FORM FIELDS
-           ========================================================= */
 
         .field-group {
             margin-bottom: 15px;
+            min-width: 0;
         }
 
         .field-label {
@@ -547,6 +502,7 @@
             color: var(--text);
             font-size: 13px;
             font-weight: 700;
+            overflow-wrap: anywhere;
         }
 
         .field-input {
@@ -565,6 +521,7 @@
                 background .2s ease,
                 border-color .2s ease,
                 box-shadow .2s ease;
+            max-width: 100%;
         }
 
         .field-input::placeholder {
@@ -590,6 +547,7 @@
         .field-row {
             display: flex;
             gap: 10px;
+            min-width: 0;
         }
 
         .field-row .field-group {
@@ -605,15 +563,13 @@
             font-size: 11.5px;
             font-weight: 500;
             line-height: 1.7;
+            overflow-wrap: anywhere;
         }
-
-        /* =========================================================
-           FILE INPUT
-           ========================================================= */
 
         .field-input[type="file"] {
             padding: 8px;
             cursor: pointer;
+            max-width: 100%;
         }
 
         .field-input[type="file"]::file-selector-button {
@@ -628,10 +584,6 @@
             font-weight: 700;
             cursor: pointer;
         }
-
-        /* =========================================================
-           SUBMIT BUTTON
-           ========================================================= */
 
         .btn-submit {
             width: 100%;
@@ -652,6 +604,7 @@
             font-size: 14px;
             font-weight: 850;
             transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+            box-sizing: border-box;
         }
 
         .btn-submit:hover {
@@ -663,11 +616,6 @@
         .btn-submit:active {
             transform: scale(.98);
         }
-
-        /* =========================================================
-           DARK MODE
-           يعتمد بالكامل على Global Theme
-           ========================================================= */
 
         html[data-theme="dark"] .diet-card,
         body.dark .diet-card,
@@ -691,12 +639,7 @@
             background: var(--surface) !important;
         }
 
-        /* =========================================================
-           RESPONSIVE
-           ========================================================= */
-
         @media (max-width: 900px) {
-
             .diet-bank-container>div:first-child {
                 min-height: 62px;
                 margin-bottom: 17px !important;
@@ -721,8 +664,7 @@
             }
         }
 
-        @media (max-width: 700px) {
-
+        @media (max-width: 768px) {
             .diet-bank-container>div:first-child {
                 align-items: flex-start !important;
                 flex-direction: column;
@@ -731,6 +673,7 @@
             }
 
             .diet-bank-container>div:first-child h2 {
+                width: 100%;
                 font-size: 20px;
             }
 
@@ -768,6 +711,7 @@
 
             .modal-body {
                 padding: 15px;
+                max-height: calc(100vh - 83px);
             }
 
             .field-row {
@@ -777,6 +721,9 @@
         }
 
         @media (max-width: 480px) {
+            .diet-bank-container>div:first-child {
+                gap: 10px;
+            }
 
             .diet-bank-container>div:first-child h2 {
                 font-size: 18px;
@@ -791,6 +738,10 @@
                 height: 175px;
             }
 
+            .diet-card-body {
+                padding: 14px;
+            }
+
             .diet-card-title {
                 font-size: 14.5px;
             }
@@ -801,14 +752,91 @@
 
             .macro-badge {
                 font-size: 10px;
+                padding: 5px 8px;
             }
 
             .calories-badge {
                 font-size: 10.5px;
             }
+
+            .modal {
+                padding: 8px;
+            }
+
+            .modal-content {
+                max-height: calc(100vh - 16px);
+                border-radius: 13px;
+            }
+
+            .modal-header {
+                padding: 10px 12px;
+                gap: 10px;
+            }
+
+            .modal-header h4 {
+                font-size: 14px;
+                gap: 7px;
+            }
+
+            .modal-body {
+                padding: 13px;
+                max-height: calc(100vh - 69px);
+            }
+
+            .field-label {
+                font-size: 12px;
+            }
+
+            .field-input {
+                font-size: 13px;
+            }
+
+            .field-input[type="file"]::file-selector-button {
+                margin-left: 5px;
+                padding: 6px 9px;
+            }
+
+            .btn-submit {
+                min-height: 47px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .diet-bank-container>div:first-child h2 {
+                font-size: 16px;
+            }
+
+            .diet-card-image,
+            .diet-card-image-placeholder {
+                height: 160px;
+            }
+
+            .diet-card-body {
+                padding: 12px;
+            }
+
+            .diet-card-footer {
+                align-items: stretch;
+            }
+
+            .macros-row {
+                justify-content: flex-start;
+            }
+
+            .calories-badge {
+                width: 100%;
+            }
+
+            .modal-header h4 {
+                font-size: 13px;
+            }
+
+            .modal-body {
+                padding: 11px;
+            }
         }
     </style>
-
 @endsection
 
 @section('content')
@@ -869,7 +897,6 @@
             @endforelse
         </div>
 
-        {{-- ===== الـ Modal المنبثق لإضافة وجبة للمستويات وتحديد مستواها ===== --}}
         <div id="addDietModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -915,6 +942,7 @@
                                     placeholder="مثال: 12">
                             </div>
                         </div>
+
                         <span class="field-hint">الماكروز
                             اختيارية، وتُعرض بالتطبيق إن تم إدخالها.</span>
 
@@ -922,18 +950,19 @@
                             <label class="field-label">صورة الوجبة</label>
                             <input type="file" name="image" class="field-input" accept="image/*">
                         </div>
+
                         <div class="field-group">
                             <label class="field-label">المكونات والتفاصيل</label>
                             <textarea name="plan_details" class="field-input" rows="4" placeholder="اكتب المكونات بالتفصيل هنا..."
                                 required></textarea>
                         </div>
+
                         <button type="submit" class="btn-submit">حفظ وتعميم الوجبة</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
@@ -945,9 +974,9 @@
         function closeDietModal() {
             document.getElementById('addDietModal').classList.remove('open');
         }
+
         window.onclick = function(event) {
             if (event.target == document.getElementById('addDietModal')) closeDietModal();
         }
     </script>
-
 @endsection
