@@ -101,7 +101,7 @@
                 transform .22s ease,
                 border-color .22s ease,
                 box-shadow .22s ease,
-                background .25s ease;
+                background .22s ease;
             opacity: 0;
             animation: dietCardIn .5s cubic-bezier(.2, .7, .2, 1) both;
         }
@@ -252,6 +252,44 @@
         }
 
         .btn-delete:active {
+            transform: scale(.92);
+        }
+
+        .btn-edit {
+            position: absolute;
+            top: 11px;
+            right: 50px;
+            z-index: 10;
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 0 10px;
+            color: var(--gold);
+            background: color-mix(in srgb, var(--surface) 84%, transparent);
+            border: 1px solid color-mix(in srgb, var(--gold) 25%, var(--border));
+            border-radius: 9px;
+            box-shadow: 0 5px 14px rgba(0, 0, 0, .12);
+            backdrop-filter: blur(8px);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 800;
+            transition:
+                background .18s ease,
+                border-color .18s ease,
+                color .18s ease,
+                transform .18s ease;
+        }
+
+        .btn-edit:hover {
+            color: #171717;
+            background: var(--gold);
+            border-color: var(--gold);
+            transform: translateY(-1px) scale(1.04);
+        }
+
+        .btn-edit:active {
             transform: scale(.92);
         }
 
@@ -841,21 +879,44 @@
 
 @section('content')
     <div class="dashboard-wrapper diet-bank-container">
+
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h2><i class="fas fa-apple-alt"></i> بنك الوجبات والخطط الغذائية</h2>
-            <button class="btn-green" onclick="openDietModal()"><i class="fas fa-plus"></i> إضافة وجبة جديدة للبنك</button>
+            <h2>
+                <i class="fas fa-apple-alt"></i>
+                بنك الوجبات والخطط الغذائية
+            </h2>
+
+            <button class="btn-green" onclick="openDietModal()">
+                <i class="fas fa-plus"></i>
+                إضافة وجبة جديدة للبنك
+            </button>
         </div>
 
         <div class="diet-grid">
+
             @forelse($dietPlans as $diet)
+
                 <div class="diet-card">
-                    <span class="level-badge">{{ $diet->level }}</span>
+
+                    <span class="level-badge">
+                        {{ $diet->level }}
+                    </span>
+
+                    <a href="{{ route('employee.diet.bank.edit', $diet->id) }}" class="btn-edit">
+                        <i class="fas fa-edit"></i>
+                        تعديل
+                    </a>
 
                     <form action="{{ route('employee.diet.bank.destroy', $diet->id) }}" method="POST"
                         onsubmit="return confirm('هل تريد حذف هذه الوجبة من البنك؟')">
+
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn-delete"><i class="fas fa-trash-alt"></i></button>
+
+                        <button type="submit" class="btn-delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+
                     </form>
 
                     @if (!empty($diet->image_path))
@@ -867,105 +928,215 @@
                     @endif
 
                     <div class="diet-card-body">
-                        <h4 class="diet-card-title">{{ $diet->meal_name }}</h4>
-                        <p class="diet-card-desc">{{ $diet->plan_details }}</p>
+
+                        <h4 class="diet-card-title">
+                            {{ $diet->meal_name }}
+                        </h4>
+
+                        <p class="diet-card-desc">
+                            {{ $diet->plan_details }}
+                        </p>
 
                         <div class="diet-card-footer">
+
                             @if ($diet->protein !== null || $diet->carbs !== null || $diet->fats !== null)
                                 <div class="macros-row">
+
                                     @if ($diet->protein !== null)
-                                        <span class="macro-badge protein"><i class="fas fa-drumstick-bite"></i>
-                                            {{ $diet->protein }}غ بروتين</span>
+                                        <span class="macro-badge protein">
+                                            <i class="fas fa-drumstick-bite"></i>
+                                            {{ $diet->protein }}غ بروتين
+                                        </span>
                                     @endif
+
                                     @if ($diet->carbs !== null)
-                                        <span class="macro-badge carbs"><i class="fas fa-bread-slice"></i>
-                                            {{ $diet->carbs }}غ كارب</span>
+                                        <span class="macro-badge carbs">
+                                            <i class="fas fa-bread-slice"></i>
+                                            {{ $diet->carbs }}غ كارب
+                                        </span>
                                     @endif
+
                                     @if ($diet->fats !== null)
-                                        <span class="macro-badge fats"><i class="fas fa-oil-can"></i>
-                                            {{ $diet->fats }}غ دهون</span>
+                                        <span class="macro-badge fats">
+                                            <i class="fas fa-oil-can"></i>
+                                            {{ $diet->fats }}غ دهون
+                                        </span>
                                     @endif
+
                                 </div>
                             @endif
-                            <span class="calories-badge">سعرة {{ $diet->calories }}</span>
+
+                            <span class="calories-badge">
+                                سعرة {{ $diet->calories }}
+                            </span>
+
                         </div>
+
                     </div>
+
                 </div>
+
             @empty
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">البنك فارغ من
-                    الوجبات حالياً لهذا المستوى.</div>
+
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    البنك فارغ من الوجبات حالياً لهذا المستوى.
+                </div>
+
             @endforelse
+
         </div>
 
         <div id="addDietModal" class="modal">
+
             <div class="modal-content">
+
                 <div class="modal-header">
-                    <h4><i class="fas fa-apple-alt"></i> إضافة وجبة غذائية للبنك</h4>
-                    <span class="close-modal" onclick="closeDietModal()">&times;</span>
+
+                    <h4>
+                        <i class="fas fa-apple-alt"></i>
+                        إضافة وجبة غذائية للبنك
+                    </h4>
+
+                    <span class="close-modal" onclick="closeDietModal()">
+                        &times;
+                    </span>
+
                 </div>
+
                 <form action="{{ route('employee.diet.bank.store') }}" method="POST" enctype="multipart/form-data">
+
                     @csrf
+
                     <div class="modal-body">
+
                         <div class="field-group">
-                            <label class="field-label">اسم الوجبة</label>
+
+                            <label class="field-label">
+                                اسم الوجبة
+                            </label>
+
                             <input type="text" name="meal_name" class="field-input" placeholder="مثال: صدر دجاج مع أرز"
                                 required>
+
                         </div>
+
                         <div class="field-group">
-                            <label class="field-label">المستوى المستهدف للوجبة</label>
+
+                            <label class="field-label">
+                                المستوى المستهدف للوجبة
+                            </label>
+
                             <select name="level" class="field-input" required>
-                                <option value="">-- اختر المستوى لتخصيص الوجبة له تلقائياً --</option>
-                                <option value="beginner">Beginner (مبتدئ)</option>
-                                <option value="intermediate">Intermediate (متوسط)</option>
-                                <option value="advanced">Advanced (متقدم)</option>
+
+                                <option value="">
+                                    -- اختر المستوى لتخصيص الوجبة له تلقائياً --
+                                </option>
+
+                                <option value="beginner">
+                                    Beginner (مبتدئ)
+                                </option>
+
+                                <option value="intermediate">
+                                    Intermediate (متوسط)
+                                </option>
+
+                                <option value="advanced">
+                                    Advanced (متقدم)
+                                </option>
+
                             </select>
+
                         </div>
+
                         <div class="field-group">
-                            <label class="field-label">عدد السعرات الحرارية (Calories)</label>
+
+                            <label class="field-label">
+                                عدد السعرات الحرارية (Calories)
+                            </label>
+
                             <input type="number" name="calories" class="field-input" placeholder="مثال: 520" required>
+
                         </div>
 
                         <div class="field-row">
+
                             <div class="field-group">
-                                <label class="field-label">بروتين (غ)</label>
+
+                                <label class="field-label">
+                                    بروتين (غ)
+                                </label>
+
                                 <input type="number" step="0.1" min="0" name="protein" class="field-input"
                                     placeholder="مثال: 35">
+
                             </div>
+
                             <div class="field-group">
-                                <label class="field-label">كربوهيدرات (غ)</label>
+
+                                <label class="field-label">
+                                    كربوهيدرات (غ)
+                                </label>
+
                                 <input type="number" step="0.1" min="0" name="carbs" class="field-input"
                                     placeholder="مثال: 40">
+
                             </div>
+
                             <div class="field-group">
-                                <label class="field-label">دهون (غ)</label>
+
+                                <label class="field-label">
+                                    دهون (غ)
+                                </label>
+
                                 <input type="number" step="0.1" min="0" name="fats" class="field-input"
                                     placeholder="مثال: 12">
+
                             </div>
+
                         </div>
 
-                        <span class="field-hint">الماكروز
-                            اختيارية، وتُعرض بالتطبيق إن تم إدخالها.</span>
+                        <span class="field-hint">
+                            الماكروز اختيارية، وتُعرض بالتطبيق إن تم إدخالها.
+                        </span>
 
                         <div class="field-group">
-                            <label class="field-label">صورة الوجبة</label>
+
+                            <label class="field-label">
+                                صورة الوجبة
+                            </label>
+
                             <input type="file" name="image" class="field-input" accept="image/*">
+
                         </div>
 
                         <div class="field-group">
-                            <label class="field-label">المكونات والتفاصيل</label>
+
+                            <label class="field-label">
+                                المكونات والتفاصيل
+                            </label>
+
                             <textarea name="plan_details" class="field-input" rows="4" placeholder="اكتب المكونات بالتفصيل هنا..."
                                 required></textarea>
+
                         </div>
 
-                        <button type="submit" class="btn-submit">حفظ وتعميم الوجبة</button>
+                        <button type="submit" class="btn-submit">
+                            حفظ وتعميم الوجبة
+                        </button>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
 @endsection
 
 @section('scripts')
+
     <script>
         function openDietModal() {
             document.getElementById('addDietModal').classList.add('open');
@@ -976,7 +1147,10 @@
         }
 
         window.onclick = function(event) {
-            if (event.target == document.getElementById('addDietModal')) closeDietModal();
+            if (event.target == document.getElementById('addDietModal')) {
+                closeDietModal();
+            }
         }
     </script>
+
 @endsection

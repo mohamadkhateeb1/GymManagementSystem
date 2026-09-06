@@ -9,14 +9,7 @@ use App\Http\Controllers\Employee\ProfileController;
 use App\Http\Controllers\Employee\TwoFactorAuthenticatorController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::middleware('auth:employee')->group(function () {
-
-    /*
-    |--------------------------------------------------------------------------
-    | Dashboard
-    |--------------------------------------------------------------------------
-    */
 
     Route::get(
         'employee/dashboard',
@@ -28,24 +21,10 @@ Route::middleware('auth:employee')->group(function () {
         [DashboardController::class, 'toggleAttendance']
     )->name('employee.dashboard.attendance.toggle');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Two Factor Authentication
-    |--------------------------------------------------------------------------
-    */
-
     Route::get(
         'employee/2fa',
         [TwoFactorAuthenticatorController::class, 'index']
     )->name('employee.2fa');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Monitoring
-    |--------------------------------------------------------------------------
-    */
 
     Route::get(
         'employee/monitoring',
@@ -87,7 +66,6 @@ Route::middleware('auth:employee')->group(function () {
         [PlayerMonitorController::class, 'storeCustomProgress']
     )->name('employee.monitoring.custom-progress');
 
-    // 🔔 إرسال إشعارات الاشتراك يدوياً من صفحة متابعة اللاعب
     Route::post(
         'employee/monitoring/{playerId}/notify-expiring',
         [PlayerMonitorController::class, 'sendExpiringNotification']
@@ -98,18 +76,10 @@ Route::middleware('auth:employee')->group(function () {
         [PlayerMonitorController::class, 'sendExpiredNotification']
     )->name('employee.monitoring.notify-expired');
 
-    // 🔄 تجديد اشتراك اللاعب (مع إمكانية تغيير الباقة)
     Route::post(
         'employee/monitoring/{playerId}/renew-subscription',
         [PlayerMonitorController::class, 'renewSubscription']
     )->name('employee.monitoring.renew-subscription');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Training Bank
-    |--------------------------------------------------------------------------
-    */
 
     Route::get(
         'employee/training-bank',
@@ -136,13 +106,6 @@ Route::middleware('auth:employee')->group(function () {
         [TrainingPlanController::class, 'show']
     )->name('employee.training.bank.show');
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Diet Bank
-    |--------------------------------------------------------------------------
-    */
-
     Route::get(
         'employee/diet-bank',
         [DietPlanController::class, 'index']
@@ -153,17 +116,20 @@ Route::middleware('auth:employee')->group(function () {
         [DietPlanController::class, 'store']
     )->name('employee.diet.bank.store');
 
+    Route::get(
+        'employee/diet-bank/{id}/edit',
+        [DietPlanController::class, 'edit']
+    )->name('employee.diet.bank.edit');
+
+    Route::put(
+        'employee/diet-bank/{id}',
+        [DietPlanController::class, 'update']
+    )->name('employee.diet.bank.update');
+
     Route::delete(
         'employee/diet-bank/{id}',
         [DietPlanController::class, 'destroy']
     )->name('employee.diet.bank.destroy');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Training Exercises
-    |--------------------------------------------------------------------------
-    */
 
     Route::prefix('training-bank')->group(function () {
 
@@ -177,11 +143,20 @@ Route::middleware('auth:employee')->group(function () {
             [PlanController::class, 'store']
         )->name('employee.training.exercises.store');
 
+        Route::get(
+            '/exercises/{id}/edit',
+            [PlanController::class, 'edit']
+        )->name('employee.training.exercises.edit');
+
+        Route::put(
+            '/exercises/{id}',
+            [PlanController::class, 'update']
+        )->name('employee.training.exercises.update');
+
         Route::delete(
             '/exercises/{id}',
             [PlanController::class, 'destroy']
         )->name('employee.training.exercises.destroy');
-
 
         Route::prefix('exercise-library')->group(function () {
 
@@ -196,13 +171,6 @@ Route::middleware('auth:employee')->group(function () {
             )->name('employee.exercise.show');
         });
     });
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Profile
-    |--------------------------------------------------------------------------
-    */
 
     Route::get(
         'employee/profile',

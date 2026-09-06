@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class PlanController extends Controller
 {
+
+
     public function index($planId)
     {
         $coachId = Auth::guard('employee')->id();
@@ -26,20 +28,21 @@ class PlanController extends Controller
         return view('Employee.TrainingBank.Plans.plans', compact('trainingPlan', 'exercises'));
     }
 
+
+
     public function store(Request $request, $planId)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'sets'          => 'required|numeric',
-            'reps'   => 'required|numeric',
-            'rest_time'     => 'nullable|string|max:50',
-            'day_of_week'   => 'nullable|integer|min:1|max:7',
-            'order'         => 'nullable|integer|min:0',
-            'instructions'  => 'nullable|string',
-            'image'         => 'nullable|image|max:5120',
-            'video_url'     => 'nullable|string',
-        ],
-        [
+            'sets' => 'required|numeric',
+            'reps' => 'required|numeric',
+            'rest_time' => 'nullable|string|max:50',
+            'day_of_week' => 'nullable|integer|min:1|max:7',
+            'order' => 'nullable|integer|min:0',
+            'instructions' => 'nullable|string',
+            'image' => 'nullable|image|max:5120',
+            'video_url' => 'nullable|string',
+        ], [
             'name.required' => 'حقل اسم التمرين مطلوب.',
             'name.string' => 'حقل اسم التمرين يجب أن يكون نصًا.',
             'name.max' => 'حقل اسم التمرين يجب أن لا يتجاوز 255 حرفًا.',
@@ -59,28 +62,109 @@ class PlanController extends Controller
         ]);
 
         $coachId = Auth::guard('employee')->id();
+
         $trainingPlan = TrainingPlan::where('coach_id', $coachId)->findOrFail($planId);
 
         $imagePath = null;
+
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('exercises', 'public');
         }
 
         Plan::create([
             'training_plan_id' => $trainingPlan->id,
-            'name'    => $request->name,
-            'sets'             => $request->sets,
-            'reps'      => $request->reps,
-            'rest_time'        => $request->rest_time,
-            'day_of_week'      => $request->day_of_week,
-            'order'            => $request->order ?? 0,
-            'instructions'     => $request->instructions,
-            'image_path'       => $imagePath,
-            'video_url'        => $request->video_url,
+            'name' => $request->name,
+            'sets' => $request->sets,
+            'reps' => $request->reps,
+            'rest_time' => $request->rest_time,
+            'day_of_week' => $request->day_of_week,
+            'order' => $request->order ?? 0,
+            'instructions' => $request->instructions,
+            'image_path' => $imagePath,
+            'video_url' => $request->video_url,
         ]);
 
         return redirect()->back()->with('success', 'تمت إضافة التمرين للخطة بنجاح.');
     }
+
+    public function edit($id)
+    {
+        $coachId = Auth::guard('employee')->id();
+
+        $exercise = Plan::whereHas('trainingPlan', function ($q) use ($coachId) {
+            $q->where('coach_id', $coachId);
+        })->findOrFail($id);
+
+        return view('Employee.TrainingBank.Plans.edit', compact('exercise'));
+    }
+
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'sets' => 'required|numeric',
+            'reps' => 'required|numeric',
+            'rest_time' => 'nullable|string|max:50',
+            'day_of_week' => 'nullable|integer|min:1|max:7',
+            'order' => 'nullable|integer|min:0',
+            'instructions' => 'nullable|string',
+            'image' => 'nullable|image|max:5120',
+            'video_url' => 'nullable|string',
+        ], [
+            'name.required' => 'حقل اسم التمرين مطلوب.',
+            'name.string' => 'حقل اسم التمرين يجب أن يكون نصًا.',
+            'name.max' => 'حقل اسم التمرين يجب أن لا يتجاوز 255 حرفًا.',
+            'sets.required' => 'حقل عدد المجموعات مطلوب.',
+            'sets.numeric' => 'حقل عدد المجموعات يجب أن يكون رقمًا.',
+            'reps.required' => 'حقل عدد التكرارات مطلوب.',
+            'reps.numeric' => 'حقل عدد التكرارات يجب أن يكون رقمًا.',
+            'rest_time.string' => 'حقل وقت الراحة يجب أن يكون نصًا.',
+            'rest_time.max' => 'حقل وقت الراحة يجب أن لا يتجاوز 50 حرفًا.',
+            'day_of_week.integer' => 'حقل يوم الأسبوع يجب أن يكون رقمًا.',
+            'day_of_week.min' => 'يجب أن يكون يوم الأسبوع على الأقل 1 (الأحد).',
+            'day_of_week.max' => 'يجب أن يكون يوم الأسبوع على الأكثر 7 (السبت).',
+            'order.integer' => 'حقل ترتيب التمرين يجب أن يكون رقمًا.',
+            'order.min' => 'ترتيب التمرين يجب أن يكون على الأقل 0.',
+            'instructions.string' => 'حقل التعليمات يجب أن يكون نصًا.',
+            'image.image' => 'الملف المرفق يجب أن يكون صورة.',
+        ]);
+
+        $coachId = Auth::guard('employee')->id();
+
+        $exercise = Plan::whereHas('trainingPlan', function ($q) use ($coachId) {
+            $q->where('coach_id', $coachId);
+        })->findOrFail($id);
+
+        $exercise->name = $request->name;
+        $exercise->sets = $request->sets;
+        $exercise->reps = $request->reps;
+        $exercise->rest_time = $request->rest_time;
+        $exercise->day_of_week = $request->day_of_week;
+        $exercise->order = $request->order ?? 0;
+        $exercise->instructions = $request->instructions;
+        $exercise->video_url = $request->video_url;
+
+        if ($request->hasFile('image')) {
+            if (
+                $exercise->image_path &&
+                Storage::disk('public')->exists($exercise->image_path)
+            ) {
+                Storage::disk('public')->delete($exercise->image_path);
+            }
+
+            $exercise->image_path = $request->file('image')->store('exercises', 'public');
+        }
+
+        $exercise->save();
+
+        return redirect()
+            ->route('employee.training.exercises.index', $exercise->training_plan_id)
+            ->with('success', 'تم تعديل التمرين بنجاح.');
+    }
+
+
 
     public function destroy($id)
     {
@@ -89,10 +173,16 @@ class PlanController extends Controller
         })->findOrFail($id);
 
         $imageStillUsed = $exercise->image_path
-            ? Plan::where('image_path', $exercise->image_path)->where('id', '!=', $exercise->id)->exists()
+            ? Plan::where('image_path', $exercise->image_path)
+            ->where('id', '!=', $exercise->id)
+            ->exists()
             : false;
 
-        if ($exercise->image_path && !$imageStillUsed && Storage::disk('public')->exists($exercise->image_path)) {
+        if (
+            $exercise->image_path &&
+            !$imageStillUsed &&
+            Storage::disk('public')->exists($exercise->image_path)
+        ) {
             Storage::disk('public')->delete($exercise->image_path);
         }
 
@@ -100,6 +190,8 @@ class PlanController extends Controller
 
         return redirect()->back()->with('success', 'تم حذف التمرين بنجاح.');
     }
+
+
 
     public function library(Request $request)
     {
@@ -119,6 +211,8 @@ class PlanController extends Controller
 
         return view('Employee.TrainingBank.Library.index', compact('exercises'));
     }
+
+
 
     public function showExercise($id)
     {

@@ -8,10 +8,10 @@
 
     <style>
         /* =========================================================
-                   THEME VARIABLES
-                   لا تعتمد على .player-profile-container
-                   حتى تعمل المودالات الموجودة خارج الـ container أيضاً
-                ========================================================= */
+                           THEME VARIABLES
+                           لا تعتمد على .player-profile-container
+                           حتى تعمل المودالات الموجودة خارج الـ container أيضاً
+                        ========================================================= */
 
         :root {
             --profile-bg: #f5f6f8;
@@ -92,8 +92,8 @@
         }
 
         /* =========================================================
-                   MAIN
-                ========================================================= */
+                           MAIN
+                        ========================================================= */
 
         .player-profile-container {
             --surface: var(--profile-surface);
@@ -117,8 +117,8 @@
         }
 
         /* =========================================================
-                   BACK BUTTON
-                ========================================================= */
+                           BACK BUTTON
+                        ========================================================= */
 
         .back-btn {
             background: var(--profile-surface);
@@ -152,8 +152,8 @@
         }
 
         /* =========================================================
-                   BUTTONS
-                ========================================================= */
+                           BUTTONS
+                        ========================================================= */
 
         .btn-add-custom,
         .btn-add-special,
@@ -237,8 +237,8 @@
         }
 
         /* =========================================================
-                   HEADER CARD
-                ========================================================= */
+                           HEADER CARD
+                        ========================================================= */
 
         .profile-header-card {
             background: var(--profile-surface);
@@ -335,8 +335,8 @@
         }
 
         /* =========================================================
-                   MAIN GRID
-                ========================================================= */
+                           MAIN GRID
+                        ========================================================= */
 
         .profile-main-layout {
             display: grid;
@@ -359,8 +359,8 @@
         }
 
         /* =========================================================
-                   PANELS / CARDS
-                ========================================================= */
+                           PANELS / CARDS
+                        ========================================================= */
 
         .plan-panel {
             background: var(--profile-surface);
@@ -425,8 +425,8 @@
         }
 
         /* =========================================================
-                   LIST
-                ========================================================= */
+                           LIST
+                        ========================================================= */
 
         .plan-list {
             padding: 15px;
@@ -456,8 +456,8 @@
         }
 
         /* =========================================================
-                   INNER CARD
-                ========================================================= */
+                           INNER CARD
+                        ========================================================= */
 
         .plan-card {
             background: var(--profile-surface-2);
@@ -563,8 +563,8 @@
         }
 
         /* =========================================================
-                   MACROS
-                ========================================================= */
+                           MACROS
+                        ========================================================= */
 
         .macros-row {
             display: flex;
@@ -598,8 +598,8 @@
         }
 
         /* =========================================================
-                   EXERCISE
-                ========================================================= */
+                           EXERCISE
+                        ========================================================= */
 
         .exercise-meta {
             display: flex;
@@ -619,8 +619,8 @@
         }
 
         /* =========================================================
-                   EMPTY
-                ========================================================= */
+                           EMPTY
+                        ========================================================= */
 
         .empty-plan-box {
             text-align: center;
@@ -644,8 +644,8 @@
         }
 
         /* =========================================================
-                   CHART
-                ========================================================= */
+                           CHART
+                        ========================================================= */
 
         .progress-chart-box {
             padding: 18px 20px 10px;
@@ -678,8 +678,8 @@
         }
 
         /* =========================================================
-                   FIELDS
-                ========================================================= */
+                           FIELDS
+                        ========================================================= */
 
         .field-row {
             display: flex;
@@ -765,8 +765,8 @@
         }
 
         /* =========================================================
-                   SUBMIT
-                ========================================================= */
+                           SUBMIT
+                        ========================================================= */
 
         .btn-submit {
             width: 100%;
@@ -796,10 +796,10 @@
         }
 
         /* =========================================================
-                   MODALS
-                   مهم: هذه القواعد Global لأن الـ modal خارج
-                   .player-profile-container
-                ========================================================= */
+                           MODALS
+                           مهم: هذه القواعد Global لأن الـ modal خارج
+                           .player-profile-container
+                        ========================================================= */
 
         .modal {
             display: none;
@@ -942,9 +942,9 @@
         }
 
         /* =========================================================
-                   INLINE COLORS FIX
-                   لا نغيّر الـ HTML، فقط نخلي الألوان متوافقة
-                ========================================================= */
+                           INLINE COLORS FIX
+                           لا نغيّر الـ HTML، فقط نخلي الألوان متوافقة
+                        ========================================================= */
 
         .player-profile-container [style*="color: #fff"],
         .player-profile-container [style*="color:#fff"] {
@@ -961,8 +961,8 @@
         }
 
         /* =========================================================
-                   RESPONSIVE
-                ========================================================= */
+                           RESPONSIVE
+                        ========================================================= */
 
         @media (max-width: 1200px) {
             .profile-main-layout {
@@ -1059,7 +1059,6 @@
             <a href="{{ route('employee.monitoring') }}" class="back-btn"><i class="fas fa-arrow-left"></i> عودة للقائمة</a>
         </div>
 
-        <!-- كارد الهيدر المرجعي الفاخر -->
         <div class="profile-header-card">
             <div class="player-info-block">
                 <div class="player-avatar-icon"><i class="fas fa-user-running"></i></div>
@@ -1086,7 +1085,6 @@
                             $isExpiringSoon =
                                 $endDate &&
                                 $player->hasActiveSubscription() &&
-                                // هلق هيك بتكون الاشتراك على وشك الانتهاء إذا كان باقي 7 أيام أو أقل
                                 \Carbon\Carbon::parse($endDate)->diffInDays(now(), false) >= -7 &&
                                 \Carbon\Carbon::parse($endDate)->isFuture();
                         @endphp
@@ -1153,6 +1151,7 @@
                                 إضافة تمرين خاص</button>
                         @endif
                     </div>
+
                     <div class="plan-list">
                         @forelse($player->trainingPlans as $trainingPlan)
                             <div class="plan-card">
@@ -1166,8 +1165,11 @@
                                             باللاعب</span>
                                     @endif
                                 </div>
-                                <div class="plan-details-text">المستوى المستهدف: {{ $trainingPlan->level ?? 'غير محدد' }}
+
+                                <div class="plan-details-text">
+                                    المستوى المستهدف: {{ $trainingPlan->level ?? 'غير محدد' }}
                                 </div>
+
                                 <div class="plan-dates">
                                     <span>البدء: {{ $trainingPlan->start_date }}</span>
                                     <span>الانتهاء: {{ $trainingPlan->end_date }}</span>
@@ -1176,18 +1178,74 @@
                         @empty
                             <div class="empty-plan-box">لا توجد خطط تدريبية منزّلة حالياً.</div>
                         @endforelse
+
+                        @foreach ($customExercises as $exercise)
+                            <div class="plan-card special-item">
+                                <div class="plan-card-header">
+                                    <span class="plan-card-title">{{ $exercise->name }}</span>
+
+                                    <span class="badge-item"
+                                        style="font-size: 11px; color: var(--special); background: var(--special-soft);">
+                                        تمرين خاص
+                                    </span>
+                                </div>
+
+                                <div class="exercise-meta">
+                                    <span>
+                                        <i class="fas fa-layer-group"></i>
+                                        الجولات: {{ $exercise->sets }}
+                                    </span>
+
+                                    <span>
+                                        <i class="fas fa-repeat"></i>
+                                        التكرارات: {{ $exercise->reps }}
+                                    </span>
+
+                                    @if ($exercise->rest_time)
+                                        <span>
+                                            <i class="fas fa-clock"></i>
+                                            الراحة: {{ $exercise->rest_time }}
+                                        </span>
+                                    @endif
+
+                                    @if ($exercise->day_of_week)
+                                        <span>
+                                            <i class="fas fa-calendar-day"></i>
+                                            {{ $exercise->day_name }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                @if ($exercise->instructions)
+                                    <div class="plan-details-text" style="margin-top: 8px;">
+                                        {{ $exercise->instructions }}
+                                    </div>
+                                @endif
+
+                                @if ($exercise->video_url)
+                                    <div style="margin-top: 9px;">
+                                        <a href="{{ $exercise->video_url }}" target="_blank"
+                                            style="color: var(--special); font-size: 11.5px; text-decoration: none;">
+                                            <i class="fas fa-video"></i>
+                                            مشاهدة فيديو التمرين
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
-                <!-- 2. التغذية الحالية -->
                 <div class="plan-panel">
                     <div class="panel-title-bar">
                         <h3><i class="fas fa-utensils"></i> البرنامج الغذائي المعتمد</h3>
                         @if ($isActive)
-                            <button class="btn-add-custom" onclick="openModal('addDietModal')"><i class="fas fa-plus"></i>
+                            <button class="btn-add-custom" onclick="openModal('addDietModal')"><i
+                                    class="fas fa-plus"></i>
                                 إضافة وجبة خاصة</button>
                         @endif
                     </div>
+
                     <div class="plan-list">
                         @forelse($player->dietPlans as $dietPlan)
                             <div class="plan-card">
@@ -1195,7 +1253,31 @@
                                     <span class="plan-card-title">{{ $dietPlan->meal_name }}</span>
                                     <span class="plan-card-calories">{{ $dietPlan->calories }} سعرة</span>
                                 </div>
+
                                 <div class="plan-details-text">{{ $dietPlan->plan_details }}</div>
+
+                                @if ($dietPlan->protein !== null || $dietPlan->carbs !== null || $dietPlan->fats !== null)
+                                    <div class="macros-row">
+                                        @if ($dietPlan->protein !== null)
+                                            <span class="macro-chip protein">
+                                                بروتين: {{ $dietPlan->protein }}غ
+                                            </span>
+                                        @endif
+
+                                        @if ($dietPlan->carbs !== null)
+                                            <span class="macro-chip carbs">
+                                                كربوهيدرات: {{ $dietPlan->carbs }}غ
+                                            </span>
+                                        @endif
+
+                                        @if ($dietPlan->fats !== null)
+                                            <span class="macro-chip fats">
+                                                دهون: {{ $dietPlan->fats }}غ
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endif
+
                                 <div class="plan-dates">
                                     <span>البدء: {{ $dietPlan->start_date }}</span>
                                     <span>الانتهاء: {{ $dietPlan->end_date }}</span>
@@ -1204,15 +1286,56 @@
                         @empty
                             <div class="empty-plan-box">لا توجد خطط غذائية منزّلة حالياً.</div>
                         @endforelse
+
+                        @foreach ($customDiets as $dietPlan)
+                            <div class="plan-card special-item">
+                                <div class="plan-card-header">
+                                    <span class="plan-card-title">{{ $dietPlan->meal_name }}</span>
+
+                                    <span class="plan-card-calories">
+                                        {{ $dietPlan->calories }} سعرة
+                                    </span>
+                                </div>
+
+                                <div class="plan-details-text">
+                                    {{ $dietPlan->plan_details }}
+                                </div>
+
+                                @if ($dietPlan->protein !== null || $dietPlan->carbs !== null || $dietPlan->fats !== null)
+                                    <div class="macros-row">
+                                        @if ($dietPlan->protein !== null)
+                                            <span class="macro-chip protein">
+                                                بروتين: {{ $dietPlan->protein }}غ
+                                            </span>
+                                        @endif
+
+                                        @if ($dietPlan->carbs !== null)
+                                            <span class="macro-chip carbs">
+                                                كربوهيدرات: {{ $dietPlan->carbs }}غ
+                                            </span>
+                                        @endif
+
+                                        @if ($dietPlan->fats !== null)
+                                            <span class="macro-chip fats">
+                                                دهون: {{ $dietPlan->fats }}غ
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endif
+
+                                <div class="plan-dates">
+                                    <span>البدء: {{ $dietPlan->start_date }}</span>
+                                    <span>الانتهاء: {{ $dietPlan->end_date }}</span>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
             </div>
 
-            <!-- العمود الأيسر (الجانبي): المتابعة، الأوزان، والتقييمات التراكمية -->
             <div class="side-tracking-grid">
 
-                <!-- 3. سجل تتبع القياسات والأوزان البدنية -->
                 <div class="plan-panel">
                     <div class="panel-title-bar">
                         <h3><i class="fas fa-weight-scale" style="color: var(--tracker-blue);"></i> سجل القياسات والأوزان
@@ -1224,9 +1347,6 @@
                         @endif
                     </div>
 
-                    {{-- 📈 رسم بياني لتطور الوزن ونسبة الدهون عبر الوقت — نفس شكل البيانات
-                         المتوقع لاحقاً من API التطبيق (تاريخ، وزن، دهون، عضل)، حتى يسهل
-                         تحويل هذه الشاشة لنقطة نهاية API تغذّي شاشة "السجل" بالتطبيق مباشرة. --}}
                     @if ($player->bodyProgress->count() >= 2)
                         <div class="progress-chart-box">
                             <div class="progress-chart-canvas-wrap">
@@ -1260,7 +1380,6 @@
                     </div>
                 </div>
 
-                <!-- 4. سجل تقييم ومراجعات الأداء لللاعب -->
                 <div class="plan-panel">
                     <div class="panel-title-bar">
                         <h3><i class="fas fa-star" style="color: #eab308;"></i> التقييم ومراجعات الأداء</h3>
@@ -1295,11 +1414,9 @@
             </div>
 
         </div>
-        <!-- 🏁 نهاية التوزيع الهيكلي الجديد -->
 
     </div>
 
-    {{-- ===== Modal إضافة ميزان وقياس بدني جديد للاعب من قبل المدرب ===== --}}
     <div id="addProgressModal" class="modal">
         <div class="modal-content" style="border-color: rgba(59, 130, 246, 0.3);">
             <div class="modal-header" style="border-bottom-color: rgba(59, 130, 246, 0.1);">
@@ -1333,7 +1450,6 @@
         </div>
     </div>
 
-    {{-- ===== Modal إعطاء تقييم ومراجعة أداء جديدة لللاعب ===== --}}
     <div id="addRatingModal" class="modal">
         <div class="modal-content" style="border-color: rgba(234, 179, 8, 0.3);">
             <div class="modal-header" style="border-bottom-color: rgba(234, 179, 8, 0.1);">
@@ -1366,22 +1482,84 @@
         </div>
     </div>
 
-    {{-- Modals الإضافات الخاصة المخصصة المحمية --}}
     <div id="addTrainingModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h4><i class="fas fa-dumbbell" style="color: var(--gold);"></i> إضافة جدول تمارين خاص للاعب</h4>
+                <h4><i class="fas fa-dumbbell" style="color: var(--gold);"></i> إضافة تمرين خاص للاعب</h4>
                 <span class="close-modal" onclick="closeModal('addTrainingModal')">&times;</span>
             </div>
-            <form action="{{ route('employee.monitoring.custom-training', $player->id) }}" method="POST">
+
+            <form action="{{ route('employee.monitoring.custom-training', $player->id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
+
                 <div class="modal-body">
                     <div class="field-group">
-                        <label class="field-label">عنوان الخطة التدريبية الحصرية</label>
-                        <input type="text" name="title" class="field-input"
-                            placeholder="مثال: جدول تضخيم خاص - 4 أيام" required>
+                        <label class="field-label">اسم التمرين</label>
+                        <input type="text" name="name" class="field-input" placeholder="مثال: Bench Press"
+                            required>
                     </div>
-                    <button type="submit" class="btn-submit">تنزيل الجدول الخاص باللاعب</button>
+
+                    <div class="field-row">
+                        <div class="field-group">
+                            <label class="field-label">عدد الجولات</label>
+                            <input type="number" name="sets" class="field-input" placeholder="مثال: 4"
+                                min="1" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">عدد التكرارات</label>
+                            <input type="number" name="reps" class="field-input" placeholder="مثال: 12"
+                                min="1" required>
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field-group">
+                            <label class="field-label">وقت الراحة</label>
+                            <input type="text" name="rest_time" class="field-input" placeholder="مثال: 60 ثانية">
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">اليوم</label>
+                            <select name="day_of_week" class="field-input">
+                                <option value="">بدون تحديد</option>
+                                <option value="1">اليوم 1</option>
+                                <option value="2">اليوم 2</option>
+                                <option value="3">اليوم 3</option>
+                                <option value="4">اليوم 4</option>
+                                <option value="5">اليوم 5</option>
+                                <option value="6">اليوم 6</option>
+                                <option value="7">اليوم 7</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">ترتيب التمرين</label>
+                        <input type="number" name="order" class="field-input" placeholder="مثال: 1" min="0"
+                            value="0">
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">شرح وتعليمات التمرين</label>
+                        <textarea name="instructions" class="field-input" rows="4"
+                            placeholder="اكتب ملاحظات المدرب وطريقة أداء التمرين..."></textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">صورة التمرين</label>
+                        <input type="file" name="image" class="field-input" accept="image/*">
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label">رابط فيديو التمرين</label>
+                        <input type="url" name="video_url" class="field-input" placeholder="https://...">
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        إضافة التمرين الخاص للاعب
+                    </button>
                 </div>
             </form>
         </div>
@@ -1393,35 +1571,64 @@
                 <h4><i class="fas fa-utensils" style="color: var(--gold);"></i> إضافة وجبة غذائية خاصة للاعب</h4>
                 <span class="close-modal" onclick="closeModal('addDietModal')">&times;</span>
             </div>
+
             <form action="{{ route('employee.monitoring.custom-diet', $player->id) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
+
                 <div class="modal-body">
                     <div class="field-group">
                         <label class="field-label">اسم الوجبة</label>
                         <input type="text" name="meal_name" class="field-input"
                             placeholder="مثال: عشاء خاص - بياض بيض مع أفوكادو" required>
                     </div>
+
                     <div class="field-group">
                         <label class="field-label">عدد السعرات الحرارية</label>
-                        <input type="number" name="calories" class="field-input" placeholder="مثال: 410" required>
+                        <input type="number" name="calories" class="field-input" placeholder="مثال: 410"
+                            min="0" required>
                     </div>
+
+                    <div class="field-row">
+                        <div class="field-group">
+                            <label class="field-label">البروتين</label>
+                            <input type="number" name="protein" step="0.01" min="0" class="field-input"
+                                placeholder="غرام">
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">الكربوهيدرات</label>
+                            <input type="number" name="carbs" step="0.01" min="0" class="field-input"
+                                placeholder="غرام">
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">الدهون</label>
+                            <input type="number" name="fats" step="0.01" min="0" class="field-input"
+                                placeholder="غرام">
+                        </div>
+                    </div>
+
                     <div class="field-group">
-                        <label class="field-label">صورة الوجبة (اختياري)</label>
-                        <input type="file" name="image" class="field-input" accept="image/*">
+                        <label class="field-label">صورة الوجبة</label>
+                        <input type="file" name="image" class="field-input"
+                            accept="image/jpeg,image/png,image/jpg,image/webp">
                     </div>
+
                     <div class="field-group">
                         <label class="field-label">المكونات وطريقة التحضير والملاحظات</label>
-                        <textarea name="plan_details" class="field-input" rows="4"
+                        <textarea name="plan_details" class="field-input" rows="5"
                             placeholder="اكتب تفاصيل ومكونات الوجبة الحصرية هنا..." required></textarea>
                     </div>
-                    <button type="submit" class="btn-submit">تنزيل الوجبة الخاصة باللاعب</button>
+
+                    <button type="submit" class="btn-submit">
+                        تنزيل الوجبة الخاصة باللاعب
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- 🔄 مودال تجديد الاشتراك — مع إمكانية تغيير الباقة بالكامل --}}
     <div id="renewSubModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1474,6 +1681,7 @@
         function closeModal(id) {
             document.getElementById(id).classList.remove('open');
         }
+
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.remove('open');
@@ -1492,7 +1700,9 @@
                 ];
             }
         @endphp
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+
         <script>
             const progressData = @json($progressChartData);
 
