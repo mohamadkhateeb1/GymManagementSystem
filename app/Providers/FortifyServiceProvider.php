@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use App\Http\Responses\LoginResponse;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
@@ -32,7 +33,7 @@ class FortifyServiceProvider extends ServiceProvider
             config()->set('fortify.guard', 'admin');
             config()->set('fortify.passwords', 'admins');
             config()->set('fortify.prefix', 'admin');
-            config()->set('fortify.home', '/admin');
+            config()->set('fortify.home', '/admin/dashboard');
         } elseif ($request->is('employee/*')) {
             config()->set('fortify.guard', 'employee');
             config()->set('fortify.passwords', 'employees');
@@ -77,8 +78,8 @@ class FortifyServiceProvider extends ServiceProvider
             );
         });
         Fortify::confirmPasswordView(function () {
-        return view('auth.confirm-password');
-    });
+            return view('auth.confirm-password');
+        });
         Fortify::loginView(function () {
             $guard = config('fortify.guard');
 
@@ -89,6 +90,20 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             return view('auth.login'); // واجهة الافتراضية للـ Web
+        });
+
+        // 🆕 صفحة "أدخل رمز المصادقة" وقت تسجيل الدخول — كانت مفقودة كلياً،
+        // بتسبب خطأ "View not instantiable" فور ما لارافيل يحاول يعرضها.
+        Fortify::twoFactorChallengeView(function () {
+            $guard = config('fortify.guard');
+
+            if ($guard === 'admin') {
+                return view('Admin.auth.two-factor-challenge');
+            } elseif ($guard === 'employee') {
+                return view('Employee.auth.two-factor-challenge');
+            }
+
+            return view('auth.two-factor-challenge');
         });
     }
 }

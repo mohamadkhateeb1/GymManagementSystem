@@ -471,7 +471,7 @@
         @php $selectedRoles = old('roles', isset($employee) ? $employee->roles->pluck('id')->toArray() : []); @endphp
         @foreach ($roles as $role)
             <div class="role-item">
-                <input type="checkbox" id="role_{{ $role->id }}" name="role_id" value="{{ $role->id }}"
+                <input type="checkbox" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}"
                     @checked(in_array($role->id, $selectedRoles))>
                 <label for="role_{{ $role->id }}">{{ $role->name }}</label>
             </div>

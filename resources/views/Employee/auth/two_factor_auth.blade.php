@@ -6,9 +6,9 @@
 
     <style>
         /* =========================================================
-           ELITE CLUB — EMPLOYEE TWO FACTOR
-           PREMIUM / CLEAR TYPOGRAPHY / FULL RESPONSIVE
-           ========================================================= */
+               ELITE CLUB — EMPLOYEE TWO FACTOR
+               PREMIUM / CLEAR TYPOGRAPHY / FULL RESPONSIVE
+               ========================================================= */
 
         .employee-two-factor-page {
             width: 100%;
@@ -49,8 +49,8 @@
         }
 
         /* =========================================================
-           GOLD TOP LINE
-           ========================================================= */
+               GOLD TOP LINE
+               ========================================================= */
 
         .employee-two-factor-card::before {
             content: "";
@@ -75,8 +75,8 @@
         }
 
         /* =========================================================
-           HEADER
-           ========================================================= */
+               HEADER
+               ========================================================= */
 
         .employee-two-factor-header {
             min-height: 155px;
@@ -112,8 +112,8 @@
         }
 
         /* =========================================================
-           SECURITY ICON
-           ========================================================= */
+               SECURITY ICON
+               ========================================================= */
 
         .employee-two-factor-icon {
             width: 78px;
@@ -158,8 +158,8 @@
         }
 
         /* =========================================================
-           TITLE
-           ========================================================= */
+               TITLE
+               ========================================================= */
 
         .employee-two-factor-title {
             margin: 0;
@@ -190,8 +190,8 @@
         }
 
         /* =========================================================
-           SECURITY BADGE
-           ========================================================= */
+               SECURITY BADGE
+               ========================================================= */
 
         .employee-security-badge {
             flex-shrink: 0;
@@ -227,16 +227,16 @@
         }
 
         /* =========================================================
-           BODY
-           ========================================================= */
+               BODY
+               ========================================================= */
 
         .employee-two-factor-body {
             padding: 34px;
         }
 
         /* =========================================================
-           ALERTS
-           ========================================================= */
+               ALERTS
+               ========================================================= */
 
         .employee-two-factor-alert {
             width: 100%;
@@ -295,8 +295,8 @@
         }
 
         /* =========================================================
-           INTRO
-           ========================================================= */
+               INTRO
+               ========================================================= */
 
         .employee-two-factor-intro {
             max-width: 650px;
@@ -331,8 +331,8 @@
         }
 
         /* =========================================================
-           SECURITY INFO
-           ========================================================= */
+               SECURITY INFO
+               ========================================================= */
 
         .employee-security-info-box {
             display: flex;
@@ -407,8 +407,8 @@
         }
 
         /* =========================================================
-           MAIN BUTTON
-           ========================================================= */
+               MAIN BUTTON
+               ========================================================= */
 
         .employee-two-factor-btn {
             width: 100%;
@@ -489,8 +489,8 @@
         }
 
         /* =========================================================
-           QR SECTION
-           ========================================================= */
+               QR SECTION
+               ========================================================= */
 
         .employee-qr-section {
             margin-bottom: 30px;
@@ -518,8 +518,8 @@
         }
 
         /* =========================================================
-           QR CONTAINER
-           ========================================================= */
+               QR CONTAINER
+               ========================================================= */
 
         .employee-qr-wrapper {
             width: 100%;
@@ -570,8 +570,8 @@
         }
 
         /* =========================================================
-           RECOVERY CODES
-           ========================================================= */
+               RECOVERY CODES
+               ========================================================= */
 
         .employee-recovery-section {
             margin: 26px 0 29px;
@@ -633,8 +633,8 @@
         }
 
         /* =========================================================
-           RECOVERY GRID
-           ========================================================= */
+               RECOVERY GRID
+               ========================================================= */
 
         .employee-recovery-codes {
             display: grid;
@@ -686,8 +686,8 @@
         }
 
         /* =========================================================
-           DIVIDER
-           ========================================================= */
+               DIVIDER
+               ========================================================= */
 
         .employee-two-factor-divider {
             height: 1px;
@@ -702,8 +702,8 @@
         }
 
         /* =========================================================
-           BACK BUTTON
-           ========================================================= */
+               BACK BUTTON
+               ========================================================= */
 
         .employee-two-factor-back {
             width: 100%;
@@ -765,8 +765,8 @@
         }
 
         /* =========================================================
-           TABLET
-           ========================================================= */
+               TABLET
+               ========================================================= */
 
         @media (max-width: 900px) {
 
@@ -815,8 +815,8 @@
         }
 
         /* =========================================================
-           MOBILE
-           ========================================================= */
+               MOBILE
+               ========================================================= */
 
         @media (max-width: 700px) {
 
@@ -1056,8 +1056,8 @@
         }
 
         /* =========================================================
-           SMALL MOBILE
-           ========================================================= */
+               SMALL MOBILE
+               ========================================================= */
 
         @media (max-width: 430px) {
 
@@ -1164,8 +1164,8 @@
         }
 
         /* =========================================================
-           VERY SMALL SCREENS
-           ========================================================= */
+               VERY SMALL SCREENS
+               ========================================================= */
 
         @media (max-width: 350px) {
 
@@ -1199,8 +1199,8 @@
         }
 
         /* =========================================================
-           REDUCED MOTION
-           ========================================================= */
+               REDUCED MOTION
+               ========================================================= */
 
         @media (prefers-reduced-motion: reduce) {
 
@@ -1294,8 +1294,45 @@
                  NOT ENABLED
                  ================================================= --}}
 
-                @if (!$user->two_factor_secret)
+                @if ($user->two_factor_secret && $user->two_factor_confirmed_at)
 
+                    {{-- ✅ الحالة 3: مفعّلة ومؤكَّدة بالكامل — لا نعرض الـ QR/السر مجدداً --}}
+
+                    <div class="employee-two-factor-alert employee-two-factor-alert-info">
+                        <i class="fas fa-shield-check"></i>
+                        <span>
+                            المصادقة الثنائية <strong>مفعّلة ومؤكَّدة</strong> على هذا الحساب.
+                            سيُطلب منك رمز التحقق في كل مرة تسجّل فيها الدخول.
+                        </span>
+                    </div>
+
+                    <div class="employee-recovery-section" style="margin-top: 16px;">
+                        <div class="employee-recovery-head">
+                            <div class="employee-recovery-title">
+                                <i class="fas fa-key"></i>
+                                أكواد الاسترداد
+                            </div>
+                            <span class="employee-recovery-warning">
+                                <i class="fas fa-triangle-exclamation"></i>
+                                احتفظ بها في مكان آمن
+                            </span>
+                        </div>
+                        <div class="employee-recovery-codes">
+                            @foreach ($user->recoveryCodes() as $code)
+                                <div class="employee-recovery-code">{{ $code }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <form action="{{ route('two-factor.enable') }}" method="POST" style="margin-top: 16px;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="employee-two-factor-btn employee-two-factor-btn-danger">
+                            <i class="fas fa-shield-xmark"></i>
+                            إلغاء تفعيل المصادقة الثنائية
+                        </button>
+                    </form>
+                @elseif (!$user->two_factor_secret)
                     <div class="employee-two-factor-intro">
 
                         <h3>
@@ -1462,9 +1499,41 @@
                     </div>
 
 
+                    {{-- 🆕 خطوة التأكيد — إجبارية حتى يفعّل لارافيل التحقق فعلياً عند الدخول --}}
+                    <div class="employee-two-factor-alert employee-two-factor-alert-info" style="margin-top: 20px;">
+                        <i class="fas fa-circle-exclamation"></i>
+                        <span>
+                            <strong>خطوة أخيرة إجبارية:</strong> امسح الرمز أعلاه بتطبيق المصادقة،
+                            وأدخل الرمز المكوّن من 6 أرقام هون تحت، وإلا لن يُطلب منك أي رمز
+                            عند تسجيل الدخول لاحقاً.
+                        </span>
+                    </div>
+
+                    <form action="{{ route('two-factor.confirm') }}" method="POST" style="margin-top: 14px;">
+                        @csrf
+                        <div style="margin-bottom: 14px;">
+                            <label for="employee_two_factor_code"
+                                style="display:block; margin-bottom:7px; font-weight:700; font-size: 13.5px;">
+                                رمز التأكيد (6 أرقام)
+                            </label>
+                            <input type="text" name="code" id="employee_two_factor_code" inputmode="numeric"
+                                autocomplete="one-time-code" maxlength="6" placeholder="000000" required
+                                style="width:100%; height:46px; padding:0 14px; border-radius:10px; border:1px solid #dfe4eb; font-size:18px; letter-spacing:6px; text-align:center; font-weight:800;">
+                            @error('code')
+                                <div style="color:#d94b4b; font-size:12.5px; margin-top:6px; font-weight:600;">
+                                    {{ $message }}</div>
+                            @enderror
+                        </div>
+                        <button type="submit" class="employee-two-factor-btn employee-two-factor-btn-primary">
+                            <i class="fas fa-check"></i>
+                            تأكيد وتفعيل المصادقة الثنائية نهائياً
+                        </button>
+                    </form>
+
+
                     {{-- DISABLE --}}
 
-                    <form action="{{ route('two-factor.enable') }}" method="POST">
+                    <form action="{{ route('two-factor.enable') }}" method="POST" style="margin-top: 12px;">
 
                         @csrf
 
