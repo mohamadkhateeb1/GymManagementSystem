@@ -17,7 +17,7 @@
                 class="role-input"
                 value="{{ old('name', $role->name ?? '') }}"
                 placeholder="مثال: مدير، محرر، مشرف..."
-                required
+                
             >
         </div>
 

@@ -32,7 +32,7 @@
 
                     <input type="text" id="name" name="name" placeholder="أدخل اسم المسؤول"
                         value="{{ old('name', $admin->name ?? '') }}"
-                        class="{{ $errors->has('name') ? 'is-invalid' : '' }}" required>
+                        class="{{ $errors->has('name') ? 'is-invalid' : '' }}" >
                 </div>
 
                 @error('name')
@@ -64,7 +64,7 @@
                     @endphp
 
                     <input type="email" id="email" name="email" dir="ltr" placeholder="admin@example.com"
-                        value="{{ $defaultEmail }}" class="{{ $errors->has('email') ? 'is-invalid' : '' }}" required>
+                        value="{{ $defaultEmail }}" class="{{ $errors->has('email') ? 'is-invalid' : '' }}" >
                 </div>
 
                 @error('email')

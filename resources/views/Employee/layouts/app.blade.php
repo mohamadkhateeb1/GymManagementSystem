@@ -572,7 +572,7 @@
 <body>
 
     {{-- Sidebar --}}
-    @include('Admin.sections.sidebar')
+    @include('Employee.layouts.sections.sidebar')
 
 
     {{-- Main --}}
@@ -599,7 +599,7 @@
 
             <div class="nav-right">
 
-                @include('Admin.sections.navbar')
+                @include('Employee.layouts.sections.navbar')
 
             </div>
 

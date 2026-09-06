@@ -15,11 +15,14 @@ class AdminEmployeeAttendanceController extends Controller
         $today = Carbon::today()->toDateString();
 
         $stats = [
-            'total_present' => EmployeeAttendanceLog::where('attendance_date', $today)->count(),
-            'total_late'    => EmployeeAttendanceLog::where('attendance_date', $today)->where('status', 'late')->count(),
+            'total_present' => EmployeeAttendanceLog::whereHas('employee')->where('attendance_date', $today)->count(),
+            'total_late'    => EmployeeAttendanceLog::whereHas('employee')->where('attendance_date', $today)->where('status', 'late')->count(),
         ];
 
-        $query = EmployeeAttendanceLog::with('employee')->latest('attendance_date');
+        $query = EmployeeAttendanceLog::with('employee')
+            // 🛡️ استثناء أي سجل حضور مرتبط بموظف محذوف من قاعدة البيانات
+            ->whereHas('employee')
+            ->latest('attendance_date');
 
         if ($request->filled('employee_id')) {
             $query->where('employee_id', $request->employee_id);
@@ -93,7 +96,7 @@ class AdminEmployeeAttendanceController extends Controller
         return redirect()->back()->with('success', 'تم تعديل وتحديث سجل حضور الموظف بنجاح.');
     }
 
-    
+
     public function destroyAttendance($id)
     {
         $log = EmployeeAttendanceLog::findOrFail($id);

@@ -34,6 +34,23 @@ class DietPlanController extends Controller
             'level'        => 'required|string',
             'plan_details' => 'required|string',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ],
+        [
+            'meal_name.required' => 'حقل اسم الوجبة مطلوب.',
+            'meal_name.string' => 'حقل اسم الوجبة يجب أن يكون نصًا.',
+            'meal_name.max' => 'حقل اسم الوجبة يجب أن لا يتجاوز 255 حرفًا.',
+            'calories.required' => 'حقل السعرات الحرارية مطلوب.',
+            'calories.numeric' => 'حقل السعرات الحرارية يجب أن يكون رقمًا',
+            'protein.numeric' => 'حقل البروتين يجب أن يكون رقمًا',
+            'protein.min' => 'حقل البروتين يجب أن يكون رقمًا موجبًا أو صفر',
+            'carbs.numeric' => 'حقل الكربوهيدرات يجب أن يكون رقمًا',
+            'carbs.min' => 'حقل الكربوهيدرات يجب أن يكون رقمًا موجبًا أو صفر',
+            'fats.numeric' => 'حقل الدهون يجب أن يكون رقمًا',
+            'fats.min' => 'حقل الدهون يجب أن يكون رقمًا موجبًا أو صفر',
+            'level.required' => 'حقل المستوى مطلوب.',
+            'plan_details.required' => 'حقل تفاصيل الخطة مطلوب.',
+            'plan_details.string' => 'حقل تفاصيل الخطة يجب أن يكون نصًا.',
+            'image.image' => 'الملف المرفق يجب أن يكون صورة.',
         ]);
 
         $imagePath = null;

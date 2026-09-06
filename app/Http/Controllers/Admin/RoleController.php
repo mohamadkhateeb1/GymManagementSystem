@@ -37,11 +37,19 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required|unique:roles,name',
             'ability' => 'required|array',
+        ], [
+            'name.required' => 'اسم الدور مطلوب.',
+            'name.unique' => 'يوجد دور آخر بنفس هذا الاسم مسبقاً.',
+            'ability.required' => 'يجب تحديد صلاحية واحدة على الأقل.',
+            'ability.array' => 'صيغة الصلاحيات غير صحيحة.',
         ]);
 
-        $role = Role::createWithAbilities($request);
-
-        return redirect()->route('admin.roles')->with('success', 'Role Created Successfully');
+        try {
+            Role::createWithAbilities($request);
+            return redirect()->route('admin.roles')->with('success', 'تم إنشاء الدور بنجاح.');
+        } catch (\Throwable $e) {
+            return back()->withInput()->with('error', 'حدث خطأ أثناء إنشاء الدور. حاول مرة أخرى.');
+        }
     }
 
     public function show(Role $role)
@@ -65,29 +73,63 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required',
             'ability' => 'required|array',
+        ], [
+            'name.required' => 'اسم الدور مطلوب.',
+            'ability.required' => 'يجب تحديد صلاحية واحدة على الأقل.',
+            'ability.array' => 'صيغة الصلاحيات غير صحيحة.',
         ]);
-        $role->updateWithAbilities($request);
-        return redirect()->route('admin.roles')->with('success', 'Role Updated Successfully');
+
+        try {
+            $role->updateWithAbilities($request);
+            return redirect()->route('admin.roles')->with('success', 'تم تحديث الدور بنجاح.');
+        } catch (\Throwable $e) {
+            return back()->withInput()->with('error', 'حدث خطأ أثناء تحديث الدور. حاول مرة أخرى.');
+        }
     }
 
 
     public function destroy($id)
     {
-        Role::destroy($id);
-        return redirect()->route('admin.roles')
-            ->with('success', 'Role deleted successfully');
+        try {
+            Role::destroy($id);
+            return redirect()->route('admin.roles')
+                ->with('success', 'تم حذف الدور بنجاح.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // 🛡️ حذف يفشل بسبب ارتباط الدور بموظف/أدمن حالياً (Foreign Key)
+            return redirect()->route('admin.roles')
+                ->with('error', 'لا يمكن حذف هذا الدور لأنه مُسنَد حالياً لمستخدم واحد أو أكثر. ألغِ إسناده أولاً ثم أعد المحاولة.');
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.roles')
+                ->with('error', 'حدث خطأ غير متوقع أثناء حذف الدور.');
+        }
     }
+
     public function destroy_all()
     {
         $roles = Role::all();
         if ($roles->isEmpty()) {
             return redirect()->route('admin.roles')
-                ->with('error', 'No roles to delete');
+                ->with('error', 'لا توجد أدوار لحذفها.');
         }
+
+        $failedCount = 0;
+
         foreach ($roles as $role) {
-            $role->delete();
+            try {
+                $role->delete();
+            } catch (\Illuminate\Database\QueryException $e) {
+                // 🛡️ نتجاهل الأدوار المرتبطة بمستخدمين ونكمل الباقي، بدل ما نوقف العملية كاملة
+                $failedCount++;
+                continue;
+            }
         }
+
+        if ($failedCount > 0) {
+            return redirect()->route('admin.roles')
+                ->with('error', "تم حذف بعض الأدوار، لكن {$failedCount} دور لم يُحذف لأنه مُسنَد حالياً لمستخدمين.");
+        }
+
         return redirect()->route('admin.roles')
-            ->with('success', 'All roles deleted successfully');
+            ->with('success', 'تم حذف جميع الأدوار بنجاح.');
     }
 }

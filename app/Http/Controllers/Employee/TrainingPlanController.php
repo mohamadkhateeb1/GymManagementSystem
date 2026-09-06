@@ -55,6 +55,12 @@ class TrainingPlanController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'level' => 'required|string',
+        ],
+        [
+            'title.required' => 'حقل عنوان الخطة مطلوب.',
+            'title.string' => 'حقل عنوان الخطة يجب أن يكون نصًا.',
+            'title.max' => 'حقل عنوان الخطة يجب أن لا يتجاوز 255 حرفًا.',
+            'level.required' => 'حقل المستوى مطلوب.',
         ]);
 
         $coachId = Auth::guard('employee')->id();

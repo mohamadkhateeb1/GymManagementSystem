@@ -35,6 +35,15 @@ class AdminController extends Controller
             'email'    => 'required|email|unique:admins,email',
             'password' => 'required|string|min:8',
             'roles'    => 'required|array',
+        ],
+        [
+            'roles.required' => 'قم باختيار دور واحد على الأقل.',
+            'name.required' => 'حقل الاسم مطلوب.',
+            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
+            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
         ]);
 
         // إنشاء الأدمن بالحقول المسموح بها
@@ -64,7 +73,16 @@ class AdminController extends Controller
             'email'    => ['required', 'email'],
             'password' => 'nullable|string|min:8',
             'roles'    => 'required|array',
-        ]);
+        ],
+        [
+            'roles.required' => 'قم باختيار دور واحد على الأقل.',
+            'name.required' => 'حقل الاسم مطلوب.',
+            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
+        ]
+        );
 
         $update = [
             'name'  => $data['name'],

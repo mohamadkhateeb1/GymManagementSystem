@@ -1431,33 +1431,6 @@
                     </div>
 
 
-                    <!-- =================================================
-                     VALIDATION ERRORS
-                ================================================== -->
-
-                    @if ($errors->any())
-
-                        <div class="login-error">
-
-                            <ul>
-
-                                @foreach ($errors->all() as $error)
-                                    <li>
-                                        {{ $error }}
-                                    </li>
-                                @endforeach
-
-                            </ul>
-
-                        </div>
-
-                    @endif
-
-
-                    <!-- =================================================
-                     LOGIN FORM
-                ================================================== -->
-
                     <form method="POST" action="{{ url('/admin/login') }}">
 
                         @csrf
@@ -1489,7 +1462,7 @@
 
                                 <input type="email" id="email" name="email" value="{{ old('email') }}"
                                     placeholder="Enter your email" autocomplete="email"
-                                    class="{{ $errors->has('email') ? 'is-invalid' : '' }}" required>
+                                    class="{{ $errors->has('email') ? 'is-invalid' : '' }}" >
 
 
                             </div>
@@ -1546,7 +1519,7 @@
 
                                 <input type="password" id="password" name="password"
                                     placeholder="Enter your password" autocomplete="current-password"
-                                    class="{{ $errors->has('password') ? 'is-invalid' : '' }}" required>
+                                    class="{{ $errors->has('password') ? 'is-invalid' : '' }}" >
 
 
                                 <button type="button" class="password-toggle" id="togglePassword"

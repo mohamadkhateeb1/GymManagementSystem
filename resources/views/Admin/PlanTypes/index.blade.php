@@ -400,20 +400,20 @@
                 <div class="modal-body">
                     <div class="field-group">
                         <label class="field-label">اسم الباقة</label>
-                        <input type="text" name="name" class="field-input" placeholder="مثال: اشتراك شهري" required>
+                        <input type="text" name="name" class="field-input" placeholder="مثال: اشتراك شهري" >
                     </div>
 
                     <div class="field-row">
                         <div class="field-group">
                             <label class="field-label">المدة (بالأيام)</label>
                             <input type="number" name="duration_days" class="field-input" placeholder="30" min="1"
-                                required>
+                                >
                             <span class="field-hint">مثال: شهري = 30، سنوي = 365</span>
                         </div>
                         <div class="field-group">
                             <label class="field-label">السعر</label>
                             <input type="number" name="price" class="field-input" placeholder="0.00" step="0.01"
-                                min="0" required>
+                                min="0" >
                         </div>
                     </div>
 
@@ -443,19 +443,19 @@
                 <div class="modal-body">
                     <div class="field-group">
                         <label class="field-label">اسم الباقة</label>
-                        <input type="text" name="name" id="edit_name" class="field-input" required>
+                        <input type="text" name="name" id="edit_name" class="field-input" >
                     </div>
 
                     <div class="field-row">
                         <div class="field-group">
                             <label class="field-label">المدة (بالأيام)</label>
                             <input type="number" name="duration_days" id="edit_duration_days" class="field-input"
-                                min="1" required>
+                                min="1" >
                         </div>
                         <div class="field-group">
                             <label class="field-label">السعر</label>
                             <input type="number" name="price" id="edit_price" class="field-input" step="0.01"
-                                min="0" required>
+                                min="0" >
                         </div>
                     </div>
 

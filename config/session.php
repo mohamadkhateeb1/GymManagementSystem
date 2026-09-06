@@ -169,7 +169,9 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    // 🛡️ مثبّتة يدوياً على false هون (بدل env()) — تعمل محلياً على HTTP بلا أي حاجة لتعديل .env.
+    // لما تنشر المشروع بسيرفر حقيقي بشهادة SSL (HTTPS)، رجّعها لـ env('SESSION_SECURE_COOKIE') أو true.
+    'secure' => false,
     
 
     /*

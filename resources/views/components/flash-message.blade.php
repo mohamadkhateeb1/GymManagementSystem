@@ -149,7 +149,7 @@
 
 <div class="toast-stack" id="toastStack">
 
-    @if (session()->has('success'))
+    @if (session()->has('ok'))
         <div class="toast toast-success">
             <span class="toast-icon">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">

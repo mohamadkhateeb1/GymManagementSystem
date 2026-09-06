@@ -62,6 +62,18 @@ class EmployeeController extends Controller
             'email' => 'required|string|email|max:255|unique:employees',
             'password' => 'required|string|min:8',
             'specialization' => 'nullable|string|max:255',
+            'role_id'=>'required|exists:roles,id',
+        ],
+        [
+            'name.required' => 'حقل الاسم مطلوب.',
+            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
+            'password.required' => 'حقل كلمة المرور مطلوب.',
+            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
+            'specialization.string' => 'حقل التخصص يجب أن يكون نصًا.',
+            'role_id.required' => 'حقل الدور مطلوب.',
         ]);
 
         Employee::create([
@@ -96,6 +108,16 @@ class EmployeeController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:employees,email,' . $employee->id,
             'specialization' => 'nullable|string|max:255',
+            'role_id' => 'required|exists:roles,id',
+        ],
+        [
+            'name.required' => 'حقل الاسم مطلوب.',
+            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
+            'specialization.string' => 'حقل التخصص يجب أن يكون نصًا.',
+            'role_id.required' => 'حقل الدور مطلوب.',
         ]);
         $employee->update($data);
         if (!empty($request->password)) {

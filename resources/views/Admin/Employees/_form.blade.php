@@ -1,365 +1,362 @@
 <style>
-<style>
-/* =========================================================
+    <style>
+    /* =========================================================
    ELITE CLUB — EMPLOYEE FORM
    Shared by Create / Edit
    ========================================================= */
 
-.employee-form-wrapper {
-    width: 100%;
-    max-width: 1180px;
-    margin: 0 auto;
-    direction: rtl;
-}
+    .employee-form-wrapper {
+        width: 100%;
+        max-width: 1180px;
+        margin: 0 auto;
+        direction: rtl;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    FORM GRID
    ========================================================= */
 
-.employee-form-wrapper .fields-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
-}
+    .employee-form-wrapper .fields-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    FIELD
    ========================================================= */
 
-.employee-form-wrapper .field-group {
-    min-width: 0;
-}
+    .employee-form-wrapper .field-group {
+        min-width: 0;
+    }
 
-.employee-form-wrapper .field-group > label {
-    display: flex;
-    align-items: center;
-    gap: 7px;
+    .employee-form-wrapper .field-group>label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
 
-    margin-bottom: 8px;
+        margin-bottom: 8px;
 
-    color: var(--text);
+        color: var(--text);
 
-    font-size: 12px;
-    font-weight: 700;
+        font-size: 12px;
+        font-weight: 700;
 
-    line-height: 1.5;
-}
+        line-height: 1.5;
+    }
 
-.employee-form-wrapper .field-group > label svg {
-    width: 15px;
-    height: 15px;
+    .employee-form-wrapper .field-group>label svg {
+        width: 15px;
+        height: 15px;
 
-    flex: 0 0 15px;
+        flex: 0 0 15px;
 
-    color: var(--gold);
-}
+        color: var(--gold);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    FIELD WRAPPER
    ========================================================= */
 
-.employee-form-wrapper .field-wrap {
-    position: relative;
-    width: 100%;
-}
+    .employee-form-wrapper .field-wrap {
+        position: relative;
+        width: 100%;
+    }
 
-.employee-form-wrapper .field-icon {
-    position: absolute;
+    .employee-form-wrapper .field-icon {
+        position: absolute;
 
-    top: 50%;
-    right: 14px;
+        top: 50%;
+        right: 14px;
 
-    width: 17px;
-    height: 17px;
+        width: 17px;
+        height: 17px;
 
-    transform: translateY(-50%);
+        transform: translateY(-50%);
 
-    color: var(--muted);
+        color: var(--muted);
 
-    pointer-events: none;
+        pointer-events: none;
 
-    transition: color .2s ease;
-}
+        transition: color .2s ease;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    INPUT
    ========================================================= */
 
-.employee-form-wrapper .field-wrap input,
-.employee-form-wrapper .field-group input:not(.field-wrap input) {
-    width: 100%;
-    min-height: 46px;
+    .employee-form-wrapper .field-wrap input,
+    .employee-form-wrapper .field-group input:not(.field-wrap input) {
+        width: 100%;
+        min-height: 46px;
 
-    padding: 10px 43px 10px 14px;
+        padding: 10px 43px 10px 14px;
 
-    border: 1px solid var(--input-border);
-    border-radius: 10px;
+        border: 1px solid var(--input-border);
+        border-radius: 10px;
 
-    outline: none;
+        outline: none;
 
-    background: var(--input-bg);
-    color: var(--text);
+        background: var(--input-bg);
+        color: var(--text);
 
-    font-family: 'Tajawal', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
 
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-}
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            background .2s ease;
+    }
 
-.employee-form-wrapper .field-wrap input::placeholder {
-    color: var(--muted-light);
-}
+    .employee-form-wrapper .field-wrap input::placeholder {
+        color: var(--muted-light);
+    }
 
-.employee-form-wrapper .field-wrap:focus-within .field-icon {
-    color: var(--gold);
-}
+    .employee-form-wrapper .field-wrap:focus-within .field-icon {
+        color: var(--gold);
+    }
 
-.employee-form-wrapper .field-wrap:focus-within input {
-    border-color: rgba(184, 146, 62, .55);
+    .employee-form-wrapper .field-wrap:focus-within input {
+        border-color: rgba(184, 146, 62, .55);
 
-    box-shadow:
-        0 0 0 3px rgba(184, 146, 62, .08);
-}
+        box-shadow:
+            0 0 0 3px rgba(184, 146, 62, .08);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    INVALID
    ========================================================= */
 
-.employee-form-wrapper .field-wrap input.is-invalid {
-    border-color: var(--danger);
-    box-shadow:
-        0 0 0 3px rgba(196, 93, 93, .07);
-}
+    .employee-form-wrapper .field-wrap input.is-invalid {
+        border-color: var(--danger);
+        box-shadow:
+            0 0 0 3px rgba(196, 93, 93, .07);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    ERROR
    ========================================================= */
 
-.employee-form-wrapper .field-error {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    .employee-form-wrapper .field-error {
+        display: flex;
+        align-items: center;
+        gap: 5px;
 
-    margin-top: 7px;
+        margin-top: 7px;
 
-    color: var(--danger);
+        color: var(--danger);
 
-    font-size: 10.5px;
-    font-weight: 600;
-    line-height: 1.5;
-}
+        font-size: 10.5px;
+        font-weight: 600;
+        line-height: 1.5;
+    }
 
-.employee-form-wrapper .field-error svg {
-    width: 14px;
-    height: 14px;
+    .employee-form-wrapper .field-error svg {
+        width: 14px;
+        height: 14px;
 
-    flex: 0 0 14px;
-}
+        flex: 0 0 14px;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    ROLES
    ========================================================= */
 
-.employee-form-wrapper .field-group:has(.roles-box) {
-    margin-top: 2px;
-    margin-bottom: 20px;
-}
+    .employee-form-wrapper .field-group:has(.roles-box) {
+        margin-top: 2px;
+        margin-bottom: 20px;
+    }
 
-.employee-form-wrapper .roles-box {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    .employee-form-wrapper .roles-box {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
 
-    gap: 10px;
+        gap: 10px;
 
-    padding: 14px;
+        padding: 14px;
 
-    border: 1px solid var(--border);
-    border-radius: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
 
-    background: var(--surface-2);
+        background: var(--surface-2);
 
-    transition:
-        background .25s ease,
-        border-color .25s ease;
-}
+        transition:
+            background .25s ease,
+            border-color .25s ease;
+    }
 
 
-/* =========================================================
+    /* =========================================================
    ROLE ITEM
    ========================================================= */
 
-.employee-form-wrapper .role-item {
-    position: relative;
+    .employee-form-wrapper .role-item {
+        position: relative;
 
-    min-width: 0;
-}
+        min-width: 0;
+    }
 
-.employee-form-wrapper .role-item input {
-    position: absolute;
+    .employee-form-wrapper .role-item input {
+        position: absolute;
 
-    opacity: 0;
-    pointer-events: none;
-}
+        opacity: 0;
+        pointer-events: none;
+    }
 
-.employee-form-wrapper .role-item label {
-    min-height: 42px;
+    .employee-form-wrapper .role-item label {
+        min-height: 42px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    padding: 8px 12px;
+        padding: 8px 12px;
 
-    border: 1px solid var(--border);
-    border-radius: 9px;
+        border: 1px solid var(--border);
+        border-radius: 9px;
 
-    background: var(--surface);
-    color: var(--text-soft);
+        background: var(--surface);
+        color: var(--text-soft);
 
-    font-family: 'Tajawal', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
 
-    text-align: center;
+        text-align: center;
 
-    cursor: pointer;
+        cursor: pointer;
 
-    transition:
-        background .2s ease,
-        border-color .2s ease,
-        color .2s ease,
-        transform .2s ease,
-        box-shadow .2s ease;
-}
+        transition:
+            background .2s ease,
+            border-color .2s ease,
+            color .2s ease,
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
 
-.employee-form-wrapper .role-item label:hover {
-    border-color: rgba(184, 146, 62, .35);
+    .employee-form-wrapper .role-item label:hover {
+        border-color: rgba(184, 146, 62, .35);
 
-    color: var(--gold-dark);
+        color: var(--gold-dark);
 
-    background: var(--surface-hover);
+        background: var(--surface-hover);
 
-    transform: translateY(-1px);
-}
+        transform: translateY(-1px);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    SELECTED ROLE
    ========================================================= */
 
-.employee-form-wrapper .role-item input:checked + label {
-    border-color: rgba(184, 146, 62, .45);
+    .employee-form-wrapper .role-item input:checked+label {
+        border-color: rgba(184, 146, 62, .45);
 
-    background: var(--sidebar-active);
+        background: var(--sidebar-active);
 
-    color: var(--gold-dark);
+        color: var(--gold-dark);
 
-    box-shadow:
-        0 4px 12px rgba(184, 146, 62, .08);
-}
+        box-shadow:
+            0 4px 12px rgba(184, 146, 62, .08);
+    }
 
-html[data-theme="dark"]
-.employee-form-wrapper .role-item input:checked + label {
-    color: var(--gold-light);
-}
+    html[data-theme="dark"] .employee-form-wrapper .role-item input:checked+label {
+        color: var(--gold-light);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    SUBMIT
    ========================================================= */
 
-.employee-form-wrapper .employee-submit {
-    width: 100%;
-    min-height: 47px;
+    .employee-form-wrapper .employee-submit {
+        width: 100%;
+        min-height: 47px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    gap: 8px;
+        gap: 8px;
 
-    margin-top: 6px;
+        margin-top: 6px;
 
-    border: 1px solid var(--gold-dark);
-    border-radius: 10px;
+        border: 1px solid var(--gold-dark);
+        border-radius: 10px;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--gold-light),
-            var(--gold-dark)
-        );
+        background:
+            linear-gradient(135deg,
+                var(--gold-light),
+                var(--gold-dark));
 
-    color: #fff;
+        color: #fff;
 
-    font-family: 'Tajawal', sans-serif;
-    font-size: 12px;
-    font-weight: 800;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 12px;
+        font-weight: 800;
 
-    cursor: pointer;
+        cursor: pointer;
 
-    box-shadow:
-        0 7px 18px rgba(184, 146, 62, .12);
+        box-shadow:
+            0 7px 18px rgba(184, 146, 62, .12);
 
-    transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        filter .2s ease;
-}
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease,
+            filter .2s ease;
+    }
 
-.employee-form-wrapper .employee-submit:hover {
-    transform: translateY(-1px);
+    .employee-form-wrapper .employee-submit:hover {
+        transform: translateY(-1px);
 
-    box-shadow:
-        0 10px 24px rgba(184, 146, 62, .17);
+        box-shadow:
+            0 10px 24px rgba(184, 146, 62, .17);
 
-    filter: brightness(1.03);
-}
+        filter: brightness(1.03);
+    }
 
-.employee-form-wrapper .employee-submit:active {
-    transform: translateY(0);
-}
+    .employee-form-wrapper .employee-submit:active {
+        transform: translateY(0);
+    }
 
 
-/* =========================================================
+    /* =========================================================
    MOBILE
    ========================================================= */
 
-@media (max-width: 768px) {
+    @media (max-width: 768px) {
 
-    .employee-form-wrapper .fields-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        margin-bottom: 16px;
+        .employee-form-wrapper .fields-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .employee-form-wrapper .roles-box {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
     }
 
-    .employee-form-wrapper .roles-box {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
+    @media (max-width: 480px) {
 
-@media (max-width: 480px) {
+        .employee-form-wrapper .roles-box {
+            grid-template-columns: 1fr;
+        }
 
-    .employee-form-wrapper .roles-box {
-        grid-template-columns: 1fr;
+        .employee-form-wrapper .field-wrap input {
+            min-height: 44px;
+        }
     }
-
-    .employee-form-wrapper .field-wrap input {
-        min-height: 44px;
-    }
-}
 </style>
 </style>
 
@@ -378,8 +375,7 @@ html[data-theme="dark"]
                     d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
             </svg>
             <input type="text" name="name" placeholder="أدخل اسم الموظف"
-                value="{{ old('name', $employee->name ?? '') }}"
-                class="{{ $errors->has('name') ? 'is-invalid' : '' }}">
+                value="{{ old('name', $employee->name ?? '') }}" class="{{ $errors->has('name') ? 'is-invalid' : '' }}">
         </div>
         @error('name')
             <span class="field-error"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -475,7 +471,7 @@ html[data-theme="dark"]
         @php $selectedRoles = old('roles', isset($employee) ? $employee->roles->pluck('id')->toArray() : []); @endphp
         @foreach ($roles as $role)
             <div class="role-item">
-                <input type="checkbox" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}"
+                <input type="checkbox" id="role_{{ $role->id }}" name="role_id" value="{{ $role->id }}"
                     @checked(in_array($role->id, $selectedRoles))>
                 <label for="role_{{ $role->id }}">{{ $role->name }}</label>
             </div>

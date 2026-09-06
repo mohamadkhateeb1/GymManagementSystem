@@ -70,13 +70,38 @@ class PlayerController extends Controller
         $validated = $request->validate([
             'name'          => 'required|string|max:255',
             'email'         => 'required|email|unique:players,email',
-            'password'      => 'required|min:6',
+            'password'      => 'required|min:8',
             'date_of_birth' => 'nullable|date',
             'height'        => 'nullable|numeric',
             'weight'        => 'nullable|numeric',
-            'phone'         => 'nullable|string|max:20',
+            'phone'         => 'required|numeric',
             'coach_id'      => 'nullable|exists:employees,id',
             'plan_type_id'  => 'required|exists:plan_types,id',
+        ],
+        [
+            //name
+            'name.required' => 'حقل الاسم مطلوب.',
+            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+            //email
+            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
+            //password
+            'password.required' => 'حقل كلمة المرور مطلوب.',
+            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
+            //date_of_birth
+            'date_of_birth.date' => 'يرجى إدخال تاريخ ميلاد صالح.',
+            //height
+            'height.numeric' => 'الطول يجب أن يكون رقماً.',
+            'weight.numeric' => 'الوزن يجب أن يكون رقماً.',
+            //phone
+            'phone.required' => 'حقل رقم الهاتف مطلوب.',
+            'phone.numeric' => 'رقم الهاتف يجب أن يكون رقماً.',
+            //coach_id
+            'coach_id.exists' => 'المدرب المحدد غير موجود.',
+            //plan_type_id
+            'plan_type_id.required' => 'حقل نوع الباقة مطلوب.',
+            'plan_type_id.exists' => 'نوع الباقة المحدد غير موجود.'
         ]);
 
         $planType = PlanType::findOrFail($request->plan_type_id);
@@ -137,6 +162,22 @@ class PlayerController extends Controller
             'phone'         => 'nullable|string|max:20',
             'coach_id'      => 'nullable|exists:employees,id',
             'plan_type_id'  => 'required|exists:plan_types,id',
+        ],
+        [
+            'name.required' => 'حقل الاسم مطلوب.',
+            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
+            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 6 أحرف.',
+            'date_of_birth.date' => 'يرجى إدخال تاريخ ميلاد صالح.',
+            'height.numeric' => 'الطول يجب أن يكون رقماً.',
+            'weight.numeric' => 'الوزن يجب أن يكون رقماً.',
+            'phone.string' => 'رقم الهاتف يجب أن يكون نصًا.',
+            'phone.max' => 'رقم الهاتف يجب ألا يزيد عن 20 حرفًا.',
+            'coach_id.exists' => 'المدرب المحدد غير موجود.',
+            'plan_type_id.required' => 'حقل نوع الباقة مطلوب.',
+            'plan_type_id.exists' => 'نوع الباقة المحدد غير موجود.'
         ]);
 
         $planType = PlanType::findOrFail($request->plan_type_id);
