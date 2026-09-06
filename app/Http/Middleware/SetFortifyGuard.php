@@ -30,20 +30,42 @@ class SetFortifyGuard
 
     private function resolveGuard(Request $request): string
     {
+        /*
+        |--------------------------------------------------------------------------
+        | Admin routes
+        |--------------------------------------------------------------------------
+        */
         if ($request->is('admin/*') || $request->is('admin')) {
             return 'admin';
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Employee routes
+        |--------------------------------------------------------------------------
+        */
         if ($request->is('employee/*') || $request->is('employee')) {
             return 'employee';
         }
 
-        if (
-            $request->is('two-factor-challenge') ||
-            $request->is('user/*') ||
-            $request->is('user') ||
-            $request->is('passkeys/*')
-        ) {
+        /*
+        |--------------------------------------------------------------------------
+        | Fortify Two Factor Challenge
+        |--------------------------------------------------------------------------
+        */
+        if ($request->is('two-factor-challenge')) {
+
+            // إذا كان الموظف مسجل دخول فعلياً
+            if (auth()->guard('employee')->check()) {
+                return 'employee';
+            }
+
+            // إذا كان الأدمن مسجل دخول فعلياً
+            if (auth()->guard('admin')->check()) {
+                return 'admin';
+            }
+
+            // fallback للجلسة
             $sessionGuard = $request->session()->get('login.guard');
 
             if (in_array($sessionGuard, ['admin', 'employee'], true)) {
