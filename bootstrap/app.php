@@ -36,6 +36,27 @@ return Application::configure(basePath: dirname(__DIR__))
                 return route('employee.login');
             }
 
+            // 🆕 مسارات Fortify الداخلية (تفعيل/تأكيد/إلغاء الـ 2FA، الباسكيز)
+            // ما إلها بادئة admin/employee إطلاقاً — لازم نرجع لجلسة الدخول
+            // لمعرفة أي حارس كان يحاول يدخل أصلاً، بدل ما نرميه دايماً
+            // على صفحة دخول اللاعب.
+            if (
+                $request->is('user/*') ||
+                $request->is('user') ||
+                $request->is('passkeys/*') ||
+                $request->is('two-factor-challenge')
+            ) {
+                $sessionGuard = $request->session()->get('login.guard');
+
+                if ($sessionGuard === 'admin') {
+                    return route('admin.login');
+                }
+
+                if ($sessionGuard === 'employee') {
+                    return route('employee.login');
+                }
+            }
+
             return route('login');
         });
     })

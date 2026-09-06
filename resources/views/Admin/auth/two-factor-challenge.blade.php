@@ -40,7 +40,11 @@
             --error-text: #ff8080;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             min-height: 100vh;
@@ -172,11 +176,21 @@
             width: 100%;
         }
 
-        .toggle-mode:hover { text-decoration: underline; }
+        .toggle-mode:hover {
+            text-decoration: underline;
+        }
 
-        .recovery-field { display: none; }
-        .recovery-field.active { display: block; }
-        .code-field.hidden { display: none; }
+        .recovery-field {
+            display: none;
+        }
+
+        .recovery-field.active {
+            display: block;
+        }
+
+        .code-field.hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -191,19 +205,19 @@
             أدخل الرمز المكوّن من 6 أرقام الظاهر بتطبيق المصادقة على جوالك.
         </div>
 
-        <form method="POST" action="{{ {{ route('two-factor.login.store') }} }}">
+        <form method="POST" action="{{ route('two-factor.login') }}">
             @csrf
 
             <div class="code-field" id="codeField">
                 <label class="field-label">رمز المصادقة</label>
-                <input type="text" name="code" inputmode="numeric" autocomplete="one-time-code"
-                    maxlength="6" placeholder="000000" class="code-input" autofocus>
+                <input type="text" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6"
+                    placeholder="000000" class="code-input" autofocus>
             </div>
 
             <div class="recovery-field" id="recoveryField">
                 <label class="field-label">رمز الاسترداد</label>
-                <input type="text" name="recovery_code" autocomplete="one-time-code"
-                    placeholder="xxxxx-xxxxx" class="code-input" style="letter-spacing:2px; font-size:16px;">
+                <input type="text" name="recovery_code" autocomplete="one-time-code" placeholder="xxxxx-xxxxx"
+                    class="code-input" style="letter-spacing:2px; font-size:16px;">
             </div>
 
             @error('code')
@@ -227,7 +241,7 @@
     </div>
 
     <script>
-        (function () {
+        (function() {
             const saved = localStorage.getItem('elite-theme');
             document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
         })();

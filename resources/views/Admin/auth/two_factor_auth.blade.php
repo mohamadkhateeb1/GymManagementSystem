@@ -499,7 +499,7 @@
                         </div>
                     </div>
 
-                    <form action="{{ route('two-factor.enable') }}" method="POST" style="margin-top: 16px;">
+                    <form action="{{ route('admin.two-factor.disable') }}" method="POST" style="margin-top: 16px;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="two-factor-btn two-factor-btn-danger">
@@ -559,7 +559,7 @@
                     @endif
 
 
-                    <form action="{{ route('two-factor.enable') }}" method="POST">
+                    <form action="{{ route('admin.two-factor.enable') }}" method="POST">
 
                         @csrf
 
@@ -659,7 +659,7 @@
                         </span>
                     </div>
 
-                    <form action="{{ route('two-factor.confirm') }}" method="POST" style="margin-top: 14px;">
+                    <form action="{{ route('admin.two-factor.confirm') }}" method="POST" style="margin-top: 14px;">
 
                         @csrf
 
@@ -685,7 +685,7 @@
                     </form>
 
 
-                    <form action="{{ route('two-factor.enable') }}" method="POST" style="margin-top: 12px;">
+                    <form action="{{ route('admin.two-factor.disable') }}" method="POST" style="margin-top: 12px;">
 
                         @csrf
 

@@ -205,7 +205,7 @@
             أدخل الرمز المكوّن من 6 أرقام الظاهر بتطبيق المصادقة على جوالك.
         </div>
 
-        <form method="POST" action="route('two-factor.login.store')">
+        <form method="POST" action="{{ route('two-factor.login') }}">
             @csrf
 
             <div class="code-field" id="codeField">

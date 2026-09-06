@@ -15,11 +15,6 @@ class SetFortifyGuard
 
         config()->set('fortify.guard', $guard);
 
-        // 🛡️ حاسم: config('fortify.guard') بيأثر بس على منطق Fortify الداخلي.
-        // بس أي middleware عام زي 'auth' (بلا تحديد حارس صريح) بيفحص
-        // "الحارس الافتراضي" لكامل الطلب — وهاد بيتحدد فقط عبر Auth::shouldUse().
-        // بدونها، صفحات زي تفعيل/تأكيد الـ 2FA (Fortify's /user/* routes)
-        // كانت بتعتبر الأدمن/الموظف "غير مسجّل دخول" وتطردهم لصفحة اللاعب.
         Auth::shouldUse($guard);
 
         if ($guard === 'admin') {
@@ -60,20 +55,29 @@ class SetFortifyGuard
         |--------------------------------------------------------------------------
         | Fortify Two Factor Challenge
         |--------------------------------------------------------------------------
+        | خلال هالخطوة، المستخدم لسا مش مسجّل دخول فعلياً بأي حارس (2FA
+        | معلّقة)، فما فيه فايدة نفحص auth()->guard(...)->check(). الاعتماد
+        | الوحيد الموثوق هون: session('login.id') — المفتاح الرسمي اللي
+        | فورتيفاي نفسها بتحطّه أثناء انتظار رمز الـ 2FA. نتأكد بأنفسنا
+        | بأي جدول (admins أو employees) هالـ ID موجود فعلياً، بدل الاعتماد
+        | على مفتاح جلسة مخصّص منا وحدنا قد يضيع بمرحلة وسيطة.
+        |--------------------------------------------------------------------------
         */
         if ($request->is('two-factor-challenge')) {
 
-            // إذا كان الموظف مسجل دخول فعلياً
-            if (auth()->guard('employee')->check()) {
-                return 'employee';
+            $loginId = $request->session()->get('login.id');
+
+            if ($loginId) {
+                if (\App\Models\Admin::whereKey($loginId)->exists()) {
+                    return 'admin';
+                }
+
+                if (\App\Models\Employee::whereKey($loginId)->exists()) {
+                    return 'employee';
+                }
             }
 
-            // إذا كان الأدمن مسجل دخول فعلياً
-            if (auth()->guard('admin')->check()) {
-                return 'admin';
-            }
-
-            // fallback للجلسة
+            // fallback احتياطي للجلسة المخصّصة (لو موجودة)
             $sessionGuard = $request->session()->get('login.guard');
 
             if (in_array($sessionGuard, ['admin', 'employee'], true)) {
@@ -84,9 +88,6 @@ class SetFortifyGuard
         /*
         |--------------------------------------------------------------------------
         | 🆕 Fortify User Management Routes (تفعيل/تأكيد/إلغاء الـ 2FA، الباسكيز)
-        | هاي مسارات Fortify الداخلية (مثل /user/two-factor-authentication)
-        | وما إلها بادئة admin/employee إطلاقاً — لازم نتعرّف على الحارس
-        | عبر التحقق من مين مسجّل دخول فعلياً بالحظة الحالية.
         |--------------------------------------------------------------------------
         */
         if ($request->is('user/*') || $request->is('user') || $request->is('passkeys/*')) {
