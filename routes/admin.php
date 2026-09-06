@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminEmployeeAttendanceController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\PlanTypeController;
 use App\Http\Controllers\Admin\PlayerController;
@@ -169,6 +170,5 @@ Route::prefix('admin')
                     ->name('index');
             });
     });
-Route::get('/admin/2fa/challenge', function () {
-    return view('Admin.auth.two-factor-challenge');
-})->name('admin.two-factor.challenge');
+Route::get('/admin/2fa/challenge', [StaticPagesController::class, 'adminTwoFactorChallenge'])
+    ->name('admin.two-factor.challenge');

@@ -7,26 +7,15 @@ use App\Http\Controllers\Api\DietController;
 use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\MiscController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/user', [MiscController::class, 'currentUser'])->middleware('auth:sanctum');
 
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/media/{path}', function (string $path) {
-    $fullPath = storage_path('app/public/' . $path);
-
-    if (! file_exists($fullPath)) {
-        abort(404);
-    }
-
-    return response()->file($fullPath, [
-        'Access-Control-Allow-Origin' => '*',
-    ]);
-})->where('path', '.*');
+Route::get('/media/{path}', [MiscController::class, 'serveMedia'])->where('path', '.*');
 
 
 Route::middleware('auth:sanctum')->group(function () {

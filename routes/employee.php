@@ -3,6 +3,7 @@
 use App\Http\Controllers\Employee\DashboardController;
 use App\Http\Controllers\Employee\PlayerMonitorController;
 use App\Http\Controllers\Employee\TrainingPlanController;
+use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\Employee\DietPlanController;
 use App\Http\Controllers\Employee\PlanController;
 use App\Http\Controllers\Employee\ProfileController;
@@ -187,6 +188,5 @@ Route::middleware('auth:employee')->group(function () {
         [ProfileController::class, 'updatePassword']
     )->name('employee.profile.password');
 });
-Route::get('/employee/2fa/challenge', function () {
-    return view('Employee.auth.two-factor-challenge');
-})->name('employee.two-factor.challenge');
+Route::get('/employee/2fa/challenge', [StaticPagesController::class, 'employeeTwoFactorChallenge'])
+    ->name('employee.two-factor.challenge');

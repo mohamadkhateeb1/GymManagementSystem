@@ -162,8 +162,12 @@ return [
     */
 
     'features' => [
-        Features::registration(),
-        Features::resetPasswords(),
+        // 🛡️ معطّلتان عمداً — الحسابات تُنشأ من لوحة المدير فقط، ولا توجد
+        // خدمة بريد فعلية حالياً. تفعيلهما بلا Views مخصّصة يسبب:
+        // "RegisterViewResponse is not instantiable"
+        // "RequestPasswordResetLinkViewResponse is not instantiable"
+        // Features::registration(),
+        // Features::resetPasswords(),
         // Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
