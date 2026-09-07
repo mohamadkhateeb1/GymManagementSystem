@@ -15,10 +15,7 @@ class StaticPagesController extends Controller
     /**
      * 📊 لوحة تحكم اللاعب الافتراضية (حارس web).
      */
-    public function playerDashboard()
-    {
-        return view('dashboard');
-    }
+    
 
     /**
      * 🔐 صفحة تحدّي المصادقة الثنائية — نسخة الأدمن.

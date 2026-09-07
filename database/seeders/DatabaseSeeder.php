@@ -12,19 +12,28 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * 🛡️ البيانات التجريبية (سوبر أدمن بكلمة سر ثابتة، موظفون ولاعبون وهميون)
+     * لا تُنشأ إطلاقاً في بيئة الإنتاج. على السيرفر يُنشأ الأدمن الحقيقي فقط
+     * عبر ProductionAdminSeeder الذي يقرأ البيانات من .env.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // if (app()->environment('production')) {
+        //     $this->call(ProductionAdminSeeder::class);
+        //     return;
+        // }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // // ----- بيئات التطوير/الاختبار فقط -----
+        // User::factory()->create([
+        //     'name'  => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+
         $this->call(EmployeeSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(TestScenarioSeeder::class);
         $this->call(EmployeeDemoSeeder::class);
-        // $this->call(AppDemoSeeder::class);
+        $this->call(AppDemoSeeder::class);
     }
 }

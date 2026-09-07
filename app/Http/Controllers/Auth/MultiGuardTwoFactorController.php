@@ -59,7 +59,12 @@ class MultiGuardTwoFactorController extends Controller
 
         $enable($user);
 
-        return back();
+        // 🛠️ توجيه صريح لصفحة الـ 2FA الخاصة بالحارس بدل back().
+        // back() يعتمد على ترويسة Referer / آخر رابط بالجلسة، وهي غير موثوقة
+        // (سياسة Referrer بالمتصفح، بروكسي، أو تنقّل داخلي)، فكانت أحياناً
+        // ترمي المستخدم للداشبورد بدل إظهار خطوة مسح QR والتأكيد.
+        return $this->redirectToSettings($guard)
+            ->with('status', 'two-factor-authentication-enabled');
     }
 
     private function confirm(string $guard, Request $request, ConfirmTwoFactorAuthentication $confirm)
@@ -76,12 +81,14 @@ class MultiGuardTwoFactorController extends Controller
         try {
             $confirm($user, $request->input('code'));
         } catch (ValidationException $e) {
+            // نُبقي الخطأ على صفحة الـ 2FA الصحيحة بدل back().
             throw ValidationException::withMessages([
                 'code' => 'رمز التأكيد غير صحيح. تأكد من الرمز الظاهر بتطبيق المصادقة وحاول مرة أخرى.',
-            ]);
+            ])->redirectTo($this->settingsUrl($guard));
         }
 
-        return back()->with('status', 'two-factor-authentication-confirmed');
+        return $this->redirectToSettings($guard)
+            ->with('status', 'two-factor-authentication-confirmed');
     }
 
     private function disable(string $guard, DisableTwoFactorAuthentication $disable)
@@ -91,6 +98,25 @@ class MultiGuardTwoFactorController extends Controller
 
         $disable($user);
 
-        return back();
+        return $this->redirectToSettings($guard)
+            ->with('status', 'two-factor-authentication-disabled');
+    }
+
+    /**
+     * اسم راوت صفحة إعدادات الـ 2FA حسب الحارس.
+     */
+    private function settingsRouteName(string $guard): string
+    {
+        return $guard === 'admin' ? 'admin.2fa' : 'employee.2fa';
+    }
+
+    private function settingsUrl(string $guard): string
+    {
+        return route($this->settingsRouteName($guard));
+    }
+
+    private function redirectToSettings(string $guard): \Illuminate\Http\RedirectResponse
+    {
+        return redirect()->route($this->settingsRouteName($guard));
     }
 }
