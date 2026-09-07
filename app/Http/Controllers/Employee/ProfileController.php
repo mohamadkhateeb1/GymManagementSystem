@@ -25,7 +25,7 @@ class ProfileController extends Controller
         $lateCount    = $attendanceThisMonth->where('status', 'late')->count();
         $playersCount = $employee->players()->count();
 
-        return view('Employee.Profile.edit', compact('employee', 'presentCount', 'lateCount', 'playersCount'));
+        return view('Employee.profile.edit', compact('employee', 'presentCount', 'lateCount', 'playersCount'));
     }
 
 
@@ -41,7 +41,7 @@ class ProfileController extends Controller
         /** @var \App\Models\Employee $employee */
         $employee->update($validated);
 
-        return redirect()->route('employee.Profile.edit')->with('success', 'تم تحديث بيانات ملفك الشخصي بنجاح.');
+        return redirect()->route('employee.profile.edit')->with('success', 'تم تحديث بيانات ملفك الشخصي بنجاح.');
     }
 
 
@@ -60,6 +60,6 @@ class ProfileController extends Controller
         /** @var \App\Models\Employee $employee */
         $employee->update(['password' => Hash::make($validated['password'])]);
 
-        return redirect()->route('employee.Profile.edit')->with('success', 'تم تغيير كلمة المرور بنجاح.');
+        return redirect()->route('employee.profile.edit')->with('success', 'تم تغيير كلمة المرور بنجاح.');
     }
 }

@@ -47,7 +47,7 @@ class TrainingPlanController extends Controller
 
         $plan = TrainingPlan::where('coach_id', $coachId)->findOrFail($id);
 
-        return view('Employee.TrainingBank.show', compact('plan'));
+        return view('Employee.TrainingBank.Plans.show', compact('plan'));
     }
 
     public function store(Request $request)
