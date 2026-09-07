@@ -8,6 +8,7 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Http\Responses\LoginResponse;
 use App\Http\Responses\LogoutResponse;
+use App\Http\Responses\TwoFactorLoginResponse;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -16,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Actions\Fortify\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\LogoutResponse as LogoutResponseContract;
+use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -30,6 +32,13 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->singleton(
             LogoutResponseContract::class,
             LogoutResponse::class
+        );
+
+        // 🛡️ توجيه صريح حسب الحارس بعد نجاح تحدي الـ 2FA
+        // (بدل redirect()->intended الافتراضي اللي بيوقع الأدمن بصفحة اللاعبين)
+        $this->app->singleton(
+            TwoFactorLoginResponseContract::class,
+            TwoFactorLoginResponse::class
         );
     }
 
