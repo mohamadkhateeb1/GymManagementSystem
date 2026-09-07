@@ -93,7 +93,7 @@ class PlayerMonitorController extends Controller
                 return $player;
             });
 
-        return view('Employee.monitoring.index', compact('players'));
+        return view('Employee.m\Monitoring.index', compact('players'));
     }
 
     public function assignLevel(Request $request, $playerId)
@@ -204,7 +204,7 @@ class PlayerMonitorController extends Controller
         // 🆕 الباقات المفعّلة فقط — تُعرض بقائمة اختيار التجديد
         $planTypes = PlanType::active()->orderBy('duration_days')->get();
 
-        return view('Employee.monitoring.show', compact('player', 'ratings', 'customExercises', 'customDiets', 'planTypes'));
+        return view('Employee.Monitoring.show', compact('player', 'ratings', 'customExercises', 'customDiets', 'planTypes'));
     }
 
     /**
