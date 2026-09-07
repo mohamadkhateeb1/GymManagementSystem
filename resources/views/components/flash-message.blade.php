@@ -149,7 +149,10 @@
 
 <div class="toast-stack" id="toastStack">
 
-    @if (session()->has('ok'))
+    {{-- 🛠️ الشرط كان يفحص المفتاح 'ok' بينما المتحكمات كلها ترسل 'success'،
+         فكانت رسائل النجاح لا تظهر إطلاقاً (خصوصاً في لوحة الموظف التي تستخدم
+         هذا الكومبوننت). صُحّح ليطابق المفتاح المُرسَل فعلاً. --}}
+    @if (session()->has('success'))
         <div class="toast toast-success">
             <span class="toast-icon">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -205,7 +208,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // ⏱️ اختفاء تلقائي بعد 4 ثوانٍ بالضبط، متزامن مع شريط التقدّم
         document.querySelectorAll('#toastStack .toast').forEach((toast) => {
             setTimeout(() => {
                 toast.classList.add('hide');

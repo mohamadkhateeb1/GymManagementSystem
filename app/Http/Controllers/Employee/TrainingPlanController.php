@@ -8,7 +8,8 @@ use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TrainingPlanController extends Controller
+class TrainingPlanController extends Controller 
+// هاد الكلاس مسؤول عن إدارة خطط التدريب داخل بنك الخطط الخاصة بالمدرب. يحتوي على وظائف لعرض، إضافة، تعديل، وحذف الخطط، بالإضافة إلى توزيع الخطط على لاعبي المستوى المناسب.
 {
 
     private function copyExercises(TrainingPlan $source, TrainingPlan $target): void

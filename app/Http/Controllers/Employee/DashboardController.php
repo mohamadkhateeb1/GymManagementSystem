@@ -116,37 +116,37 @@ class DashboardController extends Controller
         | يصبح عبارة عن Notification للواجهة.
         |
         */
-        $notifications = $expiringSoonPlayers->map(function (Player $player) use ($now) {
+        // $notifications = $expiringSoonPlayers->map(function (Player $player) use ($now) {
 
-            $endDate = Carbon::parse($player->subscription->end_date);
+        //     $endDate = Carbon::parse($player->subscription->end_date);
 
-            $daysRemaining = $now->diffInDays($endDate, false);
+        //     $daysRemaining = $now->diffInDays($endDate, false);
 
-            return [
-                'type' => 'subscription_expiring',
+        //     return [
+        //         'type' => 'subscription_expiring',
 
-                'player_id' => $player->id,
+        //         'player_id' => $player->id,
 
-                'player_name' => $player->name,
+        //         'player_name' => $player->name,
 
-                'message' => $daysRemaining <= 0
-                    ? 'اشتراك اللاعب ' . $player->name . ' أوشك على الانتهاء اليوم.'
-                    : 'اشتراك اللاعب ' . $player->name .
-                    ' أوشك على الانتهاء، متبقي ' .
-                    $daysRemaining .
-                    ' ' .
-                    ($daysRemaining == 1 ? 'يوم' : 'أيام') . '.',
+        //         'message' => $daysRemaining <= 0
+        //             ? 'اشتراك اللاعب ' . $player->name . ' أوشك على الانتهاء اليوم.'
+        //             : 'اشتراك اللاعب ' . $player->name .
+        //             ' أوشك على الانتهاء، متبقي ' .
+        //             $daysRemaining .
+        //             ' ' .
+        //             ($daysRemaining == 1 ? 'يوم' : 'أيام') . '.',
 
-                'end_date' => $endDate->format('Y-m-d'),
+        //         'end_date' => $endDate->format('Y-m-d'),
 
-                'days_remaining' => $daysRemaining,
+        //         'days_remaining' => $daysRemaining,
 
-                'url' => route(
-                    'employee.monitoring.show',
-                    $player->id
-                ),
-            ];
-        })->values();
+        //         'url' => route(
+        //             'employee.monitoring.show',
+        //             $player->id
+        //         ),
+        //     ];
+        // })->values();
 
         /*
         |--------------------------------------------------------------------------
@@ -163,7 +163,7 @@ class DashboardController extends Controller
             'attendance',
             'expiredPlayers',
             'expiringSoonPlayers',
-            'notifications'
+            // 'notifications'
         ));
     }
 

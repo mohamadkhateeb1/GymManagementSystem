@@ -14,11 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
-        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
 
     <script>
         (function() {
@@ -33,7 +31,6 @@
     </script>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -291,6 +288,201 @@
             }
         }
 
+        /* ═══════════ 🔔 إشعارات Toast — نفس تصميم لوحة الأدمن ═══════════ */
+        .elite-toast-stack {
+            position: fixed;
+            top: 22px;
+            left: 22px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 380px;
+            width: calc(100% - 44px);
+            pointer-events: none;
+        }
+
+        @keyframes eliteToastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-22px) scale(.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        @keyframes eliteToastOut {
+            to {
+                opacity: 0;
+                transform: translateX(-14px) scale(.96);
+            }
+        }
+
+        @keyframes eliteToastProgress {
+            from {
+                transform: scaleX(1);
+            }
+
+            to {
+                transform: scaleX(0);
+            }
+        }
+
+        .elite-toast {
+            position: relative;
+            overflow: hidden;
+            pointer-events: auto;
+            padding: 16px 46px 16px 18px;
+            border-radius: 14px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: var(--surface, #fff);
+            border: 1px solid var(--border, #e4e8ef);
+            box-shadow: 0 16px 38px rgba(20, 25, 35, .14);
+            animation: eliteToastIn .35s cubic-bezier(.2, .8, .3, 1) both;
+            transition: box-shadow .2s ease;
+        }
+
+        .elite-toast:hover {
+            box-shadow: 0 20px 46px rgba(20, 25, 35, .20);
+        }
+
+        .elite-toast.elite-toast-out {
+            animation: eliteToastOut .28s ease forwards;
+        }
+
+        .elite-toast-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .elite-toast-success .elite-toast-icon {
+            color: var(--success, #15915d);
+            background: var(--success-bg, #e8f8f0);
+        }
+
+        .elite-toast-error .elite-toast-icon {
+            color: var(--danger, #d34b4b);
+            background: var(--danger-bg, #fff0f0);
+        }
+
+        .elite-toast>div {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .elite-toast-title {
+            color: var(--text, #202631);
+            font-weight: 800;
+            font-size: 13.5px;
+            margin-bottom: 2px;
+        }
+
+        .elite-toast-body {
+            color: var(--text-soft, #565d67);
+            line-height: 1.7;
+            word-break: break-word;
+        }
+
+        /* عرض الأخطاء بشكل متناسق: بلا نقاط افتراضية، نقطة ملوّنة أنيقة، RTL */
+        .elite-toast-body ul {
+            margin: 4px 0 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .elite-toast-body ul li {
+            position: relative;
+            padding-inline-start: 15px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .elite-toast-body ul li::before {
+            content: "";
+            position: absolute;
+            inset-inline-start: 0;
+            top: .62em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--danger, #d34b4b);
+        }
+
+        .elite-toast-close {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: var(--surface-2, #f4f5f7);
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 11px;
+            color: var(--text-soft, #565d67);
+            transition: all .15s ease;
+        }
+
+        .elite-toast-close:hover {
+            color: var(--danger, #d34b4b);
+            background: var(--danger-bg, #fff0f0);
+        }
+
+        .elite-toast-progress {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 3px;
+            transform-origin: right;
+            animation: eliteToastProgress 5s linear forwards;
+        }
+
+        .elite-toast:hover .elite-toast-progress {
+            animation-play-state: paused;
+        }
+
+        .elite-toast-success .elite-toast-progress {
+            background: var(--success, #15915d);
+        }
+
+        .elite-toast-error .elite-toast-progress {
+            background: var(--danger, #d34b4b);
+        }
+
+        @media (max-width: 480px) {
+            .elite-toast-stack {
+                top: 12px;
+                left: 12px;
+                width: calc(100% - 24px);
+                max-width: none;
+            }
+
+            .elite-toast {
+                padding: 14px 42px 14px 15px;
+                font-size: 13px;
+            }
+        }
     </style>
 
     @yield('styles')
@@ -315,7 +507,80 @@
 
         <main class="content-area">
 
-            <x-flash-message />
+            @if (session('success') || session('error') || $errors->any())
+                <div class="elite-toast-stack">
+
+                    @if (session('success'))
+                        <div class="elite-toast elite-toast-success" data-elite-toast>
+                            <span class="elite-toast-icon"><i class="fas fa-circle-check"></i></span>
+                            <div>
+                                <div class="elite-toast-title">تمّت العملية بنجاح</div>
+                                <div class="elite-toast-body">{{ session('success') }}</div>
+                            </div>
+                            <button type="button" class="elite-toast-close"
+                                onclick="this.closest('[data-elite-toast]').remove()"><i
+                                    class="fas fa-times"></i></button>
+                            <div class="elite-toast-progress"></div>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="elite-toast elite-toast-error" data-elite-toast>
+                            <span class="elite-toast-icon"><i class="fas fa-circle-exclamation"></i></span>
+                            <div>
+                                <div class="elite-toast-title">حدث خطأ</div>
+                                <div class="elite-toast-body">{{ session('error') }}</div>
+                            </div>
+                            <button type="button" class="elite-toast-close"
+                                onclick="this.closest('[data-elite-toast]').remove()"><i
+                                    class="fas fa-times"></i></button>
+                            <div class="elite-toast-progress"></div>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="elite-toast elite-toast-error" data-elite-toast>
+                            <span class="elite-toast-icon"><i class="fas fa-triangle-exclamation"></i></span>
+                            <div>
+                                <div class="elite-toast-title">تحقّق من البيانات المدخلة</div>
+                                <div class="elite-toast-body">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <button type="button" class="elite-toast-close"
+                                onclick="this.closest('[data-elite-toast]').remove()"><i
+                                    class="fas fa-times"></i></button>
+                            <div class="elite-toast-progress"></div>
+                        </div>
+                    @endif
+
+                </div>
+
+                <script>
+                    document.querySelectorAll('[data-elite-toast]').forEach(function(toast) {
+                        let elapsed = 0;
+                        const check = setInterval(function() {
+                            if (!document.body.contains(toast)) {
+                                clearInterval(check);
+                                return;
+                            }
+                            if (toast.matches(':hover')) {
+                                return;
+                            }
+                            elapsed += 100;
+                            if (elapsed >= 5000) {
+                                clearInterval(check);
+                                toast.classList.add('elite-toast-out');
+                                setTimeout(() => toast.remove(), 300);
+                            }
+                        }, 100);
+                    });
+                </script>
+            @endif
 
             @yield('content')
 
@@ -326,8 +591,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-
-        window.toggleEliteTheme = function () {
+        window.toggleEliteTheme = function() {
 
             const html = document.documentElement;
 
@@ -341,7 +605,6 @@
 
             localStorage.setItem('elite-theme', next);
         };
-
     </script>
 
     @yield('scripts')

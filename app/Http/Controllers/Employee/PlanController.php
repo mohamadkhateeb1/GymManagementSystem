@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class PlanController extends Controller
+class PlanController extends Controller // هاد الكلاس مسؤول عن إدارة التمارين داخل خطة التدريب الخاصة بالمدرب. يحتوي على وظائف لعرض، إضافة، تعديل، وحذف التمارين، بالإضافة إلى عرض مكتبة التمارين الخاصة بالمدرب.
 {
 
 
     public function index($planId)
     {
+        
         $coachId = Auth::guard('employee')->id();
 
         $trainingPlan = TrainingPlan::where('coach_id', $coachId)->findOrFail($planId);
