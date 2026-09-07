@@ -64,24 +64,24 @@ class SetFortifyGuard
         |--------------------------------------------------------------------------
         */
         if ($request->is('two-factor-challenge')) {
-
-            $loginId = $request->session()->get('login.id');
-
-            if ($loginId) {
-                if (\App\Models\Admin::whereKey($loginId)->exists()) {
-                    return 'admin';
-                }
-
-                if (\App\Models\Employee::whereKey($loginId)->exists()) {
-                    return 'employee';
-                }
-            }
-
-            // fallback احتياطي للجلسة المخصّصة (لو موجودة)
+            // Fortify يحفظ الحارس الذي بدأ تسجيل الدخول في الجلسة.
+            // يجب إعطاء هذا المصدر الأولوية؛ الاعتماد على login.id وحده
+            // قد يخلط بين Admin وEmployee إذا تساوت أرقام الـ IDs.
             $sessionGuard = $request->session()->get('login.guard');
 
             if (in_array($sessionGuard, ['admin', 'employee'], true)) {
                 return $sessionGuard;
+            }
+
+            // fallback للتوافق مع الجلسات القديمة التي لا تحتوي login.guard.
+            $loginId = $request->session()->get('login.id');
+
+            if ($loginId && \App\Models\Admin::whereKey($loginId)->exists()) {
+                return 'admin';
+            }
+
+            if ($loginId && \App\Models\Employee::whereKey($loginId)->exists()) {
+                return 'employee';
             }
         }
 

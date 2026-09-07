@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class MiscController extends Controller
 {
     /**
-     * 👤 بيانات المستخدم الحالي (Sanctum) — تُستخدم غالباً للتحقق من صلاحية التوكن.
+     * 👤 بيانات المستخدم الحالي (Sanctum)
      */
     public function currentUser(Request $request)
     {
@@ -16,14 +16,26 @@ class MiscController extends Controller
     }
 
     /**
-     * 🖼️ تقديم ملف وسائط (صور اللاعبين، الوجبات، إلخ) من storage/app/public
-     * بلا الحاجة لرابط رمزي (symlink) مباشر — يفيد بالذات على بعض الاستضافات.
+     * 🖼️ تقديم ملف وسائط بأمان من storage/app/public
      */
     public function serveMedia(string $path)
     {
-        $fullPath = storage_path('app/public/' . $path);
+        $basePath = realpath(storage_path('app/public'));
 
-        if (! file_exists($fullPath)) {
+        if ($basePath === false) {
+            abort(404);
+        }
+
+        $fullPath = realpath(storage_path('app/public/' . $path));
+
+        if (
+            $fullPath === false ||
+            ! is_file($fullPath) ||
+            ! str_starts_with(
+                $fullPath,
+                $basePath . DIRECTORY_SEPARATOR
+            )
+        ) {
             abort(404);
         }
 

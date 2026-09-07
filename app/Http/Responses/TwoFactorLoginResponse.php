@@ -23,7 +23,10 @@ class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
             return response()->json('', 204);
         }
 
-        $guard = config('fortify.guard');
+        // بعد نجاح التحدي قد تعود قيمة config إلى web، لذلك نعتمد
+        // على الحارس الذي حُفظ عند بدء تحدي 2FA.
+        $guard = $request->session()->get('login.guard')
+            ?: config('fortify.guard');
 
         if ($guard === 'admin') {
             return redirect()->route('admin.dashboard');
