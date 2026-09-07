@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-  
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -32,7 +31,6 @@ class AuthController extends Controller
             ], 401);
         }
 
-
         $token = $player->createToken('tiger-app-token')->plainTextToken;
 
         return response()->json([
@@ -45,5 +43,14 @@ class AuthController extends Controller
                 'level' => $player->level,
             ],
         ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()?->delete();
+
+        return response()->json([
+            'message' => 'تم تسجيل الخروج بنجاح.',
+        ]);
     }
 }

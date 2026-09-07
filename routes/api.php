@@ -14,7 +14,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', [MiscController::class, 'currentUser'])->middleware('auth:sanctum');
 
 
-Route::post('/login', [AuthController::class, 'login']);
+// 🔐 تسجيل دخول اللاعب — حد أقصى 5 محاولات خلال دقيقة
+Route::post('/login', [AuthController::class, 'login'])
+    ->middleware('throttle:5,1');
+
+// 🚪 تسجيل خروج اللاعب — حذف التوكن الحالي فقط
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth:sanctum');
+
 Route::get('/media/{path}', [MiscController::class, 'serveMedia'])->where('path', '.*');
 
 
