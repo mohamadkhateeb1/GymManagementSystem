@@ -373,21 +373,7 @@
 
     <div class="dashboard-wrapper edit-container">
 
-        @if ($errors->any())
-            <div class="ex-alert ex-alert-danger">
-                <div class="ex-alert-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-
-                <div>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        @endif
+        {{-- الأخطاء تُعرض كـ Toast موحّد من الـ layout — أُزيل البلوك المكرّر --}}
 
         <div class="edit-page-top">
 

@@ -767,7 +767,7 @@
 
                                 <input type="text" name="name" value="{{ old('name', $admin->name) }}"
                                     class="profile-input @error('name') is-invalid @enderror" placeholder="أدخل اسمك الكامل"
-                                    required>
+                                    >
 
                             </div>
 
@@ -794,7 +794,7 @@
 
                                 <input type="email" name="email" value="{{ old('email', $admin->email) }}"
                                     class="profile-input @error('email') is-invalid @enderror"
-                                    placeholder="example@email.com" required>
+                                    placeholder="example@email.com" >
 
                             </div>
 
@@ -883,7 +883,7 @@
 
                                 <input type="password" name="current_password"
                                     class="profile-input @error('current_password') is-invalid @enderror"
-                                    placeholder="••••••••" required>
+                                    placeholder="••••••••" >
 
                             </div>
 
@@ -910,7 +910,7 @@
 
                                 <input type="password" name="password"
                                     class="profile-input @error('password') is-invalid @enderror" placeholder="••••••••"
-                                    required>
+                                    >
 
                             </div>
 
@@ -936,7 +936,7 @@
                                 <i class="fas fa-lock profile-input-icon"></i>
 
                                 <input type="password" name="password_confirmation" class="profile-input"
-                                    placeholder="••••••••" required>
+                                    placeholder="••••••••" >
 
                             </div>
 

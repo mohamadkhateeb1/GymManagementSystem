@@ -911,37 +911,9 @@
 
 @section('content')
 
-    @if ($errors->any())
-        <div class="ex-container">
-            <div class="ex-alert ex-alert-danger">
-                <div class="ex-alert-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-
-                <div>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="ex-container">
-            <div class="ex-alert ex-alert-success">
-                <div class="ex-alert-icon">
-                    <i class="fas fa-check"></i>
-                </div>
-
-                <div>
-                    {{ session('success') }}
-                </div>
-            </div>
-        </div>
-    @endif
+    {{-- ملاحظة: رسائل النجاح والأخطاء تُعرض تلقائياً كـ Toast موحّد من الـ layout
+         (Employee/layouts/app.blade.php)، فأُزيل البلوك المكرّر هنا لتفادي العرض
+         المزدوج وتوحيد التصميم. --}}
 
     <div class="dashboard-wrapper ex-container">
 

@@ -401,7 +401,7 @@
                             class="field-input"
                             value="{{ old('meal_name', $dietPlan->meal_name) }}"
                             placeholder="مثال: صدر دجاج مع أرز"
-                            required>
+                            >
 
                     </div>
 
@@ -412,7 +412,7 @@
                             المستوى المستهدف للوجبة
                         </label>
 
-                        <select name="level" class="field-input" required>
+                        <select name="level" class="field-input" >
 
                             <option value="">
                                 -- اختر المستوى --
@@ -449,7 +449,7 @@
                             class="field-input"
                             value="{{ old('calories', $dietPlan->calories) }}"
                             placeholder="مثال: 520"
-                            required>
+                            >
 
                     </div>
 
@@ -558,7 +558,7 @@
                             class="field-input"
                             rows="5"
                             placeholder="اكتب المكونات بالتفصيل هنا..."
-                            required>{{ old('plan_details', $dietPlan->plan_details) }}</textarea>
+                            >{{ old('plan_details', $dietPlan->plan_details) }}</textarea>
 
                     </div>
 

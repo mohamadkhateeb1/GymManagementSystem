@@ -15,6 +15,7 @@ class PlanController extends Controller // هاد الكلاس مسؤول عن �
 
     public function index($planId)
     {
+       
         
         $coachId = Auth::guard('employee')->id();
 
@@ -37,12 +38,12 @@ class PlanController extends Controller // هاد الكلاس مسؤول عن �
             'name' => 'required|string|max:255',
             'sets' => 'required|numeric',
             'reps' => 'required|numeric',
-            'rest_time' => 'nullable|string|max:50',
-            'day_of_week' => 'nullable|integer|min:1|max:7',
-            'order' => 'nullable|integer|min:0',
-            'instructions' => 'nullable|string',
-            'image' => 'nullable|image|max:5120',
-            'video_url' => 'nullable|string',
+            'rest_time' => 'required|string|max:50',
+            'day_of_week' => 'required|integer|min:1|max:7',
+            'order' => 'required|integer|min:0',
+            'instructions' => 'required|string',
+            'image' => 'required|image|max:5120',
+            'video_url' => 'required|string',
         ], [
             'name.required' => 'حقل اسم التمرين مطلوب.',
             'name.string' => 'حقل اسم التمرين يجب أن يكون نصًا.',

@@ -9,6 +9,7 @@ use App\Models\DietPlan;
 use App\Models\BodyProgress;
 use App\Models\PlanType;
 use App\Models\Payment;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PlayerMonitorController extends Controller
 {
+    use AuthorizesRequests;
 
     private function findMyPlayer($id, array $relations = []): Player
     {
@@ -24,7 +26,9 @@ class PlayerMonitorController extends Controller
             ->findOrFail($id);
     }
 
-
+    // هاد الكلاس مسؤول عن إدارة متابعة اللاعبين من قبل المدرب. يحتوي على وظائف لعرض قائمة 
+    // اللاعبين، عرض تفاصيل اللاعب، جدولة خطط التدريب والغذاء، إضافة التمارين والوجبات الخاصة，
+    //  تسجيل القياسات البدنية، وإرسال الإشعارات المتعلقة بالاشتراك.
     private function copyExercises(TrainingPlan $source, TrainingPlan $target): void
     {
         foreach ($source->exercises as $exercise) {
@@ -42,11 +46,10 @@ class PlayerMonitorController extends Controller
         }
     }
 
-    /**
-     * 📦 يجيب (أو ينشئ لو أول مرة) الحاوية المخفية الوحيدة لتمارين هذا اللاعب
-     * الخاصة — المدرب لا يتعامل معها إطلاقاً كـ"خطة"، هي تفصيل تقني داخلي
-     * بس حتى نحتفظ بنفس بنية جدول plans (لازم كل تمرين ينتمي لخطة).
-     */
+
+    // هاد الدالة بتتحقق إذا كان في حاوية تمارين خاصة موجودة للاعب，
+    //  وإذا ما كانت موجودة، بتنشئ واحدة جديدة. الحاوية دي بتكون مرتبطة باللاعب والمدرب，
+    //   وبتستخدم لتخزين التمارين الخاصة باللاعب.
     private function getOrCreateCustomContainer(Player $player, int $coachId): TrainingPlan
     {
         return TrainingPlan::firstOrCreate(
@@ -63,9 +66,12 @@ class PlayerMonitorController extends Controller
             ]
         );
     }
-
+    
     public function index()
     {
+        //  if (!$this->authorize('viewAny', Player::class)) {
+        //     abort(403);
+        // }
         $coachId = Auth::guard('employee')->id();
 
         $players = Player::where('coach_id', $coachId)

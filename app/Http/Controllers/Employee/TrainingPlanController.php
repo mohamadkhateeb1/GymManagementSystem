@@ -54,14 +54,32 @@ class TrainingPlanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'level' => 'required|string',
-        ],
-        [
-            'title.required' => 'حقل عنوان الخطة مطلوب.',
-            'title.string' => 'حقل عنوان الخطة يجب أن يكون نصًا.',
-            'title.max' => 'حقل عنوان الخطة يجب أن لا يتجاوز 255 حرفًا.',
-            'level.required' => 'حقل المستوى مطلوب.',
+            'name' => 'required|string|max:255', //
+            'sets' => 'required|numeric',
+            'reps' => 'required|numeric',
+            'rest_time' => 'nullable|string|max:50',
+            'day_of_week' => 'required|integer|min:1|max:7',
+            'order' => 'required|integer|min:0',
+            'instructions' => 'required|string',
+            'image' => 'required|image|max:5120',
+            'video_url' => 'required|string',
+        ], [
+            'name.required' => 'حقل اسم التمرين مطلوب.',
+            'name.string' => 'حقل اسم التمرين يجب أن يكون نصًا.',
+            'name.max' => 'حقل اسم التمرين يجب أن لا يتجاوز 255 حرفًا.',
+            'sets.required' => 'حقل عدد المجموعات مطلوب.',
+            'sets.numeric' => 'حقل عدد المجموعات يجب أن يكون رقمًا.',
+            'reps.required' => 'حقل عدد التكرارات مطلوب.',
+            'reps.numeric' => 'حقل عدد التكرارات يجب أن يكون رقمًا.',
+            'rest_time.string' => 'حقل وقت الراحة يجب أن يكون نصًا.',
+            'rest_time.max' => 'حقل وقت الراحة يجب أن لا يتجاوز 50 حرفًا.',
+            'day_of_week.integer' => 'حقل يوم الأسبوع يجب أن يكون رقمًا.',
+            'day_of_week.min' => 'يجب أن يكون يوم الأسبوع على الأقل 1 (الأحد).',
+            'day_of_week.max' => 'يجب أن يكون يوم الأسبوع على الأكثر 7 (السبت).',
+            'order.integer' => 'حقل ترتيب التمرين يجب أن يكون رقمًا.',
+            'order.min' => 'ترتيب التمرين يجب أن يكون على الأقل 0.',
+            'instructions.string' => 'حقل التعليمات يجب أن يكون نصًا.',
+            'image.image' => 'الملف المرفق يجب أن يكون صورة.',
         ]);
 
         $coachId = Auth::guard('employee')->id();

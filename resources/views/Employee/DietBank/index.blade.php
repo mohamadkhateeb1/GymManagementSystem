@@ -885,11 +885,13 @@
                 <i class="fas fa-apple-alt"></i>
                 بنك الوجبات والخطط الغذائية
             </h2>
-
+            @can('diet_plan.create')
             <button class="btn-green" onclick="openDietModal()">
                 <i class="fas fa-plus"></i>
                 إضافة وجبة جديدة للبنك
             </button>
+            @endcan
+
         </div>
 
         <div class="diet-grid">
@@ -901,12 +903,13 @@
                     <span class="level-badge">
                         {{ $diet->level }}
                     </span>
-
+                    @can('diet_plan.edit')
                     <a href="{{ route('employee.diet.bank.edit', $diet->id) }}" class="btn-edit">
                         <i class="fas fa-edit"></i>
                         تعديل
                     </a>
-
+                    @endcan
+                    @can('diet_plan.delete')
                     <form action="{{ route('employee.diet.bank.destroy', $diet->id) }}" method="POST"
                         onsubmit="return confirm('هل تريد حذف هذه الوجبة من البنك؟')">
 
@@ -918,6 +921,7 @@
                         </button>
 
                     </form>
+                    @endcan
 
                     @if (!empty($diet->image_path))
                         <img src="{{ asset('storage/' . $diet->image_path) }}" class="diet-card-image" alt="Meal Image">
@@ -1016,7 +1020,7 @@
                             </label>
 
                             <input type="text" name="meal_name" class="field-input" placeholder="مثال: صدر دجاج مع أرز"
-                                required>
+                                reuired>
 
                         </div>
 
@@ -1026,7 +1030,7 @@
                                 المستوى المستهدف للوجبة
                             </label>
 
-                            <select name="level" class="field-input" required>
+                            <select name="level" class="field-input" >
 
                                 <option value="">
                                     -- اختر المستوى لتخصيص الوجبة له تلقائياً --
@@ -1054,7 +1058,7 @@
                                 عدد السعرات الحرارية (Calories)
                             </label>
 
-                            <input type="number" name="calories" class="field-input" placeholder="مثال: 520" required>
+                            <input type="number" name="calories" class="field-input" placeholder="مثال: 520" >
 
                         </div>
 
@@ -1116,7 +1120,7 @@
                             </label>
 
                             <textarea name="plan_details" class="field-input" rows="4" placeholder="اكتب المكونات بالتفصيل هنا..."
-                                required></textarea>
+                                ></textarea>
 
                         </div>
 

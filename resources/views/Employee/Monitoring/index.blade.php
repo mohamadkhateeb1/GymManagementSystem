@@ -985,7 +985,7 @@
 
                                             @csrf
 
-                                            <select name="level" class="select-level-luxury" required>
+                                            <select name="level" class="select-level-luxury" >
 
                                                 <option value="">
                                                     اختر المستوى لتنزيل الخطة
@@ -1030,15 +1030,15 @@
                                 </td>
 
                                 <td style="text-align: center;">
-
+                                    
+                                    @can('player.show')
                                     <a href="{{ route('employee.monitoring.show', $player->id) }}" class="btn-show-luxury">
 
                                         <i class="fas fa-chart-line"></i>
 
                                         عرض وتحليل الملف
-
                                     </a>
-
+                                    @endcan
                                 </td>
 
                             </tr>
