@@ -818,6 +818,20 @@
             min-height: 44px;
         }
 
+        /* أخطاء الحقول */
+        .field-error {
+            display: block;
+            margin-top: 6px;
+            color: var(--danger);
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .field-error i {
+            margin-left: 4px;
+        }
+
         @media (max-width: 900px) {
             .ex-page-top {
                 align-items: flex-start;
@@ -911,9 +925,7 @@
 
 @section('content')
 
-    {{-- ملاحظة: رسائل النجاح والأخطاء تُعرض تلقائياً كـ Toast موحّد من الـ layout
-         (Employee/layouts/app.blade.php)، فأُزيل البلوك المكرّر هنا لتفادي العرض
-         المزدوج وتوحيد التصميم. --}}
+    {{-- رسائل النجاح والأخطاء العامة تُعرض تلقائياً من الـ Layout كـ Toast --}}
 
     <div class="dashboard-wrapper ex-container">
 
@@ -922,6 +934,7 @@
             <div class="ex-title-area">
 
                 <div class="ex-title-row">
+
                     <div class="ex-title-icon">
                         <i class="fas fa-dumbbell"></i>
                     </div>
@@ -930,15 +943,19 @@
                         تمارين خطة:
                         <span>{{ $trainingPlan->title ?? 'خطة تدريبية' }}</span>
                     </h2>
+
                 </div>
 
                 <p class="ex-subtitle">
+
                     إدارة وتنظيم تمارين الخطة التدريبية
+
                     <span class="ex-level">
                         <i class="fas fa-layer-group"></i>
                         المستوى المستهدف:
                         {{ $trainingPlan->level ?? 'عام' }}
                     </span>
+
                 </p>
 
             </div>
@@ -946,13 +963,21 @@
             <div class="ex-actions">
 
                 <a href="{{ route('employee.training.bank') }}" class="back-btn">
+
                     <i class="fas fa-arrow-right"></i>
+
                     العودة لبنك الخطط
+
                 </a>
 
-                <button type="button" class="btn-gold" onclick="openAddModal()">
+                <button type="button"
+                    class="btn-gold"
+                    onclick="openAddModal()">
+
                     <i class="fas fa-plus"></i>
+
                     إضافة تمرين جديد
+
                 </button>
 
             </div>
@@ -962,45 +987,63 @@
         <div class="plan-summary">
 
             <div class="summary-box">
+
                 <div class="summary-icon">
                     <i class="fas fa-dumbbell"></i>
                 </div>
 
                 <div class="summary-info">
-                    <span class="summary-label">الخطة التدريبية</span>
+
+                    <span class="summary-label">
+                        الخطة التدريبية
+                    </span>
 
                     <span class="summary-value">
                         {{ $trainingPlan->title ?? 'خطة تدريبية' }}
                     </span>
+
                 </div>
+
             </div>
 
             <div class="summary-box">
+
                 <div class="summary-icon">
                     <i class="fas fa-layer-group"></i>
                 </div>
 
                 <div class="summary-info">
-                    <span class="summary-label">المستوى المستهدف</span>
+
+                    <span class="summary-label">
+                        المستوى المستهدف
+                    </span>
 
                     <span class="summary-value">
                         {{ $trainingPlan->level ?? 'عام' }}
                     </span>
+
                 </div>
+
             </div>
 
             <div class="summary-box">
+
                 <div class="summary-icon">
                     <i class="fas fa-list-ol"></i>
                 </div>
 
                 <div class="summary-info">
-                    <span class="summary-label">عدد التمارين</span>
+
+                    <span class="summary-label">
+                        عدد التمارين
+                    </span>
 
                     <span class="summary-value">
                         {{ $exercises->count() }} تمرين
                     </span>
+
                 </div>
+
             </div>
 
         </div>
@@ -1008,21 +1051,33 @@
         <div class="ex-grid">
 
             @forelse($exercises as $ex)
+
                 <div class="ex-card">
 
                     <div class="ex-media">
 
                         @if ($ex->image_path)
-                            <img src="{{ asset('storage/' . $ex->image_path) }}" alt="{{ $ex->name }}" class="ex-img">
+
+                            <img src="{{ asset('storage/' . $ex->image_path) }}"
+                                alt="{{ $ex->name }}"
+                                class="ex-img">
 
                             <span class="ex-image-label">
+
                                 <i class="fas fa-image"></i>
+
                                 صورة التمرين
+
                             </span>
+
                         @else
+
                             <div class="ex-placeholder">
+
                                 <i class="fas fa-running"></i>
+
                             </div>
+
                         @endif
 
                     </div>
@@ -1056,30 +1111,45 @@
                         <div class="exercise-stats">
 
                             <span class="badge-info">
+
                                 <i class="fas fa-redo"></i>
+
                                 {{ $ex->sets }} جولات
+
                             </span>
 
                             <span class="badge-info">
+
                                 <i class="fas fa-sync-alt"></i>
+
                                 {{ $ex->reps }} تكرارات
+
                             </span>
 
                             @if ($ex->rest_time)
+
                                 <span class="badge-info">
+
                                     <i class="fas fa-hourglass-half"></i>
+
                                     {{ $ex->rest_time }}
+
                                 </span>
+
                             @endif
 
                         </div>
 
                         @if ($ex->instructions)
+
                             <div class="instructions-box">
 
                                 <div class="instructions-title">
+
                                     <i class="fas fa-info-circle"></i>
+
                                     تعليمات وملاحظات
+
                                 </div>
 
                                 <p class="instructions-text">
@@ -1087,16 +1157,21 @@
                                 </p>
 
                             </div>
+
                         @endif
 
                         @if ($ex->video_url)
-                            <a href="{{ $ex->video_url }}" target="_blank" class="video-link">
+
+                            <a href="{{ $ex->video_url }}"
+                                target="_blank"
+                                class="video-link">
 
                                 <i class="fas fa-video"></i>
 
                                 مشاهدة فيديو الشرح
 
                             </a>
+
                         @endif
 
                     </div>
@@ -1105,7 +1180,8 @@
 
                         <div class="ex-footer-actions">
 
-                            <a href="{{ route('employee.training.exercises.edit', $ex->id) }}" class="btn-edit">
+                            <a href="{{ route('employee.training.exercises.edit', $ex->id) }}"
+                                class="btn-edit">
 
                                 <i class="fas fa-edit"></i>
 
@@ -1113,13 +1189,16 @@
 
                             </a>
 
-                            <form action="{{ route('employee.training.exercises.destroy', $ex->id) }}" method="POST"
+                            <form action="{{ route('employee.training.exercises.destroy', $ex->id) }}"
+                                method="POST"
                                 onsubmit="return confirm('هل أنت متأكد من حذف هذا التمرين؟')">
 
                                 @csrf
+
                                 @method('DELETE')
 
-                                <button type="submit" class="btn-delete">
+                                <button type="submit"
+                                    class="btn-delete">
 
                                     <i class="fas fa-trash-alt"></i>
 
@@ -1153,22 +1232,29 @@
                     </p>
 
                 </div>
+
             @endforelse
 
         </div>
 
-        <div id="addExModal" class="modal">
+        {{-- Modal إضافة التمرين --}}
+        <div id="addExModal"
+            class="modal {{ $errors->any() ? 'open' : '' }}">
 
             <div class="modal-content">
 
                 <div class="modal-header">
 
                     <h4 class="modal-title">
+
                         <i class="fas fa-plus-circle"></i>
+
                         إضافة تمرين جديد للخطة
+
                     </h4>
 
-                    <span class="close-modal" onclick="closeAddModal()">
+                    <span class="close-modal"
+                        onclick="closeAddModal()">
 
                         &times;
 
@@ -1176,144 +1262,276 @@
 
                 </div>
 
-                <form action="{{ route('employee.training.exercises.store', $trainingPlan->id) }}" method="POST"
+                <form action="{{ route('employee.training.exercises.store', $trainingPlan->id) }}"
+                    method="POST"
                     enctype="multipart/form-data">
 
                     @csrf
 
                     <div class="modal-body">
 
+                        {{-- اسم التمرين --}}
                         <div class="field-group">
 
                             <label class="field-label">
+
                                 <i class="fas fa-dumbbell"></i>
+
                                 اسم التمرين
+
                             </label>
 
-                            <input type="text" name="name" class="field-input"
-                                placeholder="مثال: بنش برس مستوي بالبار">
+                            <input type="text"
+                                name="name"
+                                class="field-input"
+                                placeholder="مثال: بنش برس مستوي بالبار"
+                                value="{{ old('name') }}">
+
+                            @error('name')
+                                <span class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    {{ $message }}
+                                </span>
+                            @enderror
 
                         </div>
 
+                        {{-- Sets + Reps --}}
                         <div class="form-row">
 
                             <div class="field-group">
 
                                 <label class="field-label">
+
                                     <i class="fas fa-redo"></i>
+
                                     عدد الجولات (Sets)
+
                                 </label>
 
-                                <input type="number" name="sets" value="4" min="1" class="field-input">
+                                <input type="number"
+                                    name="sets"
+                                    value="{{ old('sets', 4) }}"
+                                    min="1"
+                                    class="field-input">
+
+                                @error('sets')
+                                    <span class="field-error">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        {{ $message }}
+                                    </span>
+                                @enderror
 
                             </div>
 
                             <div class="field-group">
 
                                 <label class="field-label">
+
                                     <i class="fas fa-sync-alt"></i>
+
                                     عدد التكرارات (Reps)
+
                                 </label>
 
-                                <input type="number" name="reps" value="12" min="1" class="field-input">
+                                <input type="number"
+                                    name="reps"
+                                    value="{{ old('reps', 12) }}"
+                                    min="1"
+                                    class="field-input">
+
+                                @error('reps')
+                                    <span class="field-error">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        {{ $message }}
+                                    </span>
+                                @enderror
 
                             </div>
 
                         </div>
 
+                        {{-- Rest + Order --}}
                         <div class="form-row">
 
                             <div class="field-group">
 
                                 <label class="field-label">
+
                                     <i class="fas fa-hourglass-half"></i>
+
                                     مدة الراحة بين الجولات
+
                                 </label>
 
-                                <input type="text" name="rest_time" class="field-input" placeholder="مثال: 90 ثانية">
+                                <input type="text"
+                                    name="rest_time"
+                                    class="field-input"
+                                    placeholder="مثال: 90 ثانية"
+                                    value="{{ old('rest_time') }}">
+
+                                @error('rest_time')
+                                    <span class="field-error">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        {{ $message }}
+                                    </span>
+                                @enderror
 
                             </div>
 
                             <div class="field-group">
 
                                 <label class="field-label">
+
                                     <i class="fas fa-sort-numeric-down"></i>
+
                                     ترتيب التمرين داخل اليوم
+
                                 </label>
 
-                                <input type="number" name="order" value="0" min="0" class="field-input">
+                                <input type="number"
+                                    name="order"
+                                    value="{{ old('order', 0) }}"
+                                    min="0"
+                                    class="field-input">
+
+                                @error('order')
+                                    <span class="field-error">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        {{ $message }}
+                                    </span>
+                                @enderror
 
                             </div>
 
                         </div>
 
+                        {{-- Day --}}
                         <div class="field-group">
 
                             <label class="field-label">
+
                                 <i class="fas fa-calendar-day"></i>
+
                                 يوم التمرين في الأسبوع
+
                             </label>
 
-                            <select name="day_of_week" class="field-input">
+                            <select name="day_of_week"
+                                class="field-input">
 
                                 <option value="">
                                     -- غير محدد (تمرين حر) --
                                 </option>
 
                                 @foreach (\App\Models\Plan::DAYS as $num => $dayName)
-                                    <option value="{{ $num }}">
+
+                                    <option value="{{ $num }}"
+                                        {{ old('day_of_week') == $num ? 'selected' : '' }}>
+
                                         {{ $dayName }}
+
                                     </option>
+
                                 @endforeach
 
                             </select>
 
+                            @error('day_of_week')
+                                <span class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
                         </div>
 
+                        {{-- Instructions --}}
                         <div class="field-group">
 
                             <label class="field-label">
+
                                 <i class="fas fa-align-right"></i>
+
                                 شرح طريقة أداء التمرين والملاحظات
+
                             </label>
 
-                            <textarea name="instructions" class="field-input" rows="4"
-                                placeholder="اكتب تعليمات التمرين والتركيز العضلي..."></textarea>
+                            <textarea name="instructions"
+                                class="field-input"
+                                rows="4"
+                                placeholder="اكتب تعليمات التمرين والتركيز العضلي...">{{ old('instructions') }}</textarea>
+
+                            @error('instructions')
+                                <span class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    {{ $message }}
+                                </span>
+                            @enderror
 
                         </div>
 
+                        {{-- Image --}}
                         <div class="field-group">
 
                             <label class="field-label">
+
                                 <i class="fas fa-image"></i>
+
                                 صورة توضيحية للتمرين
 
                                 <span style="color: var(--muted); font-size: 10px;">
                                     (اختياري)
                                 </span>
+
                             </label>
 
-                            <input type="file" name="image" class="field-input" accept="image/*">
+                            <input type="file"
+                                name="image"
+                                class="field-input"
+                                accept="image/*">
+
+                            @error('image')
+                                <span class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    {{ $message }}
+                                </span>
+                            @enderror
 
                         </div>
 
+                        {{-- Video --}}
                         <div class="field-group">
 
                             <label class="field-label">
+
                                 <i class="fas fa-video"></i>
+
                                 رابط فيديو التمرين
 
                                 <span style="color: var(--muted); font-size: 10px;">
                                     (اختياري)
                                 </span>
+
                             </label>
 
-                            <input type="url" name="video_url" class="field-input"
-                                placeholder="https://youtube.com/...">
+                            <input type="url"
+                                name="video_url"
+                                class="field-input"
+                                placeholder="https://youtube.com/..."
+                                value="{{ old('video_url') }}">
+
+                            @error('video_url')
+                                <span class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    {{ $message }}
+                                </span>
+                            @enderror
 
                         </div>
 
-                        <button type="submit" class="btn-gold modal-submit">
+                        <button type="submit"
+                            class="btn-gold modal-submit">
 
                             <i class="fas fa-check"></i>
 
@@ -1330,19 +1548,27 @@
         </div>
 
     </div>
+
 @endsection
 
 @section('scripts')
 
     <script>
+
         function openAddModal() {
+
             document.getElementById('addExModal').classList.add('open');
+
             document.body.style.overflow = 'hidden';
+
         }
 
         function closeAddModal() {
+
             document.getElementById('addExModal').classList.remove('open');
+
             document.body.style.overflow = '';
+
         }
 
         window.addEventListener('click', function(event) {
@@ -1350,7 +1576,9 @@
             const addModal = document.getElementById('addExModal');
 
             if (event.target === addModal) {
+
                 closeAddModal();
+
             }
 
         });
@@ -1358,10 +1586,27 @@
         document.addEventListener('keydown', function(event) {
 
             if (event.key === 'Escape') {
+
                 closeAddModal();
+
             }
 
         });
+
+        /*
+         * إذا رجعت الصفحة بسبب Validation Error
+         * يبقى الـ Modal مفتوحاً تلقائياً.
+         */
+        @if ($errors->any())
+
+            document.addEventListener('DOMContentLoaded', function() {
+
+                openAddModal();
+
+            });
+
+        @endif
+
     </script>
 
 @endsection

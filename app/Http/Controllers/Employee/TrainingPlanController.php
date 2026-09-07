@@ -1,5 +1,5 @@
 <?php
-
+//ادارة البنك
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
@@ -53,34 +53,58 @@ class TrainingPlanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255', //
-            'sets' => 'required|numeric',
-            'reps' => 'required|numeric',
-            'rest_time' => 'nullable|string|max:50',
-            'day_of_week' => 'required|integer|min:1|max:7',
-            'order' => 'required|integer|min:0',
-            'instructions' => 'required|string',
-            'image' => 'required|image|max:5120',
-            'video_url' => 'required|string',
-        ], [
-            'name.required' => 'حقل اسم التمرين مطلوب.',
-            'name.string' => 'حقل اسم التمرين يجب أن يكون نصًا.',
-            'name.max' => 'حقل اسم التمرين يجب أن لا يتجاوز 255 حرفًا.',
-            'sets.required' => 'حقل عدد المجموعات مطلوب.',
-            'sets.numeric' => 'حقل عدد المجموعات يجب أن يكون رقمًا.',
-            'reps.required' => 'حقل عدد التكرارات مطلوب.',
-            'reps.numeric' => 'حقل عدد التكرارات يجب أن يكون رقمًا.',
-            'rest_time.string' => 'حقل وقت الراحة يجب أن يكون نصًا.',
-            'rest_time.max' => 'حقل وقت الراحة يجب أن لا يتجاوز 50 حرفًا.',
-            'day_of_week.integer' => 'حقل يوم الأسبوع يجب أن يكون رقمًا.',
-            'day_of_week.min' => 'يجب أن يكون يوم الأسبوع على الأقل 1 (الأحد).',
-            'day_of_week.max' => 'يجب أن يكون يوم الأسبوع على الأكثر 7 (السبت).',
-            'order.integer' => 'حقل ترتيب التمرين يجب أن يكون رقمًا.',
-            'order.min' => 'ترتيب التمرين يجب أن يكون على الأقل 0.',
-            'instructions.string' => 'حقل التعليمات يجب أن يكون نصًا.',
-            'image.image' => 'الملف المرفق يجب أن يكون صورة.',
-        ]);
+       $request->validate([
+    'name' => 'required|string|max:255',
+    'sets' => 'required|numeric',
+    'reps' => 'required|numeric',
+    'rest_time' => 'required|string|max:50',
+    'day_of_week' => 'required|integer|min:1|max:7',
+    'order' => 'required|integer|min:0',
+    'instructions' => 'required|string',
+    'image' => 'required|image|max:5120',
+    'video_url' => 'required|string',
+], [
+    // اسم التمرين
+    'name.required' => 'حقل اسم التمرين مطلوب.',
+    'name.string' => 'حقل اسم التمرين يجب أن يكون نصًا.',
+    'name.max' => 'حقل اسم التمرين يجب أن لا يتجاوز 255 حرفًا.',
+
+    // المجموعات
+    'sets.required' => 'حقل عدد المجموعات مطلوب.',
+    'sets.numeric' => 'حقل عدد المجموعات يجب أن يكون رقمًا.',
+
+    // التكرارات
+    'reps.required' => 'حقل عدد التكرارات مطلوب.',
+    'reps.numeric' => 'حقل عدد التكرارات يجب أن يكون رقمًا.',
+
+    // وقت الراحة
+    'rest_time.string' => 'حقل وقت الراحة يجب أن يكون نصًا.',
+    'rest_time.max' => 'حقل وقت الراحة يجب أن لا يتجاوز 50 حرفًا.',
+
+    // يوم الأسبوع
+    'day_of_week.required' => 'يجب اختيار يوم الأسبوع.',
+    'day_of_week.integer' => 'حقل يوم الأسبوع يجب أن يكون رقمًا.',
+    'day_of_week.min' => 'يجب أن يكون يوم الأسبوع على الأقل 1 (الأحد).',
+    'day_of_week.max' => 'يجب أن يكون يوم الأسبوع على الأكثر 7 (السبت).',
+
+    // ترتيب التمرين
+    'order.required' => 'حقل ترتيب التمرين مطلوب.',
+    'order.integer' => 'حقل ترتيب التمرين يجب أن يكون رقمًا.',
+    'order.min' => 'ترتيب التمرين يجب أن يكون على الأقل 0.',
+
+    // التعليمات
+    'instructions.required' => 'حقل التعليمات مطلوب.',
+    'instructions.string' => 'حقل التعليمات يجب أن يكون نصًا.',
+
+    // الصورة
+    'image.required' => 'صورة التمرين مطلوبة.',
+    'image.image' => 'الملف المرفق يجب أن يكون صورة.',
+    'image.max' => 'حجم صورة التمرين يجب ألا يتجاوز 5 ميجابايت.',
+
+    // رابط الفيديو
+    'video_url.required' => 'رابط الفيديو مطلوب.',
+    'video_url.string' => 'رابط الفيديو يجب أن يكون نصًا.',
+]);
 
         $coachId = Auth::guard('employee')->id();
 
@@ -94,7 +118,7 @@ class TrainingPlanController extends Controller
             'end_date'   => now()->addMonth(),
         ]);
 
-        return redirect()->route('employee.training.bank')->with('success', 'تم حفظ الخطة في البنك. أضف تمارينها ثم وزّعها على لاعبي مستوى ' . $request->level . '.');
+        return redirect()->route('employee.training.exercises.index')->with('success', 'تم حفظ الخطة في البنك. أضف تمارينها ثم وزّعها على لاعبي مستوى ' . $request->level . '.');
     }
 
     public function distribute($id)

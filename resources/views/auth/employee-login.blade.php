@@ -336,7 +336,102 @@
             transition:
                 transform .25s ease;
         }
+/* =========================================================
+   BACK TO WELCOME
+========================================================== */
 
+.back-welcome {
+
+    position: fixed;
+
+    top: 25px;
+
+    left: 25px;
+
+    z-index: 100;
+
+    height: 46px;
+
+    padding: 0 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    border:
+        1px solid var(--theme-button-border);
+
+    border-radius: 13px;
+
+    color:
+        var(--theme-button-text);
+
+    background:
+        var(--theme-button-bg);
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 9px 28px rgba(15, 23, 42, .09);
+
+    backdrop-filter:
+        blur(14px);
+
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    transition:
+        transform .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        background .3s ease,
+        box-shadow .2s ease;
+}
+
+
+.back-welcome:hover {
+
+    transform:
+        translateY(-2px);
+
+    color:
+        var(--gold);
+
+    border-color:
+        rgba(201, 169, 97, .45);
+
+    box-shadow:
+        0 12px 32px rgba(15, 23, 42, .13);
+}
+
+
+html[data-theme="dark"] .back-welcome:hover {
+
+    color:
+        #00d2ff;
+
+    border-color:
+        rgba(0, 210, 255, .35);
+
+    box-shadow:
+        0 0 24px rgba(0, 210, 255, .08);
+}
+
+
+.back-welcome i {
+
+    font-size: 13px;
+}
 
         .theme-toggle:hover i {
 
@@ -2084,10 +2179,10 @@
 <body>
 
 
-    <!-- =========================================================
-         THEME TOGGLE
-    ========================================================== -->
-
+<a href="{{ url('/') }}" class="back-welcome">
+    <i class="fas fa-arrow-left"></i>
+    <span>العودة</span>
+</a>
     <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
 
         <i class="fas fa-sun sun-icon"></i>

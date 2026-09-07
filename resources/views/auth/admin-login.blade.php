@@ -186,6 +186,107 @@
 
 
         /* =========================================================
+           BACK TO WELCOME BUTTON
+        ========================================================= */
+
+        .back-welcome {
+
+            position: fixed;
+
+            top: 24px;
+            left: 24px;
+
+            z-index: 50;
+
+            height: 42px;
+
+            padding: 0 14px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 11px;
+
+            color: var(--text);
+
+            background:
+                var(--theme-icon-bg);
+
+            box-shadow:
+                0 8px 25px rgba(20, 30, 45, .08);
+
+            text-decoration: none;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: .2s ease;
+
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+
+        .back-welcome:hover {
+
+            transform: translateY(-2px);
+
+            border-color:
+                rgba(201, 154, 53, .45);
+
+            color:
+                var(--gold);
+
+            box-shadow:
+                0 10px 28px rgba(20, 30, 45, .12);
+        }
+
+
+        .back-welcome svg {
+
+            width: 17px;
+            height: 17px;
+        }
+
+
+        html[data-theme="dark"] .back-welcome {
+
+            border-color:
+                rgba(255, 255, 255, .07);
+
+            color:
+                #cbd3dc;
+
+            background:
+                rgba(20, 23, 26, .9);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, .25);
+        }
+
+
+        html[data-theme="dark"] .back-welcome:hover {
+
+            color:
+                #00d2ff;
+
+            border-color:
+                rgba(0, 210, 255, .35);
+
+            box-shadow:
+                0 0 20px rgba(0, 210, 255, .08);
+        }
+
+
+        /* =========================================================
            THEME BUTTON
         ========================================================= */
 
@@ -1204,6 +1305,19 @@
             }
 
 
+            .back-welcome {
+
+                top: 14px;
+                left: 14px;
+
+                height: 40px;
+
+                padding: 0 11px;
+
+                font-size: 11px;
+            }
+
+
             .login-card {
 
                 width: 100%;
@@ -1278,6 +1392,7 @@
         }
     </style>
 
+
     <!--
         Apply saved theme BEFORE page paint.
         This prevents the page from flashing light mode
@@ -1299,6 +1414,7 @@
 
                 document.documentElement
                     .setAttribute('data-theme', 'light');
+
             }
 
         })();
@@ -1309,15 +1425,36 @@
 
 <body>
 
-
     <main class="login-page">
 
 
         <!-- =========================================================
-         THEME TOGGLE
-    ========================================================== -->
+             BACK TO WELCOME
+        ========================================================== -->
+
+        <a href="{{ url('/') }}" class="back-welcome">
+
+            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5" />
+
+                <path stroke-linecap="round" stroke-linejoin="round" d="m12 19-7-7 7-7" />
+
+            </svg>
+
+            <span>
+                العودة
+            </span>
+
+        </a>
+
+
+        <!-- =========================================================
+             THEME TOGGLE
+        ========================================================== -->
 
         <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+
 
             <!-- SUN -->
 
@@ -1357,15 +1494,15 @@
 
 
         <!-- =========================================================
-         LOGIN CARD
-    ========================================================== -->
+             LOGIN CARD
+        ========================================================== -->
 
         <div class="login-card">
 
 
             <!-- =====================================================
-             LEFT BRAND PANEL
-        ====================================================== -->
+                 LEFT BRAND PANEL
+            ====================================================== -->
 
             <section class="brand-panel">
 
@@ -1403,8 +1540,8 @@
 
 
             <!-- =====================================================
-             RIGHT LOGIN
-        ====================================================== -->
+                 RIGHT LOGIN
+            ====================================================== -->
 
             <section class="form-panel">
 
@@ -1416,16 +1553,13 @@
 
                     <div class="login-header">
 
-
                         <h2 class="login-header-title">
                             Sign in to your account
                         </h2>
 
-
                         <p class="login-header-text">
                             Enter your credentials to continue.
                         </p>
-
 
                     </div>
 
@@ -1439,14 +1573,14 @@
 
                         <div class="field">
 
-
                             <label class="field-label" for="email">
+
                                 Email Address
+
                             </label>
 
 
                             <div class="input-wrap">
-
 
                                 <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="1.7"
                                     viewBox="0 0 24 24">
@@ -1463,13 +1597,11 @@
                                     placeholder="Enter your email" autocomplete="email"
                                     class="{{ $errors->has('email') ? 'is-invalid' : '' }}">
 
-
                             </div>
 
 
                             @error('email')
                                 <div class="field-error">
-
 
                                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 
@@ -1480,13 +1612,10 @@
 
                                     </svg>
 
-
                                     {{ $message }}
-
 
                                 </div>
                             @enderror
-
 
                         </div>
 
@@ -1495,14 +1624,14 @@
 
                         <div class="field">
 
-
                             <label class="field-label" for="password">
+
                                 Password
+
                             </label>
 
 
                             <div class="input-wrap">
-
 
                                 <svg class="input-icon" fill="none" stroke="currentColor" stroke-width="1.7"
                                     viewBox="0 0 24 24">
@@ -1524,6 +1653,7 @@
                                 <button type="button" class="password-toggle" id="togglePassword"
                                     aria-label="Show password">
 
+
                                     <svg id="eyeIcon" fill="none" stroke="currentColor" stroke-width="1.7"
                                         viewBox="0 0 24 24">
 
@@ -1536,58 +1666,77 @@
 
                                 </button>
 
-
                             </div>
 
 
                             @error('password')
                                 <div class="field-error">
 
-
                                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01" />
 
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M3.34 16.5 10.268 4.5a2 2 0 0 1 3.464 0l6.928 12A2 2 0 0 1 18.928 19H5.072a2 2 0 0 1-1.732-2.5Z" />
+                                            d="M3.34 16.5 10.268 4.5a2 2 0 0 1 3.464 0l6.928 12A2 2 0 0 1 18.928 19H5.072a2 2 0 0 1-1.732-2.5l6.928-12Z" />
 
                                     </svg>
 
-
                                     {{ $message }}
-
 
                                 </div>
                             @enderror
 
-
                         </div>
+
+
+                        <!-- SIGN IN -->
+
                         <button type="submit" class="login-button">
+
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M13 5h6a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-6" />
+
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h11" />
+
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11 8 4 4-4 4" />
+
                             </svg>
+
                             <span>
                                 Sign In
                             </span>
+
                         </button>
+
                     </form>
+
                 </div>
+
             </section>
+
         </div>
+
     </main>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
             const themeToggle =
                 document.getElementById('themeToggle');
+
             const html =
                 document.documentElement;
+
+
             if (themeToggle) {
+
                 themeToggle.addEventListener(
                     'click',
                     function() {
+
                         const currentTheme =
                             html.getAttribute('data-theme');
 
@@ -1656,31 +1805,31 @@
 
                         eyeIcon.innerHTML = `
 
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 3l18 18"
-                    />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 3l18 18"
+                            />
 
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M10.58 10.58A2 2 0 0 0 13.42 13.42"
-                    />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M10.58 10.58A2 2 0 0 0 13.42 13.42"
+                            />
 
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9.88 5.09A10.94 10.94 0 0 1 12 4.75c6.25 0 9.75 7.25 9.75 7.25a17.65 17.65 0 0 1-3.06 4.24"
-                    />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9.88 5.09A10.94 10.94 0 0 1 12 4.75c6.25 0 9.75 7.25 9.75 7.25a17.65 17.65 0 0 1-3.06 4.24"
+                            />
 
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6.61 6.61C3.92 8.46 2.25 12 2.25 12s3.5 7.25 9.75 7.25c1.73 0 3.31-.5 4.69-1.3"
-                    />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6.61 6.61C3.92 8.46 2.25 12 2.25 12s3.5 7.25 9.75 7.25c1.73 0 3.31-.5 4.69-1.3"
+                            />
 
-                `;
+                        `;
 
 
                         toggle.setAttribute(
@@ -1694,19 +1843,19 @@
 
                         eyeIcon.innerHTML = `
 
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M2.25 12s3.5-6.75 9.75-6.75S21.75 12 21.75 12 18.25 18.75 12 18.75 2.25 12 2.25 12Z"
-                    />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M2.25 12s3.5-6.75 9.75-6.75S21.75 12 21.75 12 18.25 18.75 12 18.75 2.25 12 2.25 12Z"
+                            />
 
-                    <circle
-                        cx="12"
-                        cy="12"
-                        r="3"
-                    />
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="3"
+                            />
 
-                `;
+                        `;
 
 
                         toggle.setAttribute(
@@ -1716,14 +1865,11 @@
 
                     }
 
-
                 }
             );
 
-
         });
     </script>
-
 
 </body>
 

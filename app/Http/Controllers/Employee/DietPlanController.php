@@ -33,28 +33,39 @@ class DietPlanController extends Controller
             [
                 'meal_name'    => 'required|string|max:255',
                 'calories'     => 'required|numeric',
-                'protein'      => 'nullable|numeric|min:0',
-                'carbs'        => 'nullable|numeric|min:0',
-                'fats'         => 'nullable|numeric|min:0',
+                'protein'      => 'required|numeric|min:0',
+                'carbs'        => 'required|numeric|min:0',
+                'fats'         => 'required|numeric|min:0',
                 'level'        => 'required|string',
                 'plan_details' => 'required|string',
-                'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+                'image'        => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             ],
             [
                 'meal_name.required' => 'حقل اسم الوجبة مطلوب.',
                 'meal_name.string' => 'حقل اسم الوجبة يجب أن يكون نصًا.',
                 'meal_name.max' => 'حقل اسم الوجبة يجب أن لا يتجاوز 255 حرفًا.',
+
                 'calories.required' => 'حقل السعرات الحرارية مطلوب.',
                 'calories.numeric' => 'حقل السعرات الحرارية يجب أن يكون رقمًا',
+
+                'protein.required' => 'حقل البروتين مطلوب.',
                 'protein.numeric' => 'حقل البروتين يجب أن يكون رقمًا',
                 'protein.min' => 'حقل البروتين يجب أن يكون رقمًا موجبًا أو صفر',
+
+                'carbs.required' => 'حقل الكربوهيدرات مطلوب.',
                 'carbs.numeric' => 'حقل الكربوهيدرات يجب أن يكون رقمًا',
                 'carbs.min' => 'حقل الكربوهيدرات يجب أن يكون رقمًا موجبًا أو صفر',
+
+                'fats.required' => 'حقل الدهون مطلوب.',
                 'fats.numeric' => 'حقل الدهون يجب أن يكون رقمًا',
                 'fats.min' => 'حقل الدهون يجب أن يكون رقمًا موجبًا أو صفر',
+
                 'level.required' => 'حقل المستوى مطلوب.',
+
                 'plan_details.required' => 'حقل تفاصيل الخطة مطلوب.',
                 'plan_details.string' => 'حقل تفاصيل الخطة يجب أن يكون نصًا.',
+
+                'image.required' => 'حقل الصورة مطلوب.',
                 'image.image' => 'الملف المرفق يجب أن يكون صورة.',
             ]
         );
@@ -118,16 +129,45 @@ class DietPlanController extends Controller
             ->where('coach_id', Auth::guard('employee')->id())
             ->findOrFail($id);
 
-        $request->validate([
-            'meal_name'    => 'required|string|max:255',
-            'calories'     => 'required|numeric',
-            'protein'      => 'nullable|numeric|min:0',
-            'carbs'        => 'nullable|numeric|min:0',
-            'fats'         => 'nullable|numeric|min:0',
-            'level'        => 'required|string',
-            'plan_details' => 'required|string',
-            'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        ]);
+           $request->validate(
+            [
+                'meal_name'    => 'required|string|max:255',
+                'calories'     => 'required|numeric',
+                'protein'      => 'required|numeric|min:0',
+                'carbs'        => 'required|numeric|min:0',
+                'fats'         => 'required|numeric|min:0',
+                'level'        => 'required|string',
+                'plan_details' => 'required|string',
+                'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            ],
+            [
+                'meal_name.required' => 'حقل اسم الوجبة مطلوب.',
+                'meal_name.string' => 'حقل اسم الوجبة يجب أن يكون نصًا.',
+                'meal_name.max' => 'حقل اسم الوجبة يجب أن لا يتجاوز 255 حرفًا.',
+
+                'calories.required' => 'حقل السعرات الحرارية مطلوب.',
+                'calories.numeric' => 'حقل السعرات الحرارية يجب أن يكون رقمًا',
+
+                'protein.required' => 'حقل البروتين مطلوب.',
+                'protein.numeric' => 'حقل البروتين يجب أن يكون رقمًا',
+                'protein.min' => 'حقل البروتين يجب أن يكون رقمًا موجبًا أو صفر',
+
+                'carbs.required' => 'حقل الكربوهيدرات مطلوب.',
+                'carbs.numeric' => 'حقل الكربوهيدرات يجب أن يكون رقمًا',
+                'carbs.min' => 'حقل الكربوهيدرات يجب أن يكون رقمًا موجبًا أو صفر',
+
+                'fats.required' => 'حقل الدهون مطلوب.',
+                'fats.numeric' => 'حقل الدهون يجب أن يكون رقمًا',
+                'fats.min' => 'حقل الدهون يجب أن يكون رقمًا موجبًا أو صفر',
+
+                'level.required' => 'حقل المستوى مطلوب.',
+
+                'plan_details.required' => 'حقل تفاصيل الخطة مطلوب.',
+                'plan_details.string' => 'حقل تفاصيل الخطة يجب أن يكون نصًا.',
+
+                'image.image' => 'الملف المرفق يجب أن يكون صورة.',
+            ]
+        );
 
         if ($request->hasFile('image')) {
             if ($dietPlan->image_path && Storage::disk('public')->exists($dietPlan->image_path)) {

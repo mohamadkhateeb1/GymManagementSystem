@@ -69,9 +69,9 @@ class PlayerMonitorController extends Controller
     
     public function index()
     {
-        //  if (!$this->authorize('viewAny', Player::class)) {
-        //     abort(403);
-        // }
+         if (!$this->authorize('viewAny', Player::class)) {
+            abort(403);
+        }
         $coachId = Auth::guard('employee')->id();
 
         $players = Player::where('coach_id', $coachId)
@@ -171,6 +171,9 @@ class PlayerMonitorController extends Controller
 
     public function show($id)
     {
+        if(!$this->authorize('view', Player::class)) {
+            abort(403);
+        }
         $player = $this->findMyPlayer($id, [
             'subscription',
             // 📋 الخطط النازلة من البنك العام فقط — الحاوية الخاصة مستبعدة هنا عمداً

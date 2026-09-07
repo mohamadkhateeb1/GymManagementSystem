@@ -10,40 +10,40 @@ class PlayerPolicy
     /**
      * View players.
      */
-    public function viewAny(Admin $admin): bool
+    public function viewAny( $user): bool
     {
-        return $admin->hasAbility('player.view');
+        return $user->hasAbility('player.view');
     }
 
     /**
      * View a specific player.
      */
-    public function view(Admin $admin, Player $player): bool
+    public function view($user): bool
     {
-        return $admin->hasAbility('player.view');
+        return $user->hasAbility('player.show');
     }
 
     /**
      * Create a player.
      */
-    public function create(Admin $admin): bool
+    public function create( $user): bool
     {
-        return $admin->hasAbility('player.create');
+        return $user->hasAbility('player.create');
     }
 
     /**
      * Update a player.
      */
-    public function update(Admin $admin, Player $player): bool
+    public function update( $user, Player $player): bool
     {
-        return $admin->hasAbility('player.edit');
+        return $user->hasAbility('player.edit');
     }
 
     /**
      * Delete a player.
      */
-    public function delete(Admin $admin, Player $player): bool
+    public function delete( $user, Player $player): bool
     {
-        return $admin->hasAbility('player.delete');
+        return $user->hasAbility('player.delete');
     }
 }

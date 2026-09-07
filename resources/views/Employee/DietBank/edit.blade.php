@@ -249,28 +249,31 @@
             border-color: var(--border-soft);
         }
 
-        .alert-error {
+        /* أخطاء التحقق تحت الحقول */
+        .field-error {
             display: flex;
             align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 18px;
-            padding: 13px 15px;
-            color: var(--text);
-            background: rgba(232, 93, 93, .08);
-            border: 1px solid rgba(232, 93, 93, .20);
-            border-radius: 11px;
-            font-size: 12px;
-            line-height: 1.8;
+            gap: 5px;
+            margin-top: 6px;
+            color: var(--danger, #e87575);
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.7;
         }
 
-        .alert-error i {
-            margin-top: 3px;
-            color: var(--danger);
+        .field-error i {
+            margin-top: 4px;
+            font-size: 10px;
+            flex-shrink: 0;
         }
 
-        .alert-error ul {
-            margin: 0;
-            padding-right: 17px;
+        .field-input.field-invalid {
+            border-color: var(--danger, #e87575) !important;
+            box-shadow: 0 0 0 3px rgba(232, 117, 117, .07);
+        }
+
+        .current-image.field-invalid {
+            border-color: var(--danger, #e87575);
         }
 
         @media (max-width: 700px) {
@@ -331,20 +334,6 @@
 
     <div class="dashboard-wrapper diet-edit-container">
 
-        @if ($errors->any())
-            <div class="alert-error">
-                <i class="fas fa-exclamation-triangle"></i>
-
-                <div>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        @endif
-
         <div class="diet-edit-top">
 
             <div class="diet-edit-title">
@@ -382,13 +371,13 @@
 
             <div class="edit-card-body">
 
-                <form action="{{ route('employee.diet.bank.update', $dietPlan->id) }}"
-                    method="POST"
+                <form action="{{ route('employee.diet.bank.update', $dietPlan->id) }}" method="POST"
                     enctype="multipart/form-data">
 
                     @csrf
                     @method('PUT')
 
+                    {{-- اسم الوجبة --}}
                     <div class="field-group">
 
                         <label class="field-label">
@@ -396,15 +385,20 @@
                             اسم الوجبة
                         </label>
 
-                        <input type="text"
-                            name="meal_name"
-                            class="field-input"
-                            value="{{ old('meal_name', $dietPlan->meal_name) }}"
-                            placeholder="مثال: صدر دجاج مع أرز"
-                            >
+                        <input type="text" name="meal_name"
+                            class="field-input @error('meal_name') field-invalid @enderror"
+                            value="{{ old('meal_name', $dietPlan->meal_name) }}" placeholder="مثال: صدر دجاج مع أرز">
+
+                        @error('meal_name')
+                            <div class="field-error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
 
                     </div>
 
+                    {{-- المستوى --}}
                     <div class="field-group">
 
                         <label class="field-label">
@@ -412,14 +406,13 @@
                             المستوى المستهدف للوجبة
                         </label>
 
-                        <select name="level" class="field-input" >
+                        <select name="level" class="field-input @error('level') field-invalid @enderror">
 
                             <option value="">
                                 -- اختر المستوى --
                             </option>
 
-                            <option value="beginner"
-                                {{ old('level', $dietPlan->level) == 'beginner' ? 'selected' : '' }}>
+                            <option value="beginner" {{ old('level', $dietPlan->level) == 'beginner' ? 'selected' : '' }}>
                                 Beginner (مبتدئ)
                             </option>
 
@@ -428,15 +421,22 @@
                                 Intermediate (متوسط)
                             </option>
 
-                            <option value="advanced"
-                                {{ old('level', $dietPlan->level) == 'advanced' ? 'selected' : '' }}>
+                            <option value="advanced" {{ old('level', $dietPlan->level) == 'advanced' ? 'selected' : '' }}>
                                 Advanced (متقدم)
                             </option>
 
                         </select>
 
+                        @error('level')
+                            <div class="field-error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+
                     </div>
 
+                    {{-- السعرات --}}
                     <div class="field-group">
 
                         <label class="field-label">
@@ -444,17 +444,22 @@
                             عدد السعرات الحرارية
                         </label>
 
-                        <input type="number"
-                            name="calories"
-                            class="field-input"
-                            value="{{ old('calories', $dietPlan->calories) }}"
-                            placeholder="مثال: 520"
-                            >
+                        <input type="number" name="calories" class="field-input @error('calories') field-invalid @enderror"
+                            value="{{ old('calories', $dietPlan->calories) }}" placeholder="مثال: 520">
+
+                        @error('calories')
+                            <div class="field-error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
 
                     </div>
 
+                    {{-- الماكروز --}}
                     <div class="field-row">
 
+                        {{-- بروتين --}}
                         <div class="field-group">
 
                             <label class="field-label">
@@ -462,16 +467,20 @@
                                 بروتين (غ)
                             </label>
 
-                            <input type="number"
-                                step="0.1"
-                                min="0"
-                                name="protein"
-                                class="field-input"
-                                value="{{ old('protein', $dietPlan->protein) }}"
-                                placeholder="مثال: 35">
+                            <input type="number" step="0.1" min="0" name="protein"
+                                class="field-input @error('protein') field-invalid @enderror"
+                                value="{{ old('protein', $dietPlan->protein) }}" placeholder="مثال: 35">
+
+                            @error('protein')
+                                <div class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
 
                         </div>
 
+                        {{-- كربوهيدرات --}}
                         <div class="field-group">
 
                             <label class="field-label">
@@ -479,16 +488,20 @@
                                 كربوهيدرات (غ)
                             </label>
 
-                            <input type="number"
-                                step="0.1"
-                                min="0"
-                                name="carbs"
-                                class="field-input"
-                                value="{{ old('carbs', $dietPlan->carbs) }}"
-                                placeholder="مثال: 40">
+                            <input type="number" step="0.1" min="0" name="carbs"
+                                class="field-input @error('carbs') field-invalid @enderror"
+                                value="{{ old('carbs', $dietPlan->carbs) }}" placeholder="مثال: 40">
+
+                            @error('carbs')
+                                <div class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
 
                         </div>
 
+                        {{-- دهون --}}
                         <div class="field-group">
 
                             <label class="field-label">
@@ -496,18 +509,22 @@
                                 دهون (غ)
                             </label>
 
-                            <input type="number"
-                                step="0.1"
-                                min="0"
-                                name="fats"
-                                class="field-input"
-                                value="{{ old('fats', $dietPlan->fats) }}"
-                                placeholder="مثال: 12">
+                            <input type="number" step="0.1" min="0" name="fats"
+                                class="field-input @error('fats') field-invalid @enderror"
+                                value="{{ old('fats', $dietPlan->fats) }}" placeholder="مثال: 12">
+
+                            @error('fats')
+                                <div class="field-error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>{{ $message }}</span>
+                                </div>
+                            @enderror
 
                         </div>
 
                     </div>
 
+                    {{-- الصورة --}}
                     <div class="field-group">
 
                         <label class="field-label">
@@ -515,13 +532,17 @@
                             تغيير صورة الوجبة
                         </label>
 
-                        <input type="file"
-                            name="image"
-                            class="field-input"
+                        <input type="file" name="image" class="field-input @error('image') field-invalid @enderror"
                             accept="image/*">
 
-                        @if (!empty($dietPlan->image_path))
+                        @error('image')
+                            <div class="field-error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
 
+                        @if (!empty($dietPlan->image_path))
                             <div class="current-image">
 
                                 <span class="current-image-title">
@@ -532,9 +553,7 @@
                                     alt="{{ $dietPlan->meal_name }}">
 
                             </div>
-
                         @else
-
                             <div class="current-image">
 
                                 <span class="no-image">
@@ -542,11 +561,11 @@
                                 </span>
 
                             </div>
-
                         @endif
 
                     </div>
 
+                    {{-- التفاصيل --}}
                     <div class="field-group">
 
                         <label class="field-label">
@@ -554,11 +573,15 @@
                             المكونات والتفاصيل
                         </label>
 
-                        <textarea name="plan_details"
-                            class="field-input"
-                            rows="5"
-                            placeholder="اكتب المكونات بالتفصيل هنا..."
-                            >{{ old('plan_details', $dietPlan->plan_details) }}</textarea>
+                        <textarea name="plan_details" class="field-input @error('plan_details') field-invalid @enderror" rows="5"
+                            placeholder="اكتب المكونات بالتفصيل هنا...">{{ old('plan_details', $dietPlan->plan_details) }}</textarea>
+
+                        @error('plan_details')
+                            <div class="field-error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
 
                     </div>
 
@@ -589,5 +612,4 @@
         </div>
 
     </div>
-
 @endsection
