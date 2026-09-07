@@ -23,34 +23,40 @@ class MultiGuardAuthenticationController extends Controller
     public function authenticateAdmin(LoginRequest $request)
     {
         $this->configureGuard('admin', 'admins', '/admin/dashboard');
+        $request->merge([
+            'remember' => false,
+        ]);
 
         return app(AuthenticatedSessionController::class)->store($request);
     }
 
     public function authenticateEmployee(LoginRequest $request)
     {
+        $request->merge([
+            'remember' => false,
+        ]);
         $this->configureGuard('employee', 'employees', '/employee/dashboard');
 
         return app(AuthenticatedSessionController::class)->store($request);
     }
 
- public function adminLogout(Request $request)
-{
-    Auth::guard('admin')->logout();
+    public function adminLogout(Request $request)
+    {
+        Auth::guard('admin')->logout();
 
-    $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
-    return redirect()->route('admin.login');
-}
+        return redirect()->route('admin.login');
+    }
 
-public function employeeLogout(Request $request)
-{
-    Auth::guard('employee')->logout();
+    public function employeeLogout(Request $request)
+    {
+        Auth::guard('employee')->logout();
 
-    $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
-    return redirect()->route('employee.login');
-}
+        return redirect()->route('employee.login');
+    }
 
     private function configureGuard(string $guard, string $passwords, string $home): void
     {

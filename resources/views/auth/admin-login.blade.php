@@ -1567,32 +1567,7 @@
 
                         <!-- OPTIONS -->
 
-                        <div class="form-options">
-
-
-                            <label class="remember">
-
-
-                                <input type="checkbox" name="remember" value="1"
-                                    {{ old('remember') ? 'checked' : '' }}>
-
-
-                                <span>
-                                    Remember me
-                                </span>
-
-
-                            </label>
-
-
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}" class="forgot-password">
-                                    Forgot password?
-                                </a>
-                            @endif
-
-
-                        </div>
+                     
 
 
                         <!-- SIGN IN -->
