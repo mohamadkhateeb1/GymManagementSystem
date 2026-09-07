@@ -89,13 +89,13 @@ return [
                 'active_pattern' => 'admin.roles*',
                 'ability' => 'role.view',
             ],
-            [
-                'label' => 'نظام الأمان المتقدم',
-                'icon' => 'fas fa-lock',
-                'route' => 'admin.2fa',
-                // 'ability' => '2fa.view',
-                'active_pattern' => 'admin.2fa.*',
-            ],
+            // [
+            //     'label' => 'نظام الأمان المتقدم',
+            //     'icon' => 'fas fa-lock',
+            //     'route' => 'admin.2fa',
+            //     // 'ability' => '2fa.view',
+            //     'active_pattern' => 'admin.2fa.*',
+            // ],
 
                 [
                     'label' => 'مسؤولين النظام',

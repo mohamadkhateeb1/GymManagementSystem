@@ -23,16 +23,21 @@ use Laravel\Fortify\Fortify;
 class FortifyServiceProvider extends ServiceProvider
 {
     public function register(): void
-    {
-        $this->app->singleton(
-            LoginResponseContract::class,
-            LoginResponse::class
-        );
+{
+    $this->app->singleton(
+        LoginResponseContract::class,
+        LoginResponse::class
+    );
 
-        $this->app->singleton(
-            LogoutResponseContract::class,
-            LogoutResponse::class
-        );
+    $this->app->singleton(
+        LogoutResponseContract::class,
+        LogoutResponse::class
+    );
+
+    $this->app->singleton(
+        \Laravel\Fortify\Contracts\TwoFactorLoginResponse::class,
+        \App\Http\Responses\TwoFactorAuthenticatedResponse::class
+    );
 
         // 🛡️ توجيه صريح حسب الحارس بعد نجاح تحدي الـ 2FA
         // (بدل redirect()->intended الافتراضي اللي بيوقع الأدمن بصفحة اللاعبين)

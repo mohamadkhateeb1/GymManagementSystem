@@ -2,18 +2,14 @@
 
 namespace App\Http\Responses;
 
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
 
 /**
- * 🛡️ توجيه ما بعد تحدي المصادقة الثنائية — صريح حسب الحارس.
+ * توجيه ما بعد تحدي المصادقة الثنائية حسب الحارس الذي بدأ تسجيل الدخول.
  *
- * السبب: نسخة Fortify الافتراضية بتستخدم redirect()->intended(...)، وهاد
- * بيتبع url.intended المخزّن بالجلسة (اللي بينحطّ لما زائر يفتح صفحة محمية
- * قبل تسجيل الدخول). النتيجة: الأدمن/الموظف بعد ما ينجح بالـ 2FA بينوجّه
- * لصفحة اللاعبين /dashboard الفاضية بدل لوحته الصحيحة.
- *
- * الحل: نفس منطق App\Http\Responses\LoginResponse بالضبط — توجيه صريح
- * حسب config('fortify.guard') (اللي بيضبطه SetFortifyGuard middleware).
+ * لا نستخدم redirect()->intended() هنا؛ فقد تكون الجلسة تحتوي على رابط
+ * /dashboard الخاص باللاعبين قبل بدء تسجيل دخول الأدمن أو الموظف.
  */
 class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
 {
@@ -23,19 +19,40 @@ class TwoFactorLoginResponse implements TwoFactorLoginResponseContract
             return response()->json('', 204);
         }
 
-        // بعد نجاح التحدي قد تعود قيمة config إلى web، لذلك نعتمد
-        // على الحارس الذي حُفظ عند بدء تحدي 2FA.
-        $guard = $request->session()->get('login.guard')
-            ?: config('fortify.guard');
+        $guard = $this->resolveGuard($request);
 
-        if ($guard === 'admin') {
-            return redirect()->route('admin.dashboard');
+        return match ($guard) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'employee' => redirect()->route('employee.dashboard'),
+            default => redirect()->route('dashboard'),
+        };
+    }
+
+    private function resolveGuard($request): string
+    {
+        // login.guard يُحفظ عند بدء تحدي 2FA، وهو المصدر الأوثق لأن
+        // config('fortify.guard') قد يعود إلى web عند معالجة POST التحدي.
+        $sessionGuard = $request->session()->get('login.guard');
+
+        if (in_array($sessionGuard, ['admin', 'employee'], true)) {
+            return $sessionGuard;
         }
 
-        if ($guard === 'employee') {
-            return redirect()->route('employee.dashboard');
+        $configuredGuard = config('fortify.guard');
+
+        if (in_array($configuredGuard, ['admin', 'employee'], true)) {
+            return $configuredGuard;
         }
 
-        return redirect()->route('dashboard');
+        // fallback للجلسات القديمة أو في حال تغيّر config أثناء الطلب.
+        if (Auth::guard('admin')->check()) {
+            return 'admin';
+        }
+
+        if (Auth::guard('employee')->check()) {
+            return 'employee';
+        }
+
+        return 'web';
     }
 }

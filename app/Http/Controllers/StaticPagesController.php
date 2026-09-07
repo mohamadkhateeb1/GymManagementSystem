@@ -33,4 +33,5 @@ class StaticPagesController extends Controller
     {
         return view('Employee.auth.two-factor-challenge');
     }
+
 }

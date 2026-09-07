@@ -730,7 +730,7 @@
 
             </a>
 
-            <a href="{{ route('employee.2fa') }}"
+            {{-- <a href="{{ route('employee.2fa') }}"
                 class="sidebar-link
                     {{ request()->routeIs('employee.2fa*') ? 'active' : '' }}">
 
@@ -744,7 +744,7 @@
                     التحقق بخطوتين
                 </span>
 
-            </a>
+            </a> --}}
 
         </div>
 

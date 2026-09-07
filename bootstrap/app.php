@@ -21,6 +21,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'guard.auth' => GuardAwareAuth::class,
         ]);
 
+
+
+
+        
+
+
+
         $middleware->web(
             append: [
                 SetFortifyGuard::class,
