@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-       
         :root {
 
             --navy: #111c2d;
@@ -1462,7 +1461,7 @@
 
                                 <input type="email" id="email" name="email" value="{{ old('email') }}"
                                     placeholder="Enter your email" autocomplete="email"
-                                    class="{{ $errors->has('email') ? 'is-invalid' : '' }}" >
+                                    class="{{ $errors->has('email') ? 'is-invalid' : '' }}">
 
 
                             </div>
@@ -1519,7 +1518,7 @@
 
                                 <input type="password" id="password" name="password"
                                     placeholder="Enter your password" autocomplete="current-password"
-                                    class="{{ $errors->has('password') ? 'is-invalid' : '' }}" >
+                                    class="{{ $errors->has('password') ? 'is-invalid' : '' }}">
 
 
                                 <button type="button" class="password-toggle" id="togglePassword"
@@ -1563,75 +1562,32 @@
 
 
                         </div>
-
-
-                        <!-- OPTIONS -->
-
-                     
-
-
-                        <!-- SIGN IN -->
-
                         <button type="submit" class="login-button">
-
-
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M13 5h6a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-6" />
-
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 12h11" />
-
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11 8 4 4-4 4" />
-
                             </svg>
-
-
                             <span>
                                 Sign In
                             </span>
-
-
                         </button>
-
-
                     </form>
-
-
                 </div>
-
-
             </section>
-
-
         </div>
-
-
     </main>
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
-
-            /* =========================================================
-               THEME
-            ========================================================== */
-
             const themeToggle =
                 document.getElementById('themeToggle');
-
-
             const html =
                 document.documentElement;
-
-
             if (themeToggle) {
-
                 themeToggle.addEventListener(
                     'click',
                     function() {
-
                         const currentTheme =
                             html.getAttribute('data-theme');
 

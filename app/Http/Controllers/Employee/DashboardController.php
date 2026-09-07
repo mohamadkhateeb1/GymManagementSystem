@@ -153,7 +153,7 @@ class DashboardController extends Controller
         | إرسال كل البيانات للداشبورد
         |--------------------------------------------------------------------------
         */
-        return view('Employee.dashboard', compact(
+        return view('Employee.Dashboard', compact(
             'totalPlayers',
             'beginnerCount',
             'intermediateCount',
