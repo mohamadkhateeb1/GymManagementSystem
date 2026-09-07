@@ -5,17 +5,13 @@
 @section('styles')
 
     <style>
-        /* =========================================================
-       ADMINS INDEX
-    ========================================================= */
-
+ 
         .admins-page {
             width: 100%;
             direction: rtl;
         }
 
 
-        /* ================= HEADER ================= */
 
         .admins-page-header {
             display: flex;
@@ -55,7 +51,6 @@
         }
 
 
-        /* ================= ACTIONS ================= */
 
         .admins-header-actions {
             display: flex;
@@ -109,7 +104,6 @@
         }
 
 
-        /* ================= CARD ================= */
 
         .admins-card {
             overflow: hidden;
@@ -120,7 +114,6 @@
         }
 
 
-        /* ================= CARD HEADER ================= */
 
         .admins-card-header {
             min-height: 67px;
@@ -162,7 +155,6 @@
         }
 
 
-        /* ================= TABLE ================= */
 
         .admins-table-wrap {
             width: 100%;
@@ -483,7 +475,6 @@
 
     <div class="admins-page">
 
-        {{-- ================= PAGE HEADER ================= --}}
 
         <div class="admins-page-header">
 
@@ -536,7 +527,6 @@
         </div>
 
 
-        {{-- ================= TABLE CARD ================= --}}
 
         <div class="admins-card">
 
@@ -595,7 +585,6 @@
 
                             <tr>
 
-                                {{-- ID --}}
                                 <td>
 
                                     <span class="admin-id">
@@ -605,7 +594,6 @@
                                 </td>
 
 
-                                {{-- ADMIN --}}
                                 <td>
 
                                     <div class="admin-info">
@@ -623,7 +611,6 @@
                                 </td>
 
 
-                                {{-- ROLES --}}
                                 <td>
 
                                     @if ($admin->roles->isNotEmpty())
@@ -649,7 +636,6 @@
                                 </td>
 
 
-                                {{-- ACTIONS --}}
                                 <td>
 
                                     <div class="admin-row-actions">
@@ -714,7 +700,6 @@
                         @endforelse
 
 
-                        {{-- فقط Super Admin موجود --}}
                         @if ($admins->isNotEmpty() && $visibleAdmins->isEmpty())
                             <tr>
 

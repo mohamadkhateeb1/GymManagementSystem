@@ -5,12 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class FinancialReportController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
+        if(!$this->authorize('viewAny', Payment::class)) {
+            abort(403);
+        }
         $month = $request->filled('month')
             ? Carbon::createFromFormat('Y-m', $request->month)->startOfMonth()
             : now()->startOfMonth();

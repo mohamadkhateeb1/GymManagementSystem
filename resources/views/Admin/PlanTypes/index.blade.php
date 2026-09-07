@@ -319,9 +319,11 @@
         <div class="panel">
             <div class="panel-head">
                 <h3><i class="fas fa-tags"></i> إدارة الباقات والأسعار</h3>
+                @can('plan_type.create')
                 <button class="btn-solid" onclick="openAddModal()">
                     <i class="fas fa-plus"></i> إضافة باقة جديدة
                 </button>
+                @endcan
             </div>
 
             <table class="members-table">
@@ -352,11 +354,13 @@
                             </td>
                             <td style="text-align: center;">
                                 <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: nowrap;">
+                                    @can('plan_type.edit')
                                     <button type="button" class="action-btn"
                                         onclick='openEditModal(@json($plan))'>
                                         <i class="fas fa-pen"></i> تعديل
                                     </button>
-
+                                    @endcan
+                                    @can('plan_type.toggle')
                                     <form action="{{ route('admin.plan-types.toggle', $plan->id) }}" method="POST"
                                         style="display: inline;"
                                         onsubmit="return confirm('{{ $plan->is_active ? 'سيتم إخفاء هذه الباقة عن قائمة الاشتراكات الجديدة، مع بقاء الاشتراكات الحالية عليها كما هي. متابعة؟' : 'سيتم إعادة تفعيل هذه الباقة لتظهر عند إنشاء اشتراك جديد. متابعة؟' }}')">
@@ -370,6 +374,7 @@
                                             @endif
                                         </button>
                                     </form>
+                                    @endcan
 
                                 </div>
                             </td>
@@ -388,7 +393,6 @@
         </div>
     </div>
 
-    {{-- ===== Modal إضافة باقة جديدة ===== --}}
     <div id="addPlanModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">

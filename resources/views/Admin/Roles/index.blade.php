@@ -7,10 +7,6 @@
 
 <style>
 
-/* =========================================================
-   ROLES MANAGEMENT
-   ========================================================= */
-
 .roles-management {
     width: 100%;
 
@@ -81,11 +77,6 @@
     font-size: 13px;
 }
 
-
-/* =========================
-   HEADER ACTIONS
-   ========================= */
-
 .roles-management .header-actions {
     display: flex;
 
@@ -153,11 +144,6 @@
     background: rgba(239,68,68,.12);
 }
 
-
-/* =========================
-   MAIN CARD
-   ========================= */
-
 .roles-management .roles-card {
     overflow: hidden;
 
@@ -171,10 +157,6 @@
         0 8px 30px rgba(0,0,0,.04);
 }
 
-
-/* =========================
-   CARD TOP
-   ========================= */
 
 .roles-management .card-top {
     min-height: 64px;
@@ -275,9 +257,6 @@
 
     color: var(--text, #111827);
 }
-
-
-/* HEAD */
 
 .roles-management table thead {
     background: var(--table-head, #f5f6f8);
@@ -731,7 +710,7 @@
 
         <div class="header-actions">
 
-            @can('role.delete')
+            @can('role.deleteall')
 
                 <form
                     action="{{ route('admin.roles.destroy_all') }}"

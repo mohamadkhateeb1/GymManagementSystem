@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Admin;
+use App\Models\EmployeeAttendanceLog;
 use App\Models\Role;
 use App\Policies\AdminPolicy;
+use App\Policies\EmployeeAttendanceLogPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
@@ -25,9 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (app()->environment('local')) {
-        URL::forceScheme('https');
-    }
+    //     if (app()->environment('local')) {
+    //     URL::forceScheme('http');
+    // }
         
         // الفحص اذا كان الادمن سوبر ادمن
         // اذا كان سوبر ادمن بيعطيه كل الصلاحيات بدون فحص
@@ -58,6 +60,8 @@ class AppServiceProvider extends ServiceProvider
     
         // add policy for role
         Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(Admin::class, AdminPolicy::class);
+        Gate::policy(EmployeeAttendanceLog::class, EmployeeAttendanceLogPolicy::class);
     }
  
 }

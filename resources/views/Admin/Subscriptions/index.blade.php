@@ -269,10 +269,13 @@
                             </td>
                             <td>
                                 <div class="actions-cell">
+                                    @can('membership.create')
                                     <button type="button" class="action-btn"
                                         onclick="openRenewModal({{ $membership->id }}, {{ $membership->plan_type_id ?? 'null' }})">
                                         تجديد
                                     </button>
+                                    @endcan
+                                    @can('membership.delete')
 
                                     <form action="{{ route('admin.subscriptions.archive', $membership->id) }}"
                                         method="POST"
@@ -282,6 +285,7 @@
                                             <i class="fas fa-box-archive"></i> أرشفة
                                         </button>
                                     </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

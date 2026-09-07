@@ -1,17 +1,24 @@
 <?php
-
+// هلق هاد المتحكم مسؤول عن إدارة أنواع الباقات (Plan Types) في لوحة تحكم المدير.
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\PlanType;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class PlanTypeController extends Controller
 {
+    USE AuthorizesRequests;
 
     public function index()
     {
+
+    if(!$this->authorize('viewAny', PlanType::class)) {
+            abort(403);
+        }
+
         $planTypes = PlanType::withCount('memberships')->latest()->get();
 
         return view('Admin.PlanTypes.index', compact('planTypes'));

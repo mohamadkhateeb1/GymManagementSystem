@@ -34,14 +34,14 @@ return [
                 'label' => 'حضور الموظفين',
                 'icon' => 'fas fa-calendar-check',
                 'route' => 'admin.attendance.employees.index',
-                // 'ability' => 'financials.view',
+                'ability' => 'employee_attendance.view',
                 'active_pattern' => 'admin.attendance.employees.*',
             ],
             [
                 'label' => 'حضور اللاعبين',
                 'icon' => 'fas fa-user-clock',
                 'route' => 'admin.attendance.players.index',
-                // 'ability' => 'financials.view',
+                'ability' => 'attendance.view',
                 'active_pattern' => 'admin.attendance.players.*',
             ]
         ]
@@ -53,28 +53,28 @@ return [
                 'label' => 'الاشتراكات',
                 'icon' => 'fas fa-id-card',
                 'route' => 'subscriptions.index',
-                // 'ability' => 'financials.view',
+                'ability' => 'membership.view',
                 'active_pattern' => 'subscriptions.*',
             ],
             [
                 'label' => 'الباقات والأسعار',
                 'icon' => 'fas fa-tags',
                 'route' => 'admin.plan-types.index',
-                // 'ability' => 'financials.view',
+                'ability' => 'payment.view',
                 'active_pattern' => 'admin.plan-types.*',
             ],
             [
                 'label' => 'التقارير المالية',
                 'icon' => 'fas fa-file-invoice-dollar',
                 'route' => 'admin.financial-reports.index',
-                // 'ability' => 'financials.view',
+                'ability' => 'financial_report.view',
                 'active_pattern' => 'admin.financial-reports.*',
             ],
             [
                 'label' => 'أرشيف الإدارة المالية',
                 'icon' => 'fas fa-box-archive',
                 'route' => 'admin.financial-archive.index',
-                // 'ability' => 'financials.view',
+                'ability' => 'financial_archive.view',
                 'active_pattern' => 'admin.financial-archive.*',
             ]
         ]

@@ -7,11 +7,19 @@ use App\Models\Employee;
 use App\Models\EmployeeAttendanceLog;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AdminEmployeeAttendanceController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
+        
+        if(!$this->authorize('viewAny', EmployeeAttendanceLog::class)) {
+            abort(403);
+        }
+
+
         $today = Carbon::today()->toDateString();
 
         $stats = [
@@ -20,7 +28,6 @@ class AdminEmployeeAttendanceController extends Controller
         ];
 
         $query = EmployeeAttendanceLog::with('employee')
-            // 🛡️ استثناء أي سجل حضور مرتبط بموظف محذوف من قاعدة البيانات
             ->whereHas('employee')
             ->latest('attendance_date');
 

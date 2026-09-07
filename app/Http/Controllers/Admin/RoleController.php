@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 class RoleController extends Controller
 {
     use AuthorizesRequests;
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $this->authorize('viewAny', Role::class);
+  
+    public function index(){
+       if(!$this->authorize('viewAny', Role::class)) {
+            abort(403);
+        }
+
         $roles = Role::paginate(10);
         return view('Admin.Roles.index', [
             'roles' => $roles
@@ -23,17 +23,14 @@ class RoleController extends Controller
     }
 
 
-    public function create()
-    {
-        // $this->authorize('create', Role::class);
+    public function create(){
         return view('Admin.Roles.create', [
             'role' => new Role(),
         ]);
     }
 
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $request->validate([
             'name' => 'required|unique:roles,name',
             'ability' => 'required|array',
@@ -52,8 +49,7 @@ class RoleController extends Controller
         }
     }
 
-    public function show(Role $role)
-    {
+    public function show(Role $role) {
         //
     }
 

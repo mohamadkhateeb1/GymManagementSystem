@@ -8,15 +8,16 @@ use App\Models\Player;
 use App\Models\PlanType;
 use App\Models\Payment;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class PlayerController extends Controller
 {
-    public function index(Request $request)
-    {
+    use AuthorizesRequests;
+    //index
+    public function index(Request $request)  {
         $players = Player::with('subscription')
-            // 🔍 بحث موحّد بالاسم أو البريد الإلكتروني
             ->when($request->filled('search'), function ($query) use ($request) {
                 $search = $request->search;
                 $query->where(function ($q) use ($search) {
@@ -24,11 +25,9 @@ class PlayerController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            // 🎯 فلترة حسب المدرب
             ->when($request->filled('coach_id'), function ($query) use ($request) {
                 $query->where('coach_id', $request->coach_id);
             })
-            // 🛡️ فلترة حسب حالة الاشتراك (فعّال / منتهٍ / بلا اشتراك)
             ->when($request->filled('subscription_status'), function ($query) use ($request) {
                 if ($request->subscription_status === 'active') {
                     $query->whereHas('subscription', function ($q) {
@@ -53,9 +52,8 @@ class PlayerController extends Controller
             'coaches' => Employee::all(),
         ]);
     }
-
-    public function create()
-    {
+    //create
+    public function create()  {
         $coaches = Employee::all();
         $planTypes = PlanType::active()->orderBy('duration_days')->get();
 
@@ -64,45 +62,46 @@ class PlayerController extends Controller
             'planTypes' => $planTypes,
         ]);
     }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name'          => 'required|string|max:255',
-            'email'         => 'required|email|unique:players,email',
-            'password'      => 'required|min:8',
-            'date_of_birth' => 'nullable|date',
-            'height'        => 'nullable|numeric',
-            'weight'        => 'nullable|numeric',
-            'phone'         => 'required|numeric',
-            'coach_id'      => 'nullable|exists:employees,id',
-            'plan_type_id'  => 'required|exists:plan_types,id',
-        ],
-        [
-            //name
-            'name.required' => 'حقل الاسم مطلوب.',
-            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
-            //email
-            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
-            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
-            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
-            //password
-            'password.required' => 'حقل كلمة المرور مطلوب.',
-            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
-            //date_of_birth
-            'date_of_birth.date' => 'يرجى إدخال تاريخ ميلاد صالح.',
-            //height
-            'height.numeric' => 'الطول يجب أن يكون رقماً.',
-            'weight.numeric' => 'الوزن يجب أن يكون رقماً.',
-            //phone
-            'phone.required' => 'حقل رقم الهاتف مطلوب.',
-            'phone.numeric' => 'رقم الهاتف يجب أن يكون رقماً.',
-            //coach_id
-            'coach_id.exists' => 'المدرب المحدد غير موجود.',
-            //plan_type_id
-            'plan_type_id.required' => 'حقل نوع الباقة مطلوب.',
-            'plan_type_id.exists' => 'نوع الباقة المحدد غير موجود.'
-        ]);
+    //store
+    public function store(Request $request) {
+        $validated = $request->validate(
+            [
+                'name'          => 'required|string|max:255',
+                'email'         => 'required|email|unique:players,email',
+                'password'      => 'required|min:8',
+                'date_of_birth' => 'nullable|date',
+                'height'        => 'nullable|numeric',
+                'weight'        => 'nullable|numeric',
+                'phone'         => 'required|numeric',
+                'coach_id'      => 'nullable|exists:employees,id',
+                'plan_type_id'  => 'required|exists:plan_types,id',
+            ],
+            [
+                //name
+                'name.required' => 'حقل الاسم مطلوب.',
+                'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+                //email
+                'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+                'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+                'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
+                //password
+                'password.required' => 'حقل كلمة المرور مطلوب.',
+                'password.min' => 'كلمة المرور يجب أن تكون على الأقل 8 أحرف.',
+                //date_of_birth
+                'date_of_birth.date' => 'يرجى إدخال تاريخ ميلاد صالح.',
+                //height
+                'height.numeric' => 'الطول يجب أن يكون رقماً.',
+                'weight.numeric' => 'الوزن يجب أن يكون رقماً.',
+                //phone
+                'phone.required' => 'حقل رقم الهاتف مطلوب.',
+                'phone.numeric' => 'رقم الهاتف يجب أن يكون رقماً.',
+                //coach_id
+                'coach_id.exists' => 'المدرب المحدد غير موجود.',
+                //plan_type_id
+                'plan_type_id.required' => 'حقل نوع الباقة مطلوب.',
+                'plan_type_id.exists' => 'نوع الباقة المحدد غير موجود.'
+            ]
+        );
 
         $planType = PlanType::findOrFail($request->plan_type_id);
 
@@ -134,9 +133,8 @@ class PlayerController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'تم إضافة اللاعب بنجاح');
     }
-
-    public function edit($id)
-    {
+    //edit
+    public function edit($id){
         $coaches = Employee::all();
         $planTypes = PlanType::active()->orderBy('duration_days')->get();
         $player = Player::with('subscription')->findOrFail($id);
@@ -147,38 +145,39 @@ class PlayerController extends Controller
             'player' => $player
         ]);
     }
-
-    public function update(Request $request, $id)
-    {
+    //update
+    public function update(Request $request, $id){
         $player = Player::findOrFail($id);
 
-        $validated = $request->validate([
-            'name'          => 'required|string|max:255',
-            'email'         => 'required|email|unique:players,email,' . $player->id,
-            'password'      => 'nullable|min:6',
-            'date_of_birth' => 'nullable|date',
-            'height'        => 'nullable|numeric',
-            'weight'        => 'nullable|numeric',
-            'phone'         => 'nullable|string|max:20',
-            'coach_id'      => 'nullable|exists:employees,id',
-            'plan_type_id'  => 'required|exists:plan_types,id',
-        ],
-        [
-            'name.required' => 'حقل الاسم مطلوب.',
-            'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
-            'email.required' => 'حقل البريد الإلكتروني مطلوب.',
-            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
-            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
-            'password.min' => 'كلمة المرور يجب أن تكون على الأقل 6 أحرف.',
-            'date_of_birth.date' => 'يرجى إدخال تاريخ ميلاد صالح.',
-            'height.numeric' => 'الطول يجب أن يكون رقماً.',
-            'weight.numeric' => 'الوزن يجب أن يكون رقماً.',
-            'phone.string' => 'رقم الهاتف يجب أن يكون نصًا.',
-            'phone.max' => 'رقم الهاتف يجب ألا يزيد عن 20 حرفًا.',
-            'coach_id.exists' => 'المدرب المحدد غير موجود.',
-            'plan_type_id.required' => 'حقل نوع الباقة مطلوب.',
-            'plan_type_id.exists' => 'نوع الباقة المحدد غير موجود.'
-        ]);
+        $validated = $request->validate(
+            [
+                'name'          => 'required|string|max:255',
+                'email'         => 'required|email|unique:players,email,' . $player->id,
+                'password'      => 'nullable|min:6',
+                'date_of_birth' => 'nullable|date',
+                'height'        => 'nullable|numeric',
+                'weight'        => 'nullable|numeric',
+                'phone'         => 'nullable|string|max:20',
+                'coach_id'      => 'nullable|exists:employees,id',
+                'plan_type_id'  => 'required|exists:plan_types,id',
+            ],
+            [
+                'name.required' => 'حقل الاسم مطلوب.',
+                'name.string' => 'حقل الاسم يجب أن يكون نصًا.',
+                'email.required' => 'حقل البريد الإلكتروني مطلوب.',
+                'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
+                'email.unique' => 'البريد الإلكتروني مستخدم بالفعل.',
+                'password.min' => 'كلمة المرور يجب أن تكون على الأقل 6 أحرف.',
+                'date_of_birth.date' => 'يرجى إدخال تاريخ ميلاد صالح.',
+                'height.numeric' => 'الطول يجب أن يكون رقماً.',
+                'weight.numeric' => 'الوزن يجب أن يكون رقماً.',
+                'phone.string' => 'رقم الهاتف يجب أن يكون نصًا.',
+                'phone.max' => 'رقم الهاتف يجب ألا يزيد عن 20 حرفًا.',
+                'coach_id.exists' => 'المدرب المحدد غير موجود.',
+                'plan_type_id.required' => 'حقل نوع الباقة مطلوب.',
+                'plan_type_id.exists' => 'نوع الباقة المحدد غير موجود.'
+            ]
+        );
 
         $planType = PlanType::findOrFail($request->plan_type_id);
 
@@ -207,9 +206,8 @@ class PlayerController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'تم تحديث بيانات اللاعب واشتراكه بنجاح.');
     }
-
-    public function show($id)
-    {
+    //show
+    public function show($id){
         $player = Player::findOrFail($id);
         $player->load('coach', 'subscription');
 
@@ -218,16 +216,16 @@ class PlayerController extends Controller
 
         return view('Admin.Players.show', compact('player', 'planTypes'));
     }
-
-
-    public function destroy(Player $player)
-    {
+    //destroy
+    public function destroy(Player $player){
         $player->forceDelete();
         return redirect()->route('players.index')->with('success', 'تم حذف اللاعب نهائياً من النظام.');
     }
-
-    public function destroy_all()
-    {
+    //destroy_all
+    public function destroy_all(){
+        if(!$this->authorize('forceDelete', Player::class)) {
+            abort(403);
+        }
         $players = Player::all();
         if ($players->isEmpty()) {
             return redirect()->route('players.index')->with('success', 'لا يوجد لاعبون لحذفهم.');

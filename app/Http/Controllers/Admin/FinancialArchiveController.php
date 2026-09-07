@@ -6,14 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\FinancialArchive;
 use App\Models\Membership;
 use App\Models\Payment;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FinancialArchiveController extends Controller
 {
+    use AuthorizesRequests;
    
     public function index(Request $request)
     {
+        if($this->authorize('viewAny', FinancialArchive::class) === false) {
+            abort(403);
+        }
         $type = $request->get('type');
 
         $archives = FinancialArchive::query()

@@ -7,16 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* =========================================================
-       ELITE CLUB
-       ATTENDANCE & EMPLOYEE PRESENCE
-       Light / Dark Theme
-       ========================================================= */
-
-
-        /* =========================================================
-       1. CONTAINER
-       ========================================================= */
+      
 
         .attendance-container {
             width: 100%;
@@ -25,10 +16,7 @@
         }
 
 
-        /* =========================================================
-       2. PAGE HEADER
-       ========================================================= */
-
+      
         .attendance-container .page-header {
             position: relative;
 

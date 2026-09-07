@@ -8,12 +8,17 @@ use App\Models\Player;
 use App\Models\Payment;
 use App\Models\PlanType;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
+    use  AuthorizesRequests;
     public function index()
     {
+        if(!$this->authorize('viewAny', Membership::class)) {
+            abort(403);
+        }
         $memberships = Membership::with('player')->latest()->paginate(15);
 
         // 🆕 الباقات المفعّلة — تُمرَّر للنافذة المنبثقة الموحّدة لكل صفحات التجديد
@@ -30,6 +35,7 @@ class SubscriptionsController extends Controller
      * يستقبل plan_type_id من النافذة المنبثقة، فيسمح بتغيير نوع الباقة
      * بالكامل وقت التجديد، مو بس تكرار نفس الباقة القديمة.
      */
+    
     public function renew(Request $request, $id)
     {
         $membership = Membership::findOrFail($id);
@@ -66,7 +72,7 @@ class SubscriptionsController extends Controller
         $request->validate([
             'player_id' => 'required|exists:players,id',
             'plan_name' => 'required',
-            'duration'  => 'required|integer', // عدد الأشهر
+            'duration'  => 'required|integer', 
         ]);
 
         Membership::create([

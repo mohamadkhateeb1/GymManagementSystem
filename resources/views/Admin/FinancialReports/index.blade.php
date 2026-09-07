@@ -340,6 +340,7 @@
                                     class="type-chip {{ $payment->type }}">{{ $payment->type === 'new' ? 'اشتراك جديد' : 'تجديد' }}</span>
                             </td>
                             <td dir="ltr">{{ $payment->paid_at->format('Y-m-d H:i') }}</td>
+                            @can('financial_report.archive')
                             <td style="text-align:center;">
                                 <form action="{{ route('admin.financial-reports.archive', $payment->id) }}" method="POST"
                                     onsubmit="return confirm('سيتم رفع نسخة كاملة من بيانات هذه الدفعة إلى الأرشيف بشكل دائم. متابعة؟');">
@@ -348,6 +349,7 @@
                                         أرشفة</button>
                                 </form>
                             </td>
+                            @endcan
                         </tr>
                     @empty
                         <tr class="empty-row">

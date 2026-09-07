@@ -4,15 +4,20 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\DietPlan;
-use App\Models\Player; 
+use App\Models\Player;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DietPlanController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
+        if(!$this->authorize('viewAny', DietPlan::class)) {
+            abort(403);
+        }
         $coachId = Auth::guard('employee')->id();
 
         $dietPlans = DietPlan::whereNull('player_id')
@@ -97,6 +102,65 @@ class DietPlanController extends Controller
         }
 
         return redirect()->route('employee.diet.bank')->with('success', 'تم حفظ الوجبة وتعميمها لايف على جميع لاعبي مستوى ' . $request->level);
+    }
+    public function edit($id)
+    {
+        $dietPlan = DietPlan::whereNull('player_id')
+            ->where('coach_id', Auth::guard('employee')->id())
+            ->findOrFail($id);
+
+        return view('Employee.DietBank.edit', compact('dietPlan'));
+    }
+    public function update(Request $request, $id)
+    {
+        $dietPlan = DietPlan::whereNull('player_id')
+            ->where('coach_id', Auth::guard('employee')->id())
+            ->findOrFail($id);
+
+        $request->validate([
+            'meal_name'    => 'required|string|max:255',
+            'calories'     => 'required|numeric',
+            'protein'      => 'nullable|numeric|min:0',
+            'carbs'        => 'nullable|numeric|min:0',
+            'fats'         => 'nullable|numeric|min:0',
+            'level'        => 'required|string',
+            'plan_details' => 'required|string',
+            'image'        => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($dietPlan->image_path && Storage::disk('public')->exists($dietPlan->image_path)) {
+                Storage::disk('public')->delete($dietPlan->image_path);
+            }
+            $dietPlan->image_path = $request->file('image')->store('meals', 'public');
+        }
+
+        $dietPlan->update([
+            'meal_name'    => $request->meal_name,
+            'calories'     => $request->calories,
+            'protein'      => $request->protein,
+            'carbs'        => $request->carbs,
+            'fats'         => $request->fats,
+            'level'        => $request->level,
+            'plan_details' => $request->plan_details,
+        ]);
+
+        DietPlan::whereNotNull('player_id')
+            ->where('coach_id', Auth::guard('employee')->id())
+            ->where('level', $dietPlan->level)
+            ->where('meal_name', $dietPlan->meal_name)
+            ->where('calories', $dietPlan->calories)
+            ->update([
+                'meal_name'    => $request->meal_name,
+                'calories'     => $request->calories,
+                'protein'      => $request->protein,
+                'carbs'        => $request->carbs,
+                'fats'         => $request->fats,
+                'level'        => $request->level,
+                'plan_details' => $request->plan_details,
+                'image_path'   => $dietPlan->image_path,
+            ]);
+            return redirect()->route('employee.diet.bank')->with('success', 'تم تعديل الوجبة وتحديثها لايف على جميع لاعبي مستوى ' . $request->level);
     }
 
     public function destroy($id)

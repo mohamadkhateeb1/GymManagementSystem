@@ -7,11 +7,17 @@ use App\Models\AttendanceLog;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PlayerAttendanceController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
+
+        if(!$this->authorize('viewAny', AttendanceLog::class)) {
+            abort(403);
+        }
         $today = Carbon::today();
         $startOfWeek = $today->copy()->startOfWeek();
 

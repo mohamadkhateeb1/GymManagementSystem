@@ -10,9 +10,6 @@ use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
-    /**
-     * عرض بروفايل الأدمن
-     */
     public function index()
     {
         /** @var Admin $admin */
