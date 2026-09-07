@@ -93,7 +93,7 @@ class PlayerMonitorController extends Controller
                 return $player;
             });
 
-        return view('Employee.m\Monitoring.index', compact('players'));
+        return view('Employee.Monitoring.index', compact('players'));
     }
 
     public function assignLevel(Request $request, $playerId)
