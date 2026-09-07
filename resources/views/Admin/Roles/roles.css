@@ -1147,3 +1147,35 @@ body.dark-mode .roles-wrapper .roles-header {
         width: 100%;
     }
 }
+
+/* ═══════════ عنوان مجموعة الصلاحيات (فاصل بين قسم المدرّب وقسم الإدارة) ═══════════ */
+.abilities-table .ability-group-row td {
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.ability-group-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 4px;
+    padding: 11px 16px;
+    border-radius: 10px;
+    background: linear-gradient(135deg,
+            rgba(201, 154, 53, 0.14),
+            rgba(201, 154, 53, 0.04));
+    border: 1px solid rgba(201, 154, 53, 0.22);
+    color: var(--gold, #b5821e);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.ability-group-title i {
+    font-size: 15px;
+}
+
+/* أول عنوان مجموعة بلا مسافة علوية زائدة */
+.abilities-table tbody tr.ability-group-row:first-child .ability-group-title {
+    margin-top: 0;
+}

@@ -8,7 +8,7 @@ return [
                 'label' => 'مركز القيادة',
                 'icon' => 'fas fa-th-large',
                 'route' => 'admin.dashboard',
-                // 'ability' => 'view-dashboard',
+                'ability' => 'dashboard.view',
                 'active_pattern' => 'admin.dashboard',
             ]
         ]

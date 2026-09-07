@@ -1,5 +1,6 @@
 <?php
 return [
+    'dashboard.view' => 'عرض لوحة القيادة',
    'role.view' => 'عرض الأدوار',
    'role.create' => 'إنشاء دور',
     'role.edit' => 'تعديل دور',
@@ -43,7 +44,7 @@ return [
     'payment.edit' => 'تعديل مدفوعة',
     'payment.delete' => 'حذف مدفوعة',
 
-    // Attendance
+    // Attendance player
     'attendance.view' => 'عرض الحضور',
     'attendance.create' => 'إنشاء حضور',
     'attendance.edit' => 'تعديل حضور',
