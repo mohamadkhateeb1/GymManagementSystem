@@ -1444,7 +1444,7 @@
                             </label>
 
                             <input id="training-plan-title" type="text" name="title" class="field-input"
-                                placeholder="مثال: خطة تضخيم العضلات - شهر أول" required>
+                                placeholder="مثال: خطة تضخيم العضلات - شهر أول" >
 
                         </div>
 
@@ -1459,7 +1459,7 @@
 
                             </label>
 
-                            <select id="training-plan-level" name="level" class="field-input" required>
+                            <select id="training-plan-level" name="level" class="field-input" >
 
                                 <option value="">
                                     -- اختر المستوى لتخصيص الخطة له تلقائياً --

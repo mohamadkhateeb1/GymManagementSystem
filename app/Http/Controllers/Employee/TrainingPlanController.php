@@ -54,15 +54,9 @@ class TrainingPlanController extends Controller
     public function store(Request $request)
     {
        $request->validate([
-    'name' => 'required|string|max:255',
-    'sets' => 'required|numeric',
-    'reps' => 'required|numeric',
-    'rest_time' => 'required|string|max:50',
-    'day_of_week' => 'required|integer|min:1|max:7',
-    'order' => 'required|integer|min:0',
-    'instructions' => 'required|string',
-    'image' => 'required|image|max:5120',
-    'video_url' => 'required|string',
+    'level' => 'required|string|max:255',
+    'title' => 'required|string',
+   
 ], [
     // اسم التمرين
     'name.required' => 'حقل اسم التمرين مطلوب.',
@@ -118,7 +112,7 @@ class TrainingPlanController extends Controller
             'end_date'   => now()->addMonth(),
         ]);
 
-        return redirect()->route('employee.training.exercises.index')->with('success', 'تم حفظ الخطة في البنك. أضف تمارينها ثم وزّعها على لاعبي مستوى ' . $request->level . '.');
+        return back()->with('success', 'تم حفظ الخطة في البنك. أضف تمارينها ثم وزّعها على لاعبي مستوى ' . $request->level . '.');
     }
 
     public function distribute($id)
