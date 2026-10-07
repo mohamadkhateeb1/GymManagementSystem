@@ -202,10 +202,7 @@ class PlayerMonitorController extends Controller
         return view('Employee.monitoring.show', compact('player', 'ratings', 'customExercises', 'customDiets'));
     }
 
-    /**
-     * 🔔 إرسال إشعار "اقتراب انتهاء الاشتراك" — بضغطة زر يدوية من المدرب،
-     * يظهر بس لما يشوف اشتراك اللاعب قرب ينتهي.
-     */
+    // ارسال اشعار باقتراب انتهاء الاشتراك
     public function sendExpiringNotification($playerId)
     {
         $player = $this->findMyPlayer($playerId, ['subscription']);
@@ -220,10 +217,7 @@ class PlayerMonitorController extends Controller
         return redirect()->back()->with('success', 'تم إرسال تذكير اقتراب انتهاء الاشتراك للاعب.');
     }
 
-    /**
-     * 🔔 إرسال إشعار "انتهاء الاشتراك" — بضغطة زر يدوية من المدرب،
-     * يظهر بس لما يشوف اشتراك اللاعب منتهي فعلياً.
-     */
+   // ارسال اشعار انتهاء الاشتراك
     public function sendExpiredNotification($playerId)
     {
         $player = $this->findMyPlayer($playerId, ['subscription']);
@@ -238,10 +232,7 @@ class PlayerMonitorController extends Controller
         return redirect()->back()->with('success', 'تم إرسال إشعار انتهاء الاشتراك للاعب.');
     }
 
-    /**
-     * 🆕 إضافة تمرين خاص مباشرة (خطوة واحدة بلا "خطة" وسيطة يراها المدرب).
-     * يُحفظ فعلياً تحت حاوية مخفية خاصة بهذا اللاعب (getOrCreateCustomContainer).
-     */
+    // اضافة تمرين خاص
     public function storeCustomTraining(Request $request, $playerId)
     {
         $request->validate([
@@ -285,6 +276,7 @@ class PlayerMonitorController extends Controller
         return redirect()->back()->with('success', 'تمت إضافة التمرين الخاص للاعب بنجاح.');
     }
 
+    // هون ممكن تضيف أي دوال إضافية خاصة بمراقبة اللاعب، مثل تعديل التمارين الخاصة، حذفها، أو أي وظائف أخرى مرتبطة باللاعب ومتابعته.
     public function storeCustomDiet(Request $request, $playerId)
     {
         $request->validate([

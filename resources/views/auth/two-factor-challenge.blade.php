@@ -53,7 +53,7 @@
 
                 <!-- /.social-auth-links -->
 
-
+[{}]
             </div>
             <!-- /.card-body -->
         </div>

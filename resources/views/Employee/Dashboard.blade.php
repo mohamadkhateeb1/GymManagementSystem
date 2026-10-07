@@ -6,12 +6,12 @@
 
     <style>
         /* =========================================================
-           EMPLOYEE DASHBOARD
-           ELITE CLUB
+           ELITE CLUB — EMPLOYEE DASHBOARD
            ========================================================= */
 
         .dashboard-page {
             width: 100%;
+            color: var(--text);
         }
 
         /* =========================================================
@@ -23,7 +23,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 20px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             padding: 4px 2px;
         }
 
@@ -34,47 +34,417 @@
         .dashboard-title {
             margin: 0;
             color: var(--text);
-            font-size: 25px;
-            font-weight: 850;
+            font-size: 30px;
+            font-weight: 900;
             line-height: 1.4;
-            letter-spacing: -.5px;
+            letter-spacing: -.6px;
         }
 
         .dashboard-subtitle {
             display: block;
-            margin-top: 5px;
-            color: var(--muted);
-            font-size: 11px;
-            font-weight: 500;
+            margin-top: 6px;
+            color: var(--muted, var(--text));
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.8;
         }
 
         /* =========================================================
-           HEADER ACTION
+           ALERTS
            ========================================================= */
 
-        .dashboard-header-action {
+        .dashboard-alert {
             display: flex;
             align-items: center;
-            gap: 9px;
+            gap: 11px;
+            padding: 14px 17px;
+            margin-bottom: 18px;
+            border-radius: 13px;
+            font-size: 14px;
+            font-weight: 700;
         }
 
-        .dashboard-date {
-            min-height: 40px;
+        .dashboard-alert.success {
+            color: var(--success);
+            background: color-mix(in srgb,
+                    var(--success) 7%,
+                    var(--surface));
+            border: 1px solid color-mix(in srgb,
+                    var(--success) 18%,
+                    var(--border));
+        }
+
+        .dashboard-alert.error {
+            color: var(--danger);
+            background: color-mix(in srgb,
+                    var(--danger) 7%,
+                    var(--surface));
+            border: 1px solid color-mix(in srgb,
+                    var(--danger) 18%,
+                    var(--border));
+        }
+
+        /* =========================================================
+           PLAYER NOTIFICATIONS
+           ========================================================= */
+
+        .player-notifications {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 22px;
+
+            background:
+                linear-gradient(135deg,
+                    color-mix(in srgb, var(--gold) 7%, var(--surface)),
+                    var(--surface));
+
+            border: 1px solid color-mix(in srgb,
+                    var(--gold) 25%,
+                    var(--border));
+
+            border-radius: 19px;
+
+            box-shadow:
+                var(--shadow-sm),
+                0 0 35px color-mix(in srgb,
+                    var(--gold) 4%,
+                    transparent);
+
+            overflow: hidden;
+        }
+
+        .player-notifications::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg,
+                    var(--gold-light),
+                    var(--gold-dark));
+        }
+
+        .player-notifications::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            left: -70px;
+            bottom: -85px;
+            border-radius: 50%;
+            background: color-mix(in srgb,
+                    var(--gold) 5%,
+                    transparent);
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           NOTIFICATION HEADER
+           ========================================================= */
+
+        .notification-header {
+            min-height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 15px 21px;
+
+            border-bottom: 1px solid color-mix(in srgb,
+                    var(--border) 85%,
+                    transparent);
+
+            background: color-mix(in srgb,
+                    var(--surface-2) 45%,
+                    transparent);
+        }
+
+        .notification-heading {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .notification-heading-icon {
+            position: relative;
+
+            width: 43px;
+            height: 43px;
+
+            flex: 0 0 43px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--gold);
+
+            background: color-mix(in srgb,
+                    var(--gold) 10%,
+                    var(--surface));
+
+            border: 1px solid color-mix(in srgb,
+                    var(--gold) 24%,
+                    var(--border));
+
+            border-radius: 12px;
+
+            font-size: 16px;
+        }
+
+        .notification-heading-icon::after {
+            content: "";
+
+            position: absolute;
+
+            top: 5px;
+            right: 5px;
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--danger);
+
+            box-shadow: 0 0 0 3px color-mix(in srgb,
+                    var(--danger) 10%,
+                    transparent);
+        }
+
+        .notification-heading h3 {
+            margin: 0 0 3px;
+
+            color: var(--text);
+
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .notification-heading p {
+            margin: 0;
+
+            color: var(--muted);
+
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .notification-count {
+            min-height: 30px;
+
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 13px;
-            color: var(--text-soft);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            box-shadow: var(--shadow-sm);
-            font-size: 10px;
-            font-weight: 650;
+            justify-content: center;
+
+            padding: 5px 11px;
+
+            color: var(--gold-dark);
+
+            background: color-mix(in srgb,
+                    var(--gold) 10%,
+                    var(--surface));
+
+            border: 1px solid color-mix(in srgb,
+                    var(--gold) 22%,
+                    var(--border));
+
+            border-radius: 999px;
+
+            font-size: 9px;
+            font-weight: 850;
+
+            white-space: nowrap;
         }
 
-        .dashboard-date i {
+        /* =========================================================
+           NOTIFICATION LIST
+           ========================================================= */
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notification-item {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 18px;
+
+            padding: 16px 21px;
+
+            border-bottom: 1px solid color-mix(in srgb,
+                    var(--border) 70%,
+                    transparent);
+
+            transition:
+                background .2s ease,
+                transform .2s ease;
+        }
+
+        .notification-item:last-child {
+            border-bottom: 0;
+        }
+
+        .notification-item:hover {
+            background: color-mix(in srgb,
+                    var(--gold) 4%,
+                    transparent);
+        }
+
+        .notification-player {
+            min-width: 0;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .notification-player-avatar {
+            width: 42px;
+            height: 42px;
+
+            flex: 0 0 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             color: var(--gold);
+
+            background: color-mix(in srgb,
+                    var(--gold) 8%,
+                    var(--surface-2));
+
+            border: 1px solid color-mix(in srgb,
+                    var(--gold) 17%,
+                    var(--border));
+
+            border-radius: 11px;
+
+            font-size: 14px;
+
+            transition: transform .2s ease;
+        }
+
+        .notification-item:hover .notification-player-avatar {
+            transform: scale(1.06);
+        }
+
+        .notification-info {
+            min-width: 0;
+        }
+
+        .notification-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+
+            margin-bottom: 3px;
+
+            color: var(--gold-dark);
+
+            font-size: 8px;
+            font-weight: 900;
+        }
+
+        .notification-label i {
+            font-size: 8px;
+        }
+
+        .notification-message {
+            margin: 0;
+
+            color: var(--text);
+
+            font-size: 12px;
+            font-weight: 750;
+
+            line-height: 1.7;
+        }
+
+        .notification-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 7px;
+
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 8.5px;
+            font-weight: 600;
+        }
+
+        .notification-meta-divider {
+            opacity: .4;
+        }
+
+        /* =========================================================
+           NOTIFICATION ACTION
+           ========================================================= */
+
+        .notification-action {
+            min-height: 39px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            flex: 0 0 auto;
+
+            padding: 8px 13px;
+
+            color: #171717;
+
+            background: linear-gradient(135deg,
+                    var(--gold-light),
+                    var(--gold-dark));
+
+            border: 0;
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-family: "Cairo", "Tajawal", Arial, sans-serif;
+
+            font-size: 9px;
+            font-weight: 900;
+
+            box-shadow: 0 6px 16px rgba(184, 146, 62, .14);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                filter .2s ease;
+        }
+
+        .notification-action:hover {
+            color: #171717;
+
+            transform: translateY(-2px);
+
+            filter: brightness(1.04);
+
+            box-shadow:
+                0 9px 21px rgba(184, 146, 62, .23);
+        }
+
+        .notification-action i {
+            font-size: 9px;
         }
 
         /* =========================================================
@@ -90,31 +460,67 @@
 
         .stat-card {
             position: relative;
-            min-height: 132px;
-            padding: 19px;
+
+            min-height: 140px;
+
+            padding: 20px;
+
             overflow: hidden;
+
             background: var(--surface);
+
             border: 1px solid var(--border);
             border-radius: 17px;
+
             box-shadow: var(--shadow-sm);
-            transition: transform .2s ease, border-color .2s ease, background .25s ease, box-shadow .2s ease;
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                background .25s ease,
+                box-shadow .2s ease;
+
             opacity: 0;
-            animation: statCardIn .5s cubic-bezier(.2, .7, .2, 1) both;
+
+            animation:
+                statCardIn .5s cubic-bezier(.2, .7, .2, 1) both;
         }
 
         @keyframes statCardIn {
-            from { opacity: 0; transform: translateY(14px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .dashboard-stats .stat-card:nth-child(1) { animation-delay: .05s; }
-        .dashboard-stats .stat-card:nth-child(2) { animation-delay: .10s; }
-        .dashboard-stats .stat-card:nth-child(3) { animation-delay: .15s; }
-        .dashboard-stats .stat-card:nth-child(4) { animation-delay: .20s; }
+        .dashboard-stats .stat-card:nth-child(1) {
+            animation-delay: .05s;
+        }
+
+        .dashboard-stats .stat-card:nth-child(2) {
+            animation-delay: .10s;
+        }
+
+        .dashboard-stats .stat-card:nth-child(3) {
+            animation-delay: .15s;
+        }
+
+        .dashboard-stats .stat-card:nth-child(4) {
+            animation-delay: .20s;
+        }
 
         .stat-card:hover {
             transform: translateY(-3px);
-            border-color: color-mix(in srgb, var(--gold) 25%, var(--border));
+
+            border-color: color-mix(in srgb,
+                    var(--gold) 25%,
+                    var(--border));
+
             box-shadow: var(--shadow);
         }
 
@@ -124,13 +530,21 @@
 
         .stat-card::after {
             content: "";
+
             position: absolute;
+
             left: -25px;
             bottom: -35px;
+
             width: 100px;
             height: 100px;
+
             border-radius: 50%;
-            background: color-mix(in srgb, var(--gold) 7%, transparent);
+
+            background: color-mix(in srgb,
+                    var(--gold) 7%,
+                    transparent);
+
             pointer-events: none;
         }
 
@@ -142,57 +556,74 @@
         }
 
         .stat-icon {
-            width: 42px;
-            height: 42px;
+            width: 46px;
+            height: 46px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             border-radius: 12px;
+
             color: var(--gold);
-            background: color-mix(in srgb, var(--gold) 9%, var(--surface-2));
+
+            background: color-mix(in srgb,
+                    var(--gold) 9%,
+                    var(--surface-2));
+
             border: 1px solid var(--border-soft);
-            font-size: 15px;
-            transition: transform .25s cubic-bezier(.34, 1.56, .64, 1);
+
+            font-size: 17px;
+
+            transition:
+                transform .25s cubic-bezier(.34, 1.56, .64, 1);
         }
 
         .stat-label {
-            color: var(--muted);
-            font-size: 10px;
-            font-weight: 650;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 800;
         }
 
         .stat-value {
             margin-top: 15px;
+
             color: var(--text);
-            font-size: 27px;
-            font-weight: 850;
+
+            font-size: 32px;
+            font-weight: 900;
+
             line-height: 1;
         }
 
         .stat-description {
-            margin-top: 8px;
-            color: var(--muted);
-            font-size: 9px;
-            font-weight: 500;
-        }
+            margin-top: 9px;
 
-        /* =========================================================
-           STAT VARIANTS
-           ========================================================= */
+            color: var(--muted, var(--text));
+
+            font-size: 12px;
+            font-weight: 600;
+        }
 
         .stat-card.success .stat-icon {
             color: var(--success);
-            background: color-mix(in srgb, var(--success) 8%, var(--surface-2));
+            background: color-mix(in srgb,
+                    var(--success) 8%,
+                    var(--surface-2));
         }
 
         .stat-card.warning .stat-icon {
             color: var(--warning);
-            background: color-mix(in srgb, var(--warning) 8%, var(--surface-2));
+            background: color-mix(in srgb,
+                    var(--warning) 8%,
+                    var(--surface-2));
         }
 
         .stat-card.info .stat-icon {
             color: var(--info);
-            background: color-mix(in srgb, var(--info) 8%, var(--surface-2));
+            background: color-mix(in srgb,
+                    var(--info) 8%,
+                    var(--surface-2));
         }
 
         /* =========================================================
@@ -201,55 +632,81 @@
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1.4fr) minmax(300px, .9fr);
+
+            grid-template-columns:
+                minmax(0, 1.4fr) minmax(300px, .9fr);
+
             gap: 18px;
+
             margin-bottom: 20px;
         }
 
         /* =========================================================
-           PANEL
+           PANELS
            ========================================================= */
 
         .dashboard-panel {
             background: var(--surface);
+
             border: 1px solid var(--border);
+
             border-radius: 18px;
+
             box-shadow: var(--shadow-sm);
+
             overflow: hidden;
-            transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+
+            transition:
+                background .25s ease,
+                border-color .25s ease,
+                box-shadow .25s ease;
+
             opacity: 0;
-            animation: statCardIn .5s cubic-bezier(.2, .7, .2, 1) both;
+
+            animation:
+                statCardIn .5s cubic-bezier(.2, .7, .2, 1) both;
+
             animation-delay: .22s;
         }
 
         .dashboard-panel-header {
             min-height: 68px;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             gap: 15px;
+
             padding: 15px 19px;
+
             border-bottom: 1px solid var(--border);
+
+            flex-wrap: wrap;
         }
 
         .dashboard-panel-title {
             display: flex;
             align-items: center;
+
             gap: 9px;
+
             color: var(--text);
-            font-size: 13px;
-            font-weight: 800;
+
+            font-size: 16px;
+            font-weight: 900;
         }
 
         .dashboard-panel-title i {
             color: var(--gold);
-            font-size: 13px;
+            font-size: 16px;
         }
 
         .dashboard-panel-subtitle {
-            color: var(--muted);
-            font-size: 9px;
-            font-weight: 500;
+            color: var(--muted, var(--text));
+
+            font-size: 11px;
+            font-weight: 700;
         }
 
         .dashboard-panel-body {
@@ -263,78 +720,98 @@
         .level-list {
             display: flex;
             flex-direction: column;
-            gap: 13px;
+            gap: 14px;
         }
 
         .level-row {
             display: grid;
-            grid-template-columns: 110px 1fr 35px;
+
+            grid-template-columns:
+                120px 1fr 40px;
+
             align-items: center;
+
             gap: 12px;
         }
 
         .level-name {
-            color: var(--text-soft);
-            font-size: 10px;
-            font-weight: 650;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 750;
         }
 
         .level-progress {
-            height: 8px;
+            height: 9px;
+
             overflow: hidden;
+
             background: var(--surface-3);
+
             border-radius: 99px;
         }
 
         .level-progress-bar {
             height: 100%;
+
             min-width: 3px;
+
             border-radius: inherit;
-            background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+
+            background: linear-gradient(90deg,
+                    var(--gold-dark),
+                    var(--gold-light));
+
             transition: width .5s ease;
         }
 
         .level-count {
             text-align: left;
+
             color: var(--text);
-            font-size: 10px;
-            font-weight: 800;
+
+            font-size: 14px;
+            font-weight: 900;
         }
 
         /* =========================================================
-           LEVEL EMPTY
+           EMPTY
            ========================================================= */
 
         .dashboard-empty {
             min-height: 170px;
+
             display: flex;
             flex-direction: column;
+
             align-items: center;
             justify-content: center;
-            gap: 9px;
-            color: var(--muted);
+
+            gap: 10px;
+
+            color: var(--text);
+
             text-align: center;
+
+            padding: 20px 15px;
         }
 
         .dashboard-empty i {
             color: var(--gold);
-            font-size: 26px;
-            opacity: .7;
-            animation: emptyBreathe 2.4s ease-in-out infinite;
-        }
 
-        @keyframes emptyBreathe {
-            0%, 100% { transform: scale(1); opacity: .7; }
-            50% { transform: scale(1.08); opacity: .95; }
+            font-size: 28px;
+
+            opacity: .8;
         }
 
         .dashboard-empty strong {
-            color: var(--text-soft);
-            font-size: 12px;
+            color: var(--text);
+            font-size: 16px;
         }
 
         .dashboard-empty span {
-            font-size: 10px;
+            color: var(--muted, var(--text));
+            font-size: 13px;
+            font-weight: 600;
         }
 
         /* =========================================================
@@ -343,9 +820,18 @@
 
         .attendance-card {
             position: relative;
+
             padding: 20px;
-            background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, var(--surface)), var(--surface));
+
+            background:
+                linear-gradient(135deg,
+                    color-mix(in srgb,
+                        var(--gold) 7%,
+                        var(--surface)),
+                    var(--surface));
+
             border: 1px solid var(--border);
+
             border-radius: 16px;
         }
 
@@ -353,84 +839,154 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             gap: 15px;
+
             margin-bottom: 17px;
+
+            flex-wrap: wrap;
         }
 
         .attendance-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             border-radius: 12px;
+
             color: var(--gold);
-            background: color-mix(in srgb, var(--gold) 10%, var(--surface-2));
+
+            background: color-mix(in srgb,
+                    var(--gold) 10%,
+                    var(--surface-2));
+
             border: 1px solid var(--border-soft);
+
+            font-size: 18px;
         }
 
         .attendance-status {
             display: inline-flex;
             align-items: center;
+
             gap: 6px;
-            padding: 6px 9px;
+
+            padding: 7px 12px;
+
             border-radius: 999px;
-            font-size: 9px;
-            font-weight: 700;
+
+            font-size: 12px;
+            font-weight: 850;
+
+            color: var(--muted);
+
+            background: color-mix(in srgb,
+                    var(--muted) 7%,
+                    var(--surface));
+
+            border: 1px solid var(--border);
         }
 
         .attendance-status.present {
             color: var(--success);
-            background: color-mix(in srgb, var(--success) 8%, var(--surface));
-            border: 1px solid color-mix(in srgb, var(--success) 20%, var(--border));
+
+            background: color-mix(in srgb,
+                    var(--success) 8%,
+                    var(--surface));
+
+            border-color: color-mix(in srgb,
+                    var(--success) 20%,
+                    var(--border));
         }
 
         .attendance-status.late {
             color: var(--warning);
-            background: color-mix(in srgb, var(--warning) 8%, var(--surface));
-            border: 1px solid color-mix(in srgb, var(--warning) 20%, var(--border));
+
+            background: color-mix(in srgb,
+                    var(--warning) 8%,
+                    var(--surface));
+
+            border-color: color-mix(in srgb,
+                    var(--warning) 20%,
+                    var(--border));
         }
 
         .attendance-status i {
-            font-size: 7px;
+            font-size: 9px;
         }
 
         .attendance-title {
             margin: 0;
+
             color: var(--text);
-            font-size: 15px;
-            font-weight: 800;
+
+            font-size: 18px;
+            font-weight: 900;
         }
 
         .attendance-text {
-            margin: 6px 0 0;
-            color: var(--muted);
-            font-size: 10px;
-            line-height: 1.8;
+            margin: 7px 0 0;
+
+            color: var(--muted, var(--text));
+
+            font-size: 13px;
+
+            line-height: 1.9;
+
+            font-weight: 600;
         }
 
         .attendance-btn {
             width: 100%;
-            min-height: 48px;
+
+            min-height: 52px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             gap: 9px;
+
             margin-top: 18px;
+
             border: 0;
+
             border-radius: 11px;
+
             color: #171717;
-            background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-            box-shadow: 0 8px 20px rgba(184, 146, 62, .16);
+
+            background:
+                linear-gradient(135deg,
+                    var(--gold-light),
+                    var(--gold-dark));
+
+            box-shadow:
+                0 8px 20px rgba(184, 146, 62, .16);
+
             cursor: pointer;
-            font-size: 11px;
-            font-weight: 800;
-            transition: transform .2s ease, box-shadow .2s ease;
+
+            font-family:
+                "Cairo",
+                "Tajawal",
+                Arial,
+                sans-serif;
+
+            font-size: 14px;
+            font-weight: 900;
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
         }
 
         .attendance-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(184, 146, 62, .23);
+
+            box-shadow:
+                0 12px 28px rgba(184, 146, 62, .23);
         }
 
         .attendance-btn:disabled {
@@ -445,30 +1001,42 @@
 
         .plan-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 12px;
         }
 
         .plan-card {
-            min-height: 115px;
+            min-height: 120px;
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 17px;
+
+            padding: 18px;
+
             background: var(--surface-2);
+
             border: 1px solid var(--border);
+
             border-radius: 14px;
-            transition: background .25s ease, transform .2s ease, border-color .2s ease;
+
+            transition:
+                background .25s ease,
+                transform .2s ease,
+                border-color .2s ease;
         }
 
         .plan-card:hover {
             transform: translateY(-2px);
-            border-color: color-mix(in srgb, var(--gold) 25%, var(--border));
-            box-shadow: var(--shadow-sm);
-        }
 
-        .plan-card:hover .plan-card-icon {
-            transform: scale(1.1) rotate(-4deg);
+            border-color: color-mix(in srgb,
+                    var(--gold) 25%,
+                    var(--border));
+
+            box-shadow: var(--shadow-sm);
         }
 
         .plan-card-top {
@@ -478,32 +1046,42 @@
         }
 
         .plan-card-icon {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             border-radius: 10px;
+
             color: var(--gold);
-            background: color-mix(in srgb, var(--gold) 8%, var(--surface));
-            transition: transform .25s cubic-bezier(.34, 1.56, .64, 1);
+
+            background: color-mix(in srgb,
+                    var(--gold) 8%,
+                    var(--surface));
+
+            font-size: 15px;
         }
 
         .plan-card-label {
-            color: var(--muted);
-            font-size: 9px;
-            font-weight: 600;
+            color: var(--text);
+
+            font-size: 13px;
+            font-weight: 800;
         }
 
         .plan-card-value {
             margin-top: 12px;
+
             color: var(--text);
-            font-size: 22px;
-            font-weight: 850;
+
+            font-size: 26px;
+            font-weight: 900;
         }
 
         /* =========================================================
-           PLAYER SUBSCRIPTION TABLE
+           PLAYERS TABLE
            ========================================================= */
 
         .players-panel {
@@ -513,39 +1091,52 @@
         .players-table-wrapper {
             width: 100%;
             overflow-x: auto;
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
         }
 
         .players-table {
             width: 100%;
-            border-collapse: collapse;
             min-width: 650px;
+
+            border-collapse: collapse;
         }
 
         .players-table th {
-            padding: 13px 15px;
-            color: var(--muted);
+            padding: 14px 16px;
+
+            color: var(--text);
+
             background: var(--surface-2);
+
             border-bottom: 1px solid var(--border);
-            font-size: 9px;
-            font-weight: 750;
+
+            font-size: 13px;
+            font-weight: 900;
+
             text-align: right;
+
             white-space: nowrap;
         }
 
         .players-table td {
-            padding: 14px 15px;
-            color: var(--text-soft);
+            padding: 15px 16px;
+
+            color: var(--text);
+
             border-bottom: 1px solid var(--border);
-            font-size: 10px;
+
+            font-size: 13.5px;
+            font-weight: 600;
+
             transition: background .15s ease;
         }
 
         .players-table tr:hover td {
-            background: color-mix(in srgb, var(--gold) 4%, transparent);
-        }
-
-        .players-table tr:hover .player-avatar {
-            transform: scale(1.08);
+            background: color-mix(in srgb,
+                    var(--gold) 4%,
+                    transparent);
         }
 
         .players-table tr:last-child td {
@@ -555,77 +1146,71 @@
         .player-name {
             display: flex;
             align-items: center;
-            gap: 9px;
+
+            gap: 10px;
+
             color: var(--text);
-            font-weight: 750;
+
+            font-weight: 850;
+            white-space: nowrap;
         }
 
         .player-avatar {
-            width: 31px;
-            height: 31px;
+            width: 34px;
+            height: 34px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 0 0 31px;
+
+            flex: 0 0 34px;
+
             border-radius: 9px;
+
             color: var(--gold);
-            background: color-mix(in srgb, var(--gold) 9%, var(--surface-2));
+
+            background: color-mix(in srgb,
+                    var(--gold) 9%,
+                    var(--surface-2));
+
             border: 1px solid var(--border-soft);
-            transition: transform .2s cubic-bezier(.34, 1.56, .64, 1);
+
+            transition: transform .2s ease;
+        }
+
+        .players-table tr:hover .player-avatar {
+            transform: scale(1.08);
         }
 
         .subscription-badge {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 5px 8px;
+
+            gap: 6px;
+
+            padding: 7px 12px;
+
             border-radius: 999px;
-            font-size: 8px;
-            font-weight: 700;
+
+            font-size: 11px;
+            font-weight: 850;
+
+            color: #fff;
         }
 
         .subscription-badge.expired {
-            color: var(--danger);
-            background: color-mix(in srgb, var(--danger) 8%, var(--surface));
-            border: 1px solid color-mix(in srgb, var(--danger) 20%, var(--border));
+            background: var(--danger);
         }
 
         .subscription-badge.expiring {
-            color: var(--warning);
-            background: color-mix(in srgb, var(--warning) 8%, var(--surface));
-            border: 1px solid color-mix(in srgb, var(--warning) 20%, var(--border));
+            background: var(--warning);
         }
 
         .subscription-date {
-            color: var(--muted);
-            font-size: 9px;
-        }
+            color: var(--text);
 
-        /* =========================================================
-           ALERTS
-           ========================================================= */
-
-        .dashboard-alert {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 13px 15px;
-            margin-bottom: 18px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .dashboard-alert.success {
-            color: var(--success);
-            background: color-mix(in srgb, var(--success) 7%, var(--surface));
-            border: 1px solid color-mix(in srgb, var(--success) 18%, var(--border));
-        }
-
-        .dashboard-alert.error {
-            color: var(--danger);
-            background: color-mix(in srgb, var(--danger) 7%, var(--surface));
-            border: 1px solid color-mix(in srgb, var(--danger) 18%, var(--border));
+            font-size: 13px;
+            font-weight: 700;
         }
 
         /* =========================================================
@@ -633,8 +1218,10 @@
            ========================================================= */
 
         @media (max-width: 1150px) {
+
             .dashboard-stats {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
             }
 
             .dashboard-grid {
@@ -642,23 +1229,30 @@
             }
         }
 
+        @media (max-width: 900px) {
+
+            .dashboard-title {
+                font-size: 26px;
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+
+            .notification-item {
+                align-items: flex-start;
+            }
+        }
+
         @media (max-width: 700px) {
+
             .dashboard-header {
                 align-items: flex-start;
                 flex-direction: column;
             }
 
             .dashboard-title {
-                font-size: 21px;
-            }
-
-            .dashboard-header-action,
-            .dashboard-date {
-                width: 100%;
-            }
-
-            .dashboard-date {
-                justify-content: center;
+                font-size: 23px;
             }
 
             .dashboard-stats {
@@ -678,59 +1272,277 @@
             }
 
             .level-row {
-                grid-template-columns: 90px 1fr 30px;
+                grid-template-columns:
+                    95px 1fr 34px;
+
                 gap: 8px;
+            }
+
+            /* Notifications */
+
+            .notification-header {
+                align-items: flex-start;
+                padding: 14px 16px;
+            }
+
+            .notification-heading h3 {
+                font-size: 14px;
+            }
+
+            .notification-heading p {
+                font-size: 9px;
+            }
+
+            .notification-item {
+                flex-direction: column;
+                align-items: stretch;
+
+                padding: 15px 16px;
+            }
+
+            .notification-action {
+                width: 100%;
+            }
+
+            .notification-player-avatar {
+                width: 39px;
+                height: 39px;
+                flex-basis: 39px;
+            }
+
+            .notification-message {
+                font-size: 11px;
+            }
+
+            .players-table th,
+            .players-table td {
+                padding: 12px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .dashboard-title {
+                font-size: 21px;
+            }
+
+            .dashboard-subtitle {
+                font-size: 12px;
+            }
+
+            .stat-value {
+                font-size: 26px;
+            }
+
+            .stat-card {
+                min-height: 120px;
+                padding: 16px;
+            }
+
+            .level-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .level-count {
+                text-align: right;
+            }
+
+            .attendance-title {
+                font-size: 16px;
+            }
+
+            .plan-card-value {
+                font-size: 22px;
+            }
+
+            .players-table {
+                min-width: 560px;
+            }
+
+            .player-notifications {
+                border-radius: 14px;
+            }
+
+            .notification-header {
+                gap: 10px;
+            }
+
+            .notification-heading {
+                gap: 9px;
+            }
+
+            .notification-heading-icon {
+                width: 37px;
+                height: 37px;
+                flex-basis: 37px;
+                font-size: 13px;
+            }
+
+            .notification-count {
+                font-size: 8px;
+                padding: 4px 8px;
+            }
+
+            .notification-meta {
+                font-size: 8px;
             }
         }
     </style>
 
 @endsection
 
+
 @section('content')
 
-    <div class="dashboard-page"> 
+    <div class="dashboard-page">
+
         {{-- =====================================================
          FLASH MESSAGES
     ====================================================== --}}
 
         @if (session('success'))
             <div class="dashboard-alert success">
-
                 <i class="fas fa-circle-check"></i>
 
-                <span>                     {{ session('success') }}
+                <span>
+                    {{ session('success') }}
                 </span>
-
             </div>
         @endif
 
+
         @if (session('error'))
             <div class="dashboard-alert error">
-
                 <i class="fas fa-circle-exclamation"></i>
 
-                <span>                     {{ session('error') }}
+                <span>
+                    {{ session('error') }}
                 </span>
-
             </div>
-        @endif 
+        @endif
+
+
+ 
+
+
         {{-- =====================================================
-         HEADER
+         PLAYER NOTIFICATIONS
+         تظهر فقط عند وجود لاعبين اشتراكاتهم قريبة من الانتهاء
     ====================================================== --}}
 
-        <div class="dashboard-header">
+        @if (isset($notifications) && $notifications->count() > 0)
 
-            <div class="dashboard-header-action">
+            <section class="player-notifications">
 
-             
-            </div>
+                <div class="notification-header">
 
-        </div> 
+                    <div class="notification-heading">
+
+                        <span class="notification-heading-icon">
+                            <i class="fas fa-bell"></i>
+                        </span>
+
+                        <div>
+
+                            <h3>
+                                تنبيهات تحتاج إلى متابعتك
+                            </h3>
+
+                            <p>
+                                يوجد لاعبين لديهم اشتراكات ستنتهي قريباً
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <span class="notification-count">
+                        {{ $notifications->count() }}
+                        {{ $notifications->count() == 1 ? 'تنبيه' : 'تنبيهات' }}
+                    </span>
+
+                </div>
+
+
+                <div class="notification-list">
+
+                    @foreach ($notifications as $notification)
+                        <div class="notification-item">
+
+                            <div class="notification-player">
+
+                                <span class="notification-player-avatar">
+                                    <i class="fas fa-user"></i>
+                                </span>
+
+                                <div class="notification-info">
+
+                                    <div class="notification-label">
+                                        <i class="fas fa-clock"></i>
+                                        اشتراك يوشك على الانتهاء
+                                    </div>
+
+                                    <p class="notification-message">
+                                        {{ $notification['message'] }}
+                                    </p>
+
+                                    <div class="notification-meta">
+
+                                        <span>
+                                            تاريخ الانتهاء:
+                                            {{ $notification['end_date'] }}
+                                        </span>
+
+                                        @if (isset($notification['days_remaining']))
+                                            <span class="notification-meta-divider">
+                                                •
+                                            </span>
+
+                                            <span>
+                                                @if ($notification['days_remaining'] <= 0)
+                                                    ينتهي اليوم
+                                                @elseif($notification['days_remaining'] == 1)
+                                                    متبقي يوم واحد
+                                                @else
+                                                    متبقي
+                                                    {{ $notification['days_remaining'] }}
+                                                    أيام
+                                                @endif
+                                            </span>
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <a href="{{ $notification['url'] }}" class="notification-action">
+                                <span>
+                                    عرض ملف اللاعب
+                                </span>
+
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+
+                        </div>
+                    @endforeach
+
+                </div>
+
+            </section>
+
+        @endif
+
+
         {{-- =====================================================
          STATISTICS
     ====================================================== --}}
 
-        <div class="dashboard-stats"> 
+        <div class="dashboard-stats">
+
             {{-- Players --}}
 
             <div class="stat-card">
@@ -747,14 +1559,17 @@
 
                 </div>
 
-                <div class="stat-value">                     {{ $totalPlayers }}
+                <div class="stat-value">
+                    {{ $totalPlayers }}
                 </div>
 
                 <div class="stat-description">
                     اللاعبون المسجلون تحت إشرافك
                 </div>
 
-            </div> 
+            </div>
+
+
             {{-- Training --}}
 
             <div class="stat-card info">
@@ -771,14 +1586,17 @@
 
                 </div>
 
-                <div class="stat-value">                     {{ $totalTrainingPlans }}
+                <div class="stat-value">
+                    {{ $totalTrainingPlans }}
                 </div>
 
                 <div class="stat-description">
                     خطط التدريب العامة
                 </div>
 
-            </div> 
+            </div>
+
+
             {{-- Diet --}}
 
             <div class="stat-card success">
@@ -795,14 +1613,17 @@
 
                 </div>
 
-                <div class="stat-value">                     {{ $totalDietPlans }}
+                <div class="stat-value">
+                    {{ $totalDietPlans }}
                 </div>
 
                 <div class="stat-description">
                     خطط التغذية العامة
                 </div>
 
-            </div> 
+            </div>
+
+
             {{-- Expiring --}}
 
             <div class="stat-card warning">
@@ -819,7 +1640,8 @@
 
                 </div>
 
-                <div class="stat-value">                     {{ $expiringSoonPlayers->count() }}
+                <div class="stat-value">
+                    {{ $expiringSoonPlayers->count() }}
                 </div>
 
                 <div class="stat-description">
@@ -828,15 +1650,16 @@
 
             </div>
 
-        </div> 
+        </div>
+
+
         {{-- =====================================================
          MAIN GRID
     ====================================================== --}}
 
-        <div class="dashboard-grid"> 
-            {{-- =================================================
-             PLAYER LEVELS
-        ================================================== --}}
+        <div class="dashboard-grid">
+
+            {{-- PLAYER LEVELS --}}
 
             <section class="dashboard-panel">
 
@@ -850,15 +1673,18 @@
 
                     </div>
 
-                    <span class="dashboard-panel-subtitle">                         {{ $totalPlayers }} لاعب
+                    <span class="dashboard-panel-subtitle">
+                        {{ $totalPlayers }} لاعب
                     </span>
 
                 </div>
 
+
                 <div class="dashboard-panel-body">
 
                     @if ($totalPlayers > 0)
-                        <div class="level-list"> 
+                        <div class="level-list">
+
                             {{-- Beginner --}}
 
                             <div class="level-row">
@@ -875,10 +1701,13 @@
 
                                 </div>
 
-                                <span class="level-count">                                     {{ $beginnerCount }}
+                                <span class="level-count">
+                                    {{ $beginnerCount }}
                                 </span>
 
-                            </div> 
+                            </div>
+
+
                             {{-- Intermediate --}}
 
                             <div class="level-row">
@@ -895,10 +1724,13 @@
 
                                 </div>
 
-                                <span class="level-count">                                     {{ $intermediateCount }}
+                                <span class="level-count">
+                                    {{ $intermediateCount }}
                                 </span>
 
-                            </div> 
+                            </div>
+
+
                             {{-- Advanced --}}
 
                             <div class="level-row">
@@ -915,7 +1747,8 @@
 
                                 </div>
 
-                                <span class="level-count">                                     {{ $advancedCount }}
+                                <span class="level-count">
+                                    {{ $advancedCount }}
                                 </span>
 
                             </div>
@@ -939,10 +1772,10 @@
 
                 </div>
 
-            </section> 
-            {{-- =================================================
-             ATTENDANCE
-        ================================================== --}}
+            </section>
+
+
+            {{-- ATTENDANCE --}}
 
             <section class="dashboard-panel">
 
@@ -962,6 +1795,7 @@
 
                 </div>
 
+
                 <div class="dashboard-panel-body">
 
                     <div class="attendance-card">
@@ -969,10 +1803,9 @@
                         <div class="attendance-top">
 
                             <div class="attendance-icon">
-
                                 <i class="fas fa-user-check"></i>
-
                             </div>
+
 
                             @if ($attendance)
 
@@ -1004,9 +1837,11 @@
 
                         </div>
 
+
                         <h3 class="attendance-title">
                             تسجيل حضور اليوم
                         </h3>
+
 
                         @if ($attendance)
 
@@ -1017,7 +1852,9 @@
                                 @if ($attendance->recorded_at)
                                     <br>
 
-                                    وقت التسجيل:                                     {{ \Carbon\Carbon::parse($attendance->recorded_at)->format('h:i A') }}
+                                    وقت التسجيل:
+
+                                    {{ \Carbon\Carbon::parse($attendance->recorded_at)->format('h:i A') }}
                                 @endif
 
                             </p>
@@ -1027,6 +1864,7 @@
                             </p>
 
                         @endif
+
 
                         <form action="{{ route('employee.dashboard.attendance.toggle') }}" method="POST">
 
@@ -1054,7 +1892,9 @@
 
             </section>
 
-        </div> 
+        </div>
+
+
         {{-- =====================================================
          PLANS
     ====================================================== --}}
@@ -1077,6 +1917,7 @@
 
             </div>
 
+
             <div class="dashboard-panel-body">
 
                 <div class="plan-grid">
@@ -1086,9 +1927,7 @@
                         <div class="plan-card-top">
 
                             <span class="plan-card-icon">
-
                                 <i class="fas fa-dumbbell"></i>
-
                             </span>
 
                             <span class="plan-card-label">
@@ -1097,19 +1936,19 @@
 
                         </div>
 
-                        <div class="plan-card-value">                             {{ $totalTrainingPlans }}
+                        <div class="plan-card-value">
+                            {{ $totalTrainingPlans }}
                         </div>
 
                     </div>
+
 
                     <div class="plan-card">
 
                         <div class="plan-card-top">
 
                             <span class="plan-card-icon">
-
                                 <i class="fas fa-utensils"></i>
-
                             </span>
 
                             <span class="plan-card-label">
@@ -1118,7 +1957,8 @@
 
                         </div>
 
-                        <div class="plan-card-value">                             {{ $totalDietPlans }}
+                        <div class="plan-card-value">
+                            {{ $totalDietPlans }}
                         </div>
 
                     </div>
@@ -1127,7 +1967,9 @@
 
             </div>
 
-        </section> 
+        </section>
+
+
         {{-- =====================================================
          EXPIRING PLAYERS
     ====================================================== --}}
@@ -1149,6 +1991,7 @@
                 </span>
 
             </div>
+
 
             <div class="players-table-wrapper">
 
@@ -1176,6 +2019,7 @@
 
                         </thead>
 
+
                         <tbody>
 
                             @foreach ($expiringSoonPlayers as $player)
@@ -1186,20 +2030,21 @@
                                         <div class="player-name">
 
                                             <span class="player-avatar">
-
                                                 <i class="fas fa-user"></i>
+                                            </span>
 
-                                            </span> 
                                             {{ $player->name }}
 
                                         </div>
 
                                     </td>
 
+
                                     <td>
 
                                         @if ($player->subscription)
-                                            <span class="subscription-date"> 
+                                            <span class="subscription-date">
+
                                                 {{ \Carbon\Carbon::parse($player->subscription->end_date)->format('Y-m-d') }}
 
                                             </span>
@@ -1208,6 +2053,7 @@
                                         @endif
 
                                     </td>
+
 
                                     <td>
 
@@ -1246,7 +2092,9 @@
 
             </div>
 
-        </section> 
+        </section>
+
+
         {{-- =====================================================
          EXPIRED PLAYERS
     ====================================================== --}}
@@ -1263,10 +2111,12 @@
 
                 </div>
 
-                <span class="dashboard-panel-subtitle">                     {{ $expiredPlayers->count() }} لاعب
+                <span class="dashboard-panel-subtitle">
+                    {{ $expiredPlayers->count() }} لاعب
                 </span>
 
             </div>
+
 
             <div class="players-table-wrapper">
 
@@ -1294,6 +2144,7 @@
 
                         </thead>
 
+
                         <tbody>
 
                             @foreach ($expiredPlayers as $player)
@@ -1304,20 +2155,21 @@
                                         <div class="player-name">
 
                                             <span class="player-avatar">
-
                                                 <i class="fas fa-user"></i>
+                                            </span>
 
-                                            </span> 
                                             {{ $player->name }}
 
                                         </div>
 
                                     </td>
 
+
                                     <td>
 
                                         @if ($player->subscription)
-                                            <span class="subscription-date"> 
+                                            <span class="subscription-date">
+
                                                 {{ \Carbon\Carbon::parse($player->subscription->end_date)->format('Y-m-d') }}
 
                                             </span>
@@ -1326,6 +2178,7 @@
                                         @endif
 
                                     </td>
+
 
                                     <td>
 

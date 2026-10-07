@@ -1086,7 +1086,8 @@
                             $isExpiringSoon =
                                 $endDate &&
                                 $player->hasActiveSubscription() &&
-                                \Carbon\Carbon::parse($endDate)->diffInDays(now(), false) >= -2 &&
+                                // هلق هيك بتكون الاشتراك على وشك الانتهاء إذا كان باقي 7 أيام أو أقل
+                                \Carbon\Carbon::parse($endDate)->diffInDays(now(), false) >= -7 &&
                                 \Carbon\Carbon::parse($endDate)->isFuture();
                         @endphp
 
@@ -1134,13 +1135,10 @@
             $isActive = $player->hasActiveSubscription();
         @endphp
 
-        <!-- 🚀 بداية التوزيع الهيكلي الجديد على السوا -->
         <div class="profile-main-layout">
 
-            <!-- العمود الأيمن: جداول التمارين والتغذية التفاعلية -->
             <div class="inner-tabs-grid">
 
-                <!-- 1. التمارين الحالية -->
                 <div class="plan-panel">
                     <div class="panel-title-bar">
                         <h3><i class="fas fa-dumbbell"></i> الخطط التدريبية الحالية</h3>
@@ -1437,9 +1435,6 @@
 
     @if ($player->bodyProgress->count() >= 2)
         @php
-            // 📈 نرتب السجل تصاعدياً (الأقدم أولاً) لأن bodyProgress محمّلة تنازلياً
-            // لعرض القائمة، بينما الرسم البياني يحتاج ترتيباً زمنياً طبيعياً.
-            // هذا الشكل بالضبط (تاريخ/وزن/دهون) هو ما سيُرجعه لاحقاً API التطبيق.
             $progressChartData = [];
             foreach ($player->bodyProgress->sortBy('created_at')->values() as $p) {
                 $progressChartData[] = [

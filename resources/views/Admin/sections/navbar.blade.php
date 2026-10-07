@@ -1,55 +1,24 @@
 <div class="elite-nav-actions">
 
-
-    {{-- =====================================================
-         THEME TOGGLE
-    ====================================================== --}}
-
     <button type="button" class="elite-theme-toggle" id="themeToggle" aria-label="تغيير الوضع" title="الوضع الليلي">
-
-        <i class="fas fa-moon" id="themeIcon">
-        </i>
-
+        <i class="fas fa-moon" id="themeIcon"></i>
     </button>
 
-
-    {{-- =====================================================
-         NOTIFICATIONS
-    ====================================================== --}}
-
-    <button type="button" class="elite-nav-icon" aria-label="الإشعارات" title="الإشعارات">
-
-        <i class="fas fa-bell"></i>
-
-        <span class="elite-notification-badge">
-            5
-        </span>
-
-    </button>
-
-
-    {{-- =====================================================
-         DIVIDER
-    ====================================================== --}}
 
     <div class="elite-nav-divider"></div>
 
 
-    {{-- =====================================================
-         PROFILE
-    ====================================================== --}}
-
-    <button type="button" class="elite-profile">
+    <a href="{{ route('admin.profile') }}" class="elite-profile" aria-label="الملف الشخصي" title="الملف الشخصي">
 
         <span class="elite-profile-avatar">
-            A
+            {{ mb_strtoupper(mb_substr(auth('admin')->user()->name ?? 'A', 0, 1)) }}
         </span>
 
 
         <span class="elite-profile-info">
 
             <strong>
-                Admin
+                {{ auth('admin')->user()->name ?? 'Admin' }}
             </strong>
 
             <small>
@@ -61,16 +30,12 @@
 
         <i class="fas fa-chevron-down elite-profile-arrow"></i>
 
-    </button>
+    </a>
 
 </div>
 
 
 <style>
-    /* =====================================================
-       NAVBAR
-    ====================================================== */
-
     .top-navbar {
 
         min-height: var(--topbar-height);
@@ -105,10 +70,6 @@
             box-shadow .25s ease;
     }
 
-
-    /* =====================================================
-       PAGE TITLE
-    ====================================================== */
 
     .nav-page-title {
 
@@ -179,10 +140,6 @@
     }
 
 
-    /* =====================================================
-       RIGHT ACTIONS
-    ====================================================== */
-
     .nav-right {
 
         display: flex;
@@ -204,10 +161,6 @@
         direction: ltr;
     }
 
-
-    /* =====================================================
-       THEME BUTTON
-    ====================================================== */
 
     .elite-theme-toggle {
 
@@ -256,89 +209,6 @@
     }
 
 
-    /* =====================================================
-       NOTIFICATIONS
-    ====================================================== */
-
-    .elite-nav-icon {
-
-        position: relative;
-
-        width: 39px;
-
-        height: 39px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        border: 1px solid var(--border);
-
-        border-radius: 11px;
-
-        background: var(--surface-2);
-
-        color: var(--muted);
-
-        cursor: pointer;
-
-        transition: all .2s ease;
-    }
-
-
-    .elite-nav-icon:hover {
-
-        color: var(--gold-dark);
-
-        background: var(--surface-hover);
-
-        border-color:
-            rgba(184, 146, 62, .35);
-
-        transform: translateY(-1px);
-    }
-
-
-    .elite-notification-badge {
-
-        position: absolute;
-
-        top: -5px;
-
-        right: -5px;
-
-        min-width: 17px;
-
-        height: 17px;
-
-        padding: 0 4px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        border-radius: 99px;
-
-        background: var(--gold);
-
-        color: #fff;
-
-        font-size: 9px;
-
-        font-weight: 800;
-
-        border: 2px solid var(--surface);
-    }
-
-
-    /* =====================================================
-       DIVIDER
-    ====================================================== */
-
     .elite-nav-divider {
 
         width: 1px;
@@ -350,10 +220,6 @@
         background: var(--border);
     }
 
-
-    /* =====================================================
-       PROFILE
-    ====================================================== */
 
     .elite-profile {
 
@@ -375,6 +241,8 @@
 
         cursor: pointer;
 
+        text-decoration: none;
+
         transition: all .2s ease;
     }
 
@@ -385,12 +253,12 @@
 
         border-color:
             rgba(184, 146, 62, .20);
+
+        color: var(--text);
+
+        text-decoration: none;
     }
 
-
-    /* =====================================================
-       AVATAR
-    ====================================================== */
 
     .elite-profile-avatar {
 
@@ -403,6 +271,8 @@
         align-items: center;
 
         justify-content: center;
+
+        flex-shrink: 0;
 
         border-radius: 50%;
 
@@ -421,10 +291,6 @@
             0 4px 12px rgba(184, 146, 62, .16);
     }
 
-
-    /* =====================================================
-       PROFILE INFO
-    ====================================================== */
 
     .elite-profile-info {
 
@@ -470,10 +336,6 @@
     }
 
 
-    /* =====================================================
-       MOBILE
-    ====================================================== */
-
     @media (max-width: 768px) {
 
         .top-navbar {
@@ -516,8 +378,7 @@
         }
 
 
-        .elite-theme-toggle,
-        .elite-nav-icon {
+        .elite-theme-toggle {
 
             width: 36px;
 
@@ -551,10 +412,12 @@
             padding-right: 12px;
         }
 
+
         .nav-page-title h1 {
 
             font-size: 17px;
         }
+
 
         .elite-nav-actions {
 

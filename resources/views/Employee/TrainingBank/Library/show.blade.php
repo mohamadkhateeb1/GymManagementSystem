@@ -4,15 +4,14 @@
 
 @section('styles')
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================================
-           ELITE CLUB - EXERCISE DETAILS
-           DESIGN ONLY
-           LOGIC / ROUTES / VARIABLES PRESERVED
-        ========================================================= */
+               ELITE CLUB - EXERCISE DETAILS
+               DESIGN ONLY
+               LOGIC / ROUTES / VARIABLES PRESERVED
+            ========================================================= */
 
         .details-container {
             --gold: #c9a961;
@@ -56,8 +55,8 @@
         }
 
         /* =========================================================
-           BACK BUTTON
-        ========================================================= */
+               BACK BUTTON
+            ========================================================= */
 
         .back-btn {
             display: inline-flex;
@@ -80,8 +79,8 @@
 
             text-decoration: none !important;
 
-            font-size: 12.5px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 800;
 
             transition: all 0.2s ease;
         }
@@ -105,8 +104,8 @@
         }
 
         /* =========================================================
-           MAIN CARD
-        ========================================================= */
+               MAIN CARD
+            ========================================================= */
 
         .details-card {
             position: relative;
@@ -135,11 +134,9 @@
             width: 4px;
             height: 100%;
 
-            background: linear-gradient(
-                to bottom,
-                var(--gold-light),
-                var(--gold)
-            );
+            background: linear-gradient(to bottom,
+                    var(--gold-light),
+                    var(--gold));
 
             box-shadow:
                 0 0 18px rgba(201, 169, 97, 0.30);
@@ -148,8 +145,8 @@
         }
 
         /* =========================================================
-           IMAGE
-        ========================================================= */
+               IMAGE
+            ========================================================= */
 
         .details-media {
             display: block;
@@ -171,16 +168,16 @@
         }
 
         /* =========================================================
-           BODY
-        ========================================================= */
+               BODY
+            ========================================================= */
 
         .details-body {
             padding: 27px;
         }
 
         /* =========================================================
-           TITLE AREA
-        ========================================================= */
+               TITLE AREA
+            ========================================================= */
 
         .exercise-title-area {
             margin-bottom: 20px;
@@ -201,12 +198,12 @@
 
             color: var(--gold) !important;
 
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
         }
 
         .exercise-kicker i {
-            font-size: 10px;
+            font-size: 11px;
         }
 
         .exercise-main-title {
@@ -214,16 +211,16 @@
 
             color: #ffffff !important;
 
-            font-size: 25px !important;
+            font-size: 29px !important;
 
-            font-weight: 800 !important;
+            font-weight: 900 !important;
 
             line-height: 1.5;
         }
 
         /* =========================================================
-           INFO BADGES
-        ========================================================= */
+               INFO BADGES
+            ========================================================= */
 
         .exercise-meta {
             display: flex;
@@ -254,8 +251,8 @@
 
             border-radius: 8px !important;
 
-            font-size: 11.5px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
 
             line-height: 1.5;
 
@@ -265,12 +262,12 @@
         .badge-info i {
             color: var(--gold) !important;
 
-            font-size: 10px;
+            font-size: 11px;
         }
 
         /* =========================================================
-           CONTENT SECTIONS
-        ========================================================= */
+               CONTENT SECTIONS
+            ========================================================= */
 
         .content-section {
             margin-top: 22px;
@@ -291,9 +288,9 @@
 
             border-bottom: 1px solid rgba(201, 169, 97, 0.09) !important;
 
-            font-size: 14px !important;
+            font-size: 16px !important;
 
-            font-weight: 700 !important;
+            font-weight: 800 !important;
 
             line-height: 1.6;
         }
@@ -320,8 +317,8 @@
         }
 
         /* =========================================================
-           TEXT DETAILS
-        ========================================================= */
+               TEXT DETAILS
+            ========================================================= */
 
         .details-text {
             padding: 18px 19px;
@@ -334,7 +331,8 @@
 
             color: #dfe2e7 !important;
 
-            font-size: 13.5px;
+            font-size: 15.5px;
+            font-weight: 600;
 
             line-height: 2;
 
@@ -347,8 +345,8 @@
         }
 
         /* =========================================================
-           VIDEO
-        ========================================================= */
+               VIDEO
+            ========================================================= */
 
         .video-wrapper {
             position: relative;
@@ -391,8 +389,8 @@
         }
 
         /* =========================================================
-           EXTERNAL VIDEO
-        ========================================================= */
+               EXTERNAL VIDEO
+            ========================================================= */
 
         .external-video-box {
             padding: 22px;
@@ -435,14 +433,15 @@
 
             color: #aeb3bd !important;
 
-            font-size: 12.5px;
+            font-size: 14px;
+            font-weight: 600;
 
-            line-height: 1.8;
+            line-height: 1.9;
         }
 
         /* =========================================================
-           GREEN BUTTON
-        ========================================================= */
+               GREEN BUTTON
+            ========================================================= */
 
         .btn-green {
             display: inline-flex;
@@ -464,8 +463,8 @@
 
             text-decoration: none !important;
 
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 13.5px;
+            font-weight: 800;
 
             transition: all 0.2s ease;
         }
@@ -488,80 +487,190 @@
         .btn-green i {
             color: inherit !important;
 
-            font-size: 10px;
+            font-size: 11px;
         }
 
         /* =========================================================
-           RESPONSIVE
-        ========================================================= */
+               RESPONSIVE - TABLET / MOBILE
+            ========================================================= */
 
-        @media (max-width: 700px) {
-
+        @media (max-width: 900px) {
             .details-container {
-                padding: 15px;
+                max-width: 100%;
+                padding: 18px;
             }
 
             .details-body {
-                padding: 21px;
-            }
-
-            .exercise-main-title {
-                font-size: 21px !important;
+                padding: 24px;
             }
 
             .details-media {
-                max-height: 300px;
-
+                max-height: 360px;
                 aspect-ratio: 16 / 9;
-            }
-        }
-
-        @media (max-width: 500px) {
-
-            .details-container {
-                padding: 10px;
-            }
-
-            .details-card {
-                border-radius: 13px !important;
-            }
-
-            .details-body {
-                padding: 17px;
-            }
-
-            .back-btn {
-                margin-bottom: 12px;
-
-                font-size: 11.5px;
             }
 
             .exercise-main-title {
-                font-size: 19px !important;
-            }
-
-            .exercise-meta {
-                gap: 6px;
-            }
-
-            .badge-info {
-                padding: 6px 9px;
-
-                font-size: 10.5px;
+                font-size: 27px !important;
             }
 
             .details-text {
-                padding: 15px;
+                font-size: 15px;
+            }
+        }
 
+        @media (max-width: 700px) {
+            .details-container {
+                width: 100%;
+                padding: 12px;
+            }
+
+            .details-card {
+                width: 100%;
+                border-radius: 14px !important;
+            }
+
+            .details-body {
+                padding: 20px;
+            }
+
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 14px;
+                padding: 10px 13px;
+                font-size: 14px;
+            }
+
+            .exercise-title-area {
+                margin-bottom: 18px;
+                padding-bottom: 16px;
+            }
+
+            .exercise-kicker {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .exercise-main-title {
+                font-size: 24px !important;
+                line-height: 1.55;
+                overflow-wrap: anywhere;
+            }
+
+            .exercise-meta {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+                margin-top: 14px;
+            }
+
+            .badge-info {
+                width: 100%;
+                min-width: 0;
+                justify-content: center;
+                text-align: center;
+                padding: 8px 7px;
                 font-size: 12.5px;
+                font-weight: 800;
+                overflow-wrap: anywhere;
             }
 
             .section-title {
-                font-size: 13px !important;
+                font-size: 15px !important;
+                gap: 8px;
+            }
+
+            .section-title i {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+
+            .details-text {
+                padding: 16px;
+                font-size: 14.5px;
+                font-weight: 600;
+                line-height: 1.95;
+                overflow-wrap: anywhere;
             }
 
             .external-video-box {
-                padding: 17px;
+                padding: 18px;
+            }
+
+            .external-video-box p {
+                font-size: 13.5px;
+                font-weight: 600;
+            }
+
+            .btn-green {
+                width: 100%;
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .details-container {
+                padding: 8px;
+            }
+
+            .details-card {
+                border-radius: 12px !important;
+            }
+
+            .details-body {
+                padding: 16px;
+            }
+
+            .details-media {
+                max-height: 260px;
+                aspect-ratio: 16 / 10;
+            }
+
+            .exercise-main-title {
+                font-size: 22px !important;
+            }
+
+            .exercise-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .badge-info {
+                justify-content: flex-start;
+                text-align: right;
+                font-size: 13px;
+            }
+
+            .section-title {
+                font-size: 14.5px !important;
+            }
+
+            .details-text {
+                padding: 14px;
+                font-size: 14px;
+            }
+
+            .video-wrapper {
+                border-radius: 10px !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .details-container {
+                padding: 5px;
+            }
+
+            .details-body {
+                padding: 13px;
+            }
+
+            .exercise-main-title {
+                font-size: 20px !important;
+            }
+
+            .details-text {
+                font-size: 13.5px;
             }
         }
     </style>
@@ -580,9 +689,7 @@
 
             <!-- 📷 صورة التمرين إن وجدت -->
             @if ($exercise->image_path)
-                <img src="{{ asset('storage/' . $exercise->image_path) }}"
-                    alt="صورة التمرين"
-                    class="details-media">
+                <img src="{{ asset('storage/' . $exercise->image_path) }}" alt="صورة التمرين" class="details-media">
             @endif
 
             <div class="details-body">
@@ -670,22 +777,16 @@
                         @endphp
 
                         @if ($videoId)
-
                             <div class="video-wrapper">
 
-                                <iframe
-                                    src="https://www.youtube.com/embed/{{ $videoId }}"
-                                    title="فيديو التمرين"
+                                <iframe src="https://www.youtube.com/embed/{{ $videoId }}" title="فيديو التمرين"
                                     frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen>
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
                                 </iframe>
 
                             </div>
-
                         @elseif(Str::startsWith($url, ['http://', 'https://']))
-
                             <!-- في حال كان الرابط من موقع آخر يظهر زر مخصص للمشاهدة -->
                             <div class="external-video-box">
 
@@ -697,9 +798,7 @@
                                     انقر على الزر أدناه لمشاهدة فيديو الشرح والمتابعة:
                                 </p>
 
-                                <a href="{{ $url }}"
-                                    target="_blank"
-                                    class="btn-green">
+                                <a href="{{ $url }}" target="_blank" class="btn-green">
 
                                     <i class="fas fa-external-link-alt"></i>
                                     فتح رابط الفيديو الخارجي
@@ -707,23 +806,19 @@
                                 </a>
 
                             </div>
-
                         @else
-
                             <!-- فيديو محلي مرفوع مباشرة على السيرفر -->
                             <div class="video-wrapper">
 
                                 <video controls>
 
-                                    <source src="{{ asset('storage/' . $url) }}"
-                                        type="video/mp4">
+                                    <source src="{{ asset('storage/' . $url) }}" type="video/mp4">
 
                                     المتصفح لا يدعم تشغيل هذا الفيديو.
 
                                 </video>
 
                             </div>
-
                         @endif
 
                     </div>

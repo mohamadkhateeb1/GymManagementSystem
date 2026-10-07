@@ -12,38 +12,27 @@ use App\Http\Controllers\Admin\SubscriptionsController;
 use App\Http\Controllers\Admin\FinancialReportController;
 use App\Http\Controllers\Admin\FinancialArchiveController;
 use App\Http\Controllers\Admin\TwoFactorAuthenticatorController;
+use App\Http\Controllers\Admin\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 
 Route::prefix('admin')
     ->middleware(['auth:admin'])
     ->group(function () {
 
-        /*
-        |--------------------------------------------------------------------------
-        | Dashboard
-        |--------------------------------------------------------------------------
-        */
-
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('admin.dashboard');
 
+        Route::get('/profile', [ProfileController::class, 'index'])
+            ->name('admin.profile');
 
-        /*
-        |--------------------------------------------------------------------------
-        | Two Factor Authentication
-        |--------------------------------------------------------------------------
-        */
+        Route::put('/profile', [ProfileController::class, 'update'])
+            ->name('admin.profile.update');
+
+        Route::put('/profile/password', [ProfileController::class, 'updatePassword'])
+            ->name('admin.profile.password');
 
         Route::get('/2fa', [TwoFactorAuthenticatorController::class, 'index'])
             ->name('admin.2fa');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Roles
-        |--------------------------------------------------------------------------
-        */
 
         Route::delete('/roles/destroy-all', [RoleController::class, 'destroy_all'])
             ->name('admin.roles.destroy_all');
@@ -56,13 +45,6 @@ Route::prefix('admin')
             'update' => 'admin.roles.update',
             'destroy' => 'admin.roles.delete',
         ]);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Admins
-        |--------------------------------------------------------------------------
-        */
 
         Route::resource('admins', AdminController::class)->names([
             'index' => 'admins.index',
@@ -77,13 +59,6 @@ Route::prefix('admin')
         Route::delete('/admin/destroy-all', [AdminController::class, 'destroy_all'])
             ->name('admins.destroy_all');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Employees
-        |--------------------------------------------------------------------------
-        */
-
         Route::resource('employees', EmployeeController::class)->names([
             'index' => 'employees.index',
             'create' => 'employees.create',
@@ -96,13 +71,6 @@ Route::prefix('admin')
 
         Route::delete('/employee/destroy-all', [EmployeeController::class, 'destroy_all'])
             ->name('employees.destroy_all');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Players
-        |--------------------------------------------------------------------------
-        */
 
         Route::resource('players', PlayerController::class)->names([
             'index' => 'players.index',
@@ -121,13 +89,6 @@ Route::prefix('admin')
             [SubscriptionsController::class, 'toggleByPlayer']
         )->name('players.toggle-subscription');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Subscriptions
-        |--------------------------------------------------------------------------
-        */
-
         Route::get('/subscriptions', [SubscriptionsController::class, 'index'])
             ->name('subscriptions.index');
 
@@ -144,13 +105,6 @@ Route::prefix('admin')
             '/subscriptions/{membership}/archive',
             [FinancialArchiveController::class, 'archiveMembership']
         )->name('admin.subscriptions.archive');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Plan Types
-        |--------------------------------------------------------------------------
-        */
 
         Route::prefix('plan-types')
             ->name('admin.plan-types.')
@@ -169,13 +123,6 @@ Route::prefix('admin')
                     ->name('toggle');
             });
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Financial Reports
-        |--------------------------------------------------------------------------
-        */
-
         Route::get(
             '/financial-reports',
             [FinancialReportController::class, 'index']
@@ -186,24 +133,10 @@ Route::prefix('admin')
             [FinancialArchiveController::class, 'archivePayment']
         )->name('admin.financial-reports.archive');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Financial Archive
-        |--------------------------------------------------------------------------
-        */
-
         Route::get(
             '/financial-archive',
             [FinancialArchiveController::class, 'index']
         )->name('admin.financial-archive.index');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Employee Attendance
-        |--------------------------------------------------------------------------
-        */
 
         Route::prefix('attendance/employees')
             ->name('admin.attendance.employees.')
@@ -227,13 +160,6 @@ Route::prefix('admin')
                     [AdminEmployeeAttendanceController::class, 'destroyAttendance']
                 )->name('destroy');
             });
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Player Attendance
-        |--------------------------------------------------------------------------
-        */
 
         Route::prefix('attendance/players')
             ->name('admin.attendance.players.')

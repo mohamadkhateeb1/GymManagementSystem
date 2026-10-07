@@ -1,5 +1,4 @@
 <style>
-
     .navbar {
         width: 100%;
         min-height: 78px;
@@ -16,6 +15,7 @@
         z-index: 90;
         transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
+
     .navbar-right {
         display: flex;
         align-items: center;
@@ -24,8 +24,8 @@
     }
 
     .navbar-welcome {
-        color: var(--text-soft);
-        font-size: 13px;
+        color: var(--text);
+        font-size: 15px;
         font-weight: 700;
     }
 
@@ -49,9 +49,9 @@
         border-radius: 11px;
         border: 1px solid var(--border);
         background: var(--surface-2);
-        color: var(--text-soft);
+        color: var(--text);
         cursor: pointer;
-        font-size: 14px;
+        font-size: 16px;
         transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
     }
 
@@ -78,13 +78,11 @@
         display: none;
     }
 
-    html[data-theme="dark"]
-    .navbar-theme-toggle .moon-icon {
+    html[data-theme="dark"] .navbar-theme-toggle .moon-icon {
         display: none;
     }
 
-    html[data-theme="dark"]
-    .navbar-theme-toggle .sun-icon {
+    html[data-theme="dark"] .navbar-theme-toggle .sun-icon {
         display: inline-block;
     }
 
@@ -93,11 +91,11 @@
        ========================================================= */
 
     .navbar-user {
-        min-height: 50px;
+        min-height: 54px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 5px 7px 5px 12px;
+        gap: 11px;
+        padding: 5px 8px 5px 14px;
         background: var(--surface-2);
         border: 1px solid var(--border);
         border-radius: 12px;
@@ -118,34 +116,34 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 2px;
+        gap: 3px;
     }
 
     .navbar-user-name {
         color: var(--text);
-        font-size: 10.5px;
+        font-size: 14px;
         font-weight: 850;
         white-space: nowrap;
     }
 
     .navbar-user-role {
-        color: var(--muted);
-        font-size: 8px;
-        font-weight: 500;
+        color: var(--text-soft);
+        font-size: 11.5px;
+        font-weight: 600;
         white-space: nowrap;
     }
 
     .navbar-user-avatar {
-        width: 38px;
-        height: 38px;
-        flex: 0 0 38px;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 10px;
         background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
         color: #fff;
-        font-size: 13px;
+        font-size: 15px;
         box-shadow: 0 6px 15px rgba(184, 146, 62, .18);
         transition: transform .25s cubic-bezier(.34, 1.56, .64, 1);
     }
@@ -200,15 +198,15 @@
         }
 
         .navbar-user-avatar {
-            width: 35px;
-            height: 35px;
-            flex-basis: 35px;
+            width: 36px;
+            height: 36px;
+            flex-basis: 36px;
         }
 
         .navbar-theme-toggle {
-            width: 39px;
-            height: 39px;
-            flex-basis: 39px;
+            width: 40px;
+            height: 40px;
+            flex-basis: 40px;
         }
     }
 
@@ -218,6 +216,9 @@
             padding: 9px 12px;
         }
 
+        .navbar-welcome {
+            font-size: 13.5px;
+        }
     }
 
     @media (max-width: 480px) {
@@ -225,11 +226,13 @@
             gap: 7px;
         }
 
+        .navbar-welcome {
+            font-size: 12.5px;
+        }
     }
-
 </style>
 
-<nav class="navbar"> 
+<nav class="navbar">
     {{-- =====================================================
          RIGHT — WELCOME (بدل عنوان الصفحة والتاريخ، انتقلوا للسايدبار)
     ====================================================== --}}
@@ -242,27 +245,23 @@
          LEFT — USER + THEME
     ====================================================== --}}
 
-    <div class="navbar-left"> 
+    <div class="navbar-left">
         {{-- الوضع الليلي / النهاري --}}
 
-        <button
-            type="button"
-            class="navbar-theme-toggle"
-            onclick="toggleEliteTheme()"
-            aria-label="تغيير الوضع">
+        <button type="button" class="navbar-theme-toggle" onclick="toggleEliteTheme()" aria-label="تغيير الوضع">
 
             <i class="fas fa-moon moon-icon"></i>
 
             <i class="fas fa-sun sun-icon"></i>
 
-        </button> 
+        </button>
         {{-- الموظف --}}
 
         <div class="navbar-user">
 
             <div class="navbar-user-text">
 
-                <span class="navbar-user-name"> 
+                <span class="navbar-user-name">
                     {{ auth()->guard('employee')->user()->name }}
 
                 </span>

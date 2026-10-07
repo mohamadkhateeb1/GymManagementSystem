@@ -8,32 +8,13 @@
 
     <style>
         /* =========================================================
-               ELITE CLUB - EXERCISE LIBRARY
-               DESIGN ONLY
-               LOGIC / ROUTES / VARIABLES PRESERVED
-            ========================================================= */
+                   ELITE CLUB - EXERCISE LIBRARY
+                   تعتمد الآن على متغيّرات الثيم الموحّدة (فاتح/غامق تلقائياً)
+                ========================================================= */
 
         .library-container {
-            --gold: #c9a961;
-            --gold-light: #e6cf91;
-            --gold-soft: rgba(201, 169, 97, 0.08);
-            --gold-line: rgba(201, 169, 97, 0.16);
-            --gold-border: rgba(201, 169, 97, 0.22);
-
-            --surface: #171a21;
-            --surface-2: #1d212a;
-            --surface-3: #232832;
-            --surface-dark: #111419;
-
-            --text: #f4f5f7;
-            --muted: #8d93a1;
-            --muted-light: #aeb3bd;
-
-            --green: #5a9c7a;
-            --green-light: #74b995;
-
-            font-family: 'Tajawal', sans-serif !important;
-            color: var(--text) !important;
+            font-family: 'Tajawal', sans-serif;
+            color: var(--text);
             direction: rtl;
 
             width: 100%;
@@ -48,8 +29,8 @@
         }
 
         /* =========================================================
-               HEADER
-            ========================================================= */
+                   HEADER
+                ========================================================= */
 
         .library-header {
             position: relative;
@@ -63,20 +44,14 @@
             padding: 23px 25px;
             margin-bottom: 18px;
 
-            background:
-                linear-gradient(135deg,
-                    rgba(201, 169, 97, 0.055),
-                    rgba(255, 255, 255, 0.008)),
-                #171a21 !important;
+            background: var(--surface);
 
-            border: 1px solid var(--gold-line) !important;
-            border-radius: 16px !important;
+            border: 1px solid var(--border);
+            border-radius: 16px;
 
             overflow: hidden;
 
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.015) !important;
+            box-shadow: var(--shadow-sm);
         }
 
         .library-header::before {
@@ -114,18 +89,14 @@
             align-items: center;
             justify-content: center;
 
-            border-radius: 14px !important;
+            border-radius: 14px;
 
-            background: rgba(201, 169, 97, 0.075) !important;
-            border: 1px solid rgba(201, 169, 97, 0.18) !important;
+            background: color-mix(in srgb, var(--gold) 9%, var(--surface-2));
+            border: 1px solid var(--border-soft);
 
-            color: var(--gold-light) !important;
+            color: var(--gold);
 
             font-size: 21px;
-
-            box-shadow:
-                inset 0 0 20px rgba(201, 169, 97, 0.025),
-                0 0 18px rgba(201, 169, 97, 0.04);
         }
 
         .library-title {
@@ -133,26 +104,27 @@
         }
 
         .library-title h2 {
-            margin: 0 0 5px !important;
+            margin: 0 0 5px;
 
-            color: #ffffff !important;
+            color: var(--text);
 
-            font-size: 21px;
+            font-size: 22px;
             font-weight: 800;
 
             line-height: 1.5;
         }
 
         .library-title span {
-            color: #8d93a1 !important;
+            color: var(--text-soft);
 
-            font-size: 12.5px;
+            font-size: 13.5px;
+            font-weight: 500;
             line-height: 1.7;
         }
 
         /* =========================================================
-               FILTERS
-            ========================================================= */
+                   FILTERS
+                ========================================================= */
 
         .library-filters {
             display: flex;
@@ -163,10 +135,10 @@
 
             padding: 5px;
 
-            background: #111419 !important;
+            background: var(--surface-2);
 
-            border: 1px solid rgba(255, 255, 255, 0.045) !important;
-            border-radius: 11px !important;
+            border: 1px solid var(--border);
+            border-radius: 11px;
 
             flex-shrink: 0;
         }
@@ -179,19 +151,19 @@
 
             min-width: 66px;
 
-            padding: 8px 14px;
+            padding: 9px 15px;
 
-            background: transparent !important;
+            background: transparent;
 
-            color: #8d93a1 !important;
+            color: var(--text-soft);
 
-            border: 1px solid transparent !important;
-            border-radius: 8px !important;
+            border: 1px solid transparent;
+            border-radius: 8px;
 
-            text-decoration: none !important;
+            text-decoration: none;
 
-            font-size: 12.5px;
-            font-weight: 600;
+            font-size: 13.5px;
+            font-weight: 700;
 
             transition:
                 color 0.2s ease,
@@ -201,50 +173,44 @@
         }
 
         .filter-btn:hover {
-            color: var(--gold-light) !important;
+            color: var(--gold-dark);
 
-            background: rgba(201, 169, 97, 0.07) !important;
+            background: color-mix(in srgb, var(--gold) 7%, transparent);
 
-            border-color: rgba(201, 169, 97, 0.14) !important;
+            border-color: var(--border-soft);
 
-            text-decoration: none !important;
+            text-decoration: none;
         }
 
         .filter-btn.active {
-            color: var(--gold-light) !important;
+            color: var(--gold-dark);
 
-            background: rgba(201, 169, 97, 0.11) !important;
+            background: color-mix(in srgb, var(--gold) 11%, var(--surface));
 
-            border-color: rgba(201, 169, 97, 0.25) !important;
-
-            box-shadow:
-                inset 0 0 15px rgba(201, 169, 97, 0.035),
-                0 0 12px rgba(201, 169, 97, 0.035);
+            border-color: color-mix(in srgb, var(--gold) 25%, var(--border));
         }
 
         /* =========================================================
-               MAIN PANEL
-            ========================================================= */
+                   MAIN PANEL
+                ========================================================= */
 
         .library-panel {
             width: 100%;
 
-            background: #171a21 !important;
+            background: var(--surface);
 
-            border: 1px solid rgba(201, 169, 97, 0.16) !important;
+            border: 1px solid var(--border);
 
-            border-radius: 16px !important;
+            border-radius: 16px;
 
-            overflow: hidden !important;
+            overflow: hidden;
 
-            box-shadow:
-                0 12px 30px rgba(0, 0, 0, 0.10),
-                inset 0 1px 0 rgba(255, 255, 255, 0.015) !important;
+            box-shadow: var(--shadow-sm);
         }
 
         /* =========================================================
-               PANEL TOP
-            ========================================================= */
+                   PANEL TOP
+                ========================================================= */
 
         .panel-top {
             display: flex;
@@ -255,13 +221,9 @@
 
             padding: 16px 20px;
 
-            background:
-                linear-gradient(90deg,
-                    rgba(201, 169, 97, 0.025),
-                    transparent),
-                #171a21 !important;
+            background: var(--surface-2);
 
-            border-bottom: 1px solid rgba(201, 169, 97, 0.09) !important;
+            border-bottom: 1px solid var(--border);
         }
 
         .panel-heading {
@@ -270,27 +232,28 @@
 
             gap: 9px;
 
-            color: #ffffff !important;
+            color: var(--text);
 
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 800;
         }
 
         .panel-heading i {
-            color: var(--gold) !important;
+            color: var(--gold);
 
-            font-size: 13px;
+            font-size: 15px;
         }
 
         .panel-hint {
-            color: #777e8c !important;
+            color: var(--text-soft);
 
-            font-size: 11.5px;
+            font-size: 13px;
+            font-weight: 500;
         }
 
         /* =========================================================
-               TABLE WRAPPER
-            ========================================================= */
+                   TABLE WRAPPER
+                ========================================================= */
 
         .table-wrapper {
             width: 100%;
@@ -298,140 +261,108 @@
             overflow-x: auto;
             overflow-y: hidden;
 
-            background: #171a21 !important;
+            background: var(--surface);
 
             scrollbar-width: thin;
-            scrollbar-color:
-                rgba(201, 169, 97, 0.25) #111419;
+            scrollbar-color: var(--border) transparent;
         }
 
         /* =========================================================
-               TABLE - FORCE DARK MODE
-            ========================================================= */
+                   TABLE
+                ========================================================= */
 
-        .members-table,
-        .members-table.table {
-            width: 100% !important;
+        .members-table {
+            width: 100%;
             min-width: 720px;
 
-            margin: 0 !important;
+            margin: 0;
 
-            border-collapse: separate !important;
-            border-spacing: 0 !important;
+            border-collapse: separate;
+            border-spacing: 0;
 
-            background: #171a21 !important;
-
-            color: #f4f5f7 !important;
-
-            --bs-table-bg: #171a21 !important;
-            --bs-table-color: #f4f5f7 !important;
-            --bs-table-border-color: rgba(255, 255, 255, 0.035) !important;
-            --bs-table-hover-bg: #1d212a !important;
-            --bs-table-hover-color: #ffffff !important;
-        }
-
-        /*
-             * إزالة تأثير Bootstrap بالكامل
-             */
-        .members-table.table> :not(caption)>*>*,
-        .members-table> :not(caption)>*>* {
-            background-color: transparent !important;
-            box-shadow: none !important;
-            color: inherit !important;
+            background: var(--surface);
+            color: var(--text);
         }
 
         /* =========================================================
-               THEAD
-            ========================================================= */
+                   THEAD
+                ========================================================= */
 
         .members-table thead,
         .members-table thead tr {
-            background: #1d212a !important;
-
-            color: #8d93a1 !important;
+            background: var(--surface-2);
+            color: var(--text);
         }
 
         .members-table thead th {
-            padding: 15px 18px !important;
+            padding: 15px 18px;
 
-            background: #1d212a !important;
+            background: var(--surface-2);
 
-            color: #8d93a1 !important;
+            color: var(--text);
 
-            border: 0 !important;
-            border-bottom: 1px solid rgba(201, 169, 97, 0.10) !important;
+            border: 0;
+            border-bottom: 1px solid var(--border);
 
             text-align: right;
 
-            font-size: 11.5px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
 
             white-space: nowrap;
         }
 
         .members-table thead th:first-child {
-            padding-right: 20px !important;
+            padding-right: 20px;
         }
 
         /* =========================================================
-               TBODY
-            ========================================================= */
+                   TBODY
+                ========================================================= */
 
         .members-table tbody,
         .members-table tbody tr,
         .members-table tbody td {
-            background: #171a21 !important;
+            background: var(--surface);
         }
 
         .members-table tbody tr {
-            transition: background 0.2s ease !important;
+            transition: background 0.2s ease;
         }
 
         .members-table tbody td {
-            padding: 15px 18px !important;
+            padding: 15px 18px;
 
-            color: #f4f5f7 !important;
+            color: var(--text);
 
-            border: 0 !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.035) !important;
+            border: 0;
+            border-bottom: 1px solid var(--border-soft);
 
-            vertical-align: middle !important;
+            vertical-align: middle;
 
-            font-size: 13px;
+            font-size: 14.5px;
         }
 
         .members-table tbody td:first-child {
-            padding-right: 20px !important;
+            padding-right: 20px;
         }
 
         /* =========================================================
-               ROW HOVER
-            ========================================================= */
+                   ROW HOVER
+                ========================================================= */
 
         .members-table tbody tr:hover,
-        .members-table.table-hover tbody tr:hover {
-            background: #1d212a !important;
-
-            --bs-table-hover-bg: #1d212a !important;
-            --bs-table-hover-color: #ffffff !important;
-        }
-
-        .members-table tbody tr:hover td,
-        .members-table.table-hover tbody tr:hover>td {
-            background: #1d212a !important;
-
-            color: #ffffff !important;
-
-            border-bottom-color: rgba(201, 169, 97, 0.08) !important;
+        .members-table tbody tr:hover td {
+            background: var(--surface-hover);
         }
 
         .members-table tbody tr:last-child td {
-            border-bottom: none !important;
+            border-bottom: none;
         }
 
         /* =========================================================
-               EXERCISE INFO
-            ========================================================= */
+                   EXERCISE INFO
+                ========================================================= */
 
         .exercise-info {
             display: flex;
@@ -443,51 +374,47 @@
         }
 
         .exercise-icon {
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
 
-            flex: 0 0 36px;
+            flex: 0 0 38px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: rgba(201, 169, 97, 0.075) !important;
+            background: color-mix(in srgb, var(--gold) 8%, var(--surface-2));
 
-            border: 1px solid rgba(201, 169, 97, 0.13) !important;
+            border: 1px solid var(--border-soft);
 
-            border-radius: 9px !important;
+            border-radius: 9px;
 
-            color: #c9a961 !important;
+            color: var(--gold);
 
-            font-size: 13px;
+            font-size: 14px;
 
             transition: all 0.2s ease;
         }
 
         .members-table tbody tr:hover .exercise-icon {
-            background: rgba(201, 169, 97, 0.12) !important;
-
-            border-color: rgba(201, 169, 97, 0.24) !important;
-
-            box-shadow:
-                0 0 14px rgba(201, 169, 97, 0.08);
+            background: color-mix(in srgb, var(--gold) 13%, var(--surface-2));
+            border-color: color-mix(in srgb, var(--gold) 25%, var(--border));
         }
 
         .exercise-name {
             min-width: 0;
 
-            color: #f4f5f7 !important;
+            color: var(--text);
 
-            font-size: 13.5px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 800;
 
             line-height: 1.6;
         }
 
         /* =========================================================
-               PLAN INFO
-            ========================================================= */
+                   PLAN INFO
+                ========================================================= */
 
         .plan-info {
             display: flex;
@@ -495,22 +422,25 @@
 
             gap: 8px;
 
-            color: #aeb3bd !important;
+            color: var(--text-soft);
+
+            font-size: 13.5px;
+            font-weight: 500;
 
             line-height: 1.6;
         }
 
         .plan-info i {
-            color: #747b88 !important;
+            color: var(--text-soft);
 
-            font-size: 11px;
+            font-size: 12px;
 
             flex-shrink: 0;
         }
 
         /* =========================================================
-               LEVEL CHIP
-            ========================================================= */
+                   LEVEL CHIP
+                ========================================================= */
 
         .level-chip {
             display: inline-flex;
@@ -518,28 +448,25 @@
             align-items: center;
             justify-content: center;
 
-            min-width: 65px;
+            min-width: 68px;
 
-            padding: 5px 11px;
+            padding: 6px 12px;
 
-            border-radius: 7px !important;
+            border-radius: 7px;
 
-            background: rgba(201, 169, 97, 0.085) !important;
+            background: color-mix(in srgb, var(--gold) 10%, var(--surface-2));
 
-            color: #e6cf91 !important;
+            color: var(--gold-dark);
 
-            border: 1px solid rgba(201, 169, 97, 0.20) !important;
+            border: 1px solid color-mix(in srgb, var(--gold) 22%, var(--border));
 
-            font-size: 11px;
-            font-weight: 700;
-
-            box-shadow:
-                inset 0 0 10px rgba(201, 169, 97, 0.025);
+            font-size: 12.5px;
+            font-weight: 800;
         }
 
         /* =========================================================
-               DETAILS BUTTON
-            ========================================================= */
+                   DETAILS BUTTON
+                ========================================================= */
 
         .btn-green {
             display: inline-flex;
@@ -549,19 +476,19 @@
 
             gap: 6px;
 
-            padding: 7px 13px;
+            padding: 8px 14px;
 
-            background: rgba(90, 156, 122, 0.08) !important;
+            background: color-mix(in srgb, var(--success) 9%, var(--surface-2));
 
-            color: #5a9c7a !important;
+            color: var(--success);
 
-            border: 1px solid rgba(90, 156, 122, 0.25) !important;
+            border: 1px solid color-mix(in srgb, var(--success) 28%, var(--border));
 
-            border-radius: 8px !important;
+            border-radius: 8px;
 
-            text-decoration: none !important;
+            text-decoration: none;
 
-            font-size: 11.5px;
+            font-size: 13px;
             font-weight: 700;
 
             white-space: nowrap;
@@ -570,49 +497,42 @@
         }
 
         .btn-green:hover {
-            background: rgba(90, 156, 122, 0.17) !important;
+            background: color-mix(in srgb, var(--success) 18%, var(--surface-2));
 
-            color: #74b995 !important;
+            color: var(--success);
 
-            border-color: rgba(90, 156, 122, 0.40) !important;
+            border-color: color-mix(in srgb, var(--success) 42%, var(--border));
 
             transform: translateY(-1px);
 
-            box-shadow:
-                0 5px 15px rgba(90, 156, 122, 0.08);
+            box-shadow: 0 5px 15px color-mix(in srgb, var(--success) 12%, transparent);
 
-            text-decoration: none !important;
+            text-decoration: none;
         }
 
         .btn-green i {
-            color: inherit !important;
+            color: inherit;
 
-            font-size: 10px;
+            font-size: 12px;
         }
 
         /* =========================================================
-               EMPTY STATE
-            ========================================================= */
+                   EMPTY STATE
+                ========================================================= */
 
         .members-table .empty-state {
-            padding: 58px 25px !important;
+            padding: 58px 25px;
 
-            background: #171a21 !important;
+            background: var(--surface);
 
-            color: #8d93a1 !important;
+            color: var(--text-soft);
 
-            text-align: center !important;
-        }
-
-        .members-table tbody tr:hover .empty-state {
-            background: #171a21 !important;
-
-            color: #8d93a1 !important;
+            text-align: center;
         }
 
         .empty-icon {
-            width: 58px;
-            height: 58px;
+            width: 60px;
+            height: 60px;
 
             margin: 0 auto 14px;
 
@@ -620,36 +540,37 @@
             align-items: center;
             justify-content: center;
 
-            border-radius: 15px !important;
+            border-radius: 15px;
 
-            background: rgba(201, 169, 97, 0.08) !important;
+            background: color-mix(in srgb, var(--gold) 9%, var(--surface-2));
 
-            border: 1px solid rgba(201, 169, 97, 0.16) !important;
+            border: 1px solid var(--border-soft);
 
-            color: #c9a961 !important;
+            color: var(--gold);
 
-            font-size: 22px;
+            font-size: 23px;
         }
 
         .empty-title {
             margin-bottom: 6px;
 
-            color: #f2f3f5 !important;
+            color: var(--text);
 
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 800;
         }
 
         .empty-description {
-            color: #8d93a1 !important;
+            color: var(--text-soft);
 
-            font-size: 12px;
+            font-size: 13.5px;
+            font-weight: 500;
             line-height: 1.8;
         }
 
         /* =========================================================
-               SCROLLBAR
-            ========================================================= */
+                   SCROLLBAR
+                ========================================================= */
 
         .table-wrapper::-webkit-scrollbar {
             width: 6px;
@@ -657,22 +578,22 @@
         }
 
         .table-wrapper::-webkit-scrollbar-track {
-            background: #111419 !important;
+            background: var(--surface-2);
         }
 
         .table-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(201, 169, 97, 0.25) !important;
+            background: color-mix(in srgb, var(--gold) 30%, var(--surface-2));
 
             border-radius: 10px;
         }
 
         .table-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(201, 169, 97, 0.40) !important;
+            background: color-mix(in srgb, var(--gold) 45%, var(--surface-2));
         }
 
         /* =========================================================
-               RESPONSIVE
-            ========================================================= */
+                   RESPONSIVE
+                ========================================================= */
 
         @media (max-width: 850px) {
 
@@ -718,7 +639,7 @@
             .library-header {
                 padding: 17px;
 
-                border-radius: 13px !important;
+                border-radius: 13px;
             }
 
             .library-heading {
@@ -731,17 +652,17 @@
 
                 flex-basis: 44px;
 
-                border-radius: 11px !important;
+                border-radius: 11px;
 
-                font-size: 18px;
+                font-size: 19px;
             }
 
             .library-title h2 {
-                font-size: 17px;
+                font-size: 18px;
             }
 
             .library-title span {
-                font-size: 11px;
+                font-size: 12px;
             }
 
             .library-filters {
@@ -753,13 +674,13 @@
             .filter-btn {
                 min-width: 0;
 
-                padding: 7px 8px;
+                padding: 8px 8px;
 
-                font-size: 11px;
+                font-size: 12px;
             }
 
             .library-panel {
-                border-radius: 13px !important;
+                border-radius: 13px;
             }
 
             .panel-top {
@@ -768,6 +689,20 @@
 
             .members-table {
                 min-width: 680px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .members-table {
+                min-width: 600px;
+            }
+
+            .exercise-name {
+                font-size: 13.5px;
+            }
+
+            .plan-info {
+                font-size: 12px;
             }
         }
     </style>

@@ -33,7 +33,7 @@
 
             --text: #20242b;
             --text-soft: #4b5563;
-            --muted: #8a929d;
+            --muted: #6b7280;
 
             --gold: #c9a961;
             --gold-light: #dfc57e;
@@ -69,7 +69,7 @@
 
             --text: #f3f4f6;
             --text-soft: #c8cdd5;
-            --muted: #8e97a5;
+            --muted: #a3abb8;
 
             --gold: #d0ae61;
             --gold-light: #e2c777;
@@ -108,6 +108,8 @@
             background: var(--page-bg);
             color: var(--text);
             font-family: "Cairo", "Tajawal", Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 500;
             transition: background .25s ease, color .25s ease;
         }
 
@@ -240,6 +242,10 @@
         }
 
         @media (max-width: 700px) {
+            body {
+                font-size: 15px;
+            }
+
             :root {
                 --navbar-height: 68px;
             }
@@ -252,6 +258,13 @@
                 padding: 18px 12px 30px;
             }
 
+        }
+
+        /* 🆕 جوال ضيّق جداً — تباعد أصغر بلا ما ينزل حجم الخط أكتر */
+        @media (max-width: 420px) {
+            .main-content {
+                padding: 14px 10px 26px;
+            }
         }
     </style>
 
@@ -289,8 +302,8 @@
 
     <script>
         /* =========================================================
-           ELITE CLUB GLOBAL THEME SYSTEM
-           ========================================================= */
+                   ELITE CLUB GLOBAL THEME SYSTEM
+                   ========================================================= */
 
         (function() {
             const STORAGE_KEY = 'elite-theme';
